@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=MyWorld
+comment0.text=\n\ Write\ a\ description\ of\ class\ MyWorld\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=rad
+comment1.target=int[][]\ getHexagonCoordinate(float)
+comment2.params=xPos\ yPos
+comment2.target=void\ makeHexagon(int,\ int)
+comment3.params=hexCoord
+comment3.target=int[]\ coordConvert(int[])
+comment4.params=
+comment4.target=MyWorld()
+comment5.params=
+comment5.target=void\ act()
+numComments=6
