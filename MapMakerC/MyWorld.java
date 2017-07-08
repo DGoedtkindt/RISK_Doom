@@ -53,6 +53,18 @@ public class MyWorld extends World
         //hex.getImage().fillPolygon(array3[0], array3[1], 6);
     }
     
+    void placeHexagonInCollumnRow(int collumn, int row)
+    {
+        for(int x = 0; x < collumn; x++) {
+            for(int y = 0; y < row; y++) {
+                int[] hexCoord = {x,y};
+                int[] pixCoord = coordConvert(hexCoord);
+                //System.out.println(hexCoord[0] + ", " + hexCoord[1] + " : " + pixCoord[0] + ", " + pixCoord[1]);
+                makeHexagon(pixCoord[0], pixCoord[1] /*, Color.white, Color.white*/);
+            }
+        }
+    }
+    
     public int[] coordConvert(int[] hexCoord)
     //convertit les coordonées hexagonales en coordonée en pixel
     {
@@ -69,18 +81,13 @@ public class MyWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WORLDX, WORLDY, 1);
+        
+        //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
         getBackground().setColor(new Color(150,20,70));
         getBackground().fill();
         
-        for(int x = 0; x < 30; x++) {
-            for(int y = 0; y < 15; y++) {
-                int[] hexCoord = {x,y};
-                int[] pixCoord = coordConvert(hexCoord);
-                //System.out.println(hexCoord[0] + ", " + hexCoord[1] + " : " + pixCoord[0] + ", " + pixCoord[1]);
-                makeHexagon(pixCoord[0], pixCoord[1] /*, Color.white, Color.white*/);
-            }
-        }
+        placeHexagonInCollumnRow(30, 15);
     
         
     }
