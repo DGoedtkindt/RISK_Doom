@@ -1,11 +1,8 @@
 .DS_Store
 Hexagon.class
 Hexagon.ctxt
-
 MyWorld.class
-
 MyWorld.ctxt
-
 ArmiesButton.class
 Player.class
 ArmiesButton.ctxt
@@ -38,3 +35,7 @@ EndTurnButton.class
 MyWorld.ctxt
 Territory.ctxt
 EndTurnButton.ctxt
+Mode.class
+Mode.ctxt
+SingleHex.ctxt
+Territory.ctxt
