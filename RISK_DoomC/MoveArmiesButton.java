@@ -14,7 +14,7 @@ public class MoveArmiesButton extends Button
 
     } 
     
-    public void clicked()
+    public void clicked(int mode)
     {
     
     }

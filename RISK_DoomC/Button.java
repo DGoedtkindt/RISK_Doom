@@ -7,5 +7,5 @@ public abstract class Button extends Actor
         
     }
     
-    abstract public void clicked();
+    abstract public void clicked(int mode);
 }

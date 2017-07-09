@@ -7,7 +7,7 @@ public class ComboButton extends Button
         
     } 
     
-    public void clicked()
+    public void clicked(int mode)
     {
     
     }

@@ -14,7 +14,7 @@ public class FortifyComboButton extends Button
 
     }    
     
-    public void clicked()
+    public void clicked(int mode)
     {
     
     }
