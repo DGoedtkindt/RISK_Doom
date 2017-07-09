@@ -1,11 +1,6 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 import java.awt.*;
-/**
- * Write a description of class MyWorld here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class MyWorld extends World
 {
     static final int HEXAGON_SIZE = 40;
@@ -35,7 +30,7 @@ public class MyWorld extends World
     
     public void makeHexagon(int xPos, int yPos)
     {
-        Hexagon hex = new Hexagon();
+        SingleHex hex = new SingleHex();
         addObject(hex,xPos,yPos);
         GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
         
@@ -52,6 +47,7 @@ public class MyWorld extends World
     
     void placeHexagonInCollumnRow(int collumn, int row)
     {
+        
         for(int x = 0; x < collumn; x++) {
             for(int y = 0; y < row; y++) {
                 int[] hexCoord = {x,y};
@@ -59,6 +55,7 @@ public class MyWorld extends World
                 makeHexagon(pixCoord[0], pixCoord[1]);
             }
         }
+        
     }
     
     public int[] coordConvert(int[] hexCoord)
@@ -85,6 +82,55 @@ public class MyWorld extends World
         
         placeHexagonInCollumnRow(29, 15);
     
+        
+    }
+    
+    
+    public Button getPressedButton(){
+        
+        return null;
+        
+    }
+    
+    public void changeMode(int newMode){
+        
+        
+        
+    }
+    
+    public void selectHex(SingleHex hex){
+        
+        
+        
+    }
+    
+    public void selectTerritory(TerritoryHex territory){
+        
+        
+        
+    }
+    
+    public void init(){
+        
+        
+        
+    }
+    
+    public void saveToXML(){
+        
+        
+        
+    }
+    
+    public void escape(){
+        
+        
+        
+    }
+    
+    public void calcTerritoryLinks(){
+        
+        
         
     }
     

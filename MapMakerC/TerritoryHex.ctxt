@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=TerritoryHex
+comment1.params=mode
+comment1.target=void\ clicked(int)
+comment2.params=
+comment2.target=void\ getTerritory()
+comment3.params=
+comment3.target=void\ act()
+numComments=4
