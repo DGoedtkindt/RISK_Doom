@@ -1,29 +1,37 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
-/**
- * Write a description of class Image here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-public class Hexagon extends Actor
+ //pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
+ 
+ 
+public class Hexagon  
 {
-    private int[] hexCoordinate = new int[2];
-    
-    public int[] setHexCoord(int x, int y)
+    static final int HEXAGON_SIZE = 40;
+    public Hexagon()
     {
-        hexCoordinate[0] = x;
-        hexCoordinate[1] = y;
-        return hexCoordinate;
+    }
+
+    public static int[][] getHexagonCoord(double sizeMultiplier)
+    //crée les coordinées des points d'un hexagone3
+    {
+        double rad = HEXAGON_SIZE * sizeMultiplier;
+        int[][] arr = {{
+            (int)rad + HEXAGON_SIZE,
+            (int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)-rad + HEXAGON_SIZE,
+            (int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE
+            },{
+            (int)HEXAGON_SIZE,
+            (int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)HEXAGON_SIZE,
+            (int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
+            (int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE
+            }};
+        return arr;
     }
     
-    public int[] getHexCoord()
+    public static int getSize()
     {
-        return hexCoordinate;
+        return HEXAGON_SIZE;
     }
-    
-    public void act() 
-    {
-        //if(Greenfoot.mouseClicked(this)) {System.out.println("redfacedpinapleofjustice");}
-    }    
 }
