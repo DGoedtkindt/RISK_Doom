@@ -1,25 +1,34 @@
 import greenfoot.*; 
+import java.awt.Color;
 
 public class SingleHex extends Button
 {
-    private int[] hexCoordinate = new int[2];
+    private Coordinates coord = new Coordinates();
     
-    public int[] setHexCoord(int x, int y)
+    public SingleHex(int xHCoord, int yHCoord)
     {
-        hexCoordinate[0] = x;
-        hexCoordinate[1] = y;
-        return hexCoordinate;
+        setCoord(xHCoord,yHCoord);
+        GreenfootImage img = new GreenfootImage(2*Hexagon.getSize(), 2*Hexagon.getSize());
+        
+        int[][] array = Hexagon.getHexagonCoord(1);
+        int[][] array2 = Hexagon.getHexagonCoord(0.95);
+        
+        img.setColor(Color.black);
+        img.fillPolygon(array[0], array[1], 6);
+        img.setColor(Color.white);
+        img.fillPolygon(array2[0], array2[1], 6);
+        
+        this.setImage(img);
     }
     
-    public int[] getHexCoord()
+    private void setCoord(int x, int y)
     {
-        return hexCoordinate;
+        coord.setHexCoord(new int[]{x,y});
     }
     
-    public int[] getRectCoord(){
-        
-        return null;
-        
+    public Coordinates getCoord()
+    {
+        return coord;
     }
     
     public void clicked(int mode){

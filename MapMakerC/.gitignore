@@ -38,4 +38,11 @@ EndTurnButton.ctxt
 Mode.class
 Mode.ctxt
 SingleHex.ctxt
-Territory.ctxt
+TerritoryHex.ctxt
+SingleHex.java~
+Coordinate.java~
+Coordinates.class
+Coordinates.ctxt
+Coordinates.java~
+Hexagon.java~
+MyWorld.java~
