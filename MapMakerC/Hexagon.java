@@ -1,11 +1,17 @@
  //pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
- 
+ import java.awt.geom.Area;
  
 public class Hexagon  
 {
     static final int HEXAGON_SIZE = 40;
+    
     public Hexagon()
     {
+    }
+    
+    public Area getAreaShape()
+    {
+        return null;
     }
 
     public static int[][] getHexagonCoord(double sizeMultiplier)

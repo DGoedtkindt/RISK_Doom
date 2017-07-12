@@ -5,12 +5,15 @@ public class MyWorld extends World
 {
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
+    SingleHex[][] singleHex2DArray = new SingleHex[50][30];
+    TerritoryHex[][] territoryHex2DArray = new TerritoryHex[50][30];
     
-    public void makeHexagon(int x, int y)
+    private void makeSingleHex(int x, int y)
     {
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
+        singleHex2DArray[x][y] = hex;
     }
     
     private void placeHexagonInCollumnRow(int collumn, int row)
@@ -18,7 +21,7 @@ public class MyWorld extends World
         
         for(int x = 0; x < collumn; x++) {
             for(int y = 0; y < row; y++) {
-                makeHexagon(x, y);
+                makeSingleHex(x, y);
             }
         }
         
