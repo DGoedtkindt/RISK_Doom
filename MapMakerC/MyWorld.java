@@ -1,10 +1,22 @@
 import greenfoot.*;
-import java.awt.*;
+import java.awt.Color;
+
 
 public class MyWorld extends World
 {
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
+    
+    static public int mode = Mode.DEFAULT;
+    
+    
+    SingleHex[][] singleHex2DArray = new SingleHex[50][30];
+    TerritoryHex[][] territoryHex2DArray = new TerritoryHex[50][30];
+    
+    MouseInfo mouse = Greenfoot.getMouseInfo();
+    
+    Button lastClickedButton;
+    
     
     public void makeHexagon(int x, int y)
     {
@@ -12,6 +24,9 @@ public class MyWorld extends World
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
     }
+    
+    
+    
     
     private void placeHexagonInCollumnRow(int collumn, int row)
     {
@@ -23,6 +38,9 @@ public class MyWorld extends World
         }
         
     }
+    
+    
+    
     
     public MyWorld()
     {    
@@ -39,17 +57,25 @@ public class MyWorld extends World
     }
     
     
+    
+    
     private Button getPressedButton(){
         
-        return null;
+        return (Button)(mouse.getActor());
         
     }
     
+    
+    
+    
     public void changeMode(int newMode){
         
-        
+        mode = newMode;
         
     }
+    
+    
+    
     
     public void selectHex(SingleHex hex){
         
@@ -57,11 +83,17 @@ public class MyWorld extends World
         
     }
     
+    
+    
+    
     public void selectTerritory(TerritoryHex territory){
         
         
         
     }
+    
+    
+    
     
     public void init(){
         
@@ -69,11 +101,17 @@ public class MyWorld extends World
         
     }
     
+    
+    
+    
     public void saveToXML(){
         
         
         
     }
+    
+    
+    
     
     public void escape(){
         
@@ -81,14 +119,60 @@ public class MyWorld extends World
         
     }
     
+    
+    
+    
     public void calcTerritoryLinks(){
         
         
         
     }
     
+    
+    
+    
     public void act() 
     {
         
+        
+        mouse = Greenfoot.getMouseInfo();
+        
+        lastClickedButton = getPressedButton();
+        
+        
+        if(lastClickedButton != null){ // Si on a appuyé quelque part
+            
+            
+            
+            if(mode == Mode.SELECT_HEX){ // Si on est en selectHex
+                
+                
+                
+                if(lastClickedButton.getClass() == SingleHex.class){ // Si c'est un SingleHex
+                    
+                    
+                    
+                }else{ 
+                    
+                    escape();
+                    
+                }
+                
+                
+                
+            }
+            
+            
+            
+        }
+        
+        
+        
+        
+        lastClickedButton = null;
+        
+        
     }
+    
+    
 }

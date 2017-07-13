@@ -5,6 +5,8 @@ public class SingleHex extends Button
 {
     private Coordinates coord = new Coordinates();
     
+    
+    
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
@@ -21,24 +23,57 @@ public class SingleHex extends Button
         this.setImage(img);
     }
     
+    
+    
+    
+    
     private void setCoord(int x, int y)
     {
         coord.setHexCoord(new int[]{x,y});
     }
+    
+    
+    
+    
     
     public Coordinates getCoord()
     {
         return coord;
     }
     
+    
+    
+    
+    
     public void clicked(int mode){
         
+        
+        switch(mode){
+                            
+            case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
+                                   getWorld().addObject(new TerritoryHex(), coord.getHexCoord()[0], coord.getHexCoord()[1]);
+                                   getWorld().removeObject(this);
+                                break;
+                                
+                                
+            default : ((MyWorld)getWorld()).escape();
+                                break;
+                                
+                                
+        }
         
         
     }
     
+    
+    
+    
+    
     public void act() 
     {
-        //if(Greenfoot.mouseClicked(this)) {System.out.println("redfacedpinapleofjustice");}
+        
     }    
+    
+    
+    
 }

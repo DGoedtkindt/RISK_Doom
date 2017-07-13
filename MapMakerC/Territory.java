@@ -3,6 +3,12 @@ import java.awt.*;
 
 public class Territory 
 {
+    public int capitalPoints = 0;
+    
+    public Coordinates[] hexCoordinates = new Coordinates[40];
+    
+    public Territory[] borderingTerritories = new Territory[15];
+    
     
     public void paint(){
         
@@ -10,11 +16,19 @@ public class Territory
         
     }
     
+    
+    
+    
+    
     public Shape getAreaShape(){
         
         return null;
         
     }
+    
+    
+    
+    
     
     public void destroy(){
         
@@ -22,17 +36,29 @@ public class Territory
         
     }
     
+    
+    
+    
+    
     public void setContinent(){
         
         
         
     }
     
+    
+    
+    
+    
     public void setNewLink(Territory newLink){
         
         
         
     }
+    
+    
+    
+    
     
     public void act() 
     {

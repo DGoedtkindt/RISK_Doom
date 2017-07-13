@@ -4,12 +4,17 @@
 public class Hexagon  
 {
     static final int HEXAGON_SIZE = 40;
+    
+    
     public Hexagon()
     {
     }
 
+    
+    
+    
     public static int[][] getHexagonCoord(double sizeMultiplier)
-    //crée les coordinées des points d'un hexagone3
+    //crée les coordinées des points d'un hexagone
     {
         double rad = HEXAGON_SIZE * sizeMultiplier;
         int[][] arr = {{
@@ -30,8 +35,15 @@ public class Hexagon
         return arr;
     }
     
+    
+    
+    
+    
     public static int getSize()
     {
         return HEXAGON_SIZE;
     }
+    
+    
+    
 }
