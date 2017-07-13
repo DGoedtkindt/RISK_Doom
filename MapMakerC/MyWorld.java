@@ -54,13 +54,17 @@ public class MyWorld extends World
         
     }
     
-    public void selectHex(SingleHex hex){
+    public void selectHex(SingleHex hex)
+    //rajoute un SingleHex à la selection
+    {
         
         
         
     }
     
-    public void selectTerritory(TerritoryHex territory){
+    public void selectTerritory(Territory territory)
+    //rajoute un Territory à la selection
+    {
         
         
         
