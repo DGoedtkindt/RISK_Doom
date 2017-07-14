@@ -1,12 +1,13 @@
 import greenfoot.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MyWorld extends World
 {
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
     SingleHex[][] singleHex2DArray = new SingleHex[50][30];
-    TerritoryHex[][] territoryHex2DArray = new TerritoryHex[50][30];
+    static MyWorld theWorld; //pour acceder au monde depuis un non-acteur
     
     private void makeSingleHex(int x, int y)
     {
@@ -36,9 +37,9 @@ public class MyWorld extends World
         getBackground().setColor(new Color(150,20,70));
         getBackground().fill();
         
-        placeHexagonInCollumnRow(29, 15);
-    
+        theWorld = this;
         
+        placeHexagonInCollumnRow(29, 15);
     }
     
     
@@ -98,4 +99,6 @@ public class MyWorld extends World
     {
         
     }
+    
+    
 }
