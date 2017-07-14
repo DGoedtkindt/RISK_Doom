@@ -9,6 +9,8 @@ public class Territory
     TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
+    private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
+    private int id; //l'identifiant de ce territoire
     
     public Territory(ArrayList<Coordinates> hexs) throws Exception
     {
@@ -17,7 +19,13 @@ public class Territory
         paint();
         createTerrHexs();
         deleteSingleHexs();
+        setId();
+    }
     
+    private void setId()
+    {
+        id = nextId;
+        nextId++;
     }
     
     public Shape getAreaShape()
@@ -52,6 +60,11 @@ public class Territory
     public void autoSetLinks()
     {
     
+    }
+    
+    public int getId()
+    {
+        return id;
     }
     
     private void createTerrHexs()
