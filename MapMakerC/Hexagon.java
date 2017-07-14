@@ -5,7 +5,6 @@
 public class Hexagon  
 {
     static final int HEXAGON_SIZE = 40;
-
     
     public static GreenfootImage createHexagonImage(Color hexColor)
     {
@@ -16,6 +15,7 @@ public class Hexagon
         return img;
         
     }
+
     
     public static GreenfootImage createSimpleHexImage(Color color, double sizeInPercent)
     {

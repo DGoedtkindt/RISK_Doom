@@ -5,6 +5,8 @@ import java.lang.Exception;
 
 public class Territory 
 {
+
+    
     private Coordinates[] hexCoords;
     TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
@@ -22,6 +24,8 @@ public class Territory
         setId();
     }
     
+
+
     private void setId()
     {
         id = nextId;
@@ -31,18 +35,20 @@ public class Territory
     public Shape getAreaShape()
     //retourne la forme du territoire pour le masque
     {
+
         
         return null;
         
     }
     
+
     public void destroy()
     {
         
         
         
     }
-    
+
     public void setContinent()
     {
         
@@ -52,11 +58,12 @@ public class Territory
     
     public void setNewLink(Territory newLink)
     {
+
         
         
         
     }
-    
+
     public void autoSetLinks()
     {
     
