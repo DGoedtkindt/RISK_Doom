@@ -8,6 +8,7 @@ public class Territory
     private Coordinates[] hexCoords;
     TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
+    private MyWorld getWorld() {return MyWorld.theWorld;}
     
     public Territory(ArrayList<Coordinates> hexs) throws Exception
     {
@@ -15,6 +16,7 @@ public class Territory
         hexCoords = (Coordinates[])hexs.toArray(); //erreur java.lang.ClassCastException
         paint();
         createTerrHexs();
+        deleteSingleHexs();
     
     }
     
@@ -55,7 +57,13 @@ public class Territory
     private void createTerrHexs()
     //crée tous les territoryHex de ce territoire
     {
-        
+        GreenfootImage img = Hexagon.createSimpleHexImage(Color.blue,0.95);
+        for(Coordinates hex : hexCoords){
+            int[] rectCoord = hex.getRectCoord();
+            TerritoryHex trHex = new TerritoryHex();
+            TerritoryHex2DArray[rectCoord[0]][rectCoord[1]] = trHex;
+            getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
+        }
     }
     
     private void paint()
@@ -78,8 +86,16 @@ public class Territory
     
     private void drawHexsLinks()
     {
-        for(Coordinates hex : hexCoords) {
-            
+        
+    }
+    
+    private void deleteSingleHexs()
+    {
+        for(Coordinates hex : hexCoords){
+            int[] hexCoord = hex.getHexCoord();
+            SingleHex hexToDel = getWorld().singleHex2DArray[hexCoord[0]][hexCoord[1]];
+            getWorld().removeObject(hexToDel);
         }
+       
     }
 }
