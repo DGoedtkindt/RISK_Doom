@@ -148,12 +148,27 @@ public class MyWorld extends World
             
             switch(mode){
                 
-                default : 
+                default : escape();
                                 break;
                 
                 case Mode.SELECT_HEX : 
                                 break;
                 
+                case Mode.SELECT_TERRITORY : 
+                                break;
+                                
+                case Mode.CHOOSE_DISPLAY_ARMIES :
+                                break;
+                                
+                case Mode.CHOOSE_CAPITAL_TERRITORY :
+                                break;
+                                
+                case Mode.CHOOSE_DISPLAY_INFO : 
+                                break;
+                                
+                case Mode.SET_LINKS :
+                                break;
+                                
             }
             
             
