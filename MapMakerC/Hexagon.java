@@ -1,5 +1,6 @@
  //pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
- 
+ import greenfoot.GreenfootImage;
+ import java.awt.Color;
  
 public class Hexagon  
 {
@@ -10,6 +11,23 @@ public class Hexagon
     {
     }
 
+    
+    public static GreenfootImage createHexagonImage(Color hexColor){
+        
+        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
+        
+        int[][] array  = getHexagonCoord(1);
+        int[][] array2 = getHexagonCoord(0.95);
+        
+        img.setColor(Color.black);
+        img.fillPolygon(array[0], array[1], 6);
+        img.setColor(hexColor);
+        img.fillPolygon(array2[0], array2[1], 6);
+        
+        return img;
+        
+    }
+    
     
     
     

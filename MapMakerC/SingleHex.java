@@ -10,17 +10,8 @@ public class SingleHex extends Button
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
-        GreenfootImage img = new GreenfootImage(2*Hexagon.getSize(), 2*Hexagon.getSize());
         
-        int[][] array = Hexagon.getHexagonCoord(1);
-        int[][] array2 = Hexagon.getHexagonCoord(0.95);
-        
-        img.setColor(Color.black);
-        img.fillPolygon(array[0], array[1], 6);
-        img.setColor(Color.white);
-        img.fillPolygon(array2[0], array2[1], 6);
-        
-        this.setImage(img);
+        this.setImage(Hexagon.createHexagonImage(Color.WHITE));
     }
     
     
@@ -51,7 +42,14 @@ public class SingleHex extends Button
         switch(mode){
                             
             case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
-                                   getWorld().addObject(new TerritoryHex(), coord.getHexCoord()[0], coord.getHexCoord()[1]);
+            
+                                   TerritoryHex newHex = new TerritoryHex();
+                                   newHex.coord = this.coord;
+                                   newHex.setImage(Hexagon.createHexagonImage(Color.BLUE)); // Bleu provisoire
+                                   
+                                   getWorld().addObject(newHex, coord.getHexCoord()[0], coord.getHexCoord()[1]);
+                                   
+                                   
                                    getWorld().removeObject(this);
                                 break;
                                 

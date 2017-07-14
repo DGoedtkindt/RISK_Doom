@@ -32,9 +32,13 @@ public class MyWorld extends World
     {
         
         for(int x = 0; x < collumn; x++) {
+            
             for(int y = 0; y < row; y++) {
+                
                 makeHexagon(x, y);
+                
             }
+            
         }
         
     }
@@ -51,8 +55,7 @@ public class MyWorld extends World
         getBackground().setColor(new Color(150,20,70));
         getBackground().fill();
         
-        placeHexagonInCollumnRow(29, 15);
-    
+        placeHexagonInCollumnRow(29, 15); // Place les hexagones dans le monde
         
     }
     
@@ -143,25 +146,15 @@ public class MyWorld extends World
         if(lastClickedButton != null){ // Si on a appuyé quelque part
             
             
-            
-            if(mode == Mode.SELECT_HEX){ // Si on est en selectHex
+            switch(mode){
                 
+                default : 
+                                break;
                 
-                
-                if(lastClickedButton.getClass() == SingleHex.class){ // Si c'est un SingleHex
-                    
-                    
-                    
-                }else{ 
-                    
-                    escape();
-                    
-                }
-                
-                
+                case Mode.SELECT_HEX : 
+                                break;
                 
             }
-            
             
             
         }
