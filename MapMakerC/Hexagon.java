@@ -1,21 +1,38 @@
  //pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
- import java.awt.geom.Area;
+ import greenfoot.GreenfootImage;
+ import java.awt.Color;
  
 public class Hexagon  
 {
     static final int HEXAGON_SIZE = 40;
     
+    
     public Hexagon()
     {
     }
-    
-    public Area getAreaShape()
-    {
-        return null;
-    }
 
+    
+    public static GreenfootImage createHexagonImage(Color hexColor){
+        
+        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
+        
+        int[][] array  = getHexagonCoord(1);
+        int[][] array2 = getHexagonCoord(0.95);
+        
+        img.setColor(Color.black);
+        img.fillPolygon(array[0], array[1], 6);
+        img.setColor(hexColor);
+        img.fillPolygon(array2[0], array2[1], 6);
+        
+        return img;
+        
+    }
+    
+    
+    
+    
     public static int[][] getHexagonCoord(double sizeMultiplier)
-    //crée les coordinées des points d'un hexagone3
+    //crée les coordinées des points d'un hexagone
     {
         double rad = HEXAGON_SIZE * sizeMultiplier;
         int[][] arr = {{
@@ -36,8 +53,15 @@ public class Hexagon
         return arr;
     }
     
+    
+    
+    
+    
     public static int getSize()
     {
         return HEXAGON_SIZE;
     }
+    
+    
+    
 }
