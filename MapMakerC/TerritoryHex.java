@@ -3,6 +3,8 @@ import greenfoot.*;
 public class TerritoryHex extends Button
 {
     Territory territory;
+   
+    
     private MyWorld getMyWorld()
     {
         return (MyWorld)this.getWorld();
