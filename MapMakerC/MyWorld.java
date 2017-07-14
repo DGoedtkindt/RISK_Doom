@@ -189,7 +189,7 @@ public class MyWorld extends World
                     territory.setAttributeNode(armies);
                     
                     Attr id = doc.createAttribute("territoryId");
-                    armies.setValue("" + currentTerritory.id);
+                    armies.setValue("" + currentTerritory.getId());
                     territory.setAttributeNode(id);
                     
                     
