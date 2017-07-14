@@ -9,7 +9,21 @@ public class MyWorld extends World
     SingleHex[][] singleHex2DArray = new SingleHex[50][30];
     static MyWorld theWorld; //pour acceder au monde depuis un non-acteur
     
-    private void makeSingleHex(int x, int y)
+    public MyWorld()
+    {    
+        super(WORLDX, WORLDY, 1);
+        
+        //quelques trucs cosmétiques
+        Greenfoot.setSpeed(60);
+        getBackground().setColor(new Color(150,20,70));
+        getBackground().fill();
+        
+        theWorld = this;
+        
+        placeHexagonInCollumnRow(29, 15);
+    }
+    
+        private void makeSingleHex(int x, int y)
     {
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
@@ -27,21 +41,6 @@ public class MyWorld extends World
         }
         
     }
-    
-    public MyWorld()
-    {    
-        super(WORLDX, WORLDY, 1);
-        
-        //quelques trucs cosmétiques
-        Greenfoot.setSpeed(60);
-        getBackground().setColor(new Color(150,20,70));
-        getBackground().fill();
-        
-        theWorld = this;
-        
-        placeHexagonInCollumnRow(29, 15);
-    }
-    
     
     private Button getPressedButton(){
         
