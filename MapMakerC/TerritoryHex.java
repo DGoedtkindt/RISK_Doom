@@ -3,36 +3,29 @@ import greenfoot.*;
 public class TerritoryHex extends Button
 {
     Territory territory;
-    public Coordinates coord = new Coordinates();
+
+   
     
+    private MyWorld getMyWorld()
+    {
+        return (MyWorld)this.getWorld();
+    }
     
     public void clicked(int mode){
         
+        switch(mode)
+        {
+            case Mode.SELECT_TERRITORY : getMyWorld().selectTerritory(getTerritory()); break;
+                                default: getMyWorld().escape(); break;                   
+        }
         
-                               
     }
-    
-    
-    
-    
     
     public Territory getTerritory(){
         
         return territory;
         
     }
-    
-    
-    
-    
-    
-    
-    public void act() 
-    {
-        
-        
-        
-    }    
     
     
     

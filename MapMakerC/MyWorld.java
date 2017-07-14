@@ -1,4 +1,5 @@
 import greenfoot.*;
+
 import java.awt.Color;
 import java.util.List;
 
@@ -17,28 +18,40 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 public class MyWorld extends World
 {
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
+    SingleHex[][] singleHex2DArray = new SingleHex[50][30];
+    static MyWorld theWorld; //pour acceder au monde depuis un non-acteur
     
     static public int mode = Mode.DEFAULT;
-    
-    
-    SingleHex[][] singleHex2DArray = new SingleHex[50][30];
-    TerritoryHex[][] territoryHex2DArray = new TerritoryHex[50][30];
     
     MouseInfo mouse = Greenfoot.getMouseInfo();
     
     Button lastClickedButton;
     
+  
+    public MyWorld()
+    {    
+        super(WORLDX, WORLDY, 1);
+        
+        //quelques trucs cosmétiques
+        Greenfoot.setSpeed(60);
+        getBackground().setColor(new Color(150,20,70));
+        getBackground().fill();
+        
+        theWorld = this;
+        
+        placeHexagonInCollumnRow(29, 15);
+    }
     
-    public void makeHexagon(int x, int y)
+        private void makeSingleHex(int x, int y)
     {
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
+        singleHex2DArray[x][y] = hex;
     }
     
     
@@ -50,34 +63,15 @@ public class MyWorld extends World
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
-                
-                makeHexagon(x, y);
-                
+
+                makeSingleHex(x, y);
             }
             
         }
         
     }
     
-    
-    
-    
-    public MyWorld()
-    {    
-        super(WORLDX, WORLDY, 1);
-        
-        //quelques trucs cosmétiques
-        Greenfoot.setSpeed(60);
-        getBackground().setColor(new Color(150,20,70));
-        getBackground().fill();
-        
-        placeHexagonInCollumnRow(29, 15); // Place les hexagones dans le monde
-        
-    }
-    
-    
-    
-    
+
     private Button getPressedButton(){
         
         return (Button)(mouse.getActor());
@@ -93,19 +87,19 @@ public class MyWorld extends World
         
     }
     
-    
-    
-    
-    public void selectHex(SingleHex hex){
+
+    public void selectHex(SingleHex hex)
+    //rajoute un SingleHex à la selection
+    {
         
         
         
     }
     
-    
-    
-    
-    public void selectTerritory(TerritoryHex territory){
+
+    public void selectTerritory(Territory territory)
+    //rajoute un Territory à la selection
+    {
         
         
         

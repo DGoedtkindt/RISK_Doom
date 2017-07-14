@@ -9,5 +9,4 @@ public class Mode
     static final int CHOOSE_CAPITAL_TERRITORY    = 4;
     static final int CHOOSE_DISPLAY_INFO         = 5;
     static final int SET_LINKS                   = 6;
-    
 }

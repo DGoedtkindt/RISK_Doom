@@ -6,29 +6,40 @@ public class Hexagon
 {
     static final int HEXAGON_SIZE = 40;
     
-    
-    public Hexagon()
+    public static GreenfootImage createHexagonImage(Color hexColor)
     {
-    }
-
-    
-    public static GreenfootImage createHexagonImage(Color hexColor){
         
-        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
-        
-        int[][] array  = getHexagonCoord(1);
-        int[][] array2 = getHexagonCoord(0.95);
-        
-        img.setColor(Color.black);
-        img.fillPolygon(array[0], array[1], 6);
-        img.setColor(hexColor);
-        img.fillPolygon(array2[0], array2[1], 6);
+        GreenfootImage img = createSimpleHexImage(Color.black);
+        img.drawImage(createSimpleHexImage(hexColor,0.95), 0, 0);
         
         return img;
         
     }
+
     
+    public static GreenfootImage createSimpleHexImage(Color color, double sizeInPercent)
+    {
+        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
+        
+        int[][] array  = getHexagonCoord(sizeInPercent);
+        
+        img.setColor(color);
+        img.fillPolygon(array[0], array[1], 6);
+        
+        return img;
+    }
     
+    public static GreenfootImage createSimpleHexImage(Color color)
+    {
+        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
+        
+        int[][] array  = getHexagonCoord(1);
+        
+        img.setColor(color);
+        img.fillPolygon(array[0], array[1], 6);
+        
+        return img;
+    }
     
     
     public static int[][] getHexagonCoord(double sizeMultiplier)
