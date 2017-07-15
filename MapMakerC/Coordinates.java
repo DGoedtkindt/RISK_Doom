@@ -51,5 +51,4 @@ public class Coordinates
         return  hexToRectCoord(hexCoord);
     }
     
-    
 }

@@ -21,7 +21,7 @@ public class Hexagon
     {
         GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
         
-        int[][] array  = getHexagonCoord(sizeInPercent);
+        int[][] array  = format(getHexagonCoord(sizeInPercent));
         
         img.setColor(color);
         img.fillPolygon(array[0], array[1], 6);
@@ -33,7 +33,7 @@ public class Hexagon
     {
         GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
         
-        int[][] array  = getHexagonCoord(1);
+        int[][] array  = format(getHexagonCoord(1));
         
         img.setColor(color);
         img.fillPolygon(array[0], array[1], 6);
@@ -46,25 +46,32 @@ public class Hexagon
     //crée les coordinées des points d'un hexagone
     {
         double rad = HEXAGON_SIZE * sizeMultiplier;
-        int[][] arr = {{
-            (int)rad + HEXAGON_SIZE,
-            (int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)-rad + HEXAGON_SIZE,
-            (int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE
-            },{
-            (int)HEXAGON_SIZE,
-            (int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)HEXAGON_SIZE,
-            (int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE
-            }};
+        
+        int[][] arr = {
+            {(int)rad + HEXAGON_SIZE,(int)HEXAGON_SIZE},
+            {(int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,(int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,(int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)-rad + HEXAGON_SIZE,(int)HEXAGON_SIZE},
+            {(int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,(int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,(int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE}
+            };
+
+            
         return arr;
     }
     
-    
+    public static int[][] format(int[][] toFormat)
+    //transforme un array [x][2] en [2][x], format pour le constructeur de Polygon
+    {
+        int[][] formated = new int[2][6];
+        
+        for(int i = 0; i < toFormat.length; i++){
+            formated[0][i] = toFormat[i][0];
+            formated[1][i] = toFormat[i][1];
+        }
+        
+        return formated;
+    }
     
     
     
