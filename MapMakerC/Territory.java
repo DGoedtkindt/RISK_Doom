@@ -27,12 +27,6 @@ public class Territory
         setId();
     }
     
-    private void setId()
-    {
-        id = nextId;
-        nextId++;
-    }
-    
     public Shape getAreaShape()
     //retourne la forme du territoire pour le masque
     {
@@ -149,5 +143,11 @@ public class Territory
                 }
             }
            
+        }
+        
+        private void setId()
+        {
+            id = nextId;
+            nextId++;
         }
 }

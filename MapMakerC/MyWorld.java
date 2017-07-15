@@ -44,13 +44,6 @@ public class MyWorld extends World
         theWorld = this;
         
         placeHexagonInCollumnRow(29, 15);
-        Coordinates[] aArray = new Coordinates[4];
-        //aArray[0] = new Coordinates(new int[]{11,1});
-        //aArray[1] = new Coordinates(new int[]{10,2});
-        aArray[2] = new Coordinates(new int[]{9,1});
-        aArray[3] = new Coordinates(new int[]{10,1});
-        new Territory(aArray);
-
     }
     
         private void makeSingleHex(int x, int y)
@@ -124,7 +117,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    /*public void saveToXML(){
+    public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -256,7 +249,7 @@ public class MyWorld extends World
         }
 
         
-    }*/
+    }
     
     
     
