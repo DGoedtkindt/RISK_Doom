@@ -5,8 +5,6 @@ public class SingleHex extends Button
 {
     private Coordinates coord = new Coordinates();
     
-    
-    
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
@@ -39,7 +37,7 @@ public class SingleHex extends Button
     public void clicked(int mode){
         
         
-        switch(mode){
+        /*switch(mode){
                             
             case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
             
@@ -58,7 +56,7 @@ public class SingleHex extends Button
                                 break;
                                 
                                 
-        }
+        }*/
         
         
     }

@@ -48,12 +48,31 @@ public class Hexagon
         double rad = HEXAGON_SIZE * sizeMultiplier;
         
         int[][] arr = {
-            {(int)rad + HEXAGON_SIZE,(int)HEXAGON_SIZE},
-            {(int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,(int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
-            {(int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,(int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE},
-            {(int)-rad + HEXAGON_SIZE,(int)HEXAGON_SIZE},
-            {(int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,(int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
-            {(int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,(int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE}
+            {(int)rad + HEXAGON_SIZE,                                   (int)HEXAGON_SIZE},
+            {(int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,           (int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,         (int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)-rad + HEXAGON_SIZE,                                  (int)HEXAGON_SIZE},
+            {(int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,          (int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE},
+            {(int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,        (int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE}
+            };
+
+            
+        return arr;
+    }
+    
+    public static int[][] getHexagonCoord(double sizeMultiplier, Coordinates coord)
+    //crée les coordinées des points d'un hexagone
+    {
+        double rad = HEXAGON_SIZE * sizeMultiplier;
+        int[] rectCoord = coord.getRectCoord();
+        
+        int[][] arr = {
+            {(int)rad + rectCoord[0],                                   (int)rectCoord[1]},
+            {(int)(Math.cos(Math.PI/3) * rad) + rectCoord[0],           (int)(Math.sin(Math.PI/3) * rad) + rectCoord[1]},
+            {(int)(Math.cos(2*Math.PI/3) * rad) + rectCoord[0],         (int)(Math.sin(2*Math.PI/3) * rad) + rectCoord[1]},
+            {(int)-rad + rectCoord[0],                                  (int)rectCoord[1]},
+            {(int)(-Math.cos(Math.PI/3) * rad) + rectCoord[0],          (int)(-Math.sin(Math.PI/3) * rad) + rectCoord[1]},
+            {(int)(-Math.cos(2*Math.PI/3) * rad) + rectCoord[0],        (int)(-Math.sin(2*Math.PI/3) * rad) + rectCoord[1]}
             };
 
             

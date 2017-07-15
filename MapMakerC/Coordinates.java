@@ -4,9 +4,12 @@ public class Coordinates
 {
     private int[] hexCoord = new int[2];
     
-    
-    
     public Coordinates() {}
+    
+    public Coordinates(int[] hexCoordinates) 
+    {
+        hexCoord = hexCoordinates;
+    }
     
     
     
