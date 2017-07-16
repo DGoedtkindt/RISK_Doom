@@ -117,7 +117,7 @@ public class Territory
                 private void drawHexLinks(Coordinates hex)
                 {
                     Polygon[] links = getLinkPolygon(hex);
-                    getBackground().setColor(Color.red);
+                    getBackground().setColor(continentColor);
                     for(Polygon poly : links){
                         if(poly != null) {
                             getBackground().fillShape(poly);
@@ -126,13 +126,46 @@ public class Territory
                     
                 }
     
-                    private Polygon[] getLinkPolygon(Coordinates hex)
-                    //"Buckle your seatbelt Dorothy, 'cause clean code is going bye-bye"
+                    private Polygon[] getLinkPolygon(Coordinates thisHex)
+                    //returne des losanges qui couvrent certains bords noirs de l'Hexagone
+                    //dirty code incoming!
                     {
                         Polygon[] linksPoly = new Polygon[6];
+                        int[] thisRectCoord = thisHex.getRectCoord();
+                        int linksCount = 0;
+                        int[][] temporary = new int[2][4]; //stoque temporairement les coordonée d'un logange
+                        
+                        temporary[0][0] = thisRectCoord[0];
+                        temporary[1][0] = thisRectCoord[1];
+                        
+                        for(Coordinates otherHex : hexCoords){
+                            if(otherHex != null){
+                                if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
+                                    if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+                                        int[] otherRectCoord = otherHex.getRectCoord();
+                                        temporary[0][2] = otherRectCoord[0];
+                                        temporary[1][2] = otherRectCoord[1];
+                                        
+                                        double angle = Math.atan2(otherRectCoord[1]-thisRectCoord[1], otherRectCoord[0]-thisRectCoord[0]);
+                                        
+                                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle + Math.PI/6));
+                                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle + Math.PI/6));
+                                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle - Math.PI/6));
+                                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle - Math.PI/6));
+                                        
+                                        
+                                        linksPoly[linksCount] = new Polygon(temporary[0],temporary[1],4);
+                                        linksCount++;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
                         return linksPoly;
+                        
                     }
-                    
+                
         private void deleteSingleHexs()
         {
             for(Coordinates hex : hexCoords){

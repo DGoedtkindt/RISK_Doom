@@ -37,7 +37,7 @@ public class SingleHex extends Button
     public void clicked(int mode){
         
         
-        switch(mode){
+        /*switch(mode){
                             
             case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
             
@@ -56,7 +56,7 @@ public class SingleHex extends Button
                                 break;
                                 
                                 
-        }
+        }*/
         
         
     }

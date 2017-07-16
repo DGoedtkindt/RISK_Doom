@@ -44,6 +44,18 @@ public class MyWorld extends World
         theWorld = this;
         
         placeHexagonInCollumnRow(29, 15);
+        
+        //test de création de territoire
+        Coordinates[] hexs = new Coordinates[5];
+        hexs[0] = new Coordinates(new int[]{5,5});
+        hexs[1] = new Coordinates(new int[]{5,4});
+        hexs[2] = new Coordinates(new int[]{4,5});
+        hexs[3] = new Coordinates(new int[]{4,4});
+        hexs[4] = new Coordinates(new int[]{6,7});
+        
+        
+        new Territory(hexs);
+        
     }
     
         private void makeSingleHex(int x, int y)
@@ -117,7 +129,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    public void saveToXML(){
+    /*public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -249,7 +261,7 @@ public class MyWorld extends World
         }
 
         
-    }
+    }*/
     
     
     
