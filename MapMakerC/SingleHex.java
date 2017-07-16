@@ -5,8 +5,6 @@ public class SingleHex extends Button
 {
     private Coordinates coord = new Coordinates();
     
-    
-    
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
