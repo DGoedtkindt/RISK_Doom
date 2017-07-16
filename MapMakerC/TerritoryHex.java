@@ -15,8 +15,13 @@ public class TerritoryHex extends Button
         
         switch(mode)
         {
-            case Mode.SELECT_TERRITORY : getMyWorld().selectTerritory(getTerritory()); break;
-                                default: getMyWorld().escape(); break;                   
+            
+            case Mode.SELECT_TERRITORY : getMyWorld().selectTerritory(getTerritory()); 
+                                        break;
+                                        
+            default: getMyWorld().escape(); 
+                                        break;
+                                        
         }
         
     }

@@ -9,10 +9,48 @@ public class Territory
     
     private Coordinates[] hexCoords;
     TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
-    private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
-    private MyWorld getWorld() {return MyWorld.theWorld;}
+    
+    private int capitalBonus = 0;
+    
+    private Territory[] borderingTerritories = new Territory[20];
+    
+    private GreenfootImage getBackground() {
+        
+        return MyWorld.theWorld.getBackground();
+    
+    }
+    
+    
+    private MyWorld getWorld() {
+        
+        return MyWorld.theWorld;
+    
+    }
+    
+    
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
+    
+    public Coordinates[] getHexCoordinates(){
+        
+        return hexCoords;
+        
+    }
+    
+    
+    public int getCapitalBonus(){
+        
+        return capitalBonus;
+        
+    }
+    
+    
+    public Territory[] getBorderingTerritories(){
+        
+        return borderingTerritories;
+        
+    }
+    
     
     public Territory(ArrayList<Coordinates> hexs) throws Exception
     {
@@ -42,6 +80,7 @@ public class Territory
     }
     
 
+    
     public void destroy()
     {
         
@@ -49,12 +88,16 @@ public class Territory
         
     }
 
+    
+    
     public void setContinent()
     {
         
         
         
     }
+    
+    
     
     public void setNewLink(Territory newLink)
     {
@@ -64,27 +107,38 @@ public class Territory
         
     }
 
+    
+    
     public void autoSetLinks()
     {
     
     }
+    
+    
     
     public int getId()
     {
         return id;
     }
     
+    
+    
     private void createTerrHexs()
     //crée tous les territoryHex de ce territoire
     {
+        
         GreenfootImage img = Hexagon.createSimpleHexImage(Color.blue,0.95);
+        
         for(Coordinates hex : hexCoords){
             int[] rectCoord = hex.getRectCoord();
             TerritoryHex trHex = new TerritoryHex();
             TerritoryHex2DArray[rectCoord[0]][rectCoord[1]] = trHex;
             getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
         }
+        
     }
+    
+    
     
     private void paint()
     //dessine le territoire sur le monde
@@ -93,24 +147,33 @@ public class Territory
         drawHexsLinks();
     }
     
+    
+    
     private void drawHexs()
     {
         GreenfootImage img = Hexagon.createHexagonImage(Color.blue);
+        
         for(Coordinates hex : hexCoords){
             int[] rectCoord = hex.getRectCoord();
             rectCoord[0] -= Hexagon.getSize();
             rectCoord[1] -= Hexagon.getSize();
             getBackground().drawImage(img, rectCoord[0], rectCoord[1]);
         }
+        
     }
+    
+    
     
     private void drawHexsLinks()
     {
         
     }
     
+    
+    
     private void deleteSingleHexs()
     {
+        
         for(Coordinates hex : hexCoords){
             int[] hexCoord = hex.getHexCoord();
             SingleHex hexToDel = getWorld().singleHex2DArray[hexCoord[0]][hexCoord[1]];

@@ -44,11 +44,9 @@ public class SingleHex extends Button
             case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
             
                                    TerritoryHex newHex = new TerritoryHex();
-                                   newHex.coord = this.coord;
                                    newHex.setImage(Hexagon.createHexagonImage(Color.BLUE)); // Bleu provisoire
                                    
                                    getWorld().addObject(newHex, coord.getHexCoord()[0], coord.getHexCoord()[1]);
-                                   
                                    
                                    getWorld().removeObject(this);
                                 break;
