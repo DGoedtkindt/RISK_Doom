@@ -129,7 +129,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    /*public void saveToXML(){
+    public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -261,7 +261,7 @@ public class MyWorld extends World
         }
 
         
-    }*/
+    }
     
     
     
