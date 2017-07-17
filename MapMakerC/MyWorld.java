@@ -46,15 +46,7 @@ public class MyWorld extends World
         placeHexagonInCollumnRow(29, 15);
         
         //test de création de territoire
-        Coordinates[] hexs = new Coordinates[5];
-        hexs[0] = new Coordinates(new int[]{5,5});
-        hexs[1] = new Coordinates(new int[]{5,4});
-        hexs[2] = new Coordinates(new int[]{4,5});
-        hexs[3] = new Coordinates(new int[]{4,4});
-        hexs[4] = new Coordinates(new int[]{6,7});
-        
-        
-        new Territory(hexs);
+        testTerritoryCreation();
         
     }
     
@@ -77,6 +69,7 @@ public class MyWorld extends World
             for(int y = 0; y < row; y++) {
 
                 makeSingleHex(x, y);
+                
             }
             
         }
@@ -90,7 +83,22 @@ public class MyWorld extends World
         
     }
     
-    
+    private void testTerritoryCreation()
+    {
+        ArrayList<Coordinates> hexs = new ArrayList<Coordinates>();
+        hexs.add(new Coordinates(new int[]{5,5}));
+        hexs.add(new Coordinates(new int[]{5,4}));
+        hexs.add(new Coordinates(new int[]{4,5}));
+        hexs.add(new Coordinates(new int[]{4,4}));
+        hexs.add(new Coordinates(new int[]{6,7}));
+        hexs.add(new Coordinates(new int[]{6,5}));
+        
+        try {
+            
+            new Territory(hexs);
+            
+        }   catch(Exception e) {System.out.println(e);}
+    }
     
     
     public void changeMode(int newMode){
@@ -129,7 +137,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    public void saveToXML(){
+    /*public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -166,7 +174,7 @@ public class MyWorld extends World
                     
                     int hexNumber = 0;
                     
-                    Coordinates[] hexCoordinates = currentTerritory.hexCoordinates;
+                    Coordinates[] hexCoordinates = currentTerritory.getComposingHex();
                     
                     while(hexCoordinates[hexNumber] != null){
                         
@@ -189,7 +197,7 @@ public class MyWorld extends World
                     
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
-                    capitalPoints.setValue("" + currentTerritory.capitalPoints);
+                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
                     territory.setAttributeNode(capitalPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
@@ -206,7 +214,7 @@ public class MyWorld extends World
                     
                     
                     
-                    Territory[] borderingTerritories = currentTerritory.borderingTerritories;
+                    Territory[] borderingTerritories = currentTerritory.getBorderTerritoryIDs();
                     
                     int borderingNumber = 0;
                     
@@ -215,7 +223,7 @@ public class MyWorld extends World
                         Territory currentBordering = borderingTerritories[borderingNumber];
                         
                         Attr bordering = doc.createAttribute("bordering");
-                        bordering.setValue("" + currentBordering.id);
+                        bordering.setValue("" + currentBordering.getId());
                         territory.setAttributeNode(bordering);
                         
                         
@@ -261,7 +269,7 @@ public class MyWorld extends World
         }
 
         
-    }
+    }*/
     
     
     
@@ -290,11 +298,12 @@ public class MyWorld extends World
         
         mouse = Greenfoot.getMouseInfo();
         
-        lastClickedButton = getPressedButton();
+
         
         
-        if(lastClickedButton != null){ // Si on a appuyé quelque part
+        if(getPressedButton() != null){ // Si on a appuyé quelque part
             
+            lastClickedButton = getPressedButton();
             
             switch(mode){
                 
