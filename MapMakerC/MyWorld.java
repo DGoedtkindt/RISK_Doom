@@ -1,7 +1,7 @@
 import greenfoot.*;
 
 import java.awt.Color;
-import java.util.List;
+import java.util.*;
 
 //Import les xml
 import java.io.File;
@@ -24,7 +24,7 @@ public class MyWorld extends World
     
     SingleHex[][] singleHex2DArray = new SingleHex[50][30];
     
-    static MyWorld theWorld; //pour acceder au monde depuis un non-acteur
+    static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     static public int currentMode = Mode.DEFAULT;
     
@@ -46,7 +46,15 @@ public class MyWorld extends World
         theWorld = this;
         
         placeHexagonInCollumnRow(29, 15);
+        
+        //test de création de territoire
+        testTerritoryCreation();
+        
     }
+    
+    
+    
+    
     
         private void makeSingleHex(int x, int y)
     {
@@ -67,6 +75,7 @@ public class MyWorld extends World
             for(int y = 0; y < row; y++) {
 
                 makeSingleHex(x, y);
+                
             }
             
         }
@@ -74,9 +83,38 @@ public class MyWorld extends World
     }
     
 
+    
+    
+    
     private Button getPressedButton(){
         
         return (Button)(mouse.getActor());
+        
+    }
+    
+    
+    
+    
+    
+    private void testTerritoryCreation()
+    {
+        ArrayList<Coordinates> hexs = new ArrayList<Coordinates>();
+        hexs.add(new Coordinates(new int[]{5,5}));
+        hexs.add(new Coordinates(new int[]{5,4}));
+        hexs.add(new Coordinates(new int[]{4,5}));
+        hexs.add(new Coordinates(new int[]{4,4}));
+        hexs.add(new Coordinates(new int[]{6,7}));
+        hexs.add(new Coordinates(new int[]{6,5}));
+        
+        try {
+            
+            new Territory(hexs);
+            
+        }   catch(Exception e) {
+            
+            System.out.println(e);
+        
+        }
         
     }
     
@@ -88,6 +126,12 @@ public class MyWorld extends World
         currentMode = newMode;
         
     }
+    
+    
+    
+    
+    
+    
     
     
     SingleHex[] singleHexesCurrentlySelected = new SingleHex[50];
@@ -104,6 +148,12 @@ public class MyWorld extends World
         singleHexesCurrentlySelectedNumber++;
         
     }
+    
+    
+    
+    
+    
+    
     
     
     Territory[] territoriesCurrentlySelected = new Territory[30];
@@ -160,9 +210,8 @@ public class MyWorld extends World
                 
                 Territory[] territoriesInContinent = currentContinent.territoriesContained;
                 
-                while(territoriesInContinent[territoriesNumber] != null){//append des territoires aux continents (et caractéristiques)
+                for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
-                    Territory currentTerritory = territoriesInContinent[territoriesNumber];
                     
                     Element territory = doc.createElement("territory");
                     continent.appendChild(territory);
@@ -170,11 +219,10 @@ public class MyWorld extends World
                     
                     int hexNumber = 0;
                     
-                    Coordinates[] hexCoordinates = currentTerritory.getHexCoordinates();
+                    Coordinates[] hexCoordinates = currentTerritory.getComposingHex();
+
                     
-                    while(hexCoordinates[hexNumber] != null){//append des hex aux territoires
-                        
-                        Coordinates currentHex = hexCoordinates[hexNumber];
+                    for(Coordinates currentHex : hexCoordinates){//append des hex aux territoires
                         
                         
                         Element hex = doc.createElement("hex");
@@ -193,7 +241,11 @@ public class MyWorld extends World
                     
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
+
                     capitalPoints.setValue("" + currentTerritory.getCapitalBonus());
+
+                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
+
                     territory.setAttributeNode(capitalPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
@@ -210,17 +262,22 @@ public class MyWorld extends World
                     
                     
                     
+
                     Territory[] borderingTerritories = currentTerritory.getBorderingTerritories();
-                    
+
                     int borderingNumber = 0;
                     
-                    while(borderingTerritories[borderingNumber] != null){
+                    for(Territory currentBordering : borderingTerritories){
                         
-                        Territory currentBordering = borderingTerritories[borderingNumber];
-                        
+
                         Attr borderingID = doc.createAttribute("borderingID");
                         borderingID.setValue("" + currentBordering.getId());
                         territory.setAttributeNode(borderingID);
+
+                        Attr bordering = doc.createAttribute("bordering");
+                        bordering.setValue("" + currentBordering.getId());
+                        territory.setAttributeNode(bordering);
+
                         
                         
                     }
@@ -294,15 +351,19 @@ public class MyWorld extends World
         
         mouse = Greenfoot.getMouseInfo();
         
-        lastClickedButton = getPressedButton();
         
-        
-        if(lastClickedButton != null){ // Si on a appuyé quelque part
+        if(getPressedButton() != null){ // Si on a appuyé quelque part
+            
+
+            lastClickedButton.clicked(currentMode);
+
+            lastClickedButton = getPressedButton();
             
             lastClickedButton.clicked(currentMode);
             
+
+            
         }
-        
         
         
         
