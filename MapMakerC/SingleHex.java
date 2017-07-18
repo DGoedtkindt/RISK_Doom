@@ -5,6 +5,8 @@ public class SingleHex extends Button
 {
     private Coordinates coord = new Coordinates();
     
+    
+    
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
@@ -38,18 +40,10 @@ public class SingleHex extends Button
         
         
         switch(mode){
-            /*       il ne faut pas que SingleHex ne se supprime automatiquement 
-             *       (et c'est myWorld qui devrait vérifier la validité de la sélection)         
-            case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectHex(this);
             
-                                   TerritoryHex newHex = new TerritoryHex();
-                                   newHex.setImage(Hexagon.createHexagonImage(Color.BLUE)); // Bleu provisoire
-                                   
-                                   getWorld().addObject(newHex, coord.getHexCoord()[0], coord.getHexCoord()[1]);
-                                   
-                                   getWorld().removeObject(this);
+            case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectSingleHex(this);
                                 break;
-                        */        
+                             
                                 
             default : ((MyWorld)getWorld()).escape();
                                 break;

@@ -56,14 +56,22 @@ public class MyWorld extends World
     
     
     
-        private void makeSingleHex(int x, int y)
+    private void makeSingleHex(int x, int y)
     {
+        
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
         singleHex2DArray[x][y] = hex;
+        
     }
     
+    
+    private void makeTerritoryHex(SingleHex hexToReplace){
+        
+        
+        
+    }
     
     
     
@@ -139,8 +147,8 @@ public class MyWorld extends World
     int singleHexesCurrentlySelectedNumber = 0;
     
 
-    public void selectHex(SingleHex hex)
-    //rajoute un SingleHex à la selection
+    public void selectSingleHex(SingleHex hex)
+    //rajoute un SingleHex à la sélection
     {
         
         singleHexesCurrentlySelected[singleHexesCurrentlySelectedNumber] = hex;

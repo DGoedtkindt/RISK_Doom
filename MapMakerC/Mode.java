@@ -11,4 +11,6 @@ public class Mode
     static final int SET_LINKS                   = 6;
     static final int EDIT_TERRITORY              = 7;
     static final int EDIT_CONTINENT              = 8;
+    static final int EDIT_CONTINENT_COLOR        = 9;
+    static final int EDIT_CONTINENT_BONUS        = 10;
 }

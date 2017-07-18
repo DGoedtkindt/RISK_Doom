@@ -7,4 +7,17 @@ public class Continent
     Territory[] territoriesContained = new Territory[30];
     int continentBonus;
     
+    public void editColor(Color newColor){
+        
+        continentColor = newColor;
+        
+    }
+    
+    public void editBonus(int newBonus){
+        
+        continentBonus = newBonus;
+        
+    }
+    
+    
 }

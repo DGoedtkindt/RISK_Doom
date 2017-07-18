@@ -37,6 +37,7 @@ public class Territory
     private int id; //l'identifiant de ce territoire
     private Color continentColor = Color.blue;
     private int bonusPoints = 0;
+    private Continent continent;
     
     
     
@@ -47,6 +48,16 @@ public class Territory
     public int getCapitalBonus(){
         
         return capitalBonus;
+        
+    }
+    
+    
+    
+    
+    
+    public Continent getContinent(){
+        
+        return continent;
         
     }
     

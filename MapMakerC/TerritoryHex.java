@@ -4,15 +4,23 @@ public class TerritoryHex extends Button
 {
     Territory territory;
 
+    
+    
     public TerritoryHex()
     {
         setImage(new GreenfootImage(Hexagon.getSize(),Hexagon.getSize()));
     }
     
+    
+    
+    
     private MyWorld getMyWorld()
     {
         return (MyWorld)this.getWorld();
     }
+    
+    
+    
     
     public void clicked(int mode){
         
@@ -29,6 +37,10 @@ public class TerritoryHex extends Button
         
     }
 
+    
+    
+    
+    
     public Territory getTerritory(){
         
         return territory;
