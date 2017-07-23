@@ -70,6 +70,18 @@ public class MyWorld extends World
     private void makeTerritoryHex(SingleHex hexToReplace){
         
         
+        TerritoryHex territoryHex = new TerritoryHex();
+        
+        Color hexColor = territoryHex.getTerritory().getContinent().getContinentColor();
+        
+        GreenfootImage hexImage = Hexagon.createHexagonImage(hexColor);
+        
+        territoryHex.setImage(hexImage);
+        
+        addObject(territoryHex, 
+                  hexToReplace.getCoord().getRectCoord()[0], 
+                  hexToReplace.getCoord().getRectCoord()[1]);
+        
         
     }
     

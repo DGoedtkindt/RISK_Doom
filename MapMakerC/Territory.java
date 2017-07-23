@@ -130,7 +130,6 @@ public class Territory
 
         
         
-        
     }
 
 
@@ -175,7 +174,6 @@ public class Territory
     
     
     public int getBonusPoints()
-
     {
         return bonusPoints;
     }
@@ -186,6 +184,8 @@ public class Territory
     
     private void drawHexsLinks()
     {
+        
+        
         
     }
     

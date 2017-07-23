@@ -13,6 +13,13 @@ public class Continent
         
     }
     
+    public Color getContinentColor(){
+        
+        return continentColor;
+        
+    }
+    
+    
     public void editBonus(int newBonus){
         
         continentBonus = newBonus;
