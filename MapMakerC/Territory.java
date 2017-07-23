@@ -5,22 +5,27 @@ import java.lang.Exception;
 
 public class Territory 
 {
-
+    private final int MAX_HEX = 20;
     
-    private Coordinates[] hexCoords;
-    TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
+    private Coordinates[] hexCoords = new Coordinates[MAX_HEX];
+    private TerritoryHex[] terrHexArray = new TerritoryHex[MAX_HEX];
+    private int[] borderTerritoryIDs = new int[10]; 
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
     private Color continentColor = Color.blue;
+    private int bonusPoints = 0;
     
-    /////////////////////////////////////////////////////////////////////////////////////////
     
-    public Territory(Coordinates[] hexs) // throws Exception
+    
+    //Public methods///////////////////////////////////////////////////////////////////////////////////////
+    
+    public Territory(ArrayList<Coordinates> hexs)  throws Exception
     {
-        //if(hexs.length < 2) throw new Exception("At least 2 hexes must be selected");
-        hexCoords = hexs;
+        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
+        if(hexs.size() > MAX_HEX) throw new Exception("Maximum Hex selected " + MAX_HEX);
+        hexs.toArray(hexCoords);
         createTerrHexs();
         drawTerritory();
         deleteSingleHexs();
@@ -68,19 +73,39 @@ public class Territory
         return id;
     }
     
+    public Coordinates[] getComposingHex()
+    {
+        return hexCoords;
+    }
+    
+    public int getBonusPoints()
+    {
+        return bonusPoints;
+    }
+    
+    public int[] getBorderTerritoryIDs()
+    {
+        return borderTerritoryIDs;
+    }
+    
+    
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
         private void createTerrHexs()
         //crée tous les territoryHex de ce territoire
         {
             GreenfootImage img = Hexagon.createSimpleHexImage(continentColor,0.95);
+            int hexCount = 0;
+            
             for(Coordinates hex : hexCoords){
                if(hex != null){
+                    
                     int[] rectCoord = hex.getRectCoord();
-                    int[] hexCoord = hex.getHexCoord();
                     TerritoryHex trHex = new TerritoryHex();
-                    TerritoryHex2DArray[hexCoord[0]][hexCoord[1]] = trHex;
+                    terrHexArray[hexCount] = trHex;
                     getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
+                    hexCount ++;
+                    
                 }
             }
         }
@@ -95,12 +120,15 @@ public class Territory
             private void drawHexs()
             {
                 GreenfootImage img = Hexagon.createHexagonImage(continentColor);
+                
                 for(Coordinates hex : hexCoords){
                     if(hex != null){
+                        
                         int[] rectCoord = hex.getRectCoord();
                         rectCoord[0] -= Hexagon.getSize();
                         rectCoord[1] -= Hexagon.getSize();
                         getBackground().drawImage(img, rectCoord[0], rectCoord[1]);
+                        
                     }
                 }
             }
@@ -108,8 +136,10 @@ public class Territory
             private void drawAllHexsLinks()
             {
                 for(Coordinates hex : hexCoords){
-                    if(hex != null){    
+                    if(hex != null){ 
+                        
                         drawHexLinks(hex);
+                    
                     }
                 }
             }
@@ -118,9 +148,12 @@ public class Territory
                 {
                     Polygon[] links = getLinkPolygon(hex);
                     getBackground().setColor(continentColor);
+                    
                     for(Polygon poly : links){
                         if(poly != null) {
+                            
                             getBackground().fillShape(poly);
+                        
                         }
                     }
                     
@@ -142,6 +175,7 @@ public class Territory
                             if(otherHex != null){
                                 if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
                                     if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+                                        
                                         int[] otherRectCoord = otherHex.getRectCoord();
                                         temporary[0][2] = otherRectCoord[0];
                                         temporary[1][2] = otherRectCoord[1];
@@ -156,6 +190,7 @@ public class Territory
                                         
                                         linksPoly[linksCount] = new Polygon(temporary[0],temporary[1],4);
                                         linksCount++;
+                                        
                                     }
                                 }
                             }
@@ -170,9 +205,11 @@ public class Territory
         {
             for(Coordinates hex : hexCoords){
                 if(hex != null){
+                    
                     int[] hexCoord = hex.getHexCoord();
                     SingleHex hexToDel = getWorld().singleHex2DArray[hexCoord[0]][hexCoord[1]];
                     getWorld().removeObject(hexToDel);
+                    
                 }
             }
            
@@ -180,7 +217,9 @@ public class Territory
         
         private void setId()
         {
+            
             id = nextId;
             nextId++;
+            
         }
 }

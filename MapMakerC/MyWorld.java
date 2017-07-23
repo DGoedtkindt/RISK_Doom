@@ -67,25 +67,6 @@ public class MyWorld extends World
     }
     
     
-    private void makeTerritoryHex(SingleHex hexToReplace){
-        
-        
-        TerritoryHex territoryHex = new TerritoryHex();
-        
-        Color hexColor = territoryHex.getTerritory().getContinent().getContinentColor();
-        
-        GreenfootImage hexImage = Hexagon.createHexagonImage(hexColor);
-        
-        territoryHex.setImage(hexImage);
-        
-        addObject(territoryHex, 
-                  hexToReplace.getCoord().getRectCoord()[0], 
-                  hexToReplace.getCoord().getRectCoord()[1]);
-        
-        
-    }
-    
-    
     
     private void placeHexagonInCollumnRow(int collumn, int row)
     {
@@ -203,7 +184,9 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    public void saveToXML(){
+    /* il y a une erreur avec les bordering territory
+     * 
+     public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -262,7 +245,7 @@ public class MyWorld extends World
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
 
-                    capitalPoints.setValue("" + currentTerritory.getCapitalBonus());
+                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
 
                     capitalPoints.setValue("" + currentTerritory.getBonusPoints());
 
@@ -283,7 +266,7 @@ public class MyWorld extends World
                     
                     
 
-                    Territory[] borderingTerritories = currentTerritory.getBorderingTerritories();
+                    Territory[] borderingTerritories = currentTerritory.getBorderTerritoryIDs();
 
                     int borderingNumber = 0;
                     
@@ -342,7 +325,7 @@ public class MyWorld extends World
         }
 
         
-    }
+    }*/
     
     
     
