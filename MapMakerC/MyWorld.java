@@ -209,7 +209,7 @@ public class MyWorld extends World
             
             int territoriesNumber = 0;
             
-            while(continentList.get(continentsNumber) != null){//While 1 : append des continents à la map (et caractéristiques)
+            while(continentList.get(continentsNumber) != null){//While  : append des continents à la map (et caractéristiques)
                 
                 Continent currentContinent = (Continent)(continentList.get(continentsNumber));
                 
@@ -275,7 +275,7 @@ public class MyWorld extends World
 
                     int borderingNumber = 0;
                     
-                    for(Territory currentBordering : borderingTerritories){
+                    for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
 
                         Attr borderingID = doc.createAttribute("borderingID");
@@ -362,14 +362,9 @@ public class MyWorld extends World
         
         if(getPressedButton() != null){ // Si on a appuyé quelque part
             
-
-            lastClickedButton.clicked(currentMode);
-
             lastClickedButton = getPressedButton();
             
             lastClickedButton.clicked(currentMode);
-            
-
             
         }
         
