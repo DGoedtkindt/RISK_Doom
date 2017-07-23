@@ -1,27 +1,16 @@
 import greenfoot.*; 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TerritoryHex extends Button
 {
-    Territory territory;
-
+    private Territory territory;
+    private MyWorld getMyWorld(){ return (MyWorld)this.getWorld();}
     
-    
-    public TerritoryHex()
+    public TerritoryHex(int territory)
     {
         setImage(new GreenfootImage(Hexagon.getSize(),Hexagon.getSize()));
     }
-    
-    
-    
-    
-    private MyWorld getMyWorld()
-    {
-        return (MyWorld)this.getWorld();
-    }
-    
-    
-    
     
     public void clicked(int mode){
         
@@ -39,7 +28,24 @@ public class TerritoryHex extends Button
     }
 
     
-    
+    public ArrayList<TerritoryHex> getBorderingHex()
+    {
+        ArrayList<TerritoryHex> allOtherTerritoryHex = new ArrayList<TerritoryHex>();
+        ArrayList<TerritoryHex> borderingHexList = new ArrayList<TerritoryHex>();
+        
+        for(TerritoryHex otherHex : allOtherTerritoryHex)
+        {
+            if(this.distance(otherHex) < 1.2 * Hexagon.getSize()){
+                
+                borderingHexList.add(otherHex);
+            
+            }
+        }
+        
+        
+        
+        return borderingHexList;
+    }
     
     
     public Territory getTerritory(){
@@ -48,6 +54,9 @@ public class TerritoryHex extends Button
         
     }
    
-    
+    private double distance(TerritoryHex otherHex)
+    {
+        return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
+    }
     
 }

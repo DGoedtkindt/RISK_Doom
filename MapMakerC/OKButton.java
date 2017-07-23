@@ -5,7 +5,7 @@ public class OKButton extends Button
     
     public void clicked(int mode){
         
-        switch(((MyWorld)getWorld()).currentMode){
+        switch(mode){
             
             default : ((MyWorld)getWorld()).escape();
                         break;

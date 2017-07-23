@@ -1,6 +1,6 @@
 import greenfoot.*; 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.lang.Exception;
 
 public class Territory 
@@ -9,7 +9,7 @@ public class Territory
     
     private Coordinates[] hexCoords = new Coordinates[MAX_HEX];
     private TerritoryHex[] terrHexArray = new TerritoryHex[MAX_HEX];
-    private int[] borderTerritoryIDs = new int[10]; 
+    private Set<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
@@ -55,17 +55,23 @@ public class Territory
         
     }
     
-    public void setNewLink(Territory newLink)
+    public void setNewLink(int newLink)
     {
-
-        
-        
-        
+        borderingTerritoriesIDSet.add(newLink);
     }
 
-    public void autoSetLinks()
+    public void autoSetLinks() //works normally, but was not tested
     {
-    
+         Set<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
+         
+         
+         borderingHexSet = getBorderingHex();
+         for(TerritoryHex hex : borderingHexSet)
+         {
+            borderingTerritoriesIDSet.add(hex.getTerritory().getId());
+         }
+         
+         borderingTerritoriesIDSet.remove(this.getId());
     }
     
     public int getId()
@@ -83,8 +89,11 @@ public class Territory
         return bonusPoints;
     }
     
-    public int[] getBorderTerritoryIDs()
+    public Integer[] getBorderTerritoryIDs()
     {
+        Integer[] borderTerritoryIDs = new Integer[10];
+        borderingTerritoriesIDSet.toArray(borderTerritoryIDs);
+        
         return borderTerritoryIDs;
     }
     
@@ -101,7 +110,7 @@ public class Territory
                if(hex != null){
                     
                     int[] rectCoord = hex.getRectCoord();
-                    TerritoryHex trHex = new TerritoryHex();
+                    TerritoryHex trHex = new TerritoryHex(this.getId());
                     terrHexArray[hexCount] = trHex;
                     getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
                     hexCount ++;
@@ -215,11 +224,38 @@ public class Territory
            
         }
         
+    /////////////////////////////////////////////////////////////////////////////////////////////    
+    
         private void setId()
         {
             
             id = nextId;
             nextId++;
             
+        }
+        
+        private HashSet<TerritoryHex> getBorderingHex()
+        {
+            HashSet<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
+            ArrayList<TerritoryHex> temporary = new ArrayList<TerritoryHex>();// cette liste
+            // contiendra les TerritoryHex le temps de les rajouter dans
+            // borderingHexSet
+            
+            for(TerritoryHex hex : this.terrHexArray){
+                
+                if(hex != null){
+                    
+                    temporary = hex.getBorderingHex();
+                    
+                    for(TerritoryHex otherHex : temporary){
+                        
+                        borderingHexSet.add(otherHex);
+                        
+                    }
+                    
+                }
+            }
+            
+            return borderingHexSet;
         }
 }

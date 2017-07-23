@@ -26,7 +26,7 @@ public class MyWorld extends World
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
-    static public int currentMode = Mode.DEFAULT;
+    static private int currentMode = Mode.DEFAULT;
     
     MouseInfo mouse = Greenfoot.getMouseInfo();
     
@@ -161,7 +161,7 @@ public class MyWorld extends World
     
     int territoriesCurrentlySelectedNumber = 0;
     
-
+    //doit être changé pour avoir 
     public void selectTerritory(Territory territory)
     //rajoute un Territory à la selection
     {
