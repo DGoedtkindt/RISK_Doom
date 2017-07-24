@@ -1,6 +1,7 @@
 import java.awt.Color;
+import java.awt.geom.Area;
 
-public class Continent  
+public class Continent implements Maskable
 {
     
     Color continentColor;
@@ -26,5 +27,8 @@ public class Continent
         
     }
     
-    
+    public Area getAreaShape()
+    {
+        return null;
+    }
 }

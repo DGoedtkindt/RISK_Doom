@@ -33,6 +33,7 @@ public class MyWorld extends World
     Button lastClickedButton;
     
     
+    
   
     public MyWorld()
     {    
@@ -40,7 +41,7 @@ public class MyWorld extends World
         
         //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
-        getBackground().setColor(new Color(150,20,70));
+        getBackground().setColor(new Color(135,135,155));
         getBackground().fill();
         
         theWorld = this;
@@ -49,6 +50,7 @@ public class MyWorld extends World
         
         //test de création de territoire
         testTerritoryCreation();
+        testContinentChange();
         
     }
     
@@ -56,7 +58,7 @@ public class MyWorld extends World
     
     
     
-    private void makeSingleHex(int x, int y)
+    public void makeSingleHex(int x, int y)
     {
         
         SingleHex hex = new SingleHex(x,y);
@@ -95,11 +97,11 @@ public class MyWorld extends World
     
     
     
-    
+    Territory testTerritory;
     
     private void testTerritoryCreation()
     {
-        ArrayList<Coordinates> hexs = new ArrayList<Coordinates>();
+        HashSet<Coordinates> hexs = new HashSet<Coordinates>();
         hexs.add(new Coordinates(new int[]{5,5}));
         hexs.add(new Coordinates(new int[]{5,4}));
         hexs.add(new Coordinates(new int[]{4,5}));
@@ -109,7 +111,7 @@ public class MyWorld extends World
         
         try {
             
-            new Territory(hexs);
+            testTerritory = new Territory(hexs);
             
         }   catch(Exception e) {
             
@@ -119,7 +121,10 @@ public class MyWorld extends World
         
     }
     
-    
+    private void testContinentChange()
+    {
+        testTerritory.setContinent(new Color(145,145,230));
+    }
     
     
     public void changeMode(int newMode){

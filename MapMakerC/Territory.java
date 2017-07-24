@@ -1,9 +1,10 @@
 import greenfoot.*; 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.util.*;
 import java.lang.Exception;
 
-public class Territory 
+public class Territory implements Maskable
 {
     private final int MAX_HEX = 20;
     
@@ -14,14 +15,14 @@ public class Territory
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
-    private Color continentColor = Color.blue;
+    private Color continentColor = new Color(143,134,155);
     private int bonusPoints = 0;
     
     
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
-    public Territory(ArrayList<Coordinates> hexs)  throws Exception
+    public Territory(HashSet<Coordinates> hexs)  throws Exception
     {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         if(hexs.size() > MAX_HEX) throw new Exception("Maximum Hex selected " + MAX_HEX);
@@ -32,8 +33,7 @@ public class Territory
         setId();
     }
     
-    public Shape getAreaShape()
-    //retourne la forme du territoire pour le masque
+    public Area getAreaShape()
     {
 
         
@@ -48,10 +48,19 @@ public class Territory
         
     }
 
-    public void setContinent()
+    public void setContinent(Color color)
     {
+        continentColor = color;
         
         drawTerritory();
+        
+        for(TerritoryHex hex : terrHexArray){
+            if(hex != null){
+                
+                hex.drawTerrHex(color);
+                
+            }
+        }
         
     }
     
@@ -110,7 +119,7 @@ public class Territory
                if(hex != null){
                     
                     int[] rectCoord = hex.getRectCoord();
-                    TerritoryHex trHex = new TerritoryHex(this.getId());
+                    TerritoryHex trHex = new TerritoryHex(this,continentColor);
                     terrHexArray[hexCount] = trHex;
                     getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
                     hexCount ++;

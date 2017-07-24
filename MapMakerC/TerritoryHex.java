@@ -1,15 +1,18 @@
 import greenfoot.*; 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Color;
+import java.awt.geom.Area;
 
-public class TerritoryHex extends Button
+public class TerritoryHex extends Button implements Maskable
 {
     private Territory territory;
     private MyWorld getMyWorld(){ return (MyWorld)this.getWorld();}
     
-    public TerritoryHex(int territory)
+    public TerritoryHex(Territory territory, Color color)
     {
-        setImage(new GreenfootImage(Hexagon.getSize(),Hexagon.getSize()));
+        this.territory = territory;
+        drawTerrHex(color);
     }
     
     public void clicked(int mode){
@@ -47,10 +50,14 @@ public class TerritoryHex extends Button
         return borderingHexList;
     }
     
+    public void drawTerrHex(Color color)
+    {
+        this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
+    }
     
     public Territory getTerritory(){
         
-        return territory;
+       return territory;
         
     }
    
@@ -59,4 +66,8 @@ public class TerritoryHex extends Button
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     
+        public Area getAreaShape()
+    {
+        return null;
+    }
 }
