@@ -14,5 +14,5 @@ public class Mode
     static final int EDIT_CONTINENT_COLOR        = 9;//ok
     static final int EDIT_CONTINENT_BONUS        = 10;//ok
     static final int DELETE_TERRITORY            = 11;//ok
-    static final int DELETE_CONTINENT            = 12;
+    static final int DELETE_CONTINENT            = 12;//ok
 }

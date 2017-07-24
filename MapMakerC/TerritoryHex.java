@@ -39,7 +39,13 @@ public class TerritoryHex extends Button
     }
 
     
-    
+    public List getTerrHexInRange(int range){
+        
+        List terrHexInRange = getObjectsInRange((int)(1.5 * Hexagon.HEXAGON_SIZE), TerritoryHex.class);
+        
+        return terrHexInRange;
+        
+    }
     
     
     public Territory getTerritory(){

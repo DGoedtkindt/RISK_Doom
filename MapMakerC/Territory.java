@@ -1,6 +1,11 @@
 import greenfoot.*; 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.lang.Exception;
 
 public class Territory 
@@ -90,7 +95,42 @@ public class Territory
     }
     
     
-    
+    public Set calculateBorderingTerritories(){
+        
+        Set hexesAround = new HashSet();
+        
+        
+        for(TerritoryHex terrHex : getComposingTerrHex()){// Met tous les territoryhex autour du territoire dans le set
+            
+            List<TerritoryHex> terrHexAround = terrHex.getTerrHexInRange((int)(1.5 * Hexagon.HEXAGON_SIZE));
+            
+            for(TerritoryHex territoryhex : terrHexAround){
+                
+                hexesAround.add(territoryhex);
+                
+            }
+            
+        }
+        
+        for(TerritoryHex territHex : getComposingTerrHex()){// enlève les territoryhex qui sont dans le territoire
+            
+            hexesAround.remove(territHex);
+            
+        }
+        
+        Set territoriesAround = new HashSet();
+        
+        for(Object hexAround : hexesAround){// obtient la liste des territoires limitrophes à partir de cette liste de hex
+            
+            Territory borderingTerritory = ((TerritoryHex)hexAround).getTerritory();
+            
+            territoriesAround.add(borderingTerritory);
+            
+        }
+        
+        return territoriesAround;
+        
+    }
     
     
     public Territory(ArrayList<Coordinates> hexs)  throws Exception
@@ -204,7 +244,11 @@ public class Territory
         return hexCoords;
     }
     
-    
+    public TerritoryHex[] getComposingTerrHex(){
+        
+        return terrHexArray;
+        
+    }
     
     private void drawHexsLinks()
     {
