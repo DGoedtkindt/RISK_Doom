@@ -124,6 +124,26 @@ public class OKButton extends Button
                                              
                                              ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                              break;
+                                            
+            case Mode.DELETE_CONTINENT : Territory[] territoryForContinentDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+                                         
+                                         if(territoryForContinentDelete.length > 1){
+                                                     
+                                              System.out.println("Trop de continents sélectionnés");
+                                              break;
+                                      
+                                          }
+                                         
+                                         Continent continentToDelete = territoryForContinentDelete[0].getContinent();
+                                         
+                                         for(Territory toDelete : continentToDelete.getContainedTerritories()){
+                                             
+                                             toDelete.destroy();
+                                             
+                                          }
+                                         
+                                         ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                         break;
         }
         
     }
