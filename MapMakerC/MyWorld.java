@@ -32,8 +32,6 @@ public class MyWorld extends World
     
     Button lastClickedButton;
     
-    
-    
   
     public MyWorld()
     {    
@@ -53,8 +51,6 @@ public class MyWorld extends World
         testContinentChange();
         
     }
-    
-    
     
     
     
@@ -85,8 +81,6 @@ public class MyWorld extends World
         
     }
     
-
-    
     
     
     private Button getPressedButton(){
@@ -94,7 +88,6 @@ public class MyWorld extends World
         return (Button)(mouse.getActor());
         
     }
-    
     
     
     Territory testTerritory;
@@ -121,6 +114,7 @@ public class MyWorld extends World
         
     }
     
+    
     private void testContinentChange()
     {
         testTerritory.setContinent(new Color(145,145,230));
@@ -132,12 +126,6 @@ public class MyWorld extends World
         currentMode = newMode;
         
     }
-    
-    
-    
-    
-    
-    
     
     
     SingleHex[] singleHexesCurrentlySelected = new SingleHex[50];
@@ -154,12 +142,6 @@ public class MyWorld extends World
         singleHexesCurrentlySelectedNumber++;
         
     }
-    
-    
-    
-    
-    
-    
     
     
     Territory[] territoriesCurrentlySelected = new Territory[30];
@@ -179,7 +161,6 @@ public class MyWorld extends World
     
     
     
-    
     public void init(){
         
         
@@ -187,10 +168,7 @@ public class MyWorld extends World
     }
     
     
-    
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    /* il y a une erreur avec les bordering territory
-     * 
      public void saveToXML(){
         
         int continentsNumber = 0;
@@ -269,21 +247,21 @@ public class MyWorld extends World
                     
                     
 
-                    Territory[] borderingTerritories = currentTerritory.getBorderTerritoryIDs();
-
+                    Territory[] borderingTerritories = currentTerritory.getBorderingTerritories();
+                    
                     int borderingNumber = 0;
                     
                     for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
-
+                        
                         Attr borderingID = doc.createAttribute("borderingID");
                         borderingID.setValue("" + currentBordering.getId());
                         territory.setAttributeNode(borderingID);
-
+                        
                         Attr bordering = doc.createAttribute("bordering");
                         bordering.setValue("" + currentBordering.getId());
                         territory.setAttributeNode(bordering);
-
+                        
                         
                         
                     }
@@ -328,17 +306,30 @@ public class MyWorld extends World
         }
 
         
-    }*/
-    
-    
+    }
     
     
     public void escape(){
         
+        for(Territory t : territoriesCurrentlySelected){
+            
+            t = null;
+            
+        }
         
+        territoriesCurrentlySelectedNumber = 0;
+        
+        for(SingleHex sh : singleHexesCurrentlySelected){
+            
+            sh = null;
+            
+        }
+    
+        singleHexesCurrentlySelectedNumber = 0;
+        
+        changeMode(Mode.DEFAULT);
         
     }
-    
     
     
     
@@ -350,15 +341,10 @@ public class MyWorld extends World
     
     
     
-    
-    
-    
     public void act() 
     {
         
-        
         mouse = Greenfoot.getMouseInfo();
-        
         
         if(getPressedButton() != null){ // Si on a appuyé quelque part
             
@@ -368,10 +354,7 @@ public class MyWorld extends World
             
         }
         
-        
-        
         lastClickedButton = null;
-        
         
     }
     

@@ -18,15 +18,14 @@ public class TerritoryHex extends Button implements Maskable
     
     public void clicked(int mode){
         
-        switch(mode)
-        {
+        if(mode == Mode.DEFAULT || mode == Mode.SELECT_HEX){
             
-            case Mode.SELECT_TERRITORY : getMyWorld().selectTerritory(getTerritory()); 
-                                        break;
-                                        
-            default: getMyWorld().escape(); 
-                                        break;
-                                        
+            getMyWorld().escape();
+            
+        }else{
+            
+            getMyWorld().selectTerritory(getTerritory()); 
+            
         }
         
     }
@@ -62,21 +61,23 @@ public class TerritoryHex extends Button implements Maskable
     {
         this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
     }
-
+    
     
     public Territory getTerritory(){
         
        return territory;
         
     }
-   
-    private double distance(TerritoryHex otherHex)
+    
+    private double distance(TerritoryHex otherHex)//Pythagore
     {
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     
-        public Area getAreaShape()
+    public Area getAreaShape()
     {
+        
         return null;
+        
     }
 }

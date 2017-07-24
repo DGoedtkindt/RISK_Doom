@@ -233,7 +233,11 @@ public class Territory implements Maskable
         
     }
     
-    private void drawHexsLinks(){}
+    private void drawHexsLinks(){
+    
+    
+    
+    }
     
     public int getBonusPoints()
     {
