@@ -1,7 +1,8 @@
 import greenfoot.*; 
 import java.awt.Color;
+import java.awt.geom.Area;
 
-public class SingleHex extends Button
+public class SingleHex extends Button implements Maskable
 {
     private Coordinates coord = new Coordinates();
     
@@ -55,7 +56,10 @@ public class SingleHex extends Button
     }
     
     
-    
+    public Area getAreaShape()
+    {
+        return null;
+    }
     
     
     public void act() 
