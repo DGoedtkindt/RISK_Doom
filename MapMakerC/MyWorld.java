@@ -264,8 +264,6 @@ public class MyWorld extends World
 
                     capitalPoints.setValue("" + currentTerritory.getCapitalBonus());
 
-                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
-
                     territory.setAttributeNode(capitalPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");

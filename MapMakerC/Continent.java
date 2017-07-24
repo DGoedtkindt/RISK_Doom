@@ -26,5 +26,11 @@ public class Continent
         
     }
     
+    public Territory[] getContainedTerritories(){
+        
+        return territoriesContained;
+        
+    }
+    
     
 }

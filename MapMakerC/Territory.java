@@ -5,7 +5,7 @@ import java.lang.Exception;
 
 public class Territory 
 {
-    private final int MAX_HEX = 20;
+    public static final int MAX_HEX = 20;
     
 
     TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
@@ -13,6 +13,8 @@ public class Territory
     private int capitalBonus = 0;
     
     private Territory[] borderingTerritories = new Territory[20];
+    
+    private int borderingNumber = 0;
     
     private GreenfootImage getBackground() {
         
@@ -36,7 +38,6 @@ public class Territory
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
     private Color continentColor = Color.blue;
-    private int bonusPoints = 0;
     private Continent continent;
     
     
@@ -52,7 +53,24 @@ public class Territory
     }
     
     
+    public void changeThisBonus(int newBonus){
+        
+        capitalBonus = newBonus;
+        
+    }
     
+    
+    public void changeCapital(int changedCapitalBonus){
+        
+        for(Territory otherTerritory : continent.getContainedTerritories()){
+            
+            otherTerritory.changeThisBonus(0);
+            
+        }
+        
+        capitalBonus = changedCapitalBonus;
+        
+    }
     
     
     public Continent getContinent(){
@@ -127,8 +145,25 @@ public class Territory
     
     public void setNewLink(Territory newLink)
     {
-
         
+        boolean alreadyPresent = false;
+        
+        for(Territory terr : borderingTerritories){
+            
+            if(terr == newLink){
+                
+                alreadyPresent = true;
+                
+            }
+            
+        }
+        
+        if(!alreadyPresent){
+            
+            borderingTerritories[borderingNumber] = newLink;
+            borderingNumber++;
+            
+        }
         
     }
 
@@ -171,25 +206,12 @@ public class Territory
     
     
     
-    
-    
-    public int getBonusPoints()
-    {
-        return bonusPoints;
-    }
-    
-
-    
-    
-    
     private void drawHexsLinks()
     {
         
         
         
     }
-    
-    
     
     
     
