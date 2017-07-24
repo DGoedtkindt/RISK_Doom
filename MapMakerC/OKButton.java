@@ -1,5 +1,7 @@
 import greenfoot.*;  
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 
@@ -9,13 +11,13 @@ public class OKButton extends Button
     
     public void clicked(int mode){
         
-        switch(((MyWorld)getWorld()).currentMode){
+        switch(mode){
             
             default : ((MyWorld)getWorld()).escape();
                       break;
                         
             case Mode.SELECT_HEX : SingleHex[] selectedHexes = ((MyWorld)getWorld()).singleHexesCurrentlySelected;
-                                   ArrayList<Coordinates> selectedCoordinates = new ArrayList();
+                                   HashSet<Coordinates> selectedCoordinates = new HashSet();
                                    int hexNumber = 0;
                                    
                                    for(SingleHex hex : selectedHexes){

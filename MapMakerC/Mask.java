@@ -4,13 +4,13 @@ import java.awt.*;
 public class Mask extends Actor
 {
     
-    public Shape mask(Object[] toMask){
+    public Shape mask(Maskable[] toMask){
         
         return null;
         
     }
     
-    public Shape extend(Object[] toMask){
+    public Shape extend(Maskable[] toMask){
         
         return null;
         
@@ -20,5 +20,5 @@ public class Mask extends Actor
     {
         
     }    
-    
+   
 }

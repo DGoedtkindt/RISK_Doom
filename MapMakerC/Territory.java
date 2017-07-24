@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import java.awt.*;
+import java.awt.geom.Area;
+import java.util.*;
 import java.lang.Exception;
 
-public class Territory 
+public class Territory implements Maskable
 {
     public static final int MAX_HEX = 20;
     
@@ -38,12 +41,12 @@ public class Territory
 
     private Coordinates[] hexCoords = new Coordinates[MAX_HEX];
     private TerritoryHex[] terrHexArray = new TerritoryHex[MAX_HEX];
-    private int[] borderTerritoryIDs = new int[10]; 
-    
+    private Set<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
     private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
-    private Color continentColor = Color.blue;
     private Continent continent;
+    private Color continentColor = new Color(143,134,155);
+    private int bonusPoints = 0;
     
     
     
@@ -133,11 +136,9 @@ public class Territory
     }
     
     
-    public Territory(ArrayList<Coordinates> hexs)  throws Exception
-
+    public Territory(HashSet<Coordinates> hexs)  throws Exception
     {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
-        
         if(hexs.size() > MAX_HEX) throw new Exception("Maximum Hex selected " + MAX_HEX);
         hexs.toArray(hexCoords);
         createTerrHexs();
@@ -146,20 +147,13 @@ public class Territory
         setId();
     }
     
-    
-    
-    
-    public Shape getAreaShape()
-    //retourne la forme du territoire pour le masque
+    public Area getAreaShape()
     {
 
         
         return null;
         
     }
-    
-    
-    
     
     public void destroy()
     {
@@ -168,20 +162,21 @@ public class Territory
         
     }
 
-    
-    
-    
-    
-    public void setContinent()
+    public void setContinent(Color color)
     {
+        continentColor = color;
         
         drawTerritory();
         
+        for(TerritoryHex hex : terrHexArray){
+            if(hex != null){
+                
+                hex.drawTerrHex(color);
+                
+            }
+        }
+        
     }
-    
-    
-    
-    
     
     public void setNewLink(Territory newLink)
     {
@@ -205,39 +200,27 @@ public class Territory
             
         }
         
+        borderingTerritoriesIDSet.add(newLink.getId());
     }
 
-
-    
-    
-    
-    public void autoSetLinks()
+    public void autoSetLinks() //works normally, but was not tested
     {
-    
+         Set<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
+         
+         
+         borderingHexSet = getBorderingHex();
+         for(TerritoryHex hex : borderingHexSet)
+         {
+            borderingTerritoriesIDSet.add(hex.getTerritory().getId());
+         }
+         
+         borderingTerritoriesIDSet.remove(this.getId());
     }
-    
-    
-    
-    
     
     public int getId()
     {
         return id;
     }
-    
-    
-    
-    
-    
-    private void paint(){
-    
-    
-    
-    }
-    //dessine le territoire sur le monde
-
-    
-    
     
     public Coordinates[] getComposingHex()
     {
@@ -250,24 +233,16 @@ public class Territory
         
     }
     
-    private void drawHexsLinks()
+    private void drawHexsLinks(){}
+    
+    public int getBonusPoints()
     {
-        
-        
-        
+        return bonusPoints;
     }
     
     
-    
-    public int[] getBorderTerritoryIDs()
-    {
-        return borderTerritoryIDs;
-    }
-
-    
-
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     private void createTerrHexs()
     //crée tous les territoryHex de ce territoire
     {
@@ -278,7 +253,7 @@ public class Territory
            if(hex != null){
                 
                 int[] rectCoord = hex.getRectCoord();
-                TerritoryHex trHex = new TerritoryHex();
+                TerritoryHex trHex = new TerritoryHex(this,continentColor);
                 terrHexArray[hexCount] = trHex;
                 getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
                 hexCount ++;
@@ -286,10 +261,6 @@ public class Territory
             }
         }
     }
-
-    
-    
-    
     
     private void drawTerritory()
     //dessine le territoire sur le monde
@@ -297,10 +268,6 @@ public class Territory
         drawHexs();
         drawAllHexsLinks();
     }
-
-    
-    
-    
     
     private void drawHexs()
     {
@@ -318,10 +285,6 @@ public class Territory
         }
     }
 
-    
-    
-    
-    
     private void drawAllHexsLinks()
     {
         for(Coordinates hex : hexCoords){
@@ -332,11 +295,7 @@ public class Territory
             }
         }
     }
-        
-    
-    
-    
-    
+            
     private void drawHexLinks(Coordinates hex)
     {
         Polygon[] links = getLinkPolygon(hex);
@@ -351,13 +310,9 @@ public class Territory
         }
         
     }
-
-    
-    
-    
     
     private Polygon[] getLinkPolygon(Coordinates thisHex)
-    //retourne des losanges qui couvrent certains bords noirs de l'Hexagone
+    //returne des losanges qui couvrent certains bords noirs de l'Hexagone
     //dirty code incoming!
     {
         Polygon[] linksPoly = new Polygon[6];
@@ -397,16 +352,10 @@ public class Territory
         return linksPoly;
         
     }
-            
-    
-    
-    
-    
+                
     private void deleteSingleHexs()
     {
-        
         for(Coordinates hex : hexCoords){
-            
             if(hex != null){
                 
                 int[] hexCoord = hex.getHexCoord();
@@ -414,22 +363,42 @@ public class Territory
                 getWorld().removeObject(hexToDel);
                 
             }
-            
         }
        
     }
-    
-    
-    
-    
+        
+    /////////////////////////////////////////////////////////////////////////////////////////////    
     
     private void setId()
     {
-            
+        
         id = nextId;
         nextId++;
-            
+        
     }
     
-    
+    private HashSet<TerritoryHex> getBorderingHex()
+    {
+        HashSet<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
+        ArrayList<TerritoryHex> temporary = new ArrayList<TerritoryHex>();// cette liste
+        // contiendra les TerritoryHex le temps de les rajouter dans
+        // borderingHexSet
+        
+        for(TerritoryHex hex : this.terrHexArray){
+            
+            if(hex != null){
+                
+                temporary = hex.getBorderingHex();
+                
+                for(TerritoryHex otherHex : temporary){
+                    
+                    borderingHexSet.add(otherHex);
+                    
+                }
+                
+            }
+        }
+        
+        return borderingHexSet;
+    }
 }

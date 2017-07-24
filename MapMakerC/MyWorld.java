@@ -26,11 +26,12 @@ public class MyWorld extends World
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
-    static public int currentMode = Mode.DEFAULT;
+    static private int currentMode = Mode.DEFAULT;
     
     MouseInfo mouse = Greenfoot.getMouseInfo();
     
     Button lastClickedButton;
+    
     
     
   
@@ -40,7 +41,7 @@ public class MyWorld extends World
         
         //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
-        getBackground().setColor(new Color(150,20,70));
+        getBackground().setColor(new Color(135,135,155));
         getBackground().fill();
         
         theWorld = this;
@@ -49,6 +50,7 @@ public class MyWorld extends World
         
         //test de création de territoire
         testTerritoryCreation();
+        testContinentChange();
         
     }
     
@@ -56,32 +58,13 @@ public class MyWorld extends World
     
     
     
-    private void makeSingleHex(int x, int y)
+    public void makeSingleHex(int x, int y)
     {
         
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
         singleHex2DArray[x][y] = hex;
-        
-    }
-    
-    
-    private void makeTerritoryHex(SingleHex hexToReplace){
-        
-        
-        TerritoryHex territoryHex = new TerritoryHex();
-        
-        Color hexColor = territoryHex.getTerritory().getContinent().getContinentColor();
-        
-        GreenfootImage hexImage = Hexagon.createHexagonImage(hexColor);
-        
-        territoryHex.setImage(hexImage);
-        
-        addObject(territoryHex, 
-                  hexToReplace.getCoord().getRectCoord()[0], 
-                  hexToReplace.getCoord().getRectCoord()[1]);
-        
         
     }
     
@@ -114,11 +97,11 @@ public class MyWorld extends World
     
     
     
-    
+    Territory testTerritory;
     
     private void testTerritoryCreation()
     {
-        ArrayList<Coordinates> hexs = new ArrayList<Coordinates>();
+        HashSet<Coordinates> hexs = new HashSet<Coordinates>();
         hexs.add(new Coordinates(new int[]{5,5}));
         hexs.add(new Coordinates(new int[]{5,4}));
         hexs.add(new Coordinates(new int[]{4,5}));
@@ -128,7 +111,7 @@ public class MyWorld extends World
         
         try {
             
-            new Territory(hexs);
+            testTerritory = new Territory(hexs);
             
         }   catch(Exception e) {
             
@@ -138,7 +121,10 @@ public class MyWorld extends World
         
     }
     
-    
+    private void testContinentChange()
+    {
+        testTerritory.setContinent(new Color(145,145,230));
+    }
     
     
     public void changeMode(int newMode){
@@ -180,7 +166,7 @@ public class MyWorld extends World
     
     int territoriesCurrentlySelectedNumber = 0;
     
-
+    //doit être changé pour avoir 
     public void selectTerritory(Territory territory)
     //rajoute un Territory à la selection
     {
@@ -203,7 +189,9 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    public void saveToXML(){
+    /* il y a une erreur avec les bordering territory
+     * 
+     public void saveToXML(){
         
         int continentsNumber = 0;
         
@@ -262,7 +250,7 @@ public class MyWorld extends World
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
 
-                    capitalPoints.setValue("" + currentTerritory.getCapitalBonus());
+                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
 
                     territory.setAttributeNode(capitalPoints);
                     
@@ -281,7 +269,7 @@ public class MyWorld extends World
                     
                     
 
-                    Territory[] borderingTerritories = currentTerritory.getBorderingTerritories();
+                    Territory[] borderingTerritories = currentTerritory.getBorderTerritoryIDs();
 
                     int borderingNumber = 0;
                     
@@ -340,7 +328,7 @@ public class MyWorld extends World
         }
 
         
-    }
+    }*/
     
     
     
