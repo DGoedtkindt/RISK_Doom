@@ -35,6 +35,13 @@ public class OKButton extends Button
                                        
                                     }
                                    
+                                   for(SingleHex sh : ((MyWorld)getWorld()).singleHexesCurrentlySelected){
+                                       
+                                       sh = null;
+                                       
+                                    }
+                                   ((MyWorld)getWorld()).singleHexesCurrentlySelectedNumber = 0;
+                                    
                                    ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                    break;
                         
@@ -42,8 +49,17 @@ public class OKButton extends Button
                                          Continent createdContinent = new Continent();
                                          createdContinent.territoriesContained = selectedTerritories;
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                         
+                                         for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                             t = null;
+                                             
+                                            }
+                                         
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                          break;
-            
+                                         
             case Mode.DELETE_TERRITORY : Territory[] territoriesToDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                          
                                          for(Territory toDelete : territoriesToDelete){
@@ -53,6 +69,15 @@ public class OKButton extends Button
                                           }
                                          
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                         
+                                          for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                             t = null;
+                                             
+                                            }
+                                         
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                          break;
             
             case Mode.SET_LINKS : Territory[] territoriesToLink = ((MyWorld)getWorld()).territoriesCurrentlySelected;
@@ -67,6 +92,15 @@ public class OKButton extends Button
                                   territoriesToLink[0].setNewLink(territoriesToLink[1]);
                                   territoriesToLink[1].setNewLink(territoriesToLink[0]);
                                   ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                  
+                                  for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                        t = null;
+                                             
+                                     }
+                                         
+                                  ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                   break;
                                  
             case Mode.CHOOSE_CAPITAL_TERRITORY : Territory[] capitalTerritory = ((MyWorld)getWorld()).territoriesCurrentlySelected;
@@ -83,6 +117,15 @@ public class OKButton extends Button
                                                  capitalTerritory[0].changeCapital(capitalBonus);
                                                  
                                                  ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                                 
+                                                  for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                                      t = null;
+                                             
+                                                    }
+                                         
+                                                 ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                                  break;
                                                  
             case Mode.EDIT_CONTINENT_COLOR : Territory[] territoryForContinentColor = ((MyWorld)getWorld()).territoriesCurrentlySelected;
@@ -105,6 +148,15 @@ public class OKButton extends Button
                                              continentToModifyColor.editColor(changedColor);
                                              
                                              ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                             
+                                             for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                                 t = null;
+                                             
+                                               }
+                                            
+                                             ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                              break;
                                              
             case Mode.EDIT_CONTINENT_BONUS : Territory[] territoryForContinentBonus = ((MyWorld)getWorld()).territoriesCurrentlySelected;
@@ -123,6 +175,15 @@ public class OKButton extends Button
                                              continentToModifyBonus.editBonus(newContinentBonus);
                                              
                                              ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                             
+                                              for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                                  t = null;
+                                                  
+                                                }
+                                         
+                                             ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                              break;
                                             
             case Mode.DELETE_CONTINENT : Territory[] territoryForContinentDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
@@ -143,6 +204,15 @@ public class OKButton extends Button
                                           }
                                          
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
+                                         
+                                          for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
+                                             
+                                              t = null;
+                                             
+                                            }
+                                         
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                            
                                          break;
         }
         
