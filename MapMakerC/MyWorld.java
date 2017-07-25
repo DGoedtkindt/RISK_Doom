@@ -89,6 +89,7 @@ public class MyWorld extends World
         
     }
     
+    //////////////////////////////////////////////////Zone de tests
     
     Territory testTerritory;
     
@@ -119,6 +120,8 @@ public class MyWorld extends World
     {
         testTerritory.setContinent(new Color(145,145,230));
     }
+    
+    ////////////////////////////////////////////////
     
     
     public void changeMode(int newMode){
@@ -184,8 +187,6 @@ public class MyWorld extends World
             Element rootElement = doc.createElement("map");//Création de rootElement
             doc.appendChild(rootElement);
             
-            
-            int territoriesNumber = 0;
             
             while(continentList.get(continentsNumber) != null){//While  : append des continents à la map (et caractéristiques)
                 
@@ -253,21 +254,15 @@ public class MyWorld extends World
                     
                     for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
+                        Element bordering = doc.createElement("borderingTerritory");
+                        territory.appendChild(bordering);
                         
                         Attr borderingID = doc.createAttribute("borderingID");
                         borderingID.setValue("" + currentBordering.getId());
-                        territory.setAttributeNode(borderingID);
-                        
-                        Attr bordering = doc.createAttribute("bordering");
-                        bordering.setValue("" + currentBordering.getId());
-                        territory.setAttributeNode(bordering);
-                        
-                        
+                        bordering.setAttributeNode(borderingID);
                         
                     }
                     
-                    
-                    territoriesNumber++;
                     
                 }
                 

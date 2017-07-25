@@ -161,8 +161,8 @@ public class Territory implements Maskable
         
         
     }
-
-    public void setContinent(Color color)
+    
+    public void setContinent(Color color)//Faudrait que ça change aussi le continent
     {
         continentColor = color;
         
@@ -183,7 +183,7 @@ public class Territory implements Maskable
         
         boolean alreadyPresent = false;
         
-        for(Territory terr : borderingTerritories){
+        for(Territory terr : borderingTerritories){//Regarde s'il est déjà limitrophe
             
             if(terr == newLink){
                 
@@ -193,7 +193,7 @@ public class Territory implements Maskable
             
         }
         
-        if(!alreadyPresent){
+        if(!alreadyPresent){//Sinon, le rajoute
             
             borderingTerritories[borderingNumber] = newLink;
             borderingNumber++;
