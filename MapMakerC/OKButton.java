@@ -128,16 +128,13 @@ public class OKButton extends Button
                                              
                                              Color changedColor = new Color(rColor, gColor, bColor);
                                              
-                                             ArrayList territoryForContinentColorList = new ArrayList();
-                                  
+                                             Continent continentToModifyColor = null;
+                                             
                                              for(Territory t : territoryForContinentColor){
                                       
-                                                 territoryForContinentColorList.add(t);
+                                                 continentToModifyColor = t.getContinent();
                                                  
                                                 }
-                                             
-                                             
-                                             Continent continentToModifyColor = ((Territory)(territoryForContinentColorList.get(0))).getContinent();
                                              
                                              continentToModifyColor.editColor(changedColor);
                                              
@@ -158,15 +155,13 @@ public class OKButton extends Button
                                              
                                              int newContinentBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de continent"));
                                              
-                                             ArrayList territoryForContinentBonusList = new ArrayList();
-                                  
+                                             Continent continentToModifyBonus = null;
+                                             
                                              for(Territory t : territoryForContinentBonus){
                                       
-                                                 territoryForContinentBonusList.add(t);
+                                                 continentToModifyBonus = t.getContinent();
                                                  
                                                 }
-                                             
-                                             Continent continentToModifyBonus = ((Territory)(territoryForContinentBonusList.get(0))).getContinent();
                                              
                                              continentToModifyBonus.editBonus(newContinentBonus);
                                              
@@ -185,16 +180,13 @@ public class OKButton extends Button
                                       
                                           }
                                          
-                                         ArrayList territoryForContinentDeleteList = new ArrayList();
-                                  
+                                         Continent continentToDelete = null;
+                                         
                                          for(Territory t : territoryForContinentDelete){
                                   
-                                             territoryForContinentDeleteList.add(t);
+                                             continentToDelete = t.getContinent();
                                              
                                             }
-                                          
-                                          
-                                         Continent continentToDelete = ((Territory)(territoryForContinentDeleteList.get(0))).getContinent();
                                          
                                          for(Territory toDelete : continentToDelete.getContainedTerritories()){
                                              

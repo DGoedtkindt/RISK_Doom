@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Wed Jul 26 16:22:41 CEST 2017
+#Wed Jul 26 17:22:48 CEST 2017
 class.Hexagon.superclass=
 target16.name=Button
 dependency35.to=Coordinates
@@ -82,6 +82,7 @@ target3.y=550
 target3.x=100
 >>>>>>>=a5dbe2ce5f718183552bc6e9da778edf781b98d3
 target7.typeParameters=
+dependency51.to=MyWorld
 target8.height=50
 dependency26.to=Hexagon
 mainWindow.y=-11
@@ -99,13 +100,14 @@ dependency47.type=UsesDependency
 dependency44.from=ChooseCapitalTerritory
 class.CreateLinks.superclass=Button
 dependency20.to=SingleHex
+dependency51.from=Mask
 target22.y=10
 target22.x=70
 class.ChooseCapitalTerritory.superclass=Button
 target14.name=EditTerritory
 target9.height=50
-target11.showInterface=false
 target2.showInterface=false
+target11.showInterface=false
 target7.name=Mode
 dependency41.to=MyWorld
 dependency16.to=TerritoryHex
@@ -230,7 +232,7 @@ target14.x=10
 target10.type=ClassTarget
 dependency18.to=Coordinates
 dependency21.type=UsesDependency
-package.numDependencies=50
+package.numDependencies=51
 target17.type=ClassTarget
 dependency28.type=UsesDependency
 dependency25.from=MyWorld
@@ -260,6 +262,7 @@ class.OKButton.superclass=Button
 target14.height=50
 target9.y=70
 target9.x=160
+dependency51.type=UsesDependency
 dependency29.to=MyWorld
 target11.name=DeleteContinent
 target5.y=190
