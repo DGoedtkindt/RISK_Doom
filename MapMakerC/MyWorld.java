@@ -105,9 +105,9 @@ public class MyWorld extends World
         hexs.add(new Coordinates(new int[]{5,5}));
         hexs.add(new Coordinates(new int[]{5,4}));
         hexs.add(new Coordinates(new int[]{4,5}));
-        hexs.add(new Coordinates(new int[]{4,4}));
-        hexs.add(new Coordinates(new int[]{6,7}));
-        hexs.add(new Coordinates(new int[]{6,5}));
+        //hexs.add(new Coordinates(new int[]{4,4}));
+        //hexs.add(new Coordinates(new int[]{6,7}));
+        //hexs.add(new Coordinates(new int[]{6,5}));
         
         try {
             
