@@ -141,7 +141,7 @@ public class MyWorld extends World
     
     private void testContinentChange()
     {
-        testTerritory.setContinent(new Color(145,145,230));
+        testTerritory.setContinentColor(new Color(145,145,230));
     }
     
     ////////////////////////////////////////////////

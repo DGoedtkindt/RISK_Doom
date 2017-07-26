@@ -162,7 +162,7 @@ public class Territory implements Maskable
         
     }
     
-    public void setContinent(Color color)//Faudrait que ça change aussi le continent
+    public void setContinentColor(Color color)//Faudrait que ça change aussi le continent
     {
         continentColor = color;
         
@@ -177,6 +177,13 @@ public class Territory implements Maskable
         }
         
     }
+    
+    public void setContinent(Continent newContinent){
+        
+        continent = newContinent;
+        
+    }
+    
     
     public void setNewLink(Territory newLink)
     {

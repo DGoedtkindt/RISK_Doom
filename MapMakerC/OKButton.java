@@ -44,6 +44,13 @@ public class OKButton extends Button
             case Mode.SELECT_TERRITORY : HashSet<Territory> selectedTerritories = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                          Continent createdContinent = new Continent();
                                          createdContinent.territoriesContained = selectedTerritories;
+                                         
+                                         for(Territory t : selectedTerritories){
+                                             
+                                             t.setContinent(createdContinent);
+                                             
+                                            }
+                                         
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                          
                                          ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
@@ -55,6 +62,7 @@ public class OKButton extends Button
                                          for(Territory toDelete : territoriesToDelete){
                                              
                                              toDelete.destroy();
+                                             toDelete.getContinent().removeTerritory(toDelete);
                                              
                                           }
                                          
