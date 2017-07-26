@@ -16,14 +16,13 @@ public class OKButton extends Button
             default : ((MyWorld)getWorld()).escape();
                       break;
                         
-            case Mode.SELECT_HEX : SingleHex[] selectedHexes = ((MyWorld)getWorld()).singleHexesCurrentlySelected;
+            case Mode.SELECT_HEX : HashSet<SingleHex> selectedHexes = ((MyWorld)getWorld()).singleHexesCurrentlySelected;
+            
                                    HashSet<Coordinates> selectedCoordinates = new HashSet();
-                                   int hexNumber = 0;
                                    
                                    for(SingleHex hex : selectedHexes){
                                        
                                        selectedCoordinates.add(hex.getCoord());
-                                       hexNumber++;
                                        
                                     }
                                    
@@ -37,32 +36,21 @@ public class OKButton extends Button
                                        
                                     }
                                    
-                                   for(SingleHex sh : ((MyWorld)getWorld()).singleHexesCurrentlySelected){
-                                       
-                                       sh = null;
-                                       
-                                    }
-                                   ((MyWorld)getWorld()).singleHexesCurrentlySelectedNumber = 0;
+                                   ((MyWorld)getWorld()).singleHexesCurrentlySelected.clear();
                                     
                                    ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                    break;
                         
-            case Mode.SELECT_TERRITORY : Territory[] selectedTerritories = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.SELECT_TERRITORY : HashSet<Territory> selectedTerritories = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                          Continent createdContinent = new Continent();
                                          createdContinent.territoriesContained = selectedTerritories;
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                          
-                                         for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                             t = null;
-                                             
-                                            }
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                          
-                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
-                                            
                                          break;
                                          
-            case Mode.DELETE_TERRITORY : Territory[] territoriesToDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.DELETE_TERRITORY : HashSet<Territory> territoriesToDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                          
                                          for(Territory toDelete : territoriesToDelete){
                                              
@@ -72,42 +60,39 @@ public class OKButton extends Button
                                          
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                          
-                                          for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                             t = null;
-                                             
-                                            }
-                                         
-                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
-                                            
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
+                                          
                                          break;
             
-            case Mode.SET_LINKS : Territory[] territoriesToLink = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.SET_LINKS : HashSet<Territory> territoriesToLink = ((MyWorld)getWorld()).territoriesCurrentlySelected;
             
-                                  if(territoriesToLink.length > 2){
-                                    
+                                  if(territoriesToLink.size() > 2){
+                                      
                                       System.out.println("Trop de territoires à lier");
                                       break;
                                       
                                    }
                                   
-                                  territoriesToLink[0].setNewLink(territoriesToLink[1]);
-                                  territoriesToLink[1].setNewLink(territoriesToLink[0]);
+                                  ArrayList territoriesToLinkList = new ArrayList();
+                                  
+                                  for(Territory t : territoriesToLink){
+                                      
+                                      territoriesToLinkList.add(t);
+                                      
+                                    }
+                                   
+                                  ((Territory)(territoriesToLinkList.get(0))).setNewLink((Territory)(territoriesToLinkList.get(1)));
+                                  ((Territory)(territoriesToLinkList.get(1))).setNewLink((Territory)(territoriesToLinkList.get(0)));
+                                  
                                   ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                   
-                                  for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                        t = null;
-                                             
-                                     }
-                                         
-                                  ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
-                                            
+                                  ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
+                                     
                                   break;
                                  
-            case Mode.CHOOSE_CAPITAL_TERRITORY : Territory[] capitalTerritory = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.CHOOSE_CAPITAL_TERRITORY : HashSet<Territory> capitalTerritory = ((MyWorld)getWorld()).territoriesCurrentlySelected;
             
-                                                 if(capitalTerritory.length > 1){
+                                                 if(capitalTerritory.size() > 1){
                                                      
                                                      System.out.println("Trop de nouvelles capitales");
                                                      break;
@@ -116,23 +101,21 @@ public class OKButton extends Button
                                                  
                                                  int capitalBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de capitale"));
                                                  
-                                                 capitalTerritory[0].changeCapital(capitalBonus);
+                                                 for(Territory t : capitalTerritory){
+                                                     
+                                                     t.changeCapital(capitalBonus);
+                                                     
+                                                    }
                                                  
                                                  ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                                  
-                                                  for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                                      t = null;
-                                             
-                                                    }
-                                         
-                                                 ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                                 ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                             
                                                  break;
                                                  
-            case Mode.EDIT_CONTINENT_COLOR : Territory[] territoryForContinentColor = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.EDIT_CONTINENT_COLOR : HashSet<Territory> territoryForContinentColor = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                              
-                                             if(territoryForContinentColor.length > 1){
+                                             if(territoryForContinentColor.size() > 1){
                                                      
                                                      System.out.println("Trop de continents sélectionnés");
                                                      break;
@@ -145,25 +128,28 @@ public class OKButton extends Button
                                              
                                              Color changedColor = new Color(rColor, gColor, bColor);
                                              
-                                             Continent continentToModifyColor = territoryForContinentColor[0].getContinent();
+                                             ArrayList territoryForContinentColorList = new ArrayList();
+                                  
+                                             for(Territory t : territoryForContinentColor){
+                                      
+                                                 territoryForContinentColorList.add(t);
+                                                 
+                                                }
+                                             
+                                             
+                                             Continent continentToModifyColor = ((Territory)(territoryForContinentColorList.get(0))).getContinent();
                                              
                                              continentToModifyColor.editColor(changedColor);
                                              
                                              ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                              
-                                             for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                                 t = null;
-                                             
-                                               }
-                                            
-                                             ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                             ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                             
                                              break;
                                              
-            case Mode.EDIT_CONTINENT_BONUS : Territory[] territoryForContinentBonus = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.EDIT_CONTINENT_BONUS : HashSet<Territory> territoryForContinentBonus = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                              
-                                             if(territoryForContinentBonus.length > 1){
+                                             if(territoryForContinentBonus.size() > 1){
                                                      
                                                      System.out.println("Trop de continents sélectionnés");
                                                      break;
@@ -172,32 +158,43 @@ public class OKButton extends Button
                                              
                                              int newContinentBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de continent"));
                                              
-                                             Continent continentToModifyBonus = territoryForContinentBonus[0].getContinent();
+                                             ArrayList territoryForContinentBonusList = new ArrayList();
+                                  
+                                             for(Territory t : territoryForContinentBonus){
+                                      
+                                                 territoryForContinentBonusList.add(t);
+                                                 
+                                                }
+                                             
+                                             Continent continentToModifyBonus = ((Territory)(territoryForContinentBonusList.get(0))).getContinent();
                                              
                                              continentToModifyBonus.editBonus(newContinentBonus);
                                              
                                              ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                              
-                                              for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                                  t = null;
-                                                  
-                                                }
-                                         
-                                             ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                             ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                             
                                              break;
                                             
-            case Mode.DELETE_CONTINENT : Territory[] territoryForContinentDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
+            case Mode.DELETE_CONTINENT : HashSet<Territory> territoryForContinentDelete = ((MyWorld)getWorld()).territoriesCurrentlySelected;
                                          
-                                         if(territoryForContinentDelete.length > 1){
+                                         if(territoryForContinentDelete.size() > 1){
                                                      
                                               System.out.println("Trop de continents sélectionnés");
                                               break;
                                       
                                           }
                                          
-                                         Continent continentToDelete = territoryForContinentDelete[0].getContinent();
+                                         ArrayList territoryForContinentDeleteList = new ArrayList();
+                                  
+                                         for(Territory t : territoryForContinentDelete){
+                                  
+                                             territoryForContinentDeleteList.add(t);
+                                             
+                                            }
+                                          
+                                          
+                                         Continent continentToDelete = ((Territory)(territoryForContinentDeleteList.get(0))).getContinent();
                                          
                                          for(Territory toDelete : continentToDelete.getContainedTerritories()){
                                              
@@ -207,13 +204,7 @@ public class OKButton extends Button
                                          
                                          ((MyWorld)getWorld()).changeMode(Mode.DEFAULT);
                                          
-                                          for(Territory t : ((MyWorld)getWorld()).territoriesCurrentlySelected){
-                                             
-                                              t = null;
-                                             
-                                            }
-                                         
-                                         ((MyWorld)getWorld()).territoriesCurrentlySelectedNumber = 0;
+                                         ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                             
                                          break;
         }

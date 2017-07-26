@@ -1,6 +1,6 @@
 import greenfoot.*; 
 import java.awt.*;
- 
+
 public class Mask extends Actor
 {
     
@@ -18,7 +18,11 @@ public class Mask extends Actor
     
     public void act() 
     {
-        
+        if(Greenfoot.mouseClicked(this)){
+            
+            ((MyWorld)getWorld()).escape();
+            
+        }
     }    
    
 }

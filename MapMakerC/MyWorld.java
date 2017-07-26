@@ -52,7 +52,30 @@ public class MyWorld extends World
         
     }
     
+    //////////////////////////
     
+    HashSet<SingleHex> singleHexesCurrentlySelected = new HashSet<SingleHex>();
+    
+    public void selectSingleHex(SingleHex selectedHex)
+    //rajoute un SingleHex à la sélection
+    {
+        
+        singleHexesCurrentlySelected.add(selectedHex);
+        
+    }
+    
+    HashSet<Territory> territoriesCurrentlySelected = new HashSet<Territory>();
+    
+    //doit être changé pour avoir 
+    public void selectTerritory(Territory selectedTerritory)
+    //rajoute un Territory à la selection
+    {
+        
+        territoriesCurrentlySelected.add(selectedTerritory);
+        
+    }
+    
+    ///////////////////////////////
     
     public void makeSingleHex(int x, int y)
     {
@@ -131,38 +154,6 @@ public class MyWorld extends World
     }
     
     
-    SingleHex[] singleHexesCurrentlySelected = new SingleHex[50];
-    
-    int singleHexesCurrentlySelectedNumber = 0;
-    
-
-    public void selectSingleHex(SingleHex hex)
-    //rajoute un SingleHex à la sélection
-    {
-        
-        singleHexesCurrentlySelected[singleHexesCurrentlySelectedNumber] = hex;
-        
-        singleHexesCurrentlySelectedNumber++;
-        
-    }
-    
-    
-    Territory[] territoriesCurrentlySelected = new Territory[30];
-    
-    int territoriesCurrentlySelectedNumber = 0;
-    
-    //doit être changé pour avoir 
-    public void selectTerritory(Territory territory)
-    //rajoute un Territory à la selection
-    {
-        
-        territoriesCurrentlySelected[territoriesCurrentlySelectedNumber] = territory;
-        
-        territoriesCurrentlySelectedNumber++;
-        
-    }
-    
-    
     
     public void init(){
         
@@ -195,7 +186,7 @@ public class MyWorld extends World
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
                 
-                Territory[] territoriesInContinent = currentContinent.territoriesContained;
+                HashSet<Territory> territoriesInContinent = currentContinent.territoriesContained;
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
@@ -306,21 +297,9 @@ public class MyWorld extends World
     
     public void escape(){
         
-        for(Territory t : territoriesCurrentlySelected){
-            
-            t = null;
-            
-        }
+        territoriesCurrentlySelected.clear();
         
-        territoriesCurrentlySelectedNumber = 0;
-        
-        for(SingleHex sh : singleHexesCurrentlySelected){
-            
-            sh = null;
-            
-        }
-    
-        singleHexesCurrentlySelectedNumber = 0;
+        singleHexesCurrentlySelected.clear();
         
         changeMode(Mode.DEFAULT);
         

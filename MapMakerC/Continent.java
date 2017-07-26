@@ -1,11 +1,12 @@
 import java.awt.Color;
 import java.awt.geom.Area;
+import java.util.HashSet;
 
 public class Continent implements Maskable
 {
     
     Color continentColor;
-    Territory[] territoriesContained = new Territory[30];
+    HashSet<Territory> territoriesContained = new HashSet<Territory>();
     int continentBonus;
     
     public void editColor(Color newColor){
@@ -27,15 +28,15 @@ public class Continent implements Maskable
         
     }
     
-
-    public Territory[] getContainedTerritories(){
+    
+    public HashSet<Territory> getContainedTerritories(){
         
         return territoriesContained;
         
     }
     
     
-
+    
     public Area getAreaShape()
     {
         return null;
