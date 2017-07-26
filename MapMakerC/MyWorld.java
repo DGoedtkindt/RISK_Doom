@@ -123,7 +123,7 @@ public class MyWorld extends World
     
     private void testContinentChange()
     {
-        testTerritory.setContinent(new Color(145,145,230));
+        //testTerritory.setContinent(new Color(145,145,230));
     }
     
     

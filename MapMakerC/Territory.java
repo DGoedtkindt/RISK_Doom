@@ -11,8 +11,9 @@ public class Territory implements Maskable
     private HashSet<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
-    private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
+    private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
     private int id; //l'identifiant de ce territoire
+    private Continent continent;
     private Color continentColor = new Color(143,134,155);
     private int bonusPoints = 0;
     
@@ -32,9 +33,15 @@ public class Territory implements Maskable
     
     public Area getAreaShape()
     {
-
+        Area thisShape = new Area();
         
-        return null;
+        for(TerritoryHex hex : terrHexList){
+        
+            thisShape.add(hex.getAreaShape());
+            
+        }
+        
+        return thisShape;
         
     }
     
@@ -45,15 +52,16 @@ public class Territory implements Maskable
         
     }
 
-    public void setContinent(Color color)
+    public void setContinent(Continent newContinent)
     {
-        continentColor = color;
+        continent = newContinent;
+        continentColor = newContinent.getContinentColor();
         
         drawTerritory();
         
         for(TerritoryHex hex : terrHexList){
                 
-                hex.drawTerrHex(color);
+                hex.drawTerrHex(continentColor);
                 
         }
         
@@ -64,7 +72,7 @@ public class Territory implements Maskable
         borderingTerritoriesIDSet.add(newLink);
     }
 
-    public void autoSetLinks() //works normally, but was not tested
+    public void autoSetLinks() //Should work, but was not tested
     {
          Set<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
          
