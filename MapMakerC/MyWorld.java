@@ -165,7 +165,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-     public void saveToXML(){
+    /*public void saveToXML(){
         
         List continentList = getObjects(Continent.class);
         
@@ -282,7 +282,7 @@ public class MyWorld extends World
         }
 
         
-    }
+    }*/
     
     
     public void escape(){

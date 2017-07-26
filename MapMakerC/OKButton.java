@@ -10,7 +10,7 @@ public class OKButton extends Button
     
     
     public void clicked(int mode){
-        
+        /* plein de bugs tu tente d'utiliser des méthodes qui existent pas.
         switch(mode){
             
             default : ((MyWorld)getWorld()).escape();
@@ -62,7 +62,6 @@ public class OKButton extends Button
                                          for(Territory toDelete : territoriesToDelete){
                                              
                                              toDelete.destroy();
-                                             toDelete.getContinent().removeTerritory(toDelete);
                                              
                                           }
                                          
@@ -207,7 +206,7 @@ public class OKButton extends Button
                                          ((MyWorld)getWorld()).territoriesCurrentlySelected.clear();
                                             
                                          break;
-        }
+        }*/
         
     }
     
