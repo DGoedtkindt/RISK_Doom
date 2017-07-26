@@ -7,6 +7,7 @@ import java.awt.geom.Area;
 public class TerritoryHex extends Button implements Maskable
 {
     private Territory territory;
+    
     private MyWorld getMyWorld(){ return (MyWorld)this.getWorld();}
     
     public TerritoryHex(Territory territory, Color color)
@@ -17,19 +18,25 @@ public class TerritoryHex extends Button implements Maskable
     
     public void clicked(int mode){
         
-        switch(mode)
-        {
+        if(mode == Mode.DEFAULT || mode == Mode.SELECT_HEX){
             
-            case Mode.SELECT_TERRITORY : getMyWorld().selectTerritory(getTerritory()); 
-                                        break;
-                                        
-            default: getMyWorld().escape(); 
-                                        break;
-                                        
+            getMyWorld().escape();
+            
+        }else{
+            
+            getMyWorld().selectTerritory(getTerritory()); 
+            
         }
         
     }
 
+    public List getTerrHexInRange(int range){
+        
+        List terrHexInRange = getObjectsInRange((int)(1.5 * Hexagon.HEXAGON_SIZE), TerritoryHex.class);
+        
+        return terrHexInRange;
+        
+    }
     
     public ArrayList<TerritoryHex> getBorderingHex()
     {
@@ -55,19 +62,24 @@ public class TerritoryHex extends Button implements Maskable
         this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
     }
     
+    
     public Territory getTerritory(){
         
        return territory;
         
     }
+
    
     public double distance(TerritoryHex otherHex)
+
     {
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     
-        public Area getAreaShape()
+    public Area getAreaShape()
     {
+        
         return null;
+        
     }
 }
