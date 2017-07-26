@@ -68,8 +68,10 @@ public class TerritoryHex extends Button implements Maskable
        return territory;
         
     }
-    
-    private double distance(TerritoryHex otherHex)//Pythagore
+
+   
+    public double distance(TerritoryHex otherHex)
+
     {
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }

@@ -1,7 +1,5 @@
 #Greenfoot project file
 =\=\=\=\=\=\=
-<<<<<<<=HEAD
->>>>>>>=a5dbe2ce5f718183552bc6e9da778edf781b98d3
 class.Button.superclass=greenfoot.Actor
 class.ChooseCapitalTerritory.superclass=Button
 class.Continent.superclass=

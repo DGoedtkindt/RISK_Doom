@@ -13,36 +13,14 @@ import java.lang.Exception;
 
 public class Territory implements Maskable
 {
-    public static final int MAX_HEX = 20;
-    
 
-    TerritoryHex[][] TerritoryHex2DArray = new TerritoryHex[50][30];
-    
-    private int capitalBonus = 0;
-    
-    private Territory[] borderingTerritories = new Territory[20];
-    
-    private int borderingNumber = 0;
-    
-    private GreenfootImage getBackground() {
-        
-        return MyWorld.theWorld.getBackground();
-    
-    }
-    
-    
-    private MyWorld getWorld() {
-        
-        return MyWorld.theWorld;
-    
-    }
-    
-    
+    private HashSet<Coordinates> hexCoordSet;
+    private ArrayList<TerritoryHex> terrHexList = new ArrayList<TerritoryHex>();
+    private HashSet<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
+    private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
+    private MyWorld getWorld() {return MyWorld.theWorld;}
+    private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
 
-    private Coordinates[] hexCoords = new Coordinates[MAX_HEX];
-    private TerritoryHex[] terrHexArray = new TerritoryHex[MAX_HEX];
-    private Set<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
-    private static int nextId = 0; //stoque le prochain ID a attribuer à un territoire
     private int id; //l'identifiant de ce territoire
     private Continent continent;
     private Color continentColor = new Color(143,134,155);
@@ -139,8 +117,7 @@ public class Territory implements Maskable
     public Territory(HashSet<Coordinates> hexs)  throws Exception
     {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
-        if(hexs.size() > MAX_HEX) throw new Exception("Maximum Hex selected " + MAX_HEX);
-        hexs.toArray(hexCoords);
+        hexCoordSet = hexs;
         createTerrHexs();
         drawTerritory();
         deleteSingleHexs();
@@ -149,9 +126,15 @@ public class Territory implements Maskable
     
     public Area getAreaShape()
     {
-
+        Area thisShape = new Area();
         
-        return null;
+        for(TerritoryHex hex : terrHexList){
+        
+            thisShape.add(hex.getAreaShape());
+            
+        }
+        
+        return thisShape;
         
     }
     
@@ -161,19 +144,20 @@ public class Territory implements Maskable
         
         
     }
-    
-    public void setContinentColor(Color color)//Faudrait que ça change aussi le continent
+
+
+    public void setContinent(Continent newContinent)
+
     {
-        continentColor = color;
+        continent = newContinent;
+        continentColor = newContinent.getContinentColor();
         
         drawTerritory();
         
-        for(TerritoryHex hex : terrHexArray){
-            if(hex != null){
+        for(TerritoryHex hex : terrHexList){
                 
-                hex.drawTerrHex(color);
+                hex.drawTerrHex(continentColor);
                 
-            }
         }
         
     }
@@ -210,7 +194,7 @@ public class Territory implements Maskable
         borderingTerritoriesIDSet.add(newLink.getId());
     }
 
-    public void autoSetLinks() //works normally, but was not tested
+    public void autoSetLinks() //Should work, but was not tested
     {
          Set<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
          
@@ -229,21 +213,11 @@ public class Territory implements Maskable
         return id;
     }
     
-    public Coordinates[] getComposingHex()
+
+    public int getBonusPoints()
     {
-        return hexCoords;
-    }
-    
-    public TerritoryHex[] getComposingTerrHex(){
-        
-        return terrHexArray;
-        
-    }
-    
-    private void drawHexsLinks(){
-    
-    
-    
+        return bonusPoints;
+
     }
     
     public int getBonusPoints()
@@ -254,21 +228,20 @@ public class Territory implements Maskable
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    private void createTerrHexs()
-    //crée tous les territoryHex de ce territoire
-    {
-        GreenfootImage img = Hexagon.createSimpleHexImage(continentColor,0.95);
-        int hexCount = 0;
-        
-        for(Coordinates hex : hexCoords){
-           if(hex != null){
-                
-                int[] rectCoord = hex.getRectCoord();
-                TerritoryHex trHex = new TerritoryHex(this,continentColor);
-                terrHexArray[hexCount] = trHex;
-                getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
-                hexCount ++;
-                
+
+        private void createTerrHexs()
+        //crée tous les territoryHex de ce territoire
+        {
+            GreenfootImage img = Hexagon.createSimpleHexImage(continentColor,0.95);
+            
+            for(Coordinates hex : hexCoordSet){
+                    
+                    int[] rectCoord = hex.getRectCoord();
+                    TerritoryHex trHex = new TerritoryHex(this,continentColor);
+                    terrHexList.add(trHex);
+                    getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
+                    
+
             }
         }
     }
@@ -292,70 +265,90 @@ public class Territory implements Maskable
                 rectCoord[1] -= Hexagon.getSize();
                 getBackground().drawImage(img, rectCoord[0], rectCoord[1]);
                 
-            }
-        }
-    }
 
-    private void drawAllHexsLinks()
-    {
-        for(Coordinates hex : hexCoords){
-            if(hex != null){ 
-                
-                drawHexLinks(hex);
-            
+                for(TerritoryHex hex : terrHexList){
+                        
+                        int xPos = hex.getX() - Hexagon.getSize();
+                        int yPos = hex.getY() - Hexagon.getSize();
+                        getBackground().drawImage(img, xPos, yPos);
+
+                }
             }
-        }
-    }
-            
-    private void drawHexLinks(Coordinates hex)
-    {
-        Polygon[] links = getLinkPolygon(hex);
-        getBackground().setColor(continentColor);
-        
-        for(Polygon poly : links){
-            if(poly != null) {
-                
-                getBackground().fillShape(poly);
-            
-            }
-        }
-        
-    }
     
-    private Polygon[] getLinkPolygon(Coordinates thisHex)
-    //returne des losanges qui couvrent certains bords noirs de l'Hexagone
-    //dirty code incoming!
-    {
-        Polygon[] linksPoly = new Polygon[6];
-        int[] thisRectCoord = thisHex.getRectCoord();
-        int linksCount = 0;
-        int[][] temporary = new int[2][4]; //stoque temporairement les coordonée d'un logange
-        
-        temporary[0][0] = thisRectCoord[0];
-        temporary[1][0] = thisRectCoord[1];
-        
-        for(Coordinates otherHex : hexCoords){
-            if(otherHex != null){
-                if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
-                    if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+            private void drawAllHexsLinks()
+            {
+                for(TerritoryHex hex : terrHexList){
                         
-                        int[] otherRectCoord = otherHex.getRectCoord();
-                        temporary[0][2] = otherRectCoord[0];
-                        temporary[1][2] = otherRectCoord[1];
+                        drawHexLinks(hex);
+
+                }
+
+            }
+        }
+    }
+            
+
+                private void drawHexLinks(TerritoryHex hex)
+                {
+                    ArrayList<Polygon> links = getLinkPolygon(hex);
+                    getBackground().setColor(continentColor);
+                    
+                    for(Polygon poly : links){
+                            
+                            getBackground().fillShape(poly);
+
+                    }
+                    
+                }
+    
+                    private ArrayList<Polygon> getLinkPolygon(TerritoryHex thisHex)
+                    //returne des losanges qui couvrent certains bords noirs de l'Hexagone
+                    //dirty code incoming!
+                    {
+                        ArrayList<Polygon> linksPoly = new ArrayList<Polygon>();
+                        int[][] temporary = new int[2][4]; //stoque temporairement les coordonée d'un logange
                         
-                        double angle = Math.atan2(otherRectCoord[1]-thisRectCoord[1], otherRectCoord[0]-thisRectCoord[0]);
+                        temporary[0][0] = thisHex.getX();
+                        temporary[1][0] = thisHex.getY();
                         
-                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle + Math.PI/6));
-                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle + Math.PI/6));
-                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle - Math.PI/6));
-                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle - Math.PI/6));
+                        for(TerritoryHex otherHex : terrHexList){
+                                if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
+                                    if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+                                        
+                                        temporary[0][2] = otherHex.getX();
+                                        temporary[1][2] = otherHex.getY();
+                                        
+                                        double angle = Math.atan2(otherHex.getY()-thisHex.getY(), otherHex.getX()-thisHex.getX());
+                                        
+                                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle + Math.PI/6));
+                                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle + Math.PI/6));
+                                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle - Math.PI/6));
+                                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle - Math.PI/6));
+                                        
+                                        
+                                        linksPoly.add(new Polygon(temporary[0],temporary[1],4));
+                                        
+                                    }
+                                }
+                        }
+
                         
                         
                         linksPoly[linksCount] = new Polygon(temporary[0],temporary[1],4);
                         linksCount++;
                         
                     }
-                }
+
+                
+        private void deleteSingleHexs()
+        {
+            for(Coordinates hex : hexCoordSet){
+                    
+                    int[] hexCoord = hex.getHexCoord();
+                    SingleHex hexToDel = getWorld().singleHex2DArray[hexCoord[0]][hexCoord[1]];
+                    getWorld().removeObject(hexToDel);
+
+
             }
         }
         
@@ -397,16 +390,18 @@ public class Territory implements Maskable
         
         for(TerritoryHex hex : this.terrHexArray){
             
-            if(hex != null){
-                
-                temporary = hex.getBorderingHex();
-                
-                for(TerritoryHex otherHex : temporary){
+
+            for(TerritoryHex hex : this.terrHexList){
                     
-                    borderingHexSet.add(otherHex);
+                    temporary = hex.getBorderingHex();
                     
-                }
-                
+                    for(TerritoryHex otherHex : temporary){
+                        
+                        borderingHexSet.add(otherHex);
+                        
+                    }
+
+
             }
         }
         

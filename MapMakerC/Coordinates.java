@@ -31,14 +31,6 @@ public class Coordinates
     }
     
     
-    public double distance(Coordinates other)
-    {
-        int[] thisCoord = getRectCoord();
-        int[] otherCoord = other.getRectCoord();
-        
-        return Math.sqrt(Math.pow(thisCoord[0]-otherCoord[0],2)+Math.pow(thisCoord[1]-otherCoord[1],2));
-    }
-    
     
     public void setHexCoord(int[] CoordToSet)
     {
