@@ -165,8 +165,6 @@ public class MyWorld extends World
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
      public void saveToXML(){
         
-        int continentsNumber = 0;
-        
         List continentList = getObjects(Continent.class);
         
         try{
@@ -179,9 +177,9 @@ public class MyWorld extends World
             doc.appendChild(rootElement);
             
             
-            while(continentList.get(continentsNumber) != null){//While  : append des continents à la map (et caractéristiques)
+            for(Object cContinent : continentList){//While  : append des continents à la map (et caractéristiques)
                 
-                Continent currentContinent = (Continent)(continentList.get(continentsNumber));
+                Continent currentContinent = (Continent)cContinent;
                 
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
@@ -190,18 +188,14 @@ public class MyWorld extends World
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
-                    
                     Element territory = doc.createElement("territory");
                     continent.appendChild(territory);
-                    
                     
                     int hexNumber = 0;
                     
                     Coordinates[] hexCoordinates = currentTerritory.getComposingHex();
-
                     
                     for(Coordinates currentHex : hexCoordinates){//append des hex aux territoires
-                        
                         
                         Element hex = doc.createElement("hex");
                         territory.appendChild(hex);
@@ -214,9 +208,7 @@ public class MyWorld extends World
                         hexY.setValue("" + currentHex.getHexCoord()[1]);
                         hex.setAttributeNode(hexY);
                         
-                        
                     }
-                    
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
 
@@ -254,7 +246,6 @@ public class MyWorld extends World
                         
                     }
                     
-                    
                 }
                 
                 
@@ -274,8 +265,6 @@ public class MyWorld extends World
                 bContinentColor.setValue("" + (currentContinent.continentColor).getBlue());
                 continent.setAttributeNode(bContinentColor);
                 
-                continentsNumber++;
-                
             }
             
             
@@ -283,7 +272,6 @@ public class MyWorld extends World
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File("C:\\Users\\dervi\\Desktop\\PROJEEEEET\\RISK_Doom\\MapMakerC"));
-            
             
         }catch(Exception e){
             
