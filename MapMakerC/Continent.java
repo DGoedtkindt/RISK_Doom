@@ -1,14 +1,14 @@
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.util.HashSet;
+import java.util.*;
 import javax.swing.JOptionPane;
 
 public class Continent implements Maskable
 {
     
-    Color continentColor;
-    HashSet<Territory> territoriesContained = new HashSet<Territory>();
-    int continentBonus;
+    private Color continentColor;
+    private HashSet<Territory> territoriesContainedSet = new HashSet<Territory>();
+    private int continentBonus;
     
     public Continent(){
         
@@ -38,15 +38,22 @@ public class Continent implements Maskable
     }
     
     
-    public HashSet<Territory> getContainedTerritories(){
+    public ArrayList<Territory> getContainedTerritories(){
         
-        return territoriesContained;
+        ArrayList<Territory> ContainedTerritoryList = new ArrayList<Territory>();
+        for(Territory terr : territoriesContainedSet){
+        
+            ContainedTerritoryList.add(terr);
+            
+        }
+        
+        return ContainedTerritoryList;
         
     }
     
     public void removeTerritory(Territory territoryToRemove){
         
-        territoriesContained.remove(territoryToRemove);
+        territoriesContainedSet.remove(territoryToRemove);
         
     }
     

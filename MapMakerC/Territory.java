@@ -8,7 +8,7 @@ public class Territory implements Maskable
 {
     private HashSet<Coordinates> hexCoordSet;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<TerritoryHex>();
-    private HashSet<Integer> borderingTerritoriesIDSet = new HashSet<Integer>();
+    private HashSet<Territory> borderingTerritorySet = new HashSet<Territory>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
@@ -67,9 +67,9 @@ public class Territory implements Maskable
         
     }
     
-    public void setNewLink(int newLink)
+    public void setNewLink(Territory newLink)
     {
-        borderingTerritoriesIDSet.add(newLink);
+        borderingTerritorySet.add(newLink);
     }
 
     public void autoSetLinks() //Should work, but was not tested
@@ -80,10 +80,10 @@ public class Territory implements Maskable
          borderingHexSet = getBorderingHex();
          for(TerritoryHex hex : borderingHexSet)
          {
-            borderingTerritoriesIDSet.add(hex.getTerritory().getId());
+            borderingTerritorySet.add(hex.getTerritory());
          }
          
-         borderingTerritoriesIDSet.remove(this.getId());
+         borderingTerritorySet.remove(this);
     }
     
     public int getId()
@@ -96,15 +96,24 @@ public class Territory implements Maskable
         return bonusPoints;
     }
     
-    public Integer[] getBorderTerritoryIDs()
+    public ArrayList<Territory> getBorderTerritories()
     {
-        Integer[] borderTerritoryIDs = new Integer[10];
-        borderingTerritoriesIDSet.toArray(borderTerritoryIDs);
+        ArrayList<Territory> borderTerritoryList = new ArrayList<Territory>();
+        for(Territory terr : borderingTerritorySet){
         
-        return borderTerritoryIDs;
+            borderTerritoryList.add(terr);
+            
+        }
+        
+        return borderTerritoryList;
     }
     
-    
+    public ArrayList<TerritoryHex> getComposingHex()
+    {
+
+        return terrHexList;
+        
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
         private void createTerrHexs()
@@ -169,7 +178,9 @@ public class Territory implements Maskable
                     //dirty code incoming!
                     {
                         ArrayList<Polygon> linksPoly = new ArrayList<Polygon>();
-                        int[][] temporary = new int[2][4]; //stoque temporairement les coordonée d'un logange
+                        int[][] temporary = new int[2][4]; //cette liste
+                        //stoque temporairement les coordonée d'un logange
+                        //le temps d'être transformé en Polygon
                         
                         temporary[0][0] = thisHex.getX();
                         temporary[1][0] = thisHex.getY();

@@ -122,9 +122,9 @@ public class MyWorld extends World
         hexs.add(new Coordinates(new int[]{5,5}));
         hexs.add(new Coordinates(new int[]{5,4}));
         hexs.add(new Coordinates(new int[]{4,5}));
-        //hexs.add(new Coordinates(new int[]{4,4}));
-        //hexs.add(new Coordinates(new int[]{6,7}));
-        //hexs.add(new Coordinates(new int[]{6,5}));
+        hexs.add(new Coordinates(new int[]{4,4}));
+        hexs.add(new Coordinates(new int[]{6,7}));
+        hexs.add(new Coordinates(new int[]{6,5}));
         
         try {
             
@@ -165,7 +165,7 @@ public class MyWorld extends World
     
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-    /*public void saveToXML(){
+    public void saveToXML(){
         
         List continentList = getObjects(Continent.class);
         
@@ -186,7 +186,7 @@ public class MyWorld extends World
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
                 
-                HashSet<Territory> territoriesInContinent = currentContinent.territoriesContained;
+                List<Territory> territoriesInContinent = currentContinent.getContainedTerritories();
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
@@ -195,19 +195,19 @@ public class MyWorld extends World
                     
                     int hexNumber = 0;
                     
-                    Coordinates[] hexCoordinates = currentTerritory.getComposingHex();
+                    ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
                     
-                    for(Coordinates currentHex : hexCoordinates){//append des hex aux territoires
+                    for(TerritoryHex currentHex : composingHexes){//append des hex aux territoires
                         
                         Element hex = doc.createElement("hex");
                         territory.appendChild(hex);
                         
                         Attr hexX = doc.createAttribute("hexX");
-                        hexX.setValue("" + currentHex.getHexCoord()[0]);
+                        hexX.setValue("" + currentHex.getX());
                         hex.setAttributeNode(hexX);
                         
                         Attr hexY = doc.createAttribute("hexY");
-                        hexY.setValue("" + currentHex.getHexCoord()[1]);
+                        hexY.setValue("" + currentHex.getY());
                         hex.setAttributeNode(hexY);
                         
                     }
@@ -233,9 +233,9 @@ public class MyWorld extends World
                     
                     
 
-                    Territory[] borderingTerritories = currentTerritory.getBorderingTerritories();
+                    List<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
                     
-                    int borderingNumber = 0;
+                    //int borderingNumber = 0;
                     
                     for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
@@ -252,19 +252,19 @@ public class MyWorld extends World
                 
                 
                 Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.continentBonus);
+                continentPoints.setValue("" + currentContinent.getContinentColor());
                 continent.setAttributeNode(continentPoints);
                 
                 Attr rContinentColor = doc.createAttribute("rContinentColor");
-                rContinentColor.setValue("" + (currentContinent.continentColor).getRed());
+                rContinentColor.setValue("" + (currentContinent.getContinentColor()).getRed());
                 continent.setAttributeNode(rContinentColor);
                 
                 Attr gContinentColor = doc.createAttribute("gContinentColor");
-                gContinentColor.setValue("" + (currentContinent.continentColor).getGreen());
+                gContinentColor.setValue("" + (currentContinent.getContinentColor()).getGreen());
                 continent.setAttributeNode(gContinentColor);
                 
                 Attr bContinentColor = doc.createAttribute("bContinentColor");
-                bContinentColor.setValue("" + (currentContinent.continentColor).getBlue());
+                bContinentColor.setValue("" + (currentContinent.getContinentColor()).getBlue());
                 continent.setAttributeNode(bContinentColor);
                 
             }
@@ -282,7 +282,7 @@ public class MyWorld extends World
         }
 
         
-    }*/
+    }
     
     
     public void escape(){
