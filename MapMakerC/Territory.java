@@ -47,7 +47,14 @@ public class Territory implements Maskable
     }
     
     public void destroy()
+    /* destroys the TerritoryHexes
+     * removes itself from the territoryList
+     * removes itself from the continent
+     * breaks the links with other territories
+     */
     {
+        getWorld().removeObjects(terrHexList);
+        
         territoryList.set(id, null);
         
         if(continent != null) continent.removeTerritory(this);
