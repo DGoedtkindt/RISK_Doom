@@ -5,18 +5,25 @@ import java.awt.geom.Area;
 public class SingleHex extends Button implements Maskable
 {
     private Coordinates coord = new Coordinates();
-    
+    public static SingleHex[][] array2D = new SingleHex[50][30];
     
     
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
         
+        array2D[xHCoord][yHCoord] = this;
+        
         this.setImage(Hexagon.createHexagonImage(Color.WHITE));
     }
     
     
-    
+    public void destroy()
+    {
+        int[] thisCoord = coord.getHexCoord();
+        array2D[thisCoord[0]][thisCoord[1]] = null;
+        getWorld().removeObject(this);
+    }
     
     
     private void setCoord(int x, int y)

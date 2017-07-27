@@ -22,8 +22,6 @@ public class MyWorld extends World
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
     
-    SingleHex[][] singleHex2DArray = new SingleHex[50][30];
-    
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     static private int currentMode = Mode.DEFAULT;
@@ -83,7 +81,6 @@ public class MyWorld extends World
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
-        singleHex2DArray[x][y] = hex;
         
     }
     
