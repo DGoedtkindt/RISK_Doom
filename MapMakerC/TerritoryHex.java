@@ -24,7 +24,7 @@ public class TerritoryHex extends Button implements Maskable
             
         }else{
             
-            getMyWorld().selectTerritory(getTerritory()); 
+            Selector.selectTerritory(getTerritory()); 
             
         }
         

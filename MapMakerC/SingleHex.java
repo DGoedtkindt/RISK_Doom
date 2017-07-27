@@ -49,7 +49,7 @@ public class SingleHex extends Button implements Maskable
         
         switch(mode){
             
-            case Mode.SELECT_HEX : ((MyWorld)getWorld()).selectSingleHex(this);
+            case Mode.SELECT_HEX : Selector.selectSingleHex(this);
                                 break;
                              
                                 

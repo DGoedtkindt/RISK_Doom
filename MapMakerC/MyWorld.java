@@ -50,28 +50,6 @@ public class MyWorld extends World
         
     }
     
-    //////////////////////////
-    
-    HashSet<SingleHex> singleHexesCurrentlySelected = new HashSet<SingleHex>();
-    
-    public void selectSingleHex(SingleHex selectedHex)
-    //rajoute un SingleHex à la sélection
-    {
-        
-        singleHexesCurrentlySelected.add(selectedHex);
-        
-    }
-    
-    HashSet<Territory> territoriesCurrentlySelected = new HashSet<Territory>();
-    
-    //doit être changé pour avoir 
-    public void selectTerritory(Territory selectedTerritory)
-    //rajoute un Territory à la selection
-    {
-        
-        territoriesCurrentlySelected.add(selectedTerritory);
-        
-    }
     
     ///////////////////////////////
     
@@ -284,9 +262,9 @@ public class MyWorld extends World
     
     public void escape(){
         
-        territoriesCurrentlySelected.clear();
+        Selector.clear();
         
-        singleHexesCurrentlySelected.clear();
+        //must still clear the buttons
         
         changeMode(Mode.DEFAULT);
         
