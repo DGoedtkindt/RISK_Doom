@@ -1,21 +1,23 @@
-import greenfoot.*;  
+import greenfoot.*;
 
 public class CreateTerritory extends Button
 {
     
     public void clicked(int mode){
         
-        ((MyWorld)(getWorld())).changeMode(Mode.SELECT_HEX);
-                               
-    }
-    
-    
-    public void act() 
-    {
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)(getWorld())).changeMode(Mode.SELECT_HEX);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
         
-    }    
-    
-    
-    
+        Selector.setAllTransparent();
+        
+    }
+   
     
 }

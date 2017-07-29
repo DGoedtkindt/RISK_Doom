@@ -2,7 +2,6 @@ import greenfoot.*;
 import java.awt.Color;
 import java.util.*;
 
-
 public class MyWorld extends World
 {
     static final int WORLDX = 1920;
@@ -16,6 +15,7 @@ public class MyWorld extends World
     
     Button lastClickedButton;
     
+    static private HashSet<Continent> continentList = new HashSet<Continent>();
   
     public MyWorld()
     {    
@@ -29,6 +29,17 @@ public class MyWorld extends World
         theWorld = this;
         
         placeHexagonInCollumnRow(29, 15);
+        
+        addObject(new CreateTerritory(), WORLDX - 100, 100);
+        addObject(new CreateContinent(), WORLDX - 100, 200);
+        addObject(new EditContinentBonus(), WORLDX - 100, 300);
+        addObject(new EditContinentColor(), WORLDX - 100, 400);
+        addObject(new ChooseCapitalTerritory(), WORLDX - 100, 500);
+        addObject(new CreateLinks(), WORLDX - 100, 600);
+        addObject(new DeleteTerritory(), WORLDX - 100, 700);
+        addObject(new DeleteContinent(), WORLDX - 100, 800);
+        addObject(new OKButton(), WORLDX - 100, 900);
+        addObject(new MakeXML(), WORLDX - 100, 1000);
         
         //test de création de territoire
         testTerritoryCreation();
@@ -109,6 +120,27 @@ public class MyWorld extends World
     
     ////////////////////////////////////////////////
     
+    public void addContinentToList(Continent continent){
+        
+        continentList.add(continent);
+        
+    }
+    
+    public void removeContinentFromList(Continent continent){
+        
+        continentList.remove(continent);
+        
+    }
+    
+    public ArrayList<Continent> getContinentList(){
+        
+        ArrayList<Continent> continents = new ArrayList<Continent>();
+        
+        continents.addAll(0, continentList);
+        
+        return continents;
+        
+    }
     
     public void changeMode(int newMode){
         
@@ -127,16 +159,12 @@ public class MyWorld extends World
         
     }
     
-    
-    
-    public void calcTerritoryLinks(){
+    public int getCurrentMode(){
         
-        
+        return currentMode;
         
     }
-    
-    
-    
+
     public void act() 
     {
         

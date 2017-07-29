@@ -3,11 +3,11 @@ import java.awt.geom.Area;
 import java.util.*;
 import javax.swing.JOptionPane;
 
-public class Continent implements Maskable
+public class Continent implements Selectable
 {
     
     private Color continentColor;
-    private HashSet<Territory> territoriesContainedSet = new HashSet<Territory>();
+    private ArrayList<Territory> territoriesContained = new ArrayList<Territory>();
     private int continentBonus;
     
     public Continent(){
@@ -16,11 +16,21 @@ public class Continent implements Maskable
         int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
         int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
         
+        addToSelectableList();
+        
+        editColor(new Color(rColor, gColor, bColor));
+        
     }
     
     public void editColor(Color newColor){
         
         continentColor = newColor;
+        
+        for(Territory t : territoriesContained){
+            
+            t.setContinent(this);
+            
+        }
         
     }
     
@@ -37,29 +47,64 @@ public class Continent implements Maskable
         
     }
     
-    
-    public ArrayList<Territory> getContainedTerritories(){
+    public void setCapital(int capitalBonus, Territory capital){
         
-        ArrayList<Territory> ContainedTerritoryList = new ArrayList<Territory>();
-        for(Territory terr : territoriesContainedSet){
-        
-            ContainedTerritoryList.add(terr);
+        for(Territory t : territoriesContained){
+            
+            t.setBonusPoints(0);
             
         }
         
-        return ContainedTerritoryList;
+        capital.setBonusPoints(capitalBonus);
+        
+    }
+    
+    public ArrayList<Territory> getContainedTerritories(){
+        
+        return territoriesContained;
+        
+    }
+    
+    public void setContainedTerritories(ArrayList<Territory> territories){
+        
+        territoriesContained = territories;
         
     }
     
     public void removeTerritory(Territory territoryToRemove){
         
-        territoriesContainedSet.remove(territoryToRemove);
+        territoriesContained.remove(territoryToRemove);
         
     }
     
-    public Area getAreaShape()
+    
+    //////////////////////////////////////////////
+    
+    public void addToSelectableList() 
     {
-        return null;
+        Selector.selectableList.add(this);
     }
-
+    
+    public void setOpaque()
+    {
+        for(Territory terr : territoriesContained){
+        
+            terr.setOpaque();
+        
+        }
+    }
+    
+    public void setTransparent()
+    {
+        for(Territory terr : territoriesContained){
+        
+            terr.setTransparent();
+        
+        }
+    }
+    
+    public void setSelected()
+    {
+    
+    }
 }

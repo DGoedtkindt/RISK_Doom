@@ -6,16 +6,17 @@ public class DeleteContinent extends Button
     
     public void clicked(int mode){
         
-        ((MyWorld)(getWorld())).changeMode(Mode.DELETE_CONTINENT);
-                               
-    }
-    
-    
-    public void act() 
-    {
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)(getWorld())).changeMode(Mode.DELETE_CONTINENT);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
         
-    }   
-    
-    
-    
+        Selector.setAllTransparent();
+        
+    }
 }

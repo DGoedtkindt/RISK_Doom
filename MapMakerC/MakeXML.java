@@ -2,6 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
 import java.util.*;
 import java.io.File;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,12 +17,16 @@ import org.w3c.dom.Element;
 
 public class MakeXML extends Button
 {
-    public void clicked(int mode){}
+    public void clicked(int mode){
+        
+        saveToXML();
+        
+    }
     
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
     private void saveToXML(){
         
-        List continentList = getWorld().getObjects(Continent.class);
+        ArrayList continentList = MyWorld.theWorld.getContinentList();
         
         try{
             
@@ -81,15 +86,13 @@ public class MakeXML extends Button
                     territory.setAttributeNode(armies);
                     
                     Attr id = doc.createAttribute("territoryId");
-                    armies.setValue("" + currentTerritory.getId());
+                    id.setValue("" + currentTerritory.getId());
                     territory.setAttributeNode(id);
                     
                     
                     
 
                     List<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //int borderingNumber = 0;
                     
                     for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
@@ -124,10 +127,13 @@ public class MakeXML extends Button
             }
             
             
+            String fileName = JOptionPane.showInputDialog("Entrez le nom du fichier");
+            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("C:\\Users\\dervi\\Desktop\\PROJEEEEET\\RISK_Doom\\MapMakerC"));
+            StreamResult result = new StreamResult(new File(fileName));
+            transformer.transform(source, result);
             
         }catch(Exception e){
             

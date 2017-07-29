@@ -1,24 +1,21 @@
 import greenfoot.*;  
 
-
 public class DeleteTerritory extends Button
 {
     
-    
     public void clicked(int mode){
 
-        
-        ((MyWorld)(getWorld())).changeMode(Mode.SELECT_TERRITORY);
-
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)(getWorld())).changeMode(Mode.DELETE_TERRITORY);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
                                
-    }
-    
-    
-    public void act() 
-    {
+        Selector.setAllTransparent();
         
-    }   
-    
-    
-    
+    }
 }

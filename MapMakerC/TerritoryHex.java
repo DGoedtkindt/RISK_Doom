@@ -4,7 +4,7 @@ import java.util.List;
 import java.awt.Color;
 import java.awt.geom.Area;
 
-public class TerritoryHex extends Button implements Maskable
+public class TerritoryHex extends Button implements Selectable
 {
     private Territory territory;
     
@@ -14,6 +14,7 @@ public class TerritoryHex extends Button implements Maskable
     {
         this.territory = territory;
         drawTerrHex(color);
+        addToSelectableList();
     }
     
     public void clicked(int mode){
@@ -76,10 +77,25 @@ public class TerritoryHex extends Button implements Maskable
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     
-    public Area getAreaShape()
+    ///////////////////////////////////////////
+    
+    public void addToSelectableList() 
     {
-        
-        return null;
-        
+        Selector.selectableList.add(this);
+    }
+    
+    public void setOpaque()
+    {
+        this.getImage().setTransparency(Selector.TRANSPARENT);
+    }
+    
+    public void setTransparent()
+    {
+        this.getImage().setTransparency(Selector.OPAQUE);
+    }
+    
+    public void setSelected()
+    {
+    
     }
 }

@@ -2,10 +2,13 @@ import greenfoot.*;
 import java.awt.Color;
 import java.awt.geom.Area;
 
-public class SingleHex extends Button implements Maskable
+public class SingleHex extends Button implements Selectable
 {
     private Coordinates coord = new Coordinates();
     public static SingleHex[][] array2D = new SingleHex[50][30];
+    
+    static public Color SELECTION_COLOR = Color.GREEN;
+    static public Color BASE_COLOR = Color.WHITE;
     
     
     public SingleHex(int xHCoord, int yHCoord)
@@ -14,7 +17,9 @@ public class SingleHex extends Button implements Maskable
         
         array2D[xHCoord][yHCoord] = this;
         
-        this.setImage(Hexagon.createHexagonImage(Color.WHITE));
+        addToSelectableList();
+        
+        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
     
     
@@ -32,48 +37,46 @@ public class SingleHex extends Button implements Maskable
     }
     
     
-    
-    
-    
     public Coordinates getCoord()
     {
         return coord;
     }
     
     
-    
-    
-    
     public void clicked(int mode){
-        
         
         switch(mode){
             
-            case Mode.SELECT_HEX : Selector.selectSingleHex(this);
+            case Mode.SELECT_HEX : setImage(Hexagon.createHexagonImage(SELECTION_COLOR));
+                                   Selector.selectSingleHex(this);
                                 break;
                              
-                                
             default : ((MyWorld)getWorld()).escape();
                                 break;
                                 
-                                
         }
         
-        
     }
+     
+    ////////////////////////////////////////////////////
     
-    
-    public Area getAreaShape()
+    public void addToSelectableList() 
     {
-        return null;
-    }
-    
-    
-    public void act() 
-    {
-        
+        Selector.selectableList.add(this);
     }    
     
+    public void setOpaque()
+    {
+        this.getImage().setTransparency(Selector.OPAQUE);
+    }
     
+    public void setTransparent()
+    {
+        this.getImage().setTransparency(Selector.TRANSPARENT);
+    }
     
+    public void setSelected()
+    {
+    
+    }
 }

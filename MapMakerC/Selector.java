@@ -2,6 +2,10 @@ import java.util.*;
 
 public class Selector  
 {
+    static final int TRANSPARENT = 30;
+    static final int OPAQUE = 255;
+    
+    public static ArrayList<Selectable> selectableList = new ArrayList<Selectable>();
     
     private static HashSet<SingleHex> singleHexSelection = new HashSet<SingleHex>();
     private static HashSet<Territory> territorySelection = new HashSet<Territory>();
@@ -14,40 +18,6 @@ public class Selector
         
     }
     
-    public static SingleHex getSelectedHex() throws Exception
-    {
-        
-        if(singleHexSelection.size() > 1) throw new Exception("too many hexes selected");
-        if(singleHexSelection.size() < 1) throw new Exception("no hex selected");
-        
-        ArrayList<SingleHex> singleHexSelectedList = new ArrayList<SingleHex>();
-        singleHexSelectedList.addAll(singleHexSelection);
-        
-        return singleHexSelectedList.get(0);
-
-    }
-    
-    public static SingleHex[] getSelectedHexPair() throws Exception
-    {
-        
-        if(singleHexSelection.size() > 2) throw new Exception("too many hexes selected");
-        if(singleHexSelection.size() < 2) throw new Exception("no enough hex selected");
-        
-        SingleHex[] selectedHexArray = new SingleHex[2];
-        int i = 0;
-        for(SingleHex hex : singleHexSelection){
-        
-            selectedHexArray[i] = hex;
-            i++;
-            
-        }
-        
-        
-        
-        return selectedHexArray;
-
-    }
-
     public static ArrayList<SingleHex> getSelectedHexes() throws Exception
     {
         
@@ -120,8 +90,48 @@ public class Selector
     
     public static void clear()
     {
+        
+        if(!(singleHexSelection.isEmpty())){
+            
+            for(SingleHex sh : singleHexSelection){
+                
+                sh.setImage(Hexagon.createHexagonImage(SingleHex.BASE_COLOR));
+                
+            }
+            
+        }
+        
         singleHexSelection.clear();
         territorySelection.clear();
+        setAllOpaque();
     }
     
+    ////////////////////////////////////////////////////
+    
+    
+    public static void setTheseOpaque(ArrayList<Selectable> toOpaqueList){
+        for(Selectable toOpaque : toOpaqueList){
+            
+            toOpaque.setOpaque();
+            
+        }
+    }
+    
+    public static void setAllTransparent()
+    {
+        for(Selectable toTransparent : selectableList){
+            
+            toTransparent.setTransparent();
+            
+        }
+    }
+    
+    public static void setAllOpaque()
+    {   
+        for(Selectable toOpaque : selectableList){
+                    
+              toOpaque.setOpaque();
+                    
+        }     
+    }
 }

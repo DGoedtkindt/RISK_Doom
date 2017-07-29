@@ -5,17 +5,17 @@ public class CreateLinks extends Button
     
     public void clicked(int mode){
         
-        ((MyWorld)(getWorld())).changeMode(Mode.SET_LINKS);
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)(getWorld())).changeMode(Mode.SET_LINKS);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
                                
-    }
-    
-    
-    public void act() 
-    {
+        Selector.setAllTransparent();
         
-    }    
-    
-    
-    
-    
+    }
 }

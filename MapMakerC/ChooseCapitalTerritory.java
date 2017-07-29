@@ -5,15 +5,17 @@ public class ChooseCapitalTerritory extends Button
     
     public void clicked(int mode){
         
-        ((MyWorld)getWorld()).changeMode(Mode.CHOOSE_CAPITAL_TERRITORY);
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)getWorld()).changeMode(Mode.CHOOSE_CAPITAL_TERRITORY);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
                                
-    }
-    
-    
-    public void act() 
-    {
+        Selector.setAllTransparent();
         
-    }    
-    
-    
+    }
 }

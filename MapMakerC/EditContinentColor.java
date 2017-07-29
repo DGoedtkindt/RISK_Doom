@@ -5,17 +5,17 @@ public class EditContinentColor extends Button
     
     public void clicked(int mode){
         
-        ((MyWorld)(getWorld())).changeMode(Mode.EDIT_CONTINENT_COLOR);
+        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+            
+            ((MyWorld)(getWorld())).changeMode(Mode.EDIT_CONTINENT_COLOR);
+            
+        }else{
+                
+            ((MyWorld)(getWorld())).escape();
+            
+        }
                                
-    }
-    
-    
-    public void act() 
-    {
+        Selector.setAllTransparent();
         
-    }    
-    
-    
-    
-    
+    }
 }
