@@ -16,7 +16,7 @@ public class Territory implements Selectable
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent;
-    private Color continentColor = new Color(143,134,155);
+    private Color continentColor = Color.white;
     private int bonusPoints = 0;
     
     

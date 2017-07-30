@@ -15,7 +15,7 @@ public class EditContinentColor extends Button
             
         }
                                
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 }

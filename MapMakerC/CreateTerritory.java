@@ -15,7 +15,7 @@ public class CreateTerritory extends Button
             
         }
         
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
    

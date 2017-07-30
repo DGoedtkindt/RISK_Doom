@@ -103,7 +103,7 @@ public class Selector
         
         singleHexSelection.clear();
         territorySelection.clear();
-        setAllOpaque();
+        setTheseOpaque(selectableList);
     }
     
     ////////////////////////////////////////////////////
@@ -117,20 +117,20 @@ public class Selector
         }
     }
     
-    public static void setAllTransparent()
+    public static void setTheseTransparent(ArrayList<Selectable> toTransparentList)
     {
-        for(Selectable toTransparent : selectableList){
+        for(Selectable toTransparent : toTransparentList){
             
             toTransparent.setTransparent();
             
         }
     }
     
-    public static void setAllOpaque()
+    public static void setTheseSelected(ArrayList<Selectable> toSelectedList)
     {   
-        for(Selectable toOpaque : selectableList){
+        for(Selectable toSelect : toSelectedList){
                     
-              toOpaque.setOpaque();
+              toSelect.setSelected();
                     
         }     
     }

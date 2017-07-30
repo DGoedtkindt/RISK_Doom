@@ -15,7 +15,7 @@ public class EditContinentBonus extends Button
             
         }
                              
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 

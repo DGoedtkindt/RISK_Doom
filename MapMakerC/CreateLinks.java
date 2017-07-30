@@ -15,7 +15,7 @@ public class CreateLinks extends Button
             
         }
                                
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 }

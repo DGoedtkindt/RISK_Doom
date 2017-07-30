@@ -15,7 +15,7 @@ public class DeleteTerritory extends Button
             
         }
                                
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 }

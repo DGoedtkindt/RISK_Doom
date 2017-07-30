@@ -15,7 +15,7 @@ public class ChooseCapitalTerritory extends Button
             
         }
                                
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 }

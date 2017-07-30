@@ -16,7 +16,7 @@ public class DeleteContinent extends Button
             
         }
         
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
 }

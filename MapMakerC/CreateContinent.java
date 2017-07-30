@@ -15,16 +15,8 @@ public class CreateContinent extends Button
             
         }
         
-        Selector.setAllTransparent();
+        Selector.setTheseTransparent(Selector.selectableList);
         
     }
-    
-    public void act() 
-    {
-        
-    }    
-    
-    
-    
-    
+
 }
