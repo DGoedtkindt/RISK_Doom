@@ -105,6 +105,10 @@ public class Continent implements Selectable
     
     public void setSelected()
     {
-    
+        for(Territory terr : territoriesContained){
+        
+            terr.setSelected();
+        
+        }
     }
 }

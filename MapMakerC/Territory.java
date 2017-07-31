@@ -293,6 +293,7 @@ public class Territory implements Selectable
         for(TerritoryHex terrHex : terrHexList){
         
             terrHex.setOpaque();
+            terrHex.drawTerrHex(continentColor);
         
         }
     }
@@ -308,6 +309,10 @@ public class Territory implements Selectable
     
     public void setSelected()
     {
-    
+        for(TerritoryHex terrHex : terrHexList){
+        
+            terrHex.drawTerrHex(Color.green);
+        
+        }
     }
 }

@@ -47,8 +47,7 @@ public class SingleHex extends Button implements Selectable
         
         switch(mode){
             
-            case Mode.SELECT_HEX : setImage(Hexagon.createHexagonImage(SELECTION_COLOR));
-                                   Selector.selectSingleHex(this);
+            case Mode.SELECT_HEX : Selector.selectSingleHex(this);
                                 break;
                              
             default : ((MyWorld)getWorld()).escape();
@@ -68,6 +67,7 @@ public class SingleHex extends Button implements Selectable
     public void setOpaque()
     {
         this.getImage().setTransparency(Selector.OPAQUE);
+        this.setImage(Hexagon.createHexagonImage(Color.white));
     }
     
     public void setTransparent()
@@ -77,6 +77,6 @@ public class SingleHex extends Button implements Selectable
     
     public void setSelected()
     {
-    
+        this.setImage(Hexagon.createHexagonImage(SELECTION_COLOR));
     }
 }

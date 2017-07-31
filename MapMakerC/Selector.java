@@ -16,6 +16,10 @@ public class Selector
         
         singleHexSelection.add(selectedHex);
         
+        try {
+            setTheseSelected(getSelectedHexes());
+        } catch(Exception e) {}
+        
     }
     
     public static ArrayList<SingleHex> getSelectedHexes() throws Exception
@@ -37,6 +41,10 @@ public class Selector
     {
         
         territorySelection.add(selectedTerritory);
+        
+        try {
+            setTheseSelected(getSelectedTerritories());
+        } catch(Exception e) {}
         
     }
     
@@ -109,7 +117,7 @@ public class Selector
     ////////////////////////////////////////////////////
     
     
-    public static void setTheseOpaque(ArrayList<Selectable> toOpaqueList){
+    public static void setTheseOpaque(ArrayList<? extends Selectable> toOpaqueList){
         for(Selectable toOpaque : toOpaqueList){
             
             toOpaque.setOpaque();
@@ -117,7 +125,7 @@ public class Selector
         }
     }
     
-    public static void setTheseTransparent(ArrayList<Selectable> toTransparentList)
+    public static void setTheseTransparent(ArrayList<? extends Selectable> toTransparentList)
     {
         for(Selectable toTransparent : toTransparentList){
             
@@ -126,7 +134,7 @@ public class Selector
         }
     }
     
-    public static void setTheseSelected(ArrayList<Selectable> toSelectedList)
+    public static void setTheseSelected(ArrayList<? extends Selectable> toSelectedList)
     {   
         for(Selectable toSelect : toSelectedList){
                     
@@ -134,4 +142,5 @@ public class Selector
                     
         }     
     }
+    
 }

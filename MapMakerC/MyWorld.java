@@ -26,24 +26,34 @@ public class MyWorld extends World
         getBackground().setColor(new Color(135,135,155));
         getBackground().fill();
         
+        for(int i = 29; i < 34;i++){
+            for(int j = 0; j <= 15; j++){
+                GreenfootImage hex;
+                hex = Hexagon.createSimpleHexImage(new Color(110,70,130),1);
+                int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
+                int size = Hexagon.getSize();
+                
+                getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
+            }
+        }
+        
+        
         theWorld = this;
         
+        //mettre les single hexs
         placeHexagonInCollumnRow(29, 15);
         
+        //rajouter des boutons
         addObject(new CreateTerritory(), WORLDX - 100, 100);
-        addObject(new CreateContinent(), WORLDX - 100, 200);
-        addObject(new EditContinentBonus(), WORLDX - 100, 300);
-        addObject(new EditContinentColor(), WORLDX - 100, 400);
-        addObject(new ChooseCapitalTerritory(), WORLDX - 100, 500);
-        addObject(new CreateLinks(), WORLDX - 100, 600);
-        addObject(new DeleteTerritory(), WORLDX - 100, 700);
-        addObject(new DeleteContinent(), WORLDX - 100, 800);
-        addObject(new OKButton(), WORLDX - 100, 900);
-        addObject(new MakeXML(), WORLDX - 100, 1000);
-        
-        //test de création de territoire
-        testTerritoryCreation();
-        testContinentChange();
+        addObject(new CreateContinent(), WORLDX - 100, 150);
+        addObject(new EditContinentBonus(), WORLDX - 100, 200);
+        addObject(new EditContinentColor(), WORLDX - 100, 250);
+        addObject(new ChooseCapitalTerritory(), WORLDX - 100, 300);
+        addObject(new CreateLinks(), WORLDX - 100, 350);
+        addObject(new DeleteTerritory(), WORLDX - 100, 400);
+        addObject(new DeleteContinent(), WORLDX - 100, 450);
+        addObject(new OKButton(), WORLDX - 100, 500);
+        addObject(new MakeXML(), WORLDX - 100, 550);
         
     }
     
