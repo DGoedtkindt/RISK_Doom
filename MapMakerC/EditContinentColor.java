@@ -1,21 +1,31 @@
-import greenfoot.*;  
 
 public class EditContinentColor extends Button
 {
     
     public void clicked(int mode){
         
-        if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
+        if(MyWorld.theWorld.getCurrentMode() == Mode.DEFAULT){
             
-            ((MyWorld)(getWorld())).changeMode(Mode.EDIT_CONTINENT_COLOR);
+            MyWorld.theWorld.changeMode(Mode.EDIT_CONTINENT_COLOR);
             
         }else{
                 
-            ((MyWorld)(getWorld())).escape();
+            MyWorld.theWorld.escape();
             
         }
                                
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setSingleHexTransparent();
+        MyWorld.theWorld.setUnoccupiedTerritoriesTransparent();
         
     }
+    
+    
+    public void act() 
+    {
+        
+    }    
+    
+    
+    
+    
 }

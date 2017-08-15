@@ -1,4 +1,3 @@
-import greenfoot.*;
 
 public class CreateTerritory extends Button
 {
@@ -15,9 +14,14 @@ public class CreateTerritory extends Button
             
         }
         
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setTerrHexTransparent();
         
     }
-   
+    
+    public void act() 
+    {
+        
+    }    
+    
     
 }

@@ -1,8 +1,6 @@
-import greenfoot.*; 
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import java.awt.geom.Area;
 
 public class TerritoryHex extends Button
 {
@@ -17,41 +15,41 @@ public class TerritoryHex extends Button
     }
     
     public void clicked(int mode){
-        
-        if(mode == Mode.DEFAULT || mode == Mode.SELECT_HEX){
+        if(mode == Mode.SELECT_TERRITORY || mode == Mode.CHOOSE_CAPITAL_TERRITORY 
+            || mode == Mode.SET_LINKS || mode == Mode.DELETE_TERRITORY) {
+            if(getTerritory().getContinent() == null) {
+                Selector.selectTerritory(getTerritory());
+            }
+            }
+        else if(mode == Mode.EDIT_CONTINENT_COLOR || mode == Mode.EDIT_CONTINENT_BONUS 
+            || mode == Mode.DELETE_CONTINENT) {
             
+            Selector.selectContinent(getTerritory().getContinent());
+            
+            }
+        else {
+        
             getMyWorld().escape();
             
-        }else{
-            
-            Selector.selectTerritory(getTerritory()); 
-            
-        }
-        
-    }
-
-    public List getTerrHexInRange(int range){
-        
-        List terrHexInRange = getObjectsInRange((int)(1.5 * Hexagon.HEXAGON_SIZE), TerritoryHex.class);
-        
-        return terrHexInRange;
-        
+        }        
     }
     
     public ArrayList<TerritoryHex> getBorderingHex()
     {
-        ArrayList<TerritoryHex> allOtherTerritoryHex = new ArrayList<TerritoryHex>();
+        List<TerritoryHex> allOtherTerritoryHex = new ArrayList<TerritoryHex>();
         ArrayList<TerritoryHex> borderingHexList = new ArrayList<TerritoryHex>();
+        
+        allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
         for(TerritoryHex otherHex : allOtherTerritoryHex)
         {
-            if(this.distance(otherHex) < 1.2 * Hexagon.getSize()){
+            if(this.distance(otherHex) < 2 * Hexagon.getSize()){
                 
                 borderingHexList.add(otherHex);
-            
+                
             }
+            
         }
-        
         
         
         return borderingHexList;
@@ -76,15 +74,4 @@ public class TerritoryHex extends Button
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     
-    ///////////////////////////////////////////
-    
-    public void setOpaque()
-    {
-        this.getImage().setTransparency(Selector.TRANSPARENT);
-    }
-    
-    public void setTransparent()
-    {
-        this.getImage().setTransparency(Selector.OPAQUE);
-    }
 }

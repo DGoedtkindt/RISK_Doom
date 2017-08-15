@@ -1,6 +1,5 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
-import java.util.*;
+import java.util.ArrayList;
 import java.io.File;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -17,6 +16,7 @@ import org.w3c.dom.Element;
 
 public class MakeXML extends Button
 {
+    
     public void clicked(int mode){
         
         saveToXML();
@@ -26,7 +26,7 @@ public class MakeXML extends Button
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
     private void saveToXML(){
         
-        ArrayList continentList = MyWorld.theWorld.getContinentList();
+        ArrayList<Continent> continentList = Continent.getContinentList();
         
         try{
             
@@ -38,14 +38,12 @@ public class MakeXML extends Button
             doc.appendChild(rootElement);
             
             
-            for(Object cContinent : continentList){//append des continents à la map (et caractéristiques)
-                
-                Continent currentContinent = (Continent)cContinent;
+            for(Continent currentContinent : continentList){//append des continents à la map (et caractéristiques)
                 
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
                 
-                List<Territory> territoriesInContinent = currentContinent.getContainedTerritories();
+                ArrayList<Territory> territoriesInContinent = currentContinent.getContainedTerritories();
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
@@ -72,9 +70,7 @@ public class MakeXML extends Button
                     }
                     
                     Attr capitalPoints = doc.createAttribute("capitalPoints");
-
                     capitalPoints.setValue("" + currentTerritory.getBonusPoints());
-
                     territory.setAttributeNode(capitalPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
@@ -85,14 +81,11 @@ public class MakeXML extends Button
                     armies.setValue("0");
                     territory.setAttributeNode(armies);
                     
-                    Attr id = doc.createAttribute("territoryId");
+                    Attr id = doc.createAttribute("territoryID");
                     id.setValue("" + currentTerritory.getId());
                     territory.setAttributeNode(id);
                     
-                    
-                    
-
-                    List<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
+                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
                     
                     for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
                         
@@ -109,7 +102,7 @@ public class MakeXML extends Button
                 
                 
                 Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.getContinentColor());
+                continentPoints.setValue("" + currentContinent.getContinentBonus());
                 continent.setAttributeNode(continentPoints);
                 
                 Attr rContinentColor = doc.createAttribute("rContinentColor");
@@ -137,7 +130,8 @@ public class MakeXML extends Button
             
         }catch(Exception e){
             
-            System.out.println("Erreur xml" + e.getMessage());
+            System.out.println("XML Error" + e.getMessage());
+            MyWorld.theWorld.escape();
             
         }
 

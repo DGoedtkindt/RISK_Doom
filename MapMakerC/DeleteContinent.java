@@ -1,4 +1,3 @@
-import greenfoot.*;  
 
 public class DeleteContinent extends Button
 {
@@ -16,7 +15,17 @@ public class DeleteContinent extends Button
             
         }
         
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setSingleHexTransparent();
+        MyWorld.theWorld.setUnoccupiedTerritoriesTransparent();
         
     }
+    
+    
+    public void act() 
+    {
+        
+    }   
+    
+    
+    
 }

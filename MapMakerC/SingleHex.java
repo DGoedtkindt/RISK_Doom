@@ -1,23 +1,17 @@
-import greenfoot.*; 
 import java.awt.Color;
-import java.awt.geom.Area;
 
-public class SingleHex extends Button implements Selectable
+public class SingleHex extends Button
 {
     private Coordinates coord = new Coordinates();
     public static SingleHex[][] array2D = new SingleHex[50][30];
     
-    static public Color SELECTION_COLOR = Color.GREEN;
     static public Color BASE_COLOR = Color.WHITE;
-    
     
     public SingleHex(int xHCoord, int yHCoord)
     {
         setCoord(xHCoord,yHCoord);
         
         array2D[xHCoord][yHCoord] = this;
-        
-        addToSelectableList();
         
         this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
@@ -57,26 +51,21 @@ public class SingleHex extends Button implements Selectable
         
     }
      
-    ////////////////////////////////////////////////////
-    
-    public void addToSelectableList() 
+    public void makeGreen()
     {
-        Selector.selectableList.add(this);
-    }    
-    
-    public void setOpaque()
-    {
-        this.getImage().setTransparency(Selector.OPAQUE);
-        this.setImage(Hexagon.createHexagonImage(Color.white));
+        this.setImage(Hexagon.createHexagonImage(MyWorld.SELECTION_COLOR));
+        this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
-    public void setTransparent()
+    public void makeOpaque()
     {
-        this.getImage().setTransparency(Selector.TRANSPARENT);
+        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
+        this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
-    public void setSelected()
+    public void makeTransparent()
     {
-        this.setImage(Hexagon.createHexagonImage(SELECTION_COLOR));
+        this.getImage().setTransparency(MyWorld.TRANSPARENT);
+        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
 }

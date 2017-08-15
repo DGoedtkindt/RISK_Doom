@@ -1,21 +1,31 @@
-import greenfoot.*;
+import greenfoot.World;
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
+import greenfoot.GreenfootImage;
 import java.awt.Color;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class MyWorld extends World
 {
+    static final Color BASE_WORLD_COLOR = new Color(135, 135, 155);
+    static final Color SELECTION_COLOR = Color.GREEN;
+    static final int TRANSPARENT = 30;
+    static final int OPAQUE = 255;
+    
     static final int WORLDX = 1920;
     static final int WORLDY = 1080;
+    
+    static final int COLLUMN_NUMBER = 29;
+    static final int ROW_NUMBER = 15;
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     static private int currentMode = Mode.DEFAULT;
     
     MouseInfo mouse = Greenfoot.getMouseInfo();
-    
     Button lastClickedButton;
-    
-    static private HashSet<Continent> continentList = new HashSet<Continent>();
   
     public MyWorld()
     {    
@@ -23,10 +33,10 @@ public class MyWorld extends World
         
         //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
-        getBackground().setColor(new Color(135,135,155));
+        getBackground().setColor(BASE_WORLD_COLOR);
         getBackground().fill();
         
-        for(int i = 29; i < 34;i++){
+        for(int i = 29; i < 34;i++){        //Hexagones violets sur le côté
             for(int j = 0; j <= 15; j++){
                 GreenfootImage hex;
                 hex = Hexagon.createSimpleHexImage(new Color(110,70,130),1);
@@ -37,13 +47,11 @@ public class MyWorld extends World
             }
         }
         
-        
         theWorld = this;
         
-        //mettre les single hexs
-        placeHexagonInCollumnRow(29, 15);
+        placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
         
-        //rajouter des boutons
+        //Placement des boutons
         addObject(new CreateTerritory(), WORLDX - 100, 100);
         addObject(new CreateContinent(), WORLDX - 100, 150);
         addObject(new EditContinentBonus(), WORLDX - 100, 200);
@@ -57,7 +65,6 @@ public class MyWorld extends World
         
     }
     
-    
     ///////////////////////////////
     
     public void makeSingleHex(int x, int y)
@@ -68,8 +75,6 @@ public class MyWorld extends World
         addObject(hex,rectCoord[0],rectCoord[1]);
         
     }
-    
-    
     
     private void placeHexagonInCollumnRow(int collumn, int row)
     {
@@ -86,71 +91,23 @@ public class MyWorld extends World
         
     }
     
-    
-    
     private Button getPressedButton(){
         
-        return (Button)(mouse.getActor());
-        
-    }
-    
-    //////////////////////////////////////////////////Zone de tests
-    
-    Territory testTerritory;
-    
-    private void testTerritoryCreation()
-    {
-        HashSet<Coordinates> hexs = new HashSet<Coordinates>();
-        hexs.add(new Coordinates(new int[]{5,5}));
-        hexs.add(new Coordinates(new int[]{5,4}));
-        hexs.add(new Coordinates(new int[]{4,5}));
-        hexs.add(new Coordinates(new int[]{4,4}));
-        hexs.add(new Coordinates(new int[]{6,7}));
-        hexs.add(new Coordinates(new int[]{6,5}));
-        
-        try {
+        if(mouse.getActor() instanceof Button){
             
-            testTerritory = new Territory(hexs);
+            return (Button)(mouse.getActor());
             
-        }   catch(Exception e) {
+        }else{
             
-            System.out.println(e);
-        
+            return null;
+            
         }
         
     }
     
+    //////////////////////////////////////////////////
     
-    private void testContinentChange()
-    {
-        //must create continent first
-        //testTerritory.setContinent(continent);
-
-    }
     
-    ////////////////////////////////////////////////
-    
-    public void addContinentToList(Continent continent){
-        
-        continentList.add(continent);
-        
-    }
-    
-    public void removeContinentFromList(Continent continent){
-        
-        continentList.remove(continent);
-        
-    }
-    
-    public ArrayList<Continent> getContinentList(){
-        
-        ArrayList<Continent> continents = new ArrayList<Continent>();
-        
-        continents.addAll(0, continentList);
-        
-        return continents;
-        
-    }
     
     public void changeMode(int newMode){
         
@@ -158,12 +115,15 @@ public class MyWorld extends World
         
     }
     
-    
     public void escape(){
         
         Selector.clear();
         
-        //must still clear the buttons
+        if(currentMode != Mode.DEFAULT){
+            
+            makeEverythingOpaque();
+        
+        }
         
         changeMode(Mode.DEFAULT);
         
@@ -174,17 +134,132 @@ public class MyWorld extends World
         return currentMode;
         
     }
-
+    
+    public void setTerrHexTransparent(){
+        
+        List<TerritoryHex> TerritoryHexes = getObjects(TerritoryHex.class);
+        
+        for(TerritoryHex th : TerritoryHexes){
+            
+            th.getImage().setTransparency(MyWorld.TRANSPARENT);
+            th.getTerritory().makeTransparent();
+            
+        }
+        
+    }
+    
+    public void setOccupiedTerritoriesTransparent(){
+        
+        ArrayList<Territory> allTerritories = Territory.getAllTerritories();
+        ArrayList<Territory> occupiedTerritories = new ArrayList<Territory>();
+        
+        for(Territory t : allTerritories){
+            
+            if(t.getContinent() != null){
+                
+                occupiedTerritories.add(t);
+                
+            }
+            
+        }
+        
+        for(Territory t: occupiedTerritories){
+            
+            for(TerritoryHex th : t.getComposingHex()){
+                
+                th.getImage().setTransparency(MyWorld.TRANSPARENT);
+                
+            }
+            
+            t.makeTransparent();
+            
+        }
+        
+    }
+    
+    public void setUnoccupiedTerritoriesTransparent(){
+        
+        ArrayList<Territory> allTerritories = Territory.getAllTerritories();
+        ArrayList<Territory> unoccupiedTerritories = new ArrayList<Territory>();
+        
+        for(Territory t : allTerritories){
+            
+            if(t.getContinent() == null){
+                
+                unoccupiedTerritories.add(t);
+                
+            }
+            
+        }
+        
+        for(Territory t: unoccupiedTerritories){
+            
+            for(TerritoryHex th : t.getComposingHex()){
+                
+                th.getImage().setTransparency(MyWorld.TRANSPARENT);
+                
+            }
+            
+            t.makeTransparent();
+            
+        }
+        
+    }
+    
+    public void setSingleHexTransparent(){
+        
+        List<SingleHex> SingleHexes = getObjects(SingleHex.class);
+        
+        for(SingleHex sh : SingleHexes){
+            
+            sh.getImage().setTransparency(MyWorld.TRANSPARENT);
+            
+        }
+        
+    }
+    
+    public void makeEverythingOpaque(){
+        
+        List<SingleHex> SingleHexes = getObjects(SingleHex.class);
+        
+        for(SingleHex sh : SingleHexes){
+            
+            sh.makeOpaque();
+            
+        }
+        
+        for(Territory terr : Territory.territoryList){
+            
+            terr.makeOpaque();
+            
+        }
+        
+    }
+    
     public void act() 
     {
         
         mouse = Greenfoot.getMouseInfo();
         
-        if(Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
+        if(mouse != null && Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
             
             lastClickedButton = getPressedButton();
             
-            lastClickedButton.clicked(currentMode);
+            if(lastClickedButton != null){
+                
+                lastClickedButton.clicked(currentMode);
+                
+            }else{
+                
+                escape();
+                
+            }
+            
+        }
+        
+        if(Greenfoot.isKeyDown("Escape")){
+            
+            escape();
             
         }
         

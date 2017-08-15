@@ -1,4 +1,4 @@
-//pour éviter les duplicates, les méthodes relatives aux coordonées Hexagonales/Rectangles sont ici
+//pour éviter les duplicates, les méthodes relatives aux coordonées Hexagonales/Rectangulaires sont ici
 
 public class Coordinates  
 {
@@ -10,8 +10,6 @@ public class Coordinates
     {
         hexCoord = hexCoordinates;
     }
-    
-    
     
     
     public static int[] hexToRectCoord(int[] hexCoord)
@@ -31,21 +29,16 @@ public class Coordinates
     }
     
     
-    
     public void setHexCoord(int[] CoordToSet)
     {
         this.hexCoord = CoordToSet;
     }
     
     
-    
-    
     public int[] getHexCoord()
     {
         return hexCoord;
     }
-    
-    
     
     
     public int[] getRectCoord()

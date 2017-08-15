@@ -1,4 +1,4 @@
-import greenfoot.*; 
+import greenfoot.Actor; 
 
 public abstract class Button extends Actor
 {

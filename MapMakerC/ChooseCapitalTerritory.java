@@ -1,4 +1,3 @@
-import greenfoot.*;  
 
 public class ChooseCapitalTerritory extends Button
 {
@@ -15,7 +14,16 @@ public class ChooseCapitalTerritory extends Button
             
         }
                                
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setSingleHexTransparent();
+        MyWorld.theWorld.setUnoccupiedTerritoriesTransparent();
         
     }
+    
+    
+    public void act() 
+    {
+        
+    }    
+    
+    
 }

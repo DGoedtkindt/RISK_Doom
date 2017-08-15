@@ -1,24 +1,19 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.ArrayList;
 
 public class Selector  
 {
-    static final int TRANSPARENT = 30;
-    static final int OPAQUE = 255;
-    
-    public static ArrayList<Selectable> selectableList = new ArrayList<Selectable>();
     
     private static HashSet<SingleHex> singleHexSelection = new HashSet<SingleHex>();
     private static HashSet<Territory> territorySelection = new HashSet<Territory>();
+    private static Continent continentSelection = null;
     
     public static void selectSingleHex(SingleHex selectedHex)
     //rajoute un SingleHex à la sélection
     {
         
         singleHexSelection.add(selectedHex);
-        
-        try {
-            setTheseSelected(getSelectedHexes());
-        } catch(Exception e) {}
+        selectedHex.makeGreen();
         
     }
     
@@ -41,10 +36,7 @@ public class Selector
     {
         
         territorySelection.add(selectedTerritory);
-        
-        try {
-            setTheseSelected(getSelectedTerritories());
-        } catch(Exception e) {}
+        selectedTerritory.makeGreen();
         
     }
     
@@ -76,8 +68,6 @@ public class Selector
             
         }
         
-        
-        
         return territoryArray;
 
     }
@@ -96,6 +86,28 @@ public class Selector
     
     /////////////////////////////////////////////////////
     
+    public static void selectContinent(Continent selectedContinent)
+    //set le continent sélectionné
+    {
+        if(continentSelection == null) {
+        
+            continentSelection = selectedContinent;
+            selectedContinent.makeGreen();
+            
+        }
+    }
+    
+    public static Continent getSelectedContinent() throws Exception
+    {
+        
+        if(continentSelection == null) throw new Exception("no continent selected");
+        
+        return continentSelection;
+
+    }
+    
+    ///////////////////////////////////////////////////////////
+    
     public static void clear()
     {
         
@@ -111,36 +123,6 @@ public class Selector
         
         singleHexSelection.clear();
         territorySelection.clear();
-        setTheseOpaque(selectableList);
-    }
-    
-    ////////////////////////////////////////////////////
-    
-    
-    public static void setTheseOpaque(ArrayList<? extends Selectable> toOpaqueList){
-        for(Selectable toOpaque : toOpaqueList){
-            
-            toOpaque.setOpaque();
-            
-        }
-    }
-    
-    public static void setTheseTransparent(ArrayList<? extends Selectable> toTransparentList)
-    {
-        for(Selectable toTransparent : toTransparentList){
-            
-            toTransparent.setTransparent();
-            
-        }
-    }
-    
-    public static void setTheseSelected(ArrayList<? extends Selectable> toSelectedList)
-    {   
-        for(Selectable toSelect : toSelectedList){
-                    
-              toSelect.setSelected();
-                    
-        }     
     }
     
 }

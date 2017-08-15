@@ -1,4 +1,3 @@
-import greenfoot.*;  
 
 public class CreateLinks extends Button
 {
@@ -15,7 +14,17 @@ public class CreateLinks extends Button
             
         }
                                
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setSingleHexTransparent();
         
     }
+    
+    
+    public void act() 
+    {
+        
+    }    
+    
+    
+    
+    
 }

@@ -1,24 +1,34 @@
 import java.awt.Color;
-import java.awt.geom.Area;
 import java.util.*;
 import javax.swing.JOptionPane;
 
-public class Continent implements Selectable
+public class Continent
 {
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<Territory>();
     private int continentBonus;
+    static private HashSet<Continent> continentList = new HashSet<Continent>();
     
-    public Continent(){
+    public Continent(ArrayList<Territory> territories){
         
         int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
         int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
         int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-        
-        addToSelectableList();
+        int continentPoints = Integer.parseInt(JOptionPane.showInputDialog("Entrez le bonus de continent"));
         
         editColor(new Color(rColor, gColor, bColor));
+        editBonus(continentPoints);
+        
+        addToContinentList();
+        
+        territoriesContained.addAll(0,territories);
+        
+        for(Territory t : territoriesContained){
+             
+                t.setContinent(this);
+             
+            }
         
     }
     
@@ -40,6 +50,11 @@ public class Continent implements Selectable
         
     }
     
+    public int getContinentBonus(){
+        
+        return continentBonus;
+        
+    }
     
     public void editBonus(int newBonus){
         
@@ -65,50 +80,57 @@ public class Continent implements Selectable
         
     }
     
-    public void setContainedTerritories(ArrayList<Territory> territories){
-        
-        territoriesContained = territories;
-        
-    }
-    
     public void removeTerritory(Territory territoryToRemove){
         
         territoriesContained.remove(territoryToRemove);
         
     }
     
-    
-    //////////////////////////////////////////////
-    
-    public void addToSelectableList() 
+    public void destroy()
     {
-        Selector.selectableList.add(this);
+        removeFromContinentList();
+
+        for(Territory terr : territoriesContained){
+         
+            terr.setContinent(null);
+         
+           }
+               
     }
     
-    public void setOpaque()
-    {
-        for(Territory terr : territoriesContained){
+    //////////////////////////////////////////////////
+    
+    private void addToContinentList(){
         
-            terr.setOpaque();
+        continentList.add(this);
+        
+    }
+    
+    private void removeFromContinentList(){
+        
+        continentList.remove(this);
+        
+    }
+    
+    public static ArrayList<Continent> getContinentList(){
+        
+        ArrayList<Continent> continents = new ArrayList<Continent>();
+        
+        continents.addAll(0, continentList);
+        
+        return continents;
+        
+    }
+    
+    ///////////////////////////////////////////////
+    
+    public void makeGreen()
+    {
+        for(Territory terr : territoriesContained) {
+        
+            terr.makeGreen();
         
         }
     }
     
-    public void setTransparent()
-    {
-        for(Territory terr : territoriesContained){
-        
-            terr.setTransparent();
-        
-        }
-    }
-    
-    public void setSelected()
-    {
-        for(Territory terr : territoriesContained){
-        
-            terr.setSelected();
-        
-        }
-    }
 }

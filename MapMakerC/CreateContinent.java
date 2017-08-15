@@ -1,4 +1,3 @@
-import greenfoot.*; 
 
 public class CreateContinent extends Button
 {
@@ -15,8 +14,8 @@ public class CreateContinent extends Button
             
         }
         
-        Selector.setTheseTransparent(Selector.selectableList);
+        MyWorld.theWorld.setSingleHexTransparent();
+        MyWorld.theWorld.setOccupiedTerritoriesTransparent();
         
     }
-
 }
