@@ -23,7 +23,8 @@ public class TerritoryHex extends Button
             case Mode.DELETE_TERRITORY: 
                 if(getTerritory().getContinent() == null) {
                     Selector.selectTerritory(getTerritory());
-                }   break;
+                }   
+                break;
                 
             case Mode.EDIT_CONTINENT_COLOR:
             case Mode.EDIT_CONTINENT_BONUS:

@@ -6,7 +6,7 @@ public class Continent
 {
     
     private Color continentColor;
-    private ArrayList<Territory> territoriesContained = new ArrayList<Territory>();
+    private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int continentBonus;
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
