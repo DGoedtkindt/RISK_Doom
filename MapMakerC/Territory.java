@@ -10,8 +10,8 @@ public class Territory
     private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
     private int id; //l'identifiant de ce territoire
     private HashSet<Coordinates> hexCoordSet;
-    private ArrayList<TerritoryHex> terrHexList = new ArrayList<TerritoryHex>();
-    private HashSet<Territory> borderingTerritorySet = new HashSet<Territory>();
+    private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
+    private HashSet<Territory> borderingTerritorySet = new HashSet<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent = null;
@@ -28,8 +28,8 @@ public class Territory
         
     }
     
-    public Territory(HashSet<Coordinates> hexs)  throws Exception
-    {
+    public Territory(HashSet<Coordinates> hexs)  throws Exception {
+        
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         hexCoordSet = hexs;
         createTerrHexs();
@@ -72,8 +72,8 @@ public class Territory
         
     }
 
-    public void setContinent(Continent newContinent)
-    {
+    public void setContinent(Continent newContinent) {
+        
         continent = newContinent;
         
         if(newContinent != null){
@@ -96,14 +96,14 @@ public class Territory
         
     }
     
-    public void setNewLink(Territory newLink)
-    {
+    public void setNewLink(Territory newLink) {
+        
         borderingTerritorySet.add(newLink);
     }
 
-    public void autoSetLinks()
-    {
-         HashSet<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
+    public void autoSetLinks(){
+        
+         HashSet<TerritoryHex> borderingHexSet;
          
          borderingHexSet = getBorderingHex();
          
@@ -123,46 +123,46 @@ public class Territory
          
     }
     
-    public void removeLink(Territory terrToRemove)
-    {
+    public void removeLink(Territory terrToRemove){
+        
         borderingTerritorySet.remove(terrToRemove);
     }
     
-    public int getId()
-    {
+    public int getId() {
+        
         return id;
     }
     
-    public Continent getContinent()
-    {
+    public Continent getContinent() {
+        
         return continent;
     }
     
-    public int getBonusPoints()
-    {
+    public int getBonusPoints() {
+        
         return bonusPoints;
     }
     
-    public void setBonusPoints(int bonus)
-    {
+    public void setBonusPoints(int bonus) {
+        
         bonusPoints = bonus;
     }
     
-    public ArrayList<Territory> getBorderTerritories()
-    {
-        ArrayList<Territory> borderTerritoryList = new ArrayList<Territory>();
+    public ArrayList<Territory> getBorderTerritories() {
+        
+        ArrayList<Territory> borderTerritoryList = new ArrayList<>();
         borderTerritoryList.addAll(0, borderingTerritorySet);
         
         return borderTerritoryList;
     }
     
-    public ArrayList<TerritoryHex> getComposingHex()
-    {
+    public ArrayList<TerritoryHex> getComposingHex() {
+        
         return terrHexList;
     }
     
-    public void makeTransparent()
-    {    
+    public void makeTransparent() {  
+        
         GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.BASE_WORLD_COLOR);
         
         for(TerritoryHex hex : terrHexList){
@@ -175,8 +175,8 @@ public class Territory
         
     }
     
-    public void makeGreen()
-    {    
+    public void makeGreen() {
+        
         GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.SELECTION_COLOR);
         
         for(TerritoryHex hex : terrHexList){
@@ -189,8 +189,8 @@ public class Territory
         
     }
     
-    public void makeOpaque()
-    {
+    public void makeOpaque() {
+        
         drawTerritory();
     }
 
@@ -257,7 +257,7 @@ public class Territory
     //retourne des losanges qui couvrent certains bords noirs de l'Hexagone
     //dirty code incoming!
     {
-        ArrayList<Polygon> linksPoly = new ArrayList<Polygon>();
+        ArrayList<Polygon> linksPoly = new ArrayList<>();
         int[][] temporary = new int[2][4]; //cette liste
         //stoque temporairement les coordonée d'un logange
         //le temps d'être transformé en Polygon
@@ -315,8 +315,8 @@ public class Territory
     
     private HashSet<TerritoryHex> getBorderingHex()
     {
-        HashSet<TerritoryHex> borderingHexSet = new HashSet<TerritoryHex>();
-        ArrayList<TerritoryHex> temporary = new ArrayList<TerritoryHex>();// cette liste
+        HashSet<TerritoryHex> borderingHexSet = new HashSet<>();
+        ArrayList<TerritoryHex> temporary;// cette liste
         // contiendra les TerritoryHex le temps de les rajouter dans
         // borderingHexSet
         
@@ -332,10 +332,8 @@ public class Territory
             
         }
         
-        for(TerritoryHex th : terrHexList){
-            
+        for(TerritoryHex th : terrHexList){       
             borderingHexSet.remove(th);
-            
         }
         
         return borderingHexSet;

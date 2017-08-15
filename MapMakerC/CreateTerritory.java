@@ -2,6 +2,7 @@
 public class CreateTerritory extends Button
 {
     
+    @Override
     public void clicked(int mode){
         
         if(((MyWorld)(getWorld())).getCurrentMode() == Mode.DEFAULT){
@@ -11,17 +12,11 @@ public class CreateTerritory extends Button
         }else{
                 
             ((MyWorld)(getWorld())).escape();
-            
+
         }
         
         MyWorld.theWorld.setTerrHexTransparent();
         
     }
-    
-    public void act() 
-    {
-        
-    }    
-    
     
 }

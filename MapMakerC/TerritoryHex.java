@@ -14,30 +14,33 @@ public class TerritoryHex extends Button
         drawTerrHex(color);
     }
     
+    @Override
     public void clicked(int mode){
-        if(mode == Mode.SELECT_TERRITORY || mode == Mode.CHOOSE_CAPITAL_TERRITORY 
-            || mode == Mode.SET_LINKS || mode == Mode.DELETE_TERRITORY) {
-            if(getTerritory().getContinent() == null) {
-                Selector.selectTerritory(getTerritory());
-            }
-            }
-        else if(mode == Mode.EDIT_CONTINENT_COLOR || mode == Mode.EDIT_CONTINENT_BONUS 
-            || mode == Mode.DELETE_CONTINENT) {
-            
-            Selector.selectContinent(getTerritory().getContinent());
-            
-            }
-        else {
-        
-            getMyWorld().escape();
-            
+        switch (mode) {
+            case Mode.SELECT_TERRITORY:
+            case Mode.CHOOSE_CAPITAL_TERRITORY:
+            case Mode.SET_LINKS:
+            case Mode.DELETE_TERRITORY: 
+                if(getTerritory().getContinent() == null) {
+                    Selector.selectTerritory(getTerritory());
+                }   break;
+                
+            case Mode.EDIT_CONTINENT_COLOR:
+            case Mode.EDIT_CONTINENT_BONUS:
+            case Mode.DELETE_CONTINENT:
+                Selector.selectContinent(getTerritory().getContinent());
+                break;
+                
+            default:
+                getMyWorld().escape();
+                break;
         }        
     }
     
     public ArrayList<TerritoryHex> getBorderingHex()
     {
-        List<TerritoryHex> allOtherTerritoryHex = new ArrayList<TerritoryHex>();
-        ArrayList<TerritoryHex> borderingHexList = new ArrayList<TerritoryHex>();
+        List<TerritoryHex> allOtherTerritoryHex;
+        ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
         
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
