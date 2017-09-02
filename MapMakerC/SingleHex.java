@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class SingleHex extends Button
+public class SingleHex extends Button implements Selectable
 {
     private Coordinates coord = new Coordinates();
     public static SingleHex[][] array2D = new SingleHex[50][30];
@@ -12,6 +12,7 @@ public class SingleHex extends Button
         setCoord(xHCoord,yHCoord);
         
         array2D[xHCoord][yHCoord] = this;
+        Selector.selectableSet.add(this);
         
         this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
@@ -21,6 +22,7 @@ public class SingleHex extends Button
     {
         int[] thisCoord = coord.getHexCoord();
         array2D[thisCoord[0]][thisCoord[1]] = null;
+        Selector.selectableSet.remove(this);
         getWorld().removeObject(this);
     }
     
@@ -36,21 +38,24 @@ public class SingleHex extends Button
         return coord;
     }
     
-    
-    public void clicked(int mode){
+    public void clicked(){
         
-        switch(mode){
+        Mode mode = MyWorld.theWorld.getCurrentMode();
+        
+        if(mode == Mode.SELECT_HEX){
             
-            case Mode.SELECT_HEX : Selector.selectSingleHex(this);
-                                break;
-                             
-            default : ((MyWorld)getWorld()).escape();
-                                break;
-                                
+            Selector.select(this);
+            
+        }else{
+            
+            MyWorld.theWorld.escape();
+            
         }
         
     }
      
+    //Selectable methods/////////////////////////////////////
+    
     public void makeGreen()
     {
         this.setImage(Hexagon.createHexagonImage(MyWorld.SELECTION_COLOR));
@@ -66,6 +71,5 @@ public class SingleHex extends Button
     public void makeTransparent()
     {
         this.getImage().setTransparency(MyWorld.TRANSPARENT);
-        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
 }

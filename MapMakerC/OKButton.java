@@ -1,4 +1,4 @@
-import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
@@ -7,49 +7,58 @@ import java.awt.Color;
 public class OKButton extends Button
 {
     
-    public void clicked(int mode){
+    public OKButton(){
         
-        switch(mode){
+        GreenfootImage image = new GreenfootImage("Validate", 25, Color.BLACK, Color.WHITE);
+        this.setImage(image);
+        
+    }
+    
+    public void clicked(){
+        
+        Mode mode = MyWorld.theWorld.getCurrentMode();
+        
+        if(mode == Mode.SELECT_HEX){
             
-            default : break;
-                        
-            case Mode.SELECT_HEX : createTerritoryFromSelection();
-                                   break;
-                        
-            case Mode.SELECT_TERRITORY : createContinentFromSelection();
-                                         break;
-                                         
-            case Mode.DELETE_TERRITORY : deleteTerritorySelection();
-                                         break;
+            createTerritoryFromSelection();
             
-            case Mode.SET_LINKS : createLinksFromSelection();
-                                  break;
-                                 
-            case Mode.CHOOSE_CAPITAL_TERRITORY : changeCapitalFromSelection();
-                                                 break;
-                                                 
-            case Mode.EDIT_CONTINENT_COLOR : changeColorFromSelection();
-                                             break;
-                                             
-            case Mode.EDIT_CONTINENT_BONUS : changeBonusFromSelection();
-                                             break;
-                                             
-            case Mode.DELETE_CONTINENT : deleteContinentSelection();
-                                         break;
+        }else if(mode == Mode.SELECT_TERRITORY){
+            
+            createContinentFromSelection();
+            
+        }else if(mode == Mode.DELETE_TERRITORY){
+            
+            deleteTerritorySelection();
+            
+        }else if(mode == Mode.SET_LINKS){
+            
+            createLinksFromSelection();
+            
+        }else if(mode == Mode.CHOOSE_CAPITAL_TERRITORY){
+            
+            changeCapitalFromSelection();
+            
+        }else if(mode == Mode.EDIT_CONTINENT_COLOR){
+            
+            changeColorFromSelection();
+            
+        }else if(mode == Mode.EDIT_CONTINENT_BONUS){
+            
+            changeBonusFromSelection();
+            
+        }else if(mode == Mode.DELETE_CONTINENT){
+            
+            deleteContinentSelection();
+            
         }
         
         ((MyWorld)getWorld()).escape();
         
     }
     
-    public void act() 
-    {
-        
-    }    
-    
     private void createContinentFromSelection(){
         
-        ArrayList<Territory> selectedTerritories = null;
+        ArrayList<Territory> selectedTerritories;
         try{
             
             selectedTerritories = Selector.getSelectedTerritories();
@@ -77,7 +86,7 @@ public class OKButton extends Button
     
     private void createTerritoryFromSelection(){
         
-        ArrayList<SingleHex> selectedHexes = null;
+        ArrayList<SingleHex> selectedHexes;
         try{
             
             selectedHexes = Selector.getSelectedHexes();
@@ -102,7 +111,7 @@ public class OKButton extends Button
     
     private void deleteTerritorySelection(){
         
-        ArrayList<Territory> territoriesToDelete = null;
+        ArrayList<Territory> territoriesToDelete;
         try{
              
             territoriesToDelete = Selector.getSelectedTerritories();
@@ -123,7 +132,7 @@ public class OKButton extends Button
     
     private void createLinksFromSelection(){
         
-        Territory[] territoriesToLink = null;
+        Territory[] territoriesToLink;
         try{
               
             territoriesToLink = Selector.getSelectedTerritoryPair();
@@ -142,7 +151,7 @@ public class OKButton extends Button
     
     private void changeCapitalFromSelection(){
         
-        Territory capitalTerritory = null;
+        Territory capitalTerritory;
         try{
              
             capitalTerritory = Selector.getSelectedTerritory();
@@ -162,10 +171,10 @@ public class OKButton extends Button
     
     private void changeColorFromSelection(){
         
-        Territory territoryForContinentColor = null;
+        Continent ContinentForColorChange;
         try{
              
-            territoryForContinentColor = Selector.getSelectedTerritory();
+            ContinentForColorChange = Selector.getSelectedContinent();
              
             int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
             int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
@@ -173,7 +182,7 @@ public class OKButton extends Button
          
             Color changedColor = new Color(rColor, gColor, bColor);
          
-            territoryForContinentColor.getContinent().editColor(changedColor);
+            ContinentForColorChange.editColor(changedColor);
             
            }catch(Exception e){
             
@@ -186,14 +195,14 @@ public class OKButton extends Button
     
     private void changeBonusFromSelection(){
         
-        Territory territoryForContinentBonus = null;
+        Continent ContinentForBonusChange;
         try{
              
-            territoryForContinentBonus = Selector.getSelectedTerritory();
+            ContinentForBonusChange = Selector.getSelectedContinent();
              
             int newContinentBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de continent"));
          
-            territoryForContinentBonus.getContinent().editBonus(newContinentBonus);
+            ContinentForBonusChange.editBonus(newContinentBonus);
             
            }catch(Exception e){
              

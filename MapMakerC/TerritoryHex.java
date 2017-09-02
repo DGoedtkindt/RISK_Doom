@@ -14,30 +14,37 @@ public class TerritoryHex extends Button
         drawTerrHex(color);
     }
     
-    public void clicked(int mode){
-        if(mode == Mode.SELECT_TERRITORY || mode == Mode.CHOOSE_CAPITAL_TERRITORY 
-            || mode == Mode.SET_LINKS || mode == Mode.DELETE_TERRITORY) {
-            if(getTerritory().getContinent() == null) {
-                Selector.selectTerritory(getTerritory());
-            }
-            }
-        else if(mode == Mode.EDIT_CONTINENT_COLOR || mode == Mode.EDIT_CONTINENT_BONUS 
-            || mode == Mode.DELETE_CONTINENT) {
+    public void clicked(){
             
-            Selector.selectContinent(getTerritory().getContinent());
-            
-            }
-        else {
+        Mode mode = MyWorld.theWorld.getCurrentMode();
         
+        if(mode == Mode.SELECT_TERRITORY ||
+           mode == Mode.CHOOSE_CAPITAL_TERRITORY ||
+           mode == Mode.SET_LINKS ||
+           mode == Mode.DELETE_TERRITORY){
+            
+            Selector.select(getTerritory());
+            
+        }else if(mode == Mode.EDIT_CONTINENT_COLOR ||
+                 mode == Mode.EDIT_CONTINENT_BONUS ||
+                 mode == Mode.DELETE_CONTINENT){
+            
+            if(Selector.select(getTerritory().getContinent())) {
+                        Selector.setValidator(Selector.NOTHING);
+                    }
+            
+        }else{
+            
             getMyWorld().escape();
             
-        }        
+        }
+        
     }
     
     public ArrayList<TerritoryHex> getBorderingHex()
     {
-        List<TerritoryHex> allOtherTerritoryHex = new ArrayList<TerritoryHex>();
-        ArrayList<TerritoryHex> borderingHexList = new ArrayList<TerritoryHex>();
+        List<TerritoryHex> allOtherTerritoryHex;
+        ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
         
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
@@ -56,8 +63,9 @@ public class TerritoryHex extends Button
     }
     
     public void drawTerrHex(Color color)
-    {
+    {   
         this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
+        this.getImage().setTransparency(150);
     }
     
     

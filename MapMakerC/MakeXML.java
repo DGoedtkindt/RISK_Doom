@@ -1,4 +1,6 @@
+import greenfoot.GreenfootImage;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.io.File;
 import javax.swing.JOptionPane;
@@ -11,13 +13,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class MakeXML extends Button
 {
+    public MakeXML(){
+        
+        GreenfootImage image = new GreenfootImage("Make XML", 25, Color.BLACK, Color.WHITE);
+        this.setImage(image);
+        
+    }
     
-    public void clicked(int mode){
+    public void clicked(){
         
         saveToXML();
         
@@ -49,8 +58,6 @@ public class MakeXML extends Button
                     
                     Element territory = doc.createElement("territory");
                     continent.appendChild(territory);
-                    
-                    int hexNumber = 0;
                     
                     ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
                     
@@ -128,7 +135,7 @@ public class MakeXML extends Button
             StreamResult result = new StreamResult(new File(fileName));
             transformer.transform(source, result);
             
-        }catch(Exception e){
+        }catch(HeadlessException | IllegalStateException | ParserConfigurationException | TransformerException | DOMException e){
             
             System.out.println("XML Error" + e.getMessage());
             MyWorld.theWorld.escape();
