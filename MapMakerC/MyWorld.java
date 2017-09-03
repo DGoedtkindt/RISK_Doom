@@ -23,16 +23,14 @@ public class MyWorld extends World
     private MouseInfo mouse = Greenfoot.getMouseInfo();
     private Button lastClickedButton;
     
-    SimpleButton editTerritory = new SimpleButton("Edit Territory", Mode.EDIT_TERRITORY);
-    SimpleButton createTerritory = new SimpleButton("Create Territory", Mode.CREATE_TERRITORY);
-    SimpleButton createContinent = new SimpleButton("Create Continent", Mode.CREATE_CONTINENT);
-    SimpleButton editContinent = new SimpleButton("Edit Continent", Mode.EDIT_CONTINENT);
-    SimpleButton editContinentBonus = new SimpleButton("Edit Continent Bonus", Mode.EDIT_CONTINENT_BONUS);
-    SimpleButton editContinentColor = new SimpleButton("Edit Continent Color", Mode.EDIT_CONTINENT_COLOR);
-    SimpleButton editTerritoryBonus = new SimpleButton("Edit Territory Bonus", Mode.EDIT_TERRITORY_BONUS);
-    SimpleButton createLink = new SimpleButton("Create Link", Mode.SET_LINK);
-    SimpleButton deleteTerritory = new SimpleButton("Delete Territory", Mode.DELETE_TERRITORY);
-    SimpleButton deleteContinent = new SimpleButton("Delete Continent", Mode.DELETE_CONTINENT);
+    SimpleButton createTerritory = new SimpleButton("Create Territory", Mode.CREATE_TERRITORY, Selector.IS_SINGLEHEX);
+    SimpleButton createContinent = new SimpleButton("Create Continent", Mode.CREATE_CONTINENT, Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    SimpleButton editContinentBonus = new SimpleButton("Edit Continent Bonus", Mode.EDIT_CONTINENT_BONUS, Selector.IS_CONTINENT);
+    SimpleButton editContinentColor = new SimpleButton("Edit Continent Color", Mode.EDIT_CONTINENT_COLOR, Selector.IS_CONTINENT);
+    SimpleButton editTerritoryBonus = new SimpleButton("Edit Territory Bonus", Mode.EDIT_TERRITORY_BONUS, Selector.IS_TERRITORY);
+    SimpleButton createLink = new SimpleButton("Create Link", Mode.SET_LINK, Selector.IS_TERRITORY);
+    SimpleButton deleteTerritory = new SimpleButton("Delete Territory", Mode.DELETE_TERRITORY, Selector.IS_TERRITORY);
+    SimpleButton deleteContinent = new SimpleButton("Delete Continent", Mode.DELETE_CONTINENT, Selector.IS_CONTINENT);
     OKButton okButton = new OKButton();
     MakeXML makeXMLButton = new MakeXML();
     
@@ -40,6 +38,7 @@ public class MyWorld extends World
     public MyWorld()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
+        theWorld = this;
         
         //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
@@ -57,7 +56,17 @@ public class MyWorld extends World
             }
         }
         
-        theWorld = this;
+        // placement des boutons
+        addObject(createTerritory, MyWorld.WORLD_WIDTH -100, 100);
+        addObject(createLink, MyWorld.WORLD_WIDTH - 100, 130);
+        addObject(editTerritoryBonus, MyWorld.WORLD_WIDTH - 100, 160);
+        addObject(deleteTerritory, MyWorld.WORLD_WIDTH - 100, 190);
+        addObject(createContinent, MyWorld.WORLD_WIDTH - 100, 400);
+        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 100, 430);
+        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 100, 460);
+        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 490);
+        addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 1000);
+        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 900);
         
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
         
