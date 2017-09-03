@@ -176,8 +176,7 @@ public class MakeXML extends Button
             transformer.transform(source, result);
             
         }catch(HeadlessException | IllegalStateException | ParserConfigurationException | TransformerException | DOMException e){
-            
-            System.out.println("XML Error" + e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
             
         }

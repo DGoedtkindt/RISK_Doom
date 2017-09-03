@@ -1,6 +1,5 @@
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 
@@ -71,7 +70,7 @@ public class OKButton extends Button
             new Continent(selectedTerritories);
             
         } catch(Exception e){
-           System.out.println(e.getMessage());
+           e.printStackTrace(System.out);
            MyWorld.theWorld.escape();
            
            }
@@ -82,15 +81,10 @@ public class OKButton extends Button
         try{
             ArrayList<SingleHex> selectedHexes;
             selectedHexes = Selector.getSelectedHexes();
-            HashSet<Coordinates> selectedCoordinates = new HashSet();
-            for(SingleHex hex : selectedHexes){
-                selectedCoordinates.add(hex.getCoord());
-               
-             }
-             new Territory(selectedCoordinates);
+             new Territory(selectedHexes);
                 
         } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
            
          }
@@ -107,8 +101,8 @@ public class OKButton extends Button
             }
             
            } catch(Exception e){
-           System.out.println(e.getMessage());
-           MyWorld.theWorld.escape();
+            e.printStackTrace(System.out);
+            MyWorld.theWorld.escape();
            
            }
         
@@ -122,7 +116,7 @@ public class OKButton extends Button
             territoriesToLink[1].setNewLink(territoriesToLink[0]);
             
           } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
               
           }
@@ -137,7 +131,7 @@ public class OKButton extends Button
             editedTerritory.bonusPoints =  newBonus;
             
            } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
              
            }
@@ -155,7 +149,7 @@ public class OKButton extends Button
             ContinentForColorChange.editColor(changedColor);
             
            } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
              
            }
@@ -170,7 +164,7 @@ public class OKButton extends Button
             editedContinent.bonus = newContinentBonus;
             
            } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
              
            }
@@ -183,7 +177,7 @@ public class OKButton extends Button
             continentToDelete.destroy();
             
            } catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
              
            }

@@ -3,33 +3,16 @@ import java.awt.Color;
 public class SingleHex extends Button implements Selectable
 {
     private Coordinates coord = new Coordinates();
-    public static SingleHex[][] array2D = new SingleHex[50][30];
     
     static public Color BASE_COLOR = Color.WHITE;
     
     public SingleHex(int xHCoord, int yHCoord)
     {
-        setCoord(xHCoord,yHCoord);
-        
-        array2D[xHCoord][yHCoord] = this;
+        coord.hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
         
         this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
     }
-    
-    
-    public void destroy() {
-        int[] thisCoord = coord.hexCoord;
-        array2D[thisCoord[0]][thisCoord[1]] = null;
-        Selector.selectableSet.remove(this);
-        getWorld().removeObject(this);
-    }
-    
-    
-    private void setCoord(int x, int y) {
-        coord.hexCoord = new int[]{x,y};
-    }
-    
     
     public Coordinates getCoord() {
         return coord;
