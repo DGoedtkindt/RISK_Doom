@@ -113,11 +113,11 @@ public class Selector
     
     ///////////////////////////////////////////////////////////
     
-    public static void clear()
-    {
+    public static void clear(){
         selection.clear();
         validator = (Object o) -> {return true;};
         updateAppearance();
+        
     }
     
     public static void updateAppearance() {    

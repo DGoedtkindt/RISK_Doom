@@ -16,13 +16,13 @@ public class OKButton extends Button
     
     public void clicked(){
         
-        Mode mode = MyWorld.theWorld.getCurrentMode();
+        Mode mode = Mode.currentMode();
         
-        if(mode == Mode.SELECT_HEX){
+        if(mode == Mode.CREATE_TERRITORY){
             
             createTerritoryFromSelection();
             
-        }else if(mode == Mode.SELECT_TERRITORY){
+        }else if(mode == Mode.CREATE_CONTINENT){
             
             createContinentFromSelection();
             
@@ -30,11 +30,11 @@ public class OKButton extends Button
             
             deleteTerritorySelection();
             
-        }else if(mode == Mode.SET_LINKS){
+        }else if(mode == Mode.SET_LINK){
             
             createLinksFromSelection();
             
-        }else if(mode == Mode.CHOOSE_CAPITAL_TERRITORY){
+        }else if(mode == Mode.EDIT_TERRITORY){
             
             changeCapitalFromSelection();
             
@@ -52,7 +52,7 @@ public class OKButton extends Button
             
         }
         
-        ((MyWorld)getWorld()).escape();
+        MyWorld.theWorld.escape();
         
     }
     

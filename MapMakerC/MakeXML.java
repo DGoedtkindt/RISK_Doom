@@ -76,9 +76,9 @@ public class MakeXML extends Button
                         
                     }
                     
-                    Attr capitalPoints = doc.createAttribute("capitalPoints");
-                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
-                    territory.setAttributeNode(capitalPoints);
+                    Attr territoryPoints = doc.createAttribute("territoryPoints");
+                    territoryPoints.setValue("" + currentTerritory.getBonusPoints());
+                    territory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
                     territoryOwner.setValue("");
@@ -123,6 +123,46 @@ public class MakeXML extends Button
                 Attr bContinentColor = doc.createAttribute("bContinentColor");
                 bContinentColor.setValue("" + (currentContinent.getContinentColor()).getBlue());
                 continent.setAttributeNode(bContinentColor);
+                
+            }
+            
+            for(Territory t : Territory.territoryList){
+                
+                if(t.getContinent() == null){
+                    
+                    Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
+                    rootElement.appendChild(unoccupiedTerritory);
+                    
+                    Attr territoryPoints = doc.createAttribute("territoryPoints");
+                    territoryPoints.setValue("" + t.getBonusPoints());
+                    unoccupiedTerritory.setAttributeNode(territoryPoints);
+                    
+                    Attr territoryOwner = doc.createAttribute("territoryOwner");
+                    territoryOwner.setValue("");
+                    unoccupiedTerritory.setAttributeNode(territoryOwner);
+                    
+                    Attr armies = doc.createAttribute("territoryArmies");
+                    armies.setValue("0");
+                    unoccupiedTerritory.setAttributeNode(armies);
+                    
+                    Attr id = doc.createAttribute("territoryID");
+                    id.setValue("" + t.getId());
+                    unoccupiedTerritory.setAttributeNode(id);
+                    
+                    ArrayList<Territory> borderingTerritories = t.getBorderTerritories();
+                    
+                    for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
+                        
+                        Element bordering = doc.createElement("borderingTerritory");
+                        unoccupiedTerritory.appendChild(bordering);
+                        
+                        Attr borderingID = doc.createAttribute("borderingID");
+                        borderingID.setValue("" + currentBordering.getId());
+                        bordering.setAttributeNode(borderingID);
+                        
+                    }
+                    
+                }
                 
             }
             

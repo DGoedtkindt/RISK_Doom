@@ -16,11 +16,11 @@ public class TerritoryHex extends Button
     
     public void clicked(){
             
-        Mode mode = MyWorld.theWorld.getCurrentMode();
+        Mode mode = Mode.currentMode();
         
-        if(mode == Mode.SELECT_TERRITORY ||
-           mode == Mode.CHOOSE_CAPITAL_TERRITORY ||
-           mode == Mode.SET_LINKS ||
+        if(mode == Mode.CREATE_CONTINENT ||
+           mode == Mode.EDIT_TERRITORY ||
+           mode == Mode.SET_LINK ||
            mode == Mode.DELETE_TERRITORY){
             
             Selector.select(getTerritory());
@@ -41,44 +41,35 @@ public class TerritoryHex extends Button
         
     }
     
-    public ArrayList<TerritoryHex> getBorderingHex()
-    {
+    public ArrayList<TerritoryHex> getBorderingHex() {
         List<TerritoryHex> allOtherTerritoryHex;
         ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
         
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
-        for(TerritoryHex otherHex : allOtherTerritoryHex)
-        {
+        for(TerritoryHex otherHex : allOtherTerritoryHex){
             if(this.distance(otherHex) < 2 * Hexagon.getSize()){
-                
                 borderingHexList.add(otherHex);
                 
             }
             
         }
-        
-        
         return borderingHexList;
     }
     
-    public void drawTerrHex(Color color)
-    {   
+    public void drawTerrHex(Color color){   
         this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
         this.getImage().setTransparency(150);
     }
     
     
     public Territory getTerritory(){
-        
        return territory;
         
     }
 
    
-    public double distance(TerritoryHex otherHex)
-
-    {
+    public double distance(TerritoryHex otherHex) {
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
     }
     

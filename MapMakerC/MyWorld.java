@@ -20,21 +20,22 @@ public class MyWorld extends World
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
-    static private Mode currentMode = Mode.DEFAULT;
+    private MouseInfo mouse = Greenfoot.getMouseInfo();
+    private Button lastClickedButton;
     
-    MouseInfo mouse = Greenfoot.getMouseInfo();
-    Button lastClickedButton;
-    
-    SimpleButton createTerritoryButton = new SimpleButton("Create Territory", SimpleButton.CREATE_TERRITORY_BUTTON_ACTION);
-    SimpleButton createContinentButton = new SimpleButton("Create Continent", SimpleButton.CREATE_CONTINENT_BUTTON_ACTION);
-    SimpleButton editContinentBonus = new SimpleButton("Edit Continent Bonus", SimpleButton.EDIT_CONTINENT_BONUS_BUTTON_ACTION);
-    SimpleButton editContinentColor = new SimpleButton("Edit Continent Color", SimpleButton.EDIT_CONTINENT_COLOR_BUTTON_ACTION);
-    SimpleButton chooseCapital = new SimpleButton("Choose Capital", SimpleButton.CHOOSE_CAPITAL_TERRITORY_BUTTON_ACTION);
-    SimpleButton createLink = new SimpleButton("Create Link", SimpleButton.CREATE_LINK_BUTTON_ACTION);
-    SimpleButton deleteTerritory = new SimpleButton("Delete Territory", SimpleButton.DELETE_TERRITORY_BUTTON_ACTION);
-    SimpleButton deleteContinent = new SimpleButton("Delete Continent", SimpleButton.DELETE_CONTINENT_BUTTON_ACTION);
+    SimpleButton editTerritory = new SimpleButton("Edit Territory", Mode.EDIT_TERRITORY);
+    SimpleButton createTerritory = new SimpleButton("Create Territory", Mode.CREATE_TERRITORY);
+    SimpleButton createContinent = new SimpleButton("Create Continent", Mode.CREATE_CONTINENT);
+    SimpleButton editContinent = new SimpleButton("Edit Continent", Mode.EDIT_CONTINENT);
+    SimpleButton editContinentBonus = new SimpleButton("Edit Continent Bonus", Mode.EDIT_CONTINENT_BONUS);
+    SimpleButton editContinentColor = new SimpleButton("Edit Continent Color", Mode.EDIT_CONTINENT_COLOR);
+    SimpleButton editTerritoryBonus = new SimpleButton("Edit Territory Bonus", Mode.EDIT_TERRITORY_BONUS);
+    SimpleButton createLink = new SimpleButton("Create Link", Mode.SET_LINK);
+    SimpleButton deleteTerritory = new SimpleButton("Delete Territory", Mode.DELETE_TERRITORY);
+    SimpleButton deleteContinent = new SimpleButton("Delete Continent", Mode.DELETE_CONTINENT);
     OKButton okButton = new OKButton();
     MakeXML makeXMLButton = new MakeXML();
+    
 
     public MyWorld()
     {    
@@ -46,7 +47,7 @@ public class MyWorld extends World
         getBackground().fill();
         
         for(int i = 29; i < 34;i++){        //Hexagones violets sur le côté
-            for(int j = 0; j <= 15; j++){
+            for(int j = -1; j <= 15; j++){
                 GreenfootImage hex;
                 hex = Hexagon.createSimpleHexImage(new Color(110,70,130),1);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
@@ -60,22 +61,20 @@ public class MyWorld extends World
         
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
         
+        Mode.changeMode(Mode.DEFAULT);
+        
     }
     
     ///////////////////////////////
     
-    public void makeSingleHex(int x, int y)
-    {
-        
+    public void makeSingleHex(int x, int y) {
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.getCoord().getRectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
         
     }
     
-    private void placeHexagonInCollumnRow(int collumn, int row)
-    {
-        
+    private void placeHexagonInCollumnRow(int collumn, int row){
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
@@ -89,13 +88,10 @@ public class MyWorld extends World
     }
     
     private Button getPressedButton(){
-        
         if(mouse.getActor() instanceof Button){
-            
             return (Button)(mouse.getActor());
             
         }else{
-            
             return null;
             
         }
@@ -104,36 +100,13 @@ public class MyWorld extends World
     
     //////////////////////////////////////////////////
     
-    public void changeMode(Mode newMode){
-        
-        currentMode = newMode;
-        //currentMode.actionToTrigger.trigger();
-        
-    }
-    
     public void escape(){
-        
         Selector.clear();
+        Mode.changeMode(Mode.DEFAULT);
         
-        if(currentMode != Mode.DEFAULT){
-            
-           Selector.setValidator(Selector.EVERYTHING);
-        
-        }
-        
-        changeMode(Mode.DEFAULT);
-        
-    }
+    }   
     
-    public Mode getCurrentMode(){
-        
-        return currentMode;
-        
-    }
-        
-    
-    public void act() 
-    {
+    public void act() {
         
         mouse = Greenfoot.getMouseInfo();
         

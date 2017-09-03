@@ -40,9 +40,9 @@ public class SingleHex extends Button implements Selectable
     
     public void clicked(){
         
-        Mode mode = MyWorld.theWorld.getCurrentMode();
+        Mode mode = Mode.currentMode();
         
-        if(mode == Mode.SELECT_HEX){
+        if(mode == Mode.CREATE_TERRITORY){
             
             Selector.select(this);
             
