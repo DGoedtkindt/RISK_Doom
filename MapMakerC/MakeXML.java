@@ -35,7 +35,7 @@ public class MakeXML extends Button
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
     private void saveToXML(){
         
-        ArrayList<Continent> continentList = Continent.getContinentList();
+        ArrayList<Continent> continentList = Continent.ContinentList();
         
         try{
             
@@ -52,7 +52,7 @@ public class MakeXML extends Button
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
                 
-                ArrayList<Territory> territoriesInContinent = currentContinent.getContainedTerritories();
+                ArrayList<Territory> territoriesInContinent = currentContinent.ContainedTerritories();
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
@@ -77,7 +77,7 @@ public class MakeXML extends Button
                     }
                     
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + currentTerritory.getBonusPoints());
+                    territoryPoints.setValue("" + currentTerritory.bonusPoints);
                     territory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
@@ -109,19 +109,19 @@ public class MakeXML extends Button
                 
                 
                 Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.getContinentBonus());
+                continentPoints.setValue("" + currentContinent.bonus);
                 continent.setAttributeNode(continentPoints);
                 
                 Attr rContinentColor = doc.createAttribute("rContinentColor");
-                rContinentColor.setValue("" + (currentContinent.getContinentColor()).getRed());
+                rContinentColor.setValue("" + (currentContinent.color()).getRed());
                 continent.setAttributeNode(rContinentColor);
                 
                 Attr gContinentColor = doc.createAttribute("gContinentColor");
-                gContinentColor.setValue("" + (currentContinent.getContinentColor()).getGreen());
+                gContinentColor.setValue("" + (currentContinent.color()).getGreen());
                 continent.setAttributeNode(gContinentColor);
                 
                 Attr bContinentColor = doc.createAttribute("bContinentColor");
-                bContinentColor.setValue("" + (currentContinent.getContinentColor()).getBlue());
+                bContinentColor.setValue("" + (currentContinent.color()).getBlue());
                 continent.setAttributeNode(bContinentColor);
                 
             }
@@ -134,7 +134,7 @@ public class MakeXML extends Button
                     rootElement.appendChild(unoccupiedTerritory);
                     
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + t.getBonusPoints());
+                    territoryPoints.setValue("" + t.bonusPoints);
                     unoccupiedTerritory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");

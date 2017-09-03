@@ -18,36 +18,29 @@ public class SingleHex extends Button implements Selectable
     }
     
     
-    public void destroy()
-    {
-        int[] thisCoord = coord.getHexCoord();
+    public void destroy() {
+        int[] thisCoord = coord.hexCoord;
         array2D[thisCoord[0]][thisCoord[1]] = null;
         Selector.selectableSet.remove(this);
         getWorld().removeObject(this);
     }
     
     
-    private void setCoord(int x, int y)
-    {
-        coord.setHexCoord(new int[]{x,y});
+    private void setCoord(int x, int y) {
+        coord.hexCoord = new int[]{x,y};
     }
     
     
-    public Coordinates getCoord()
-    {
+    public Coordinates getCoord() {
         return coord;
     }
     
-    public void clicked(){
-        
+    public void clicked() {
         Mode mode = Mode.currentMode();
-        
         if(mode == Mode.CREATE_TERRITORY){
-            
             Selector.select(this);
             
         }else{
-            
             MyWorld.theWorld.escape();
             
         }
@@ -56,20 +49,17 @@ public class SingleHex extends Button implements Selectable
      
     //Selectable methods/////////////////////////////////////
     
-    public void makeGreen()
-    {
+    public void makeGreen() {
         this.setImage(Hexagon.createHexagonImage(MyWorld.SELECTION_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
-    public void makeOpaque()
-    {
+    public void makeOpaque() {
         this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
-    public void makeTransparent()
-    {
+    public void makeTransparent() {
         this.getImage().setTransparency(MyWorld.TRANSPARENT);
     }
 }

@@ -21,8 +21,7 @@ public class Selector
     
     //Getters for SingleHex///////////////////////////////////////////////////
     
-    public static ArrayList<SingleHex> getSelectedHexes() throws Exception
-    {
+    public static ArrayList<SingleHex> getSelectedHexes() throws Exception{
         if(selection.isEmpty()) throw new Exception("no hex selected");
         
         ArrayList<SingleHex> singleHexSelectedList = new ArrayList<>();
@@ -30,7 +29,8 @@ public class Selector
             try{SingleHex hex;
                 hex = (SingleHex)select;
                 singleHexSelectedList.add(hex);
-            }  catch(ClassCastException cce) {throw new Exception("selectable of the wrong type selected\n" + cce);}
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
         return singleHexSelectedList;
@@ -38,8 +38,7 @@ public class Selector
     
     //Getters for Territory///////////////////////////////////////////////////
     
-    public static Territory getSelectedTerritory() throws Exception
-    {
+    public static Territory getSelectedTerritory() throws Exception {
         if(selection.size() > 1) throw new Exception("too many Territories selected");
         if(selection.size() < 1) throw new Exception("no Territory selected");
         
@@ -48,15 +47,14 @@ public class Selector
             try{Territory terr;
                 terr = (Territory)select;
                 territorySelectedList.add(terr);
-            }  catch(ClassCastException cce) {throw new Exception("selectable of the wrong type selected\n" + cce);}
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
         return territorySelectedList.get(0);
     }
     
-    public static Territory[] getSelectedTerritoryPair() throws Exception
-    {
-        
+    public static Territory[] getSelectedTerritoryPair() throws Exception {
         if(selection.size() > 2) throw new Exception("too many Territories selected");
         if(selection.size() < 2) throw new Exception("not enough Territory selected");
         
@@ -68,7 +66,8 @@ public class Selector
             try{Territory terr;
                 terr = (Territory)select;
                 territoryArray[i] = terr;
-            }  catch(ClassCastException cce) {throw new Exception("selectable of the wrong type selected\n" + cce);}
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
             i++;
             
         }
@@ -77,9 +76,7 @@ public class Selector
 
     }
 
-    public static ArrayList<Territory> getSelectedTerritories() throws Exception
-    {
-        
+    public static ArrayList<Territory> getSelectedTerritories() throws Exception {
         if(selection.isEmpty()) throw new Exception("no Territory selected");
         
         ArrayList<Territory> territorySelectedList = new ArrayList<>();
@@ -87,7 +84,8 @@ public class Selector
             try{Territory terr;
                 terr = (Territory)select;
                 territorySelectedList.add(terr);
-            }  catch(ClassCastException cce) {throw new Exception("selectable of the wrong type selected\n" + cce);}
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         return territorySelectedList;
 
@@ -95,8 +93,7 @@ public class Selector
     
     //Getters for Continent///////////////////////////////////////////////////
     
-    public static Continent getSelectedContinent() throws Exception
-    {
+    public static Continent getSelectedContinent() throws Exception {
         if(selection.size() > 1) throw new Exception("too many Continent selected");
         if(selection.size() < 1) throw new Exception("no Continent selected");
         
@@ -105,7 +102,8 @@ public class Selector
             try{Continent cont;
                 cont = (Continent)select;
                 continentSelectedList.add(cont);
-            }  catch(ClassCastException cce) {throw new Exception("selectable of the wrong type selected\n" + cce);}
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
         return continentSelectedList.get(0);

@@ -16,7 +16,7 @@ public class Territory implements Selectable
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent = null;
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
-    private int bonusPoints = 0;
+    public int bonusPoints = 0;
     
     
     
@@ -54,7 +54,7 @@ public class Territory implements Selectable
         
         for(Coordinates c : hexCoordSet){
             
-            getWorld().addObject(new SingleHex(c.getHexCoord()[0], c.getHexCoord()[1]), c.getRectCoord()[0], c.getRectCoord()[1]);
+            getWorld().addObject(new SingleHex(c.hexCoord[0], c.hexCoord[1]), c.rectCoord()[0], c.rectCoord()[1]);
             
         }
         
@@ -80,7 +80,7 @@ public class Territory implements Selectable
         
         if(newContinent != null){
             
-            continentColor = newContinent.getContinentColor();
+            continentColor = newContinent.color();
             
         }else{
             
@@ -138,16 +138,6 @@ public class Territory implements Selectable
     public Continent getContinent() {
         
         return continent;
-    }
-    
-    public int getBonusPoints() {
-        
-        return bonusPoints;
-    }
-    
-    public void setBonusPoints(int bonus) {
-        
-        bonusPoints = bonus;
     }
     
     public ArrayList<Territory> getBorderTerritories() {
@@ -212,7 +202,7 @@ public class Territory implements Selectable
         
         for(Coordinates hex : hexCoordSet){
                 
-                int[] rectCoord = hex.getRectCoord();
+                int[] rectCoord = hex.rectCoord();
                 TerritoryHex trHex = new TerritoryHex(this, continentColor);
                 terrHexList.add(trHex);
                 getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
@@ -296,7 +286,7 @@ public class Territory implements Selectable
     {
         for(Coordinates hex : hexCoordSet){
                 
-                int[] hexCoord = hex.getHexCoord();
+                int[] hexCoord = hex.hexCoord;
                 SingleHex hexToDel = SingleHex.array2D[hexCoord[0]][hexCoord[1]];
                 hexToDel.destroy();
 

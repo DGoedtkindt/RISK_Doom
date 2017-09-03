@@ -7,7 +7,7 @@ public class Continent implements Selectable
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    private int continentBonus;
+    public int bonus;
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
     public Continent(ArrayList<Territory> territories){
@@ -18,7 +18,7 @@ public class Continent implements Selectable
         int continentPoints = Integer.parseInt(JOptionPane.showInputDialog("Entrez le bonus de continent"));
         
         editColor(new Color(rColor, gColor, bColor));
-        editBonus(continentPoints);
+        bonus = continentPoints;
         
         continentList.add(this);
         Selector.selectableSet.add(this);
@@ -34,49 +34,19 @@ public class Continent implements Selectable
     }
     
     public void editColor(Color newColor){
-        
         continentColor = newColor;
-        
         for(Territory t : territoriesContained){
-            
             t.setContinent(this);
             
         }
-        
     }
     
-    public Color getContinentColor(){
-        
+    public Color color(){
         return continentColor;
         
     }
     
-    public int getContinentBonus(){
-        
-        return continentBonus;
-        
-    }
-    
-    public void editBonus(int newBonus){
-        
-        continentBonus = newBonus;
-        
-    }
-    
-    public void setCapital(int capitalBonus, Territory capital){
-        
-        for(Territory t : territoriesContained){
-            
-            t.setBonusPoints(0);
-            
-        }
-        
-        capital.setBonusPoints(capitalBonus);
-        
-    }
-    
-    public ArrayList<Territory> getContainedTerritories(){
-        
+    public ArrayList<Territory> ContainedTerritories(){
         return territoriesContained;
         
     }
@@ -87,8 +57,7 @@ public class Continent implements Selectable
         
     }
     
-    public void destroy()
-    {
+    public void destroy() {
         continentList.remove(this);
         
         for(Territory terr : territoriesContained){
@@ -103,8 +72,7 @@ public class Continent implements Selectable
     
     //////////////////////////////////////////////////
     
-    public static ArrayList<Continent> getContinentList(){
-        
+    public static ArrayList<Continent> ContinentList(){
         ArrayList<Continent> continents = new ArrayList<>();
         
         continents.addAll(0, continentList);

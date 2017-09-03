@@ -32,19 +32,19 @@ public class OKButton extends Button
             
         }else if(mode == Mode.SET_LINK){
             
-            createLinksFromSelection();
+            createLinksForSelection();
             
-        }else if(mode == Mode.EDIT_TERRITORY){
+        }else if(mode == Mode.EDIT_TERRITORY_BONUS){
             
-            changeCapitalFromSelection();
+            changeBonusFromTerrSelected();
             
         }else if(mode == Mode.EDIT_CONTINENT_COLOR){
             
-            changeColorFromSelection();
+            changeColorFromContSelected();
             
         }else if(mode == Mode.EDIT_CONTINENT_BONUS){
             
-            changeBonusFromSelection();
+            changeBonusFromContSelection();
             
         }else if(mode == Mode.DELETE_CONTINENT){
             
@@ -57,26 +57,20 @@ public class OKButton extends Button
     }
     
     private void createContinentFromSelection(){
-        
-        ArrayList<Territory> selectedTerritories;
         try{
-            
+            ArrayList<Territory> selectedTerritories;
             selectedTerritories = Selector.getSelectedTerritories();
-            
             for(Territory t : selectedTerritories){
                 
                 if(t.getContinent() != null){
-                    
                     throw new Exception("A selected territory already has a continent");
                     
                 }
                 
             }
+            new Continent(selectedTerritories);
             
-            Continent createdContinent = new Continent(selectedTerritories);
-            
-        }catch(Exception e){
-            
+        } catch(Exception e){
            System.out.println(e.getMessage());
            MyWorld.theWorld.escape();
            
@@ -85,23 +79,17 @@ public class OKButton extends Button
     }
     
     private void createTerritoryFromSelection(){
-        
-        ArrayList<SingleHex> selectedHexes;
         try{
-            
+            ArrayList<SingleHex> selectedHexes;
             selectedHexes = Selector.getSelectedHexes();
             HashSet<Coordinates> selectedCoordinates = new HashSet();
-       
             for(SingleHex hex : selectedHexes){
-               
                 selectedCoordinates.add(hex.getCoord());
                
              }
-                  
-            Territory createdTerritory = new Territory(selectedCoordinates);
+             new Territory(selectedCoordinates);
                 
-        }catch(Exception e){
-        
+        } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
            
@@ -110,19 +98,15 @@ public class OKButton extends Button
     }
     
     private void deleteTerritorySelection(){
-        
-        ArrayList<Territory> territoriesToDelete;
         try{
-             
+            ArrayList<Territory> territoriesToDelete;
             territoriesToDelete = Selector.getSelectedTerritories();
             for(Territory toDelete : territoriesToDelete){
-                 
                 toDelete.destroy();
                  
             }
             
-           }catch(Exception e){
-            
+           } catch(Exception e){
            System.out.println(e.getMessage());
            MyWorld.theWorld.escape();
            
@@ -130,18 +114,14 @@ public class OKButton extends Button
         
     }
     
-    private void createLinksFromSelection(){
-        
-        Territory[] territoriesToLink;
+    private void createLinksForSelection(){
         try{
-              
+            Territory[] territoriesToLink;
             territoriesToLink = Selector.getSelectedTerritoryPair();
-              
             territoriesToLink[0].setNewLink(territoriesToLink[1]);
             territoriesToLink[1].setNewLink(territoriesToLink[0]);
             
-          }catch(Exception e){
-            
+          } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
               
@@ -149,19 +129,14 @@ public class OKButton extends Button
             
     }
     
-    private void changeCapitalFromSelection(){
-        
-        Territory capitalTerritory;
+    private void changeBonusFromTerrSelected(){
         try{
-             
-            capitalTerritory = Selector.getSelectedTerritory();
-             
-            int capitalBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de capitale"));
-         
-            capitalTerritory.getContinent().setCapital(capitalBonus, capitalTerritory);
+            Territory editedTerritory;
+            editedTerritory = Selector.getSelectedTerritory();
+            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+            editedTerritory.bonusPoints =  newBonus;
             
-           }catch(Exception e){
-            
+           } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
              
@@ -169,23 +144,17 @@ public class OKButton extends Button
             
     }
     
-    private void changeColorFromSelection(){
-        
-        Continent ContinentForColorChange;
+    private void changeColorFromContSelected(){
         try{
-             
+            Continent ContinentForColorChange;
             ContinentForColorChange = Selector.getSelectedContinent();
-             
             int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
             int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
             int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-         
             Color changedColor = new Color(rColor, gColor, bColor);
-         
             ContinentForColorChange.editColor(changedColor);
             
-           }catch(Exception e){
-            
+           } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
              
@@ -193,19 +162,14 @@ public class OKButton extends Button
               
     }
     
-    private void changeBonusFromSelection(){
-        
-        Continent ContinentForBonusChange;
+    private void changeBonusFromContSelection(){
         try{
-             
-            ContinentForBonusChange = Selector.getSelectedContinent();
-             
+            Continent editedContinent;
+            editedContinent = Selector.getSelectedContinent();
             int newContinentBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de continent"));
-         
-            ContinentForBonusChange.editBonus(newContinentBonus);
+            editedContinent.bonus = newContinentBonus;
             
-           }catch(Exception e){
-             
+           } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
              
@@ -214,17 +178,11 @@ public class OKButton extends Button
     }
     
     private void deleteContinentSelection(){
-        
-        
         try{
-             
             Continent continentToDelete = Selector.getSelectedContinent();
             continentToDelete.destroy();
             
-            
-            
-           }catch(Exception e){
-             
+           } catch(Exception e){
             System.out.println(e.getMessage());
             MyWorld.theWorld.escape();
              

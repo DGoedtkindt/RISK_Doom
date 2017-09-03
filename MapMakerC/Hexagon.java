@@ -2,12 +2,10 @@
  import greenfoot.GreenfootImage;
  import java.awt.Color;
  
-public class Hexagon  
-{
+public class Hexagon  {
     static final int HEXAGON_SIZE = 40;
     
-    public static GreenfootImage createHexagonImage(Color hexColor)
-    {
+    public static GreenfootImage createHexagonImage(Color hexColor){
         
         GreenfootImage img = createSimpleHexImage(Color.black);
         img.drawImage(createSimpleHexImage(hexColor,0.95), 0, 0);
@@ -17,8 +15,7 @@ public class Hexagon
     }
 
     
-    public static GreenfootImage createSimpleHexImage(Color color, double sizeInPercent)
-    {
+    public static GreenfootImage createSimpleHexImage(Color color, double sizeInPercent){
         GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
         
         int[][] array  = format(getHexagonCoord(sizeInPercent));
@@ -29,8 +26,7 @@ public class Hexagon
         return img;
     }
     
-    public static GreenfootImage createSimpleHexImage(Color color)
-    {
+    public static GreenfootImage createSimpleHexImage(Color color){
         GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
         
         int[][] array  = format(getHexagonCoord(1));
@@ -64,7 +60,7 @@ public class Hexagon
     //crée les coordinées des points d'un hexagone
     {
         double rad = HEXAGON_SIZE * sizeMultiplier;
-        int[] rectCoord = coord.getRectCoord();
+        int[] rectCoord = coord.rectCoord();
         
         int[][] arr = {
             {(int)rad + rectCoord[0],                                   (int)rectCoord[1]},
@@ -94,8 +90,7 @@ public class Hexagon
     
     
     
-    public static int getSize()
-    {
+    public static int getSize(){
         return HEXAGON_SIZE;
     }
     

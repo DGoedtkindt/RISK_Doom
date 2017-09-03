@@ -1,12 +1,12 @@
 import greenfoot.GreenfootImage;
 import java.awt.Color;
 
-public class SimpleButton extends Button {
+public class ModeButton extends Button {
     
     Mode linkedMode;
     Validator validator;
     
-    public SimpleButton(String text, Mode mode, Validator validator){
+    public ModeButton(String text, Mode mode, Validator validator){
         createImageFromText(text);
         linkedMode = mode;
         this.validator = validator;
@@ -14,9 +14,10 @@ public class SimpleButton extends Button {
     }
     
     public void clicked() {
-        Mode.changeMode(linkedMode);
-        Selector.setValidator(validator);
-        
+        if(Mode.currentMode() == Mode.DEFAULT) {
+            Mode.changeMode(linkedMode);
+            Selector.setValidator(validator);
+        }
     }
     
     private void createImageFromText(String textToShow){
