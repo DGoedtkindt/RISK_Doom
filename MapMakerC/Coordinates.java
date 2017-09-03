@@ -2,18 +2,16 @@
 
 public class Coordinates  
 {
-    private int[] hexCoord = new int[2];
+    public int[] hexCoord = new int[2];
     
     public Coordinates() {}
     
-    public Coordinates(int[] hexCoordinates) 
-    {
+    public Coordinates(int[] hexCoordinates) {
         hexCoord = hexCoordinates;
     }
     
     
-    public static int[] hexToRectCoord(int[] hexCoord)
-    {
+    public static int[] hexToRectCoord(int[] hexCoord){
         int[] converted = new int[2];  //Tableau de retour
         
         double h = Math.sin(Math.PI/3) * (Hexagon.HEXAGON_SIZE-1); // Taille d'un Hex
@@ -26,23 +24,10 @@ public class Coordinates
         if(hexCoord[0] % 2 == 1) converted[1] += h; //Décalage vertical une fois sur deux
         
         return converted;
+        
     }
     
-    
-    public void setHexCoord(int[] CoordToSet)
-    {
-        this.hexCoord = CoordToSet;
-    }
-    
-    
-    public int[] getHexCoord()
-    {
-        return hexCoord;
-    }
-    
-    
-    public int[] getRectCoord()
-    {
+    public int[] rectCoord(){
         return  hexToRectCoord(hexCoord);
     }
     

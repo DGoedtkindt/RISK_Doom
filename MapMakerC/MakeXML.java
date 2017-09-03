@@ -1,4 +1,6 @@
+import greenfoot.GreenfootImage;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.io.File;
 import javax.swing.JOptionPane;
@@ -11,13 +13,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class MakeXML extends Button
 {
+    public MakeXML(){
+        
+        GreenfootImage image = new GreenfootImage("Make XML", 25, Color.BLACK, Color.WHITE);
+        this.setImage(image);
+        
+    }
     
-    public void clicked(int mode){
+    public void clicked(){
         
         saveToXML();
         
@@ -26,7 +35,7 @@ public class MakeXML extends Button
     // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
     private void saveToXML(){
         
-        ArrayList<Continent> continentList = Continent.getContinentList();
+        ArrayList<Continent> continentList = Continent.ContinentList();
         
         try{
             
@@ -43,14 +52,12 @@ public class MakeXML extends Button
                 Element continent = doc.createElement("continent");
                 rootElement.appendChild(continent);
                 
-                ArrayList<Territory> territoriesInContinent = currentContinent.getContainedTerritories();
+                ArrayList<Territory> territoriesInContinent = currentContinent.ContainedTerritories();
                 
                 for(Territory currentTerritory : territoriesInContinent){//append des territoires aux continents (et caractéristiques)
                     
                     Element territory = doc.createElement("territory");
                     continent.appendChild(territory);
-                    
-                    int hexNumber = 0;
                     
                     ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
                     
@@ -69,9 +76,9 @@ public class MakeXML extends Button
                         
                     }
                     
-                    Attr capitalPoints = doc.createAttribute("capitalPoints");
-                    capitalPoints.setValue("" + currentTerritory.getBonusPoints());
-                    territory.setAttributeNode(capitalPoints);
+                    Attr territoryPoints = doc.createAttribute("territoryPoints");
+                    territoryPoints.setValue("" + currentTerritory.bonusPoints);
+                    territory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
                     territoryOwner.setValue("");
@@ -102,20 +109,60 @@ public class MakeXML extends Button
                 
                 
                 Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.getContinentBonus());
+                continentPoints.setValue("" + currentContinent.bonus);
                 continent.setAttributeNode(continentPoints);
                 
                 Attr rContinentColor = doc.createAttribute("rContinentColor");
-                rContinentColor.setValue("" + (currentContinent.getContinentColor()).getRed());
+                rContinentColor.setValue("" + (currentContinent.color()).getRed());
                 continent.setAttributeNode(rContinentColor);
                 
                 Attr gContinentColor = doc.createAttribute("gContinentColor");
-                gContinentColor.setValue("" + (currentContinent.getContinentColor()).getGreen());
+                gContinentColor.setValue("" + (currentContinent.color()).getGreen());
                 continent.setAttributeNode(gContinentColor);
                 
                 Attr bContinentColor = doc.createAttribute("bContinentColor");
-                bContinentColor.setValue("" + (currentContinent.getContinentColor()).getBlue());
+                bContinentColor.setValue("" + (currentContinent.color()).getBlue());
                 continent.setAttributeNode(bContinentColor);
+                
+            }
+            
+            for(Territory t : Territory.territoryList){
+                
+                if(t.getContinent() == null){
+                    
+                    Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
+                    rootElement.appendChild(unoccupiedTerritory);
+                    
+                    Attr territoryPoints = doc.createAttribute("territoryPoints");
+                    territoryPoints.setValue("" + t.bonusPoints);
+                    unoccupiedTerritory.setAttributeNode(territoryPoints);
+                    
+                    Attr territoryOwner = doc.createAttribute("territoryOwner");
+                    territoryOwner.setValue("");
+                    unoccupiedTerritory.setAttributeNode(territoryOwner);
+                    
+                    Attr armies = doc.createAttribute("territoryArmies");
+                    armies.setValue("0");
+                    unoccupiedTerritory.setAttributeNode(armies);
+                    
+                    Attr id = doc.createAttribute("territoryID");
+                    id.setValue("" + t.getId());
+                    unoccupiedTerritory.setAttributeNode(id);
+                    
+                    ArrayList<Territory> borderingTerritories = t.getBorderTerritories();
+                    
+                    for(Territory currentBordering : borderingTerritories){//append des limitrophes aux territoires
+                        
+                        Element bordering = doc.createElement("borderingTerritory");
+                        unoccupiedTerritory.appendChild(bordering);
+                        
+                        Attr borderingID = doc.createAttribute("borderingID");
+                        borderingID.setValue("" + currentBordering.getId());
+                        bordering.setAttributeNode(borderingID);
+                        
+                    }
+                    
+                }
                 
             }
             
@@ -128,9 +175,8 @@ public class MakeXML extends Button
             StreamResult result = new StreamResult(new File(fileName));
             transformer.transform(source, result);
             
-        }catch(Exception e){
-            
-            System.out.println("XML Error" + e.getMessage());
+        }catch(HeadlessException | IllegalStateException | ParserConfigurationException | TransformerException | DOMException e){
+            e.printStackTrace(System.out);
             MyWorld.theWorld.escape();
             
         }

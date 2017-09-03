@@ -2,12 +2,12 @@ import java.awt.Color;
 import java.util.*;
 import javax.swing.JOptionPane;
 
-public class Continent
+public class Continent implements Selectable
 {
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    private int continentBonus;
+    public int bonus;
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
     public Continent(ArrayList<Territory> territories){
@@ -18,9 +18,10 @@ public class Continent
         int continentPoints = Integer.parseInt(JOptionPane.showInputDialog("Entrez le bonus de continent"));
         
         editColor(new Color(rColor, gColor, bColor));
-        editBonus(continentPoints);
+        bonus = continentPoints;
         
-        addToContinentList();
+        continentList.add(this);
+        Selector.selectableSet.add(this);
         
         territoriesContained.addAll(0,territories);
         
@@ -33,49 +34,19 @@ public class Continent
     }
     
     public void editColor(Color newColor){
-        
         continentColor = newColor;
-        
         for(Territory t : territoriesContained){
-            
             t.setContinent(this);
             
         }
-        
     }
     
-    public Color getContinentColor(){
-        
+    public Color color(){
         return continentColor;
         
     }
     
-    public int getContinentBonus(){
-        
-        return continentBonus;
-        
-    }
-    
-    public void editBonus(int newBonus){
-        
-        continentBonus = newBonus;
-        
-    }
-    
-    public void setCapital(int capitalBonus, Territory capital){
-        
-        for(Territory t : territoriesContained){
-            
-            t.setBonusPoints(0);
-            
-        }
-        
-        capital.setBonusPoints(capitalBonus);
-        
-    }
-    
-    public ArrayList<Territory> getContainedTerritories(){
-        
+    public ArrayList<Territory> ContainedTerritories(){
         return territoriesContained;
         
     }
@@ -86,35 +57,23 @@ public class Continent
         
     }
     
-    public void destroy()
-    {
-        removeFromContinentList();
-
+    public void destroy() {
+        continentList.remove(this);
+        
         for(Territory terr : territoriesContained){
          
             terr.setContinent(null);
          
            }
+        
+        Selector.selectableSet.remove(this);
                
     }
     
     //////////////////////////////////////////////////
     
-    private void addToContinentList(){
-        
-        continentList.add(this);
-        
-    }
-    
-    private void removeFromContinentList(){
-        
-        continentList.remove(this);
-        
-    }
-    
-    public static ArrayList<Continent> getContinentList(){
-        
-        ArrayList<Continent> continents = new ArrayList<Continent>();
+    public static ArrayList<Continent> ContinentList(){
+        ArrayList<Continent> continents = new ArrayList<>();
         
         continents.addAll(0, continentList);
         
@@ -122,10 +81,9 @@ public class Continent
         
     }
     
-    ///////////////////////////////////////////////
+    //Selectable methods/////////////////////////////////
     
-    public void makeGreen()
-    {
+    public void makeGreen() {
         for(Territory terr : territoriesContained) {
         
             terr.makeGreen();
@@ -133,4 +91,20 @@ public class Continent
         }
     }
     
+    public void makeTransparent() {
+        for(Territory terr : territoriesContained) {
+        
+            terr.makeTransparent();
+        
+        }
+    }
+    
+    public void makeOpaque() {
+        for(Territory terr : territoriesContained) {
+        
+            terr.makeOpaque();
+        
+        }
+    }
+            
 }

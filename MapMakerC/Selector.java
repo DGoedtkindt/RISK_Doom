@@ -1,69 +1,73 @@
 import java.util.HashSet;
 import java.util.ArrayList;
 
-public class Selector  
+public class Selector
 {
     
-    private static HashSet<SingleHex> singleHexSelection = new HashSet<SingleHex>();
-    private static HashSet<Territory> territorySelection = new HashSet<Territory>();
-    private static Continent continentSelection = null;
+    public static HashSet<Selectable> selectableSet = new HashSet<>();
     
-    public static void selectSingleHex(SingleHex selectedHex)
-    //rajoute un SingleHex à la sélection
-    {
-        
-        singleHexSelection.add(selectedHex);
-        selectedHex.makeGreen();
-        
+    private static HashSet<Selectable> selection = new HashSet<>();
+    public static Validator validator = (Object o) -> {return true;};
+    
+    
+    public static boolean select(Selectable selectedObject) {
+        if(validator.isValid(selectedObject)) {
+            selection.add(selectedObject);
+            updateAppearance();
+            return true;
+        } else { return false; }  
     }
     
-    public static ArrayList<SingleHex> getSelectedHexes() throws Exception
-    {
+    
+    //Getters for SingleHex///////////////////////////////////////////////////
+    
+    public static ArrayList<SingleHex> getSelectedHexes() throws Exception{
+        if(selection.isEmpty()) throw new Exception("no hex selected");
         
-        if(singleHexSelection.isEmpty()) throw new Exception("no hex selected");
-        
-        ArrayList<SingleHex> singleHexSelectedList = new ArrayList<SingleHex>();
-        singleHexSelectedList.addAll(singleHexSelection);
+        ArrayList<SingleHex> singleHexSelectedList = new ArrayList<>();
+        for(Selectable select : selection) {
+            try{SingleHex hex;
+                hex = (SingleHex)select;
+                singleHexSelectedList.add(hex);
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
+        }
         
         return singleHexSelectedList;
-
     }
     
-    /////////////////////////////////////////////////////
-
-    public static void selectTerritory(Territory selectedTerritory)
-    //rajoute un Territory à la selection
-    {
-        
-        territorySelection.add(selectedTerritory);
-        selectedTerritory.makeGreen();
-        
-    }
+    //Getters for Territory///////////////////////////////////////////////////
     
-    public static Territory getSelectedTerritory() throws Exception
-    {
+    public static Territory getSelectedTerritory() throws Exception {
+        if(selection.size() > 1) throw new Exception("too many Territories selected");
+        if(selection.size() < 1) throw new Exception("no Territory selected");
         
-        if(territorySelection.size() > 1) throw new Exception("too many Territories selected");
-        if(territorySelection.size() < 1) throw new Exception("no Territory selected");
-        
-        ArrayList<Territory> territorySelectedList = new ArrayList<Territory>();
-        territorySelectedList.addAll(territorySelection);
+        ArrayList<Territory> territorySelectedList = new ArrayList<>();
+        for(Selectable select : selection) {
+            try{Territory terr;
+                terr = (Territory)select;
+                territorySelectedList.add(terr);
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
+        }
         
         return territorySelectedList.get(0);
-
     }
     
-    public static Territory[] getSelectedTerritoryPair() throws Exception
-    {
-        
-        if(territorySelection.size() > 2) throw new Exception("too many Territories selected");
-        if(territorySelection.size() < 2) throw new Exception("no enough Territory selected");
+    public static Territory[] getSelectedTerritoryPair() throws Exception {
+        if(selection.size() > 2) throw new Exception("too many Territories selected");
+        if(selection.size() < 2) throw new Exception("not enough Territory selected");
         
         Territory[] territoryArray = new Territory[2];
         int i = 0;
-        for(Territory hex : territorySelection){
+        for(Selectable select : selection){
         
-            territoryArray[i] = hex;
+            
+            try{Territory terr;
+                terr = (Territory)select;
+                territoryArray[i] = terr;
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
             i++;
             
         }
@@ -72,57 +76,93 @@ public class Selector
 
     }
 
-    public static ArrayList<Territory> getSelectedTerritories() throws Exception
-    {
+    public static ArrayList<Territory> getSelectedTerritories() throws Exception {
+        if(selection.isEmpty()) throw new Exception("no Territory selected");
         
-        if(territorySelection.isEmpty()) throw new Exception("no Territory selected");
-        
-        ArrayList<Territory> territorySelectedList = new ArrayList<Territory>();
-        territorySelectedList.addAll(territorySelection);
-        
+        ArrayList<Territory> territorySelectedList = new ArrayList<>();
+        for(Selectable select : selection) {
+            try{Territory terr;
+                terr = (Territory)select;
+                territorySelectedList.add(terr);
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
+        }
         return territorySelectedList;
 
     }
     
-    /////////////////////////////////////////////////////
+    //Getters for Continent///////////////////////////////////////////////////
     
-    public static void selectContinent(Continent selectedContinent)
-    //set le continent sélectionné
-    {
-        if(continentSelection == null) {
+    public static Continent getSelectedContinent() throws Exception {
+        if(selection.size() > 1) throw new Exception("too many Continent selected");
+        if(selection.size() < 1) throw new Exception("no Continent selected");
         
-            continentSelection = selectedContinent;
-            selectedContinent.makeGreen();
-            
+        ArrayList<Continent> continentSelectedList = new ArrayList<>();
+        for(Selectable select : selection) {
+            try{Continent cont;
+                cont = (Continent)select;
+                continentSelectedList.add(cont);
+            }  catch(ClassCastException cce) {
+                throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
-    }
-    
-    public static Continent getSelectedContinent() throws Exception
-    {
         
-        if(continentSelection == null) throw new Exception("no continent selected");
-        
-        return continentSelection;
-
+        return continentSelectedList.get(0);
     }
     
     ///////////////////////////////////////////////////////////
     
-    public static void clear()
-    {
+    public static void clear(){
+        selection.clear();
+        validator = (Object o) -> {return true;};
+        updateAppearance();
         
-        if(!(singleHexSelection.isEmpty())){
-            
-            for(SingleHex sh : singleHexSelection){
-                
-                sh.setImage(Hexagon.createHexagonImage(SingleHex.BASE_COLOR));
-                
-            }
-            
-        }
-        
-        singleHexSelection.clear();
-        territorySelection.clear();
     }
+    
+    public static void updateAppearance() {    
+        makeAllTransparent();
+        makeValidOpaque();
+        makeSelectedGreen();
+    }
+    
+    public static void setValidator(Validator newValidator) {
+        validator = newValidator;
+        updateAppearance();
+    }
+    
+    /////////////////////////////////////////////////////////
+    
+    private static void makeAllTransparent() {
+     for(Selectable select : selectableSet) {
+         select.makeTransparent();
+     }
+    }
+     
+    private static void makeValidOpaque() {
+     for(Selectable select : selectableSet) {
+         if(validator.isValid(select)) {
+            select.makeOpaque();
+         }
+     }
+    }
+
+    private static void makeSelectedGreen() {
+        for(Selectable select : selection) {
+            select.makeGreen();
+        }
+
+    }
+    
+    //Validators//////////////////////////////////////////////
+    
+    public static final Validator IS_SINGLEHEX = (Object o) -> {return o instanceof SingleHex;};
+    public static final Validator IS_CONTINENT = (Object o) -> {return o instanceof Continent;};
+    public static final Validator IS_TERRITORY = (Object o) -> {return o instanceof Territory;};
+    public static final Validator IS_TERRITORY_NOT_IN_CONTINENT = (Object o) -> 
+                    {if(o instanceof Territory) {
+                        return ((Territory)(o)).getContinent() == null;
+                    } else return false;
+                        };
+    public static final Validator NOTHING = (Object o) -> {return false;};
+    public static final Validator EVERYTHING = (Object o) -> {return true;};
     
 }
