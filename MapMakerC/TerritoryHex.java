@@ -59,7 +59,7 @@ public class TerritoryHex extends Button
     }
     
     public void drawTerrHex(Color color){   
-        this.setImage(Hexagon.createSimpleHexImage(color, 0.95));
+        this.setImage(Hexagon.createImage(color, 0.95));
         this.getImage().setTransparency(150);
     }
     

@@ -47,7 +47,7 @@ public class MyWorld extends World
         for(int i = 29; i < 34;i++){        //Hexagones violets sur le côté
             for(int j = -1; j <= 15; j++){
                 GreenfootImage hex;
-                hex = Hexagon.createSimpleHexImage(new Color(110,70,130),1);
+                hex = Hexagon.createImage(new Color(110,70,130),1);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
                 int size = Hexagon.getSize();
                 

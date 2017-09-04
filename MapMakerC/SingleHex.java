@@ -11,7 +11,7 @@ public class SingleHex extends Button implements Selectable
         coord.hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
         
-        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
+        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
     public Coordinates getCoord() {
@@ -33,12 +33,12 @@ public class SingleHex extends Button implements Selectable
     //Selectable methods/////////////////////////////////////
     
     public void makeGreen() {
-        this.setImage(Hexagon.createHexagonImage(MyWorld.SELECTION_COLOR));
+        this.setImage(Hexagon.createImageWBorder(MyWorld.SELECTION_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
     public void makeOpaque() {
-        this.setImage(Hexagon.createHexagonImage(BASE_COLOR));
+        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     

@@ -138,7 +138,7 @@ public class Territory implements Selectable
     //Selectable methods/////////////////////////////////
     
     public void makeTransparent() {  
-        GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.BASE_WORLD_COLOR);
+        GreenfootImage img = Hexagon.createImage(MyWorld.BASE_WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.getSize();
@@ -150,7 +150,7 @@ public class Territory implements Selectable
     }
     
     public void makeGreen() {
-        GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.SELECTION_COLOR);
+        GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.getSize();
@@ -189,7 +189,7 @@ public class Territory implements Selectable
     }
     
     private void drawHexs(){
-        GreenfootImage img = Hexagon.createHexagonImage(continentColor);
+        GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
                 int xPos = hex.getX() - Hexagon.getSize();
                 int yPos = hex.getY() - Hexagon.getSize();
