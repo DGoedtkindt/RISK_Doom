@@ -4,45 +4,46 @@ import java.awt.Polygon;
 import java.util.HashSet;
 import java.util.ArrayList;
 
-public class Territory
+public class Territory implements Selectable
 {
     public static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
     private int id; //l'identifiant de ce territoire
-    private HashSet<Coordinates> hexCoordSet;
+    private ArrayList<SingleHex> singleHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private HashSet<Territory> borderingTerritorySet = new HashSet<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent = null;
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
-    private int bonusPoints = 0;
+    public int bonusPoints = 0;
     
     
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
-    static public ArrayList<Territory> getAllTerritories(){
-        
+    static public ArrayList<Territory> allTerritories(){
         return territoryList;
         
     }
     
-    public Territory(HashSet<Coordinates> hexs)  throws Exception {
-        
+    public Territory(ArrayList<SingleHex> hexs)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
-        hexCoordSet = hexs;
+        singleHexList = hexs;
         createTerrHexs();
         drawTerritory();
-        deleteSingleHexs();
+        removeSingleHexs();
         setId();
         autoSetLinks();
+        Selector.selectableSet.add(this);
     }
     
     public void destroy()
-    /* destroys the TerritoryHexes
+    /* reconstructs the SingleHexes
+     * destroys the TerritoryHexes
      * removes itself from the territoryList
      * removes itself from the continent
+       removes itself from the selectableList
      * breaks the links with other territories
      */
     {
@@ -50,21 +51,21 @@ public class Territory
         continentColor = MyWorld.BASE_WORLD_COLOR;
         makeTransparent();
         
-        for(Coordinates c : hexCoordSet){
-            
-            getWorld().addObject(new SingleHex(c.getHexCoord()[0], c.getHexCoord()[1]), c.getRectCoord()[0], c.getRectCoord()[1]);
+        for(SingleHex sh : singleHexList){
+            getWorld().addObject(sh, sh.getCoord().rectCoord()[0], sh.getCoord().rectCoord()[1]);
             
         }
         
         getWorld().removeObjects(terrHexList);
         
-        territoryList.set(id, null);
+        territoryList.remove(this);
         
         if(continent != null) continent.removeTerritory(this);
         
+        Selector.selectableSet.remove(this);
+        
         for(Territory otherTerr : territoryList){
             if(otherTerr != null) {
-                
                 otherTerr.removeLink(this);
                 
             }
@@ -73,23 +74,16 @@ public class Territory
     }
 
     public void setContinent(Continent newContinent) {
-        
         continent = newContinent;
-        
         if(newContinent != null){
+            continentColor = newContinent.color();
             
-            continentColor = newContinent.getContinentColor();
-            
-        }else{
-            
+        }else {
             continentColor = MyWorld.BASE_WORLD_COLOR;
             
         }
-        
         drawTerritory();
-        
         for(TerritoryHex hex : terrHexList){
-                
                 hex.drawTerrHex(continentColor);
                 
         }
@@ -97,26 +91,18 @@ public class Territory
     }
     
     public void setNewLink(Territory newLink) {
-        
         borderingTerritorySet.add(newLink);
     }
 
     public void autoSetLinks(){
-        
          HashSet<TerritoryHex> borderingHexSet;
-         
          borderingHexSet = getBorderingHex();
-         
          for(TerritoryHex hex : borderingHexSet){
-             
              borderingTerritorySet.add(hex.getTerritory());
             
          }
-         
          borderingTerritorySet.remove(this);
-         
          for(Territory t : borderingTerritorySet){
-             
              t.setNewLink(this);
              
          }
@@ -124,47 +110,35 @@ public class Territory
     }
     
     public void removeLink(Territory terrToRemove){
-        
         borderingTerritorySet.remove(terrToRemove);
     }
     
-    public int getId() {
-        
+    public int id() {
         return id;
     }
     
-    public Continent getContinent() {
-        
+    public Continent continent() {
         return continent;
-    }
-    
-    public int getBonusPoints() {
         
-        return bonusPoints;
-    }
-    
-    public void setBonusPoints(int bonus) {
-        
-        bonusPoints = bonus;
     }
     
     public ArrayList<Territory> getBorderTerritories() {
-        
         ArrayList<Territory> borderTerritoryList = new ArrayList<>();
         borderTerritoryList.addAll(0, borderingTerritorySet);
         
         return borderTerritoryList;
+        
     }
     
     public ArrayList<TerritoryHex> getComposingHex() {
-        
         return terrHexList;
+        
     }
+
+    //Selectable methods/////////////////////////////////
     
     public void makeTransparent() {  
-        
-        GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.BASE_WORLD_COLOR);
-        
+        GreenfootImage img = Hexagon.createImage(MyWorld.BASE_WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.getSize();
@@ -176,9 +150,7 @@ public class Territory
     }
     
     public void makeGreen() {
-        
-        GreenfootImage img = Hexagon.createSimpleHexImage(MyWorld.SELECTION_COLOR);
-        
+        GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.getSize();
@@ -188,13 +160,14 @@ public class Territory
         }
         
     }
-    
-    public void makeOpaque() {
-        
+
+    public void makeOpaque() {   
         drawTerritory();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
     private void drawTerritory()
     //dessine le territoire sur le monde
     {
@@ -205,11 +178,8 @@ public class Territory
     private void createTerrHexs()
     //crée tous les territoryHex de ce territoire
     {
-        GreenfootImage img = Hexagon.createSimpleHexImage(continentColor, 0.95);
-        
-        for(Coordinates hex : hexCoordSet){
-                
-                int[] rectCoord = hex.getRectCoord();
+        for(SingleHex hex : singleHexList) {
+                int[] rectCoord = hex.getCoord().rectCoord();
                 TerritoryHex trHex = new TerritoryHex(this, continentColor);
                 terrHexList.add(trHex);
                 getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
@@ -218,12 +188,9 @@ public class Territory
         
     }
     
-    private void drawHexs()
-    {
-        GreenfootImage img = Hexagon.createHexagonImage(continentColor);
-        
+    private void drawHexs(){
+        GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
-                
                 int xPos = hex.getX() - Hexagon.getSize();
                 int yPos = hex.getY() - Hexagon.getSize();
                 getBackground().drawImage(img, xPos, yPos);
@@ -231,22 +198,17 @@ public class Territory
         }
     }
 
-    private void drawAllHexsLinks()
-    {
+    private void drawAllHexsLinks(){
         for(TerritoryHex hex : terrHexList){
-                
                 drawHexLinks(hex);
 
         }
     }
     
-    private void drawHexLinks(TerritoryHex hex)
-    {
+    private void drawHexLinks(TerritoryHex hex){
         ArrayList<Polygon> links = getLinkPolygon(hex);
         getBackground().setColor(continentColor);
-        
         for(Polygon poly : links){
-                
                 getBackground().fillShape(poly);
 
         }
@@ -289,20 +251,14 @@ public class Territory
         
     }
             
-    private void deleteSingleHexs()
-    {
-        for(Coordinates hex : hexCoordSet){
-                
-                int[] hexCoord = hex.getHexCoord();
-                SingleHex hexToDel = SingleHex.array2D[hexCoord[0]][hexCoord[1]];
-                hexToDel.destroy();
+    private void removeSingleHexs(){
+        for(SingleHex hexToDel : singleHexList){
+                getWorld().removeObject(hexToDel);
 
         }
     }
         
     /////////////////////////////////////////////////////////////////////////////////////////////    
-    
-    
     
     private void setId()
     {
