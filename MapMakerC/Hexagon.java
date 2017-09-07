@@ -3,7 +3,7 @@
  import java.awt.Color;
  
 public class Hexagon  {
-    static final int HEXAGON_SIZE = 40;
+    static final int RADIUS = 40;
     
     public static GreenfootImage createImageWBorder(Color hexColor){
         
@@ -16,7 +16,7 @@ public class Hexagon  {
 
     
     public static GreenfootImage createImage(Color color, double sizeInPercent){
-        GreenfootImage img = new GreenfootImage(2*HEXAGON_SIZE, 2*HEXAGON_SIZE);
+        GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
         
         int[][] array  = getHexagonCoord(sizeInPercent);
         
@@ -35,32 +35,25 @@ public class Hexagon  {
     private static int[][] getHexagonCoord(double sizeMultiplier)
     //crée les coordinées des points d'un hexagone 
     {
-        double rad = HEXAGON_SIZE * sizeMultiplier;
+        double rad = RADIUS * sizeMultiplier;
         
         int[][] arr = {
-            {(int)rad + HEXAGON_SIZE,
-            (int)(Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)-rad + HEXAGON_SIZE, 
-            (int)(-Math.cos(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(-Math.cos(2*Math.PI/3) * rad) + HEXAGON_SIZE} , 
+            {(int)rad + RADIUS,
+            (int)(Math.cos(Math.PI/3) * rad) + RADIUS,
+            (int)(Math.cos(2*Math.PI/3) * rad) + RADIUS,
+            (int)-rad + RADIUS, 
+            (int)(-Math.cos(Math.PI/3) * rad) + RADIUS,
+            (int)(-Math.cos(2*Math.PI/3) * rad) + RADIUS} , 
             
-           {(int)HEXAGON_SIZE,
-            (int)(Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)HEXAGON_SIZE,
-            (int)(-Math.sin(Math.PI/3) * rad) + HEXAGON_SIZE,
-            (int)(-Math.sin(2*Math.PI/3) * rad) + HEXAGON_SIZE}
+           {(int)RADIUS,
+            (int)(Math.sin(Math.PI/3) * rad) + RADIUS,
+            (int)(Math.sin(2*Math.PI/3) * rad) + RADIUS,
+            (int)RADIUS,
+            (int)(-Math.sin(Math.PI/3) * rad) + RADIUS,
+            (int)(-Math.sin(2*Math.PI/3) * rad) + RADIUS}
             };
      
         return arr;
     }
-    
-    
-    public static int getSize(){
-        return HEXAGON_SIZE;
-    }
-    
-    
     
 }

@@ -141,8 +141,8 @@ public class Territory implements Selectable
         GreenfootImage img = Hexagon.createImage(MyWorld.BASE_WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
                 
         }
@@ -153,8 +153,8 @@ public class Territory implements Selectable
         GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
                 
         }
@@ -191,8 +191,8 @@ public class Territory implements Selectable
     private void drawHexs(){
         GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
 
         }
@@ -229,17 +229,17 @@ public class Territory implements Selectable
         
         for(TerritoryHex otherHex : terrHexList){
                 if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
-                    if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+                    if(thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS) { //pour ne lier que les hex adjacents
                         
                         temporary[0][2] = otherHex.getX();
                         temporary[1][2] = otherHex.getY();
                         
                         double angle = Math.atan2(otherHex.getY()-thisHex.getY(), otherHex.getX()-thisHex.getX());
                         
-                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle + Math.PI/6));
-                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle + Math.PI/6));
-                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle - Math.PI/6));
-                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle - Math.PI/6));
+                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
+                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
+                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
+                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
                         
                         linksPoly.add(new Polygon(temporary[0],temporary[1],4));
                         

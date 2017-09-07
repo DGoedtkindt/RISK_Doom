@@ -13,7 +13,7 @@ public class Selector
     public static boolean select(Selectable selectedObject) {
         if(validator.isValid(selectedObject)) {
             selection.add(selectedObject);
-            updateAppearance();
+            selectedObject.makeGreen();
             return true;
         } else { return false; }  
     }

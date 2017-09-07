@@ -46,7 +46,7 @@ public class TerritoryHex extends Button
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
         for(TerritoryHex otherHex : allOtherTerritoryHex){
-            if(this.distance(otherHex) < 2 * Hexagon.getSize()){
+            if(this.distance(otherHex) < 2 * Hexagon.RADIUS){
                 borderingHexList.add(otherHex);
                 
             }

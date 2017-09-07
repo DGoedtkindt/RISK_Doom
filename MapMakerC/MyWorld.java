@@ -49,7 +49,7 @@ public class MyWorld extends World
                 GreenfootImage hex;
                 hex = Hexagon.createImage(new Color(110,70,130),1);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
-                int size = Hexagon.getSize();
+                int size = Hexagon.RADIUS;
                 
                 getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
             }
