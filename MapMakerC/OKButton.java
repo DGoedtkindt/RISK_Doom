@@ -184,4 +184,13 @@ public class OKButton extends Button
              
     }
     
+    public void makeTransparent() {
+        getImage().setTransparency(MyWorld.TRANSPARENT);
+    
+    }
+    
+    public void makeOpaque() {
+        getImage().setTransparency(MyWorld.OPAQUE);
+    
+    }
 }

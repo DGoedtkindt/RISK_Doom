@@ -180,7 +180,16 @@ public class MakeXML extends Button
             MyWorld.theWorld.escape();
             
         }
-
-        
+   
+    }
+    
+    public void makeTransparent() {
+        getImage().setTransparency(MyWorld.TRANSPARENT);
+    
+    }
+    
+    public void makeOpaque() {
+        getImage().setTransparency(MyWorld.OPAQUE);
+    
     }
 }

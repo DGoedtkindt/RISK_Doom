@@ -20,6 +20,16 @@ public class ModeButton extends Button {
         }
     }
     
+    public void makeTransparent() {
+        getImage().setTransparency(MyWorld.TRANSPARENT);
+    
+    }
+    
+    public void makeOpaque() {
+        getImage().setTransparency(MyWorld.OPAQUE);
+    
+    }
+    
     private void createImageFromText(String textToShow){
         GreenfootImage image = new GreenfootImage(textToShow, 22, Color.BLACK, Color.WHITE);
         this.setImage(image);

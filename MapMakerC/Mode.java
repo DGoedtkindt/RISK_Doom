@@ -46,27 +46,27 @@ public class Mode
                 if(t != null){
                     if(t.continent() == null){
                     unoccupiedTerritoriesNumber++;
-                }
+                    }
                 }
             }
             
-            theWorld().createTerritory.getImage().setTransparency(MyWorld.OPAQUE);
+            theWorld().createTerritory.makeOpaque();
             if(unoccupiedTerritoriesNumber > 0){
-                theWorld().createContinent.getImage().setTransparency(MyWorld.OPAQUE);
+                theWorld().createContinent.makeOpaque();
             }
             if(!Continent.continentList().isEmpty()){
-                theWorld().editContinentBonus.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().editContinentColor.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().deleteContinent.getImage().setTransparency(MyWorld.OPAQUE);
+                theWorld().editContinentBonus.makeOpaque();
+                theWorld().editContinentColor.makeOpaque();
+                theWorld().deleteContinent.makeOpaque();
             }
             if(!allTerritories.isEmpty()){
-                theWorld().editTerritoryBonus.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().deleteTerritory.getImage().setTransparency(MyWorld.OPAQUE);
+                theWorld().editTerritoryBonus.makeOpaque();
+                theWorld().deleteTerritory.makeOpaque();
             }
             if(allTerritories.size() > 1){
-                theWorld().createLink.getImage().setTransparency(MyWorld.OPAQUE);
+                theWorld().createLink.makeOpaque();
             }
-            theWorld().makeXMLButton.getImage().setTransparency(MyWorld.OPAQUE);
+            theWorld().makeXMLButton.makeOpaque();
             
         }else{
             
@@ -76,27 +76,27 @@ public class Mode
                 
                 if(mb.linkedMode == mode){
                     
-                    mb.getImage().setTransparency(MyWorld.OPAQUE);
+                    mb.makeOpaque();
                     
                 }
                 
             }
-            theWorld().okButton.getImage().setTransparency(MyWorld.OPAQUE);
+            theWorld().okButton.makeOpaque();
         }
         
     }
     
     private static void makeAllButtonsTransparent() {
-        theWorld().createTerritory.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().createContinent.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editContinentBonus.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editContinentColor.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editTerritoryBonus.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().createLink.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().deleteTerritory.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().deleteContinent.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().okButton.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().makeXMLButton.getImage().setTransparency(MyWorld.TRANSPARENT);
+        theWorld().createTerritory.makeTransparent();
+        theWorld().createContinent.makeTransparent();
+        theWorld().editContinentBonus.makeTransparent();
+        theWorld().editContinentColor.makeTransparent();
+        theWorld().editTerritoryBonus.makeTransparent();
+        theWorld().createLink.makeTransparent();
+        theWorld().deleteTerritory.makeTransparent();
+        theWorld().deleteContinent.makeTransparent();
+        theWorld().okButton.makeTransparent();
+        theWorld().makeXMLButton.makeTransparent();
     
     }
 

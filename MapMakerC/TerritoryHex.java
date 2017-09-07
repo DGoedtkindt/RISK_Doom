@@ -6,14 +6,12 @@ public class TerritoryHex extends Button
 {
     private Territory territory;
     
-    private MyWorld getMyWorld(){ return (MyWorld)this.getWorld();}
-    
     public TerritoryHex(Territory territory, Color color){
         this.territory = territory;
         drawTerrHex(color);
     }
     
-    public void clicked(){
+    public void clicked() {
         Mode mode = Mode.currentMode();
         
         if(mode == Mode.CREATE_CONTINENT ||
@@ -32,14 +30,13 @@ public class TerritoryHex extends Button
                         Selector.setValidator(Selector.NOTHING);
                         
                     } else {
-                getMyWorld().escape();
+                MyWorld.theWorld.escape();
             }
             
         }else{
-            getMyWorld().escape();
+            MyWorld.theWorld.escape();
             
         }
-        
     }
     
     public ArrayList<TerritoryHex> getBorderingHex() {
