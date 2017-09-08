@@ -104,8 +104,6 @@ public class Mode
     ///Final Modes//////////////////////////////////////////
     
     static public final Mode DEFAULT                     = new Mode();
-    static public final Mode EDIT_TERRITORY              = new Mode();
-    static public final Mode EDIT_CONTINENT              = new Mode();
     static public final Mode CREATE_TERRITORY            = new Mode();
     static public final Mode CREATE_CONTINENT            = new Mode();
     static public final Mode EDIT_TERRITORY_BONUS        = new Mode();

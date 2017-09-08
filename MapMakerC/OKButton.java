@@ -1,6 +1,5 @@
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import java.awt.Color;
 
 public class OKButton extends Button
@@ -31,12 +30,6 @@ public class OKButton extends Button
             
             }else if(mode == Mode.SET_LINK){
                 createLinksForSelection();
-            
-            }else if(mode == Mode.EDIT_CONTINENT_COLOR){
-                changeColorFromContSelected();
-            
-            }else if(mode == Mode.EDIT_CONTINENT_BONUS){
-                changeBonusFromContSelection();
             
             }else if(mode == Mode.DELETE_CONTINENT){
                 deleteContinentSelection();
@@ -106,39 +99,6 @@ public class OKButton extends Button
               
           }
             
-    }
-    
-    private void changeColorFromContSelected(){
-        try{
-            Continent ContinentForColorChange;
-            ContinentForColorChange = Selector.getSelectedContinent();
-            int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-            int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-            int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-            Color changedColor = new Color(rColor, gColor, bColor);
-            ContinentForColorChange.editColor(changedColor);
-            
-           } catch(Exception e){
-            e.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
-             
-           }
-              
-    }
-    
-    private void changeBonusFromContSelection(){
-        try{
-            Continent editedContinent;
-            editedContinent = Selector.getSelectedContinent();
-            int newContinentBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus de continent"));
-            editedContinent.bonus = newContinentBonus;
-            
-           } catch(Exception e){
-            e.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
-             
-           }
-                                             
     }
     
     private void deleteContinentSelection(){

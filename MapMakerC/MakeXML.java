@@ -109,7 +109,7 @@ public class MakeXML extends Button
                 
                 
                 Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.bonus);
+                continentPoints.setValue("" + currentContinent.bonus());
                 continent.setAttributeNode(continentPoints);
                 
                 Attr rContinentColor = doc.createAttribute("rContinentColor");

@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.util.HashSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
@@ -138,10 +139,10 @@ public class Territory implements Selectable
         
     }
     
-    public void setBonus(int newBonus) {
-        bonusPoints = newBonus;
-        trInfo.setDisplayedBonus(newBonus);
-    
+    public void editBonus() throws Exception {
+            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+            bonusPoints = newBonus;
+            trInfo.setDisplayedBonus(newBonus);
     }
     
     public int bonus() {

@@ -7,18 +7,12 @@ public class Continent implements Selectable
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    public int bonus;
+    private int bonus;
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
-    public Continent(ArrayList<Territory> territories){
-        
-        int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-        int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-        int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-        int continentPoints = Integer.parseInt(JOptionPane.showInputDialog("Entrez le bonus de continent"));
-        
-        editColor(new Color(rColor, gColor, bColor));
-        bonus = continentPoints;
+    public Continent(ArrayList<Territory> territories) throws Exception{
+        editColor();
+        editBonus();
         
         continentList.add(this);
         Selector.selectableSet.add(this);
@@ -33,12 +27,15 @@ public class Continent implements Selectable
         
     }
     
-    public void editColor(Color newColor){
-        continentColor = newColor;
-        for(Territory t : territoriesContained){
-            t.setContinent(this);
-            
-        }
+    public void editColor() throws Exception {
+            int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
+            int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
+            int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+            continentColor = new Color(rColor,gColor,bColor);
+            for(Territory t : territoriesContained){
+                t.setContinent(this);
+
+            }
     }
     
     public Color color(){
@@ -68,6 +65,16 @@ public class Continent implements Selectable
         
         Selector.selectableSet.remove(this);
                
+    }
+    
+    public void editBonus() throws Exception {
+            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent"));
+            bonus = newBonus;
+    }
+    
+    public int bonus() {
+        return bonus;
+    
     }
     
     //////////////////////////////////////////////////

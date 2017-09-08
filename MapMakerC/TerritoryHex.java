@@ -16,29 +16,31 @@ public class TerritoryHex extends Button
         Mode mode = Mode.currentMode();
         
         if(mode == Mode.CREATE_CONTINENT ||
-           mode == Mode.EDIT_TERRITORY ||
            mode == Mode.SET_LINK ||
            mode == Mode.DELETE_TERRITORY){
             
             Selector.select(getTerritory());
             
         }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
-            System.out.println("should have asked for bonus");
             Selector.select(territory);
-            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
-            territory.setBonus(newBonus);
+            territory.editBonus();
             MyWorld.theWorld.escape();
         
-        }else if(mode == Mode.EDIT_CONTINENT_COLOR ||
-                 mode == Mode.EDIT_CONTINENT_BONUS ||
-                 mode == Mode.DELETE_CONTINENT){
-            
-            if(Selector.select(getTerritory().continent())) {
-                        Selector.setValidator(Selector.NOTHING);
-                        
-                    } else {
-                MyWorld.theWorld.escape();
-            }
+        }else if(mode == Mode.EDIT_CONTINENT_COLOR) {
+            Selector.select(territory.continent());
+            Selector.setValidator(Selector.NOTHING);
+            territory.continent().editColor();
+            MyWorld.theWorld.escape();
+        
+        }else if(mode == Mode.EDIT_CONTINENT_BONUS) {
+            Selector.select(territory.continent());
+            Selector.setValidator(Selector.NOTHING);
+            territory.continent().editBonus();
+            MyWorld.theWorld.escape();
+        
+        }else if(mode == Mode.DELETE_CONTINENT){
+                    Selector.select(territory.continent());
+                    Selector.setValidator(Selector.NOTHING);   
             
         }else{
             MyWorld.theWorld.escape();
