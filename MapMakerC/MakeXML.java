@@ -77,7 +77,7 @@ public class MakeXML extends Button
                     }
                     
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + currentTerritory.bonusPoints);
+                    territoryPoints.setValue("" + currentTerritory.bonus());
                     territory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");
@@ -134,7 +134,7 @@ public class MakeXML extends Button
                     rootElement.appendChild(unoccupiedTerritory);
                     
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + t.bonusPoints);
+                    territoryPoints.setValue("" + t.bonus());
                     unoccupiedTerritory.setAttributeNode(territoryPoints);
                     
                     Attr territoryOwner = doc.createAttribute("territoryOwner");

@@ -114,5 +114,6 @@ public class Mode
     static public final Mode EDIT_CONTINENT_BONUS        = new Mode();
     static public final Mode DELETE_TERRITORY            = new Mode();
     static public final Mode DELETE_CONTINENT            = new Mode();
+    static public final Mode SELECT_INFO_HEX             = new Mode();
     
 }

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
 {
@@ -17,11 +18,17 @@ public class TerritoryHex extends Button
         if(mode == Mode.CREATE_CONTINENT ||
            mode == Mode.EDIT_TERRITORY ||
            mode == Mode.SET_LINK ||
-           mode == Mode.DELETE_TERRITORY ||
-           mode == Mode.EDIT_TERRITORY_BONUS){
+           mode == Mode.DELETE_TERRITORY){
             
             Selector.select(getTerritory());
             
+        }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
+            System.out.println("should have asked for bonus");
+            Selector.select(territory);
+            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+            territory.setBonus(newBonus);
+            MyWorld.theWorld.escape();
+        
         }else if(mode == Mode.EDIT_CONTINENT_COLOR ||
                  mode == Mode.EDIT_CONTINENT_BONUS ||
                  mode == Mode.DELETE_CONTINENT){
