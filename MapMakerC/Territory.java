@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.util.HashSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
@@ -16,7 +17,8 @@ public class Territory implements Selectable
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent = null;
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
-    public int bonusPoints = 0;
+    private int bonusPoints = 0;
+    private TerrInfo trInfo; 
     
     
     
@@ -27,10 +29,10 @@ public class Territory implements Selectable
         
     }
     
-    public Territory(ArrayList<SingleHex> hexs)  throws Exception {
+    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         singleHexList = hexs;
-        createTerrHexs();
+        createTerrHexs(infoHex);
         drawTerritory();
         removeSingleHexs();
         setId();
@@ -43,8 +45,9 @@ public class Territory implements Selectable
      * destroys the TerritoryHexes
      * removes itself from the territoryList
      * removes itself from the continent
-       removes itself from the selectableList
+     * removes itself from the selectableList
      * breaks the links with other territories
+     * removes TerrInfo from world     
      */
     {
         
@@ -71,6 +74,7 @@ public class Territory implements Selectable
             }
         }
         
+        getWorld().removeObject(trInfo);
     }
 
     public void setContinent(Continent newContinent) {
@@ -92,6 +96,7 @@ public class Territory implements Selectable
     
     public void setNewLink(Territory newLink) {
         borderingTerritorySet.add(newLink);
+        
     }
 
     public void autoSetLinks(){
@@ -134,6 +139,28 @@ public class Territory implements Selectable
         return terrHexList;
         
     }
+    
+    public void editBonus() throws Exception {
+            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+            bonusPoints = newBonus;
+            trInfo.setDisplayedBonus(newBonus);
+    }
+    
+    public int bonus() {
+        return bonusPoints;
+        
+    }
+    
+    public TerrInfo getTerrInfo(){
+        
+        return trInfo;
+        
+    }
+    
+    public Color getColor(){
+        return continentColor;
+    
+    }
 
     //Selectable methods/////////////////////////////////
     
@@ -141,8 +168,8 @@ public class Territory implements Selectable
         GreenfootImage img = Hexagon.createImage(MyWorld.BASE_WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
                 
         }
@@ -153,8 +180,8 @@ public class Territory implements Selectable
         GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
                 
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
                 
         }
@@ -175,7 +202,7 @@ public class Territory implements Selectable
         drawAllHexsLinks();
     }
     
-    private void createTerrHexs()
+    private void createTerrHexs(SingleHex infoHex)
     //crée tous les territoryHex de ce territoire
     {
         for(SingleHex hex : singleHexList) {
@@ -183,7 +210,10 @@ public class Territory implements Selectable
                 TerritoryHex trHex = new TerritoryHex(this, continentColor);
                 terrHexList.add(trHex);
                 getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
-                
+                if(hex == infoHex) {
+                    trInfo = new TerrInfo(trHex);
+                    getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
+                }
         }
         
     }
@@ -191,8 +221,8 @@ public class Territory implements Selectable
     private void drawHexs(){
         GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
-                int xPos = hex.getX() - Hexagon.getSize();
-                int yPos = hex.getY() - Hexagon.getSize();
+                int xPos = hex.getX() - Hexagon.RADIUS;
+                int yPos = hex.getY() - Hexagon.RADIUS;
                 getBackground().drawImage(img, xPos, yPos);
 
         }
@@ -229,17 +259,17 @@ public class Territory implements Selectable
         
         for(TerritoryHex otherHex : terrHexList){
                 if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
-                    if(thisHex.distance(otherHex) < 2.2*Hexagon.getSize()) { //pour ne lier que les hex adjacents
+                    if(thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS) { //pour ne lier que les hex adjacents
                         
                         temporary[0][2] = otherHex.getX();
                         temporary[1][2] = otherHex.getY();
                         
                         double angle = Math.atan2(otherHex.getY()-thisHex.getY(), otherHex.getX()-thisHex.getX());
                         
-                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle + Math.PI/6));
-                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle + Math.PI/6));
-                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.getSize() * Math.cos(angle - Math.PI/6));
-                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.getSize() * Math.sin(angle - Math.PI/6));
+                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
+                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
+                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
+                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
                         
                         linksPoly.add(new Polygon(temporary[0],temporary[1],4));
                         

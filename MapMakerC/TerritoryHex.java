@@ -6,38 +6,48 @@ public class TerritoryHex extends Button
 {
     private Territory territory;
     
-    private MyWorld getMyWorld(){ return (MyWorld)this.getWorld();}
-    
     public TerritoryHex(Territory territory, Color color){
         this.territory = territory;
         drawTerrHex(color);
     }
     
-    public void clicked(){
-        Mode mode = Mode.currentMode();
-        
-        if(mode == Mode.CREATE_CONTINENT ||
-           mode == Mode.EDIT_TERRITORY ||
-           mode == Mode.SET_LINK ||
-           mode == Mode.DELETE_TERRITORY ||
-           mode == Mode.EDIT_TERRITORY_BONUS){
-            
-            Selector.select(getTerritory());
-            
-        }else if(mode == Mode.EDIT_CONTINENT_COLOR ||
-                 mode == Mode.EDIT_CONTINENT_BONUS ||
-                 mode == Mode.DELETE_CONTINENT){
-            
-            if(Selector.select(getTerritory().continent())) {
-                        Selector.setValidator(Selector.NOTHING);
-                        
-                    } else {
-                getMyWorld().escape();
+    public void clicked() {
+        try {
+            Mode mode = Mode.currentMode();
+
+            if(mode == Mode.CREATE_CONTINENT ||
+               mode == Mode.SET_LINK ||
+               mode == Mode.DELETE_TERRITORY){
+                    Selector.select(getTerritory());
+
+            }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
+                Selector.select(territory);
+                territory.editBonus();
+                MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.EDIT_CONTINENT_COLOR) {
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);
+                territory.continent().editColor();
+                MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.EDIT_CONTINENT_BONUS) {
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);
+                territory.continent().editBonus();
+                MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.DELETE_CONTINENT){
+                        Selector.select(territory.continent());
+                        Selector.setValidator(Selector.NOTHING);   
+
+            }else{
+                MyWorld.theWorld.escape();
+
             }
-            
-        }else{
-            getMyWorld().escape();
-            
+        } catch (Exception ex) {
+            System.out.println(ex);
+            MyWorld.theWorld.escape();
         }
         
     }
@@ -49,7 +59,7 @@ public class TerritoryHex extends Button
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
         
         for(TerritoryHex otherHex : allOtherTerritoryHex){
-            if(this.distance(otherHex) < 2 * Hexagon.getSize()){
+            if(this.distance(otherHex) < 2 * Hexagon.RADIUS){
                 borderingHexList.add(otherHex);
                 
             }

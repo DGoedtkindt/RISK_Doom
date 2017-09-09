@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class SingleHex extends Button implements Selectable
 {
@@ -22,7 +23,22 @@ public class SingleHex extends Button implements Selectable
         if(mode == Mode.CREATE_TERRITORY){
             Selector.select(this);
             
-        }else{
+        } else if(mode == Mode.SELECT_INFO_HEX) {
+            try{
+                if(Selector.getSelectedHexes().contains(this)) {
+                    ArrayList<SingleHex> selectedHexes;
+                    selectedHexes = Selector.getSelectedHexes();
+                    new Territory(selectedHexes, this);
+                    
+                }
+                
+            } catch(Exception e){
+                e.printStackTrace(System.out);
+           
+         }
+            MyWorld.theWorld.escape();
+            
+        } else{
             MyWorld.theWorld.escape();
             
         }

@@ -10,12 +10,18 @@ public class Selector
     public static Validator validator = (Object o) -> {return true;};
     
     
-    public static boolean select(Selectable selectedObject) {
+    public static void select(Selectable selectedObject) {
         if(validator.isValid(selectedObject)) {
-            selection.add(selectedObject);
-            updateAppearance();
-            return true;
-        } else { return false; }  
+            if(!selection.contains(selectedObject)) {
+                selection.add(selectedObject);
+                selectedObject.makeGreen();
+            } else {
+                selection.remove(selectedObject);
+                updateAppearance();
+            }
+            
+        
+        }
     }
     
     
