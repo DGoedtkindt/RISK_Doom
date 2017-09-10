@@ -27,14 +27,14 @@ public class MyWorld extends World
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
     
-    ModeButton createTerritory      = new ModeButton("Create Territory",        Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
-    ModeButton createContinent      = new ModeButton("Create Continent",        Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
-    ModeButton editContinentBonus   = new ModeButton("Edit Continent Bonus",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
-    ModeButton editContinentColor   = new ModeButton("Edit Continent Color",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
-    ModeButton editTerritoryBonus   = new ModeButton("Edit Territory Bonus",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    ModeButton createLink           = new ModeButton("Create Link",             Mode.SET_LINK,              Selector.IS_TERRITORY);
-    ModeButton deleteTerritory      = new ModeButton("Delete Territory",        Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
-    ModeButton deleteContinent      = new ModeButton("Delete Continent",        Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
+    ModeButton createTerritory      = new ModeButton("newTerritory.png",        Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
+    ModeButton createContinent      = new ModeButton("addContinent.png",        Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    ModeButton editContinentBonus   = new ModeButton("ContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
+    ModeButton editContinentColor   = new ModeButton("ContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
+    ModeButton editTerritoryBonus   = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
+    ModeButton createLink           = new ModeButton("newLink.png",             Mode.SET_LINK,              Selector.IS_TERRITORY);
+    ModeButton deleteTerritory      = new ModeButton("deleteTerritory.png",        Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
+    ModeButton deleteContinent      = new ModeButton("deleteContinent.png",        Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     OKButton okButton               = new OKButton();
     MakeXML makeXMLButton           = new MakeXML();
     
@@ -63,14 +63,14 @@ public class MyWorld extends World
         
         // placement des boutons
         addObject(createTerritory, MyWorld.WORLD_WIDTH -100, 100);
-        addObject(createLink, MyWorld.WORLD_WIDTH - 100, 130);
-        addObject(editTerritoryBonus, MyWorld.WORLD_WIDTH - 100, 160);
-        addObject(deleteTerritory, MyWorld.WORLD_WIDTH - 100, 190);
+        addObject(createLink, MyWorld.WORLD_WIDTH - 70, 160);
+        addObject(editTerritoryBonus, MyWorld.WORLD_WIDTH - 130, 160);
+        addObject(deleteTerritory, MyWorld.WORLD_WIDTH - 100, 220);
         addObject(createContinent, MyWorld.WORLD_WIDTH - 100, 300);
-        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 100, 330);
-        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 100, 360);
-        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 390);
-        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 500);
+        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 70, 360);
+        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 130, 360);
+        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 420);
+        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
         
         // placement des hexagones

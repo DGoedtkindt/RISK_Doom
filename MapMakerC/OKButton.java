@@ -7,7 +7,8 @@ public class OKButton extends Button
     
     public OKButton(){
         
-        GreenfootImage image = new GreenfootImage("Validate", 25, Color.BLACK, Color.WHITE);
+        GreenfootImage image = new GreenfootImage("OKButton.png");
+        image.scale(80, 80);
         this.setImage(image);
         
     }

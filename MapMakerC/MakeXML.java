@@ -21,7 +21,8 @@ public class MakeXML extends Button
 {
     public MakeXML(){
         
-        GreenfootImage image = new GreenfootImage("Make XML", 25, Color.BLACK, Color.WHITE);
+        GreenfootImage image = new GreenfootImage("SaveToXML.png");
+        image.scale(80, 80);
         this.setImage(image);
         
     }
