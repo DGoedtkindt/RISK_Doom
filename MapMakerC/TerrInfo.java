@@ -19,7 +19,7 @@ public class TerrInfo extends Button {
     
     public void setDisplayedBonus(int newBonus) {
         if(newBonus > 0) {
-        this.setImage(new GreenfootImage(""+newBonus, 25 , Color.BLACK,linkedTerrHex.getTerritory().getColor()));
+        this.setImage(new GreenfootImage(""+newBonus, 25 , Color.BLACK,Color.WHITE));
     
         }else{
             setImage(new GreenfootImage(1,1));

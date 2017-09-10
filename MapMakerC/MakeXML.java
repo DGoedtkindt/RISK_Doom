@@ -83,11 +83,11 @@ public class MakeXML extends Button
                     territory.appendChild(infoHex);
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.getTerrInfo().getX());
+                    infoHexX.setValue("" + currentTerritory.terrInfo().getX());
                     infoHex.setAttributeNode(infoHexX);
 
                     Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.getTerrInfo().getY());
+                    infoHexY.setValue("" + currentTerritory.terrInfo().getY());
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives attributes to territory

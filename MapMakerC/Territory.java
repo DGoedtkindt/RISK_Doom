@@ -151,6 +151,11 @@ public class Territory implements Selectable
         return bonusPoints;
         
     }
+    
+    public TerrInfo terrInfo() {
+        return trInfo;
+    
+    }
 
     //Selectable methods/////////////////////////////////
     
