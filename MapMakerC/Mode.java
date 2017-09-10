@@ -157,8 +157,8 @@ public class Mode
     static public final Mode SET_LINK                    = new Mode("Select two territories to allow troops to go from one to another.");
     static public final Mode EDIT_CONTINENT_COLOR        = new Mode("Select a continent and change its color.");
     static public final Mode EDIT_CONTINENT_BONUS        = new Mode("Select a continent and change its bonus.");
-    static public final Mode DELETE_TERRITORY            = new Mode("Select territories to delete them.");
-    static public final Mode DELETE_CONTINENT            = new Mode("Select continents to delete them without destroying their composing territories.");
-    static public final Mode SELECT_INFO_HEX             = new Mode("Select a hex wich will show the current bonus of this territory.");
+    static public final Mode DELETE_TERRITORY            = new Mode("Select a territory to delete it.");
+    static public final Mode DELETE_CONTINENT            = new Mode("Select a continent to delete it (without destroying it's composing territories).");
+    static public final Mode SELECT_INFO_HEX             = new Mode("Select the hex wich will show the current bonus of this territory.");
     
 }

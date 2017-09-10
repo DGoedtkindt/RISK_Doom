@@ -8,7 +8,9 @@ public class Continent implements Selectable
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    private int bonus = 0;
+
+    private int bonus;
+
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
     public Continent(ArrayList<Territory> territories) throws Exception{
@@ -37,7 +39,7 @@ public class Continent implements Selectable
                 t.setContinent(this);
 
             }
-            
+
     }
     
     public Color color(){

@@ -1,4 +1,5 @@
 import greenfoot.GreenfootImage;
+
 import java.awt.Color;
 
 public class TerrInfo extends Button {
