@@ -3,6 +3,7 @@ import java.util.List;
 import greenfoot.GreenfootImage;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Canvas;
 
 public class Mode
 {
@@ -102,50 +103,41 @@ public class Mode
     
     }
 
-    private static void drawModeMessage(String messageToDisplay){
-        
+    private static void drawModeMessage(String message){
         theWorld().getBackground().setColor(MyWorld.MENU_COLOR);
-        theWorld().getBackground().fillRect(MyWorld.WORLD_WIDTH - 200, 700, 200, 380);
+        theWorld().getBackground().fillRect(MyWorld.WORLD_WIDTH - 210, 700, 210, 380);
         
-        int spacing = 20;
-        int maxLineLength = 200;
+        Font font = new Font("Monospaced", Font.PLAIN, 17);
         
-        String[] words = messageToDisplay.split(" ");
+        String textToDisplay = wrapText(message, 18);
         
-        ArrayList<String> linesList = new ArrayList<String>();
+        GreenfootImage instructions = new GreenfootImage(200, 380);
+        instructions.setFont(font);
+        instructions.drawString(textToDisplay, 0, 0);
+        
+        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 210, 700);
+        
+    }
+    
+    private static String wrapText(String strToWrap, int maxLineLength) {
+        
+        String[] words = strToWrap.split(" ");
+        String finalString = "\n";
         
         String currentLine = "";
-        
-        Font instructionsFont = new Font("System", Font.PLAIN, 20);
-        FontMetrics fm = theWorld().getBackground().getAwtImage().getGraphics().getFontMetrics(instructionsFont);
-        
         for(String currentWord : words){
-            
-            if(fm.stringWidth(currentLine + currentWord) > maxLineLength){
-                linesList.add(currentLine);
+            if((currentLine + currentWord).length() > maxLineLength){
+                finalString += currentLine + "\n";
                 currentLine = "";
                 
             }
-            
             currentLine += " " + currentWord;
             
         }
+        finalString += currentLine;
         
-        linesList.add(currentLine);
-        
-        GreenfootImage instructions = new GreenfootImage(200, 380);
-        instructions.setFont(instructionsFont);
-        instructions.setColor(MyWorld.SELECTION_COLOR);
-        
-        for(int i = 0; i < linesList.size(); i++){
-            String line = linesList.get(i);
-            instructions.drawString(line, 0, 20 + i * spacing);
-            
-        }
-        
-        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 200, 700);
-        
-        
+        return finalString;
+    
     }
     
     ///Final Modes//////////////////////////////////////////

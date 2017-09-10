@@ -8,7 +8,7 @@ public class MyWorld extends World
 {
     static final Color BASE_WORLD_COLOR = new Color(135, 135, 155);
     static final Color SELECTION_COLOR = Color.GREEN;
-    static final Color MENU_COLOR = new Color(156, 93, 82);
+    static final Color MENU_COLOR = new Color(121, 163, 200);
     
     static final int TRANSPARENT = 30;
     static final int OPAQUE = 255;
