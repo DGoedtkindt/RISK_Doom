@@ -140,9 +140,9 @@ public class Territory implements Selectable
     }
     
     public void editBonus() throws Exception {
-            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
-            bonusPoints = newBonus;
-            trInfo.setDisplayedBonus(newBonus);
+        int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+        bonusPoints = newBonus;
+        trInfo.setDisplayedBonus(newBonus);
     }
     
     public int bonus() {
