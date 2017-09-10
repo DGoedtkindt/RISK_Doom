@@ -7,9 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    public static ArrayList<Territory> territoryList = new ArrayList<Territory>();
-    private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
-    private int id; //l'identifiant de ce territoire
+    private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<SingleHex> singleHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private HashSet<Territory> borderingTerritorySet = new HashSet<>();
@@ -24,20 +22,14 @@ public class Territory implements Selectable
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
-    static public ArrayList<Territory> allTerritories(){
-        return territoryList;
-        
-    }
-    
     public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         singleHexList = hexs;
         createTerrHexs(infoHex);
         drawTerritory();
         removeSingleHexs();
-        setId();
-        autoSetLinks();
         Selector.selectableSet.add(this);
+        territoryList.add(this);
     }
     
     public void destroy()
@@ -50,23 +42,16 @@ public class Territory implements Selectable
      * removes TerrInfo from world     
      */
     {
-        
         continentColor = MyWorld.BASE_WORLD_COLOR;
         makeTransparent();
-        
         for(SingleHex sh : singleHexList){
             getWorld().addObject(sh, sh.getCoord().rectCoord()[0], sh.getCoord().rectCoord()[1]);
             
         }
-        
         getWorld().removeObjects(terrHexList);
-        
         territoryList.remove(this);
-        
-        if(continent != null) continent.removeTerritory(this);
-        
         Selector.selectableSet.remove(this);
-        
+        if(continent != null) continent.removeTerritory(this);
         for(Territory otherTerr : territoryList){
             if(otherTerr != null) {
                 otherTerr.removeLink(this);
@@ -75,6 +60,11 @@ public class Territory implements Selectable
         }
         
         getWorld().removeObject(trInfo);
+    }
+    
+    public static ArrayList<Territory> allTerritories() {
+        return (ArrayList<Territory>)territoryList.clone();
+    
     }
 
     public void setContinent(Continent newContinent) {
@@ -119,7 +109,8 @@ public class Territory implements Selectable
     }
     
     public int id() {
-        return id;
+        return territoryList.indexOf(this);
+        
     }
     
     public Continent continent() {
@@ -285,14 +276,6 @@ public class Territory implements Selectable
         
     /////////////////////////////////////////////////////////////////////////////////////////////    
     
-    private void setId()
-    {
-        
-        id = nextId;
-        territoryList.add(this);
-        nextId++;
-        
-    }
     
     private HashSet<TerritoryHex> getBorderingHex()
     {

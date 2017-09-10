@@ -135,7 +135,7 @@ public class MakeXML extends Button
             }
             
             //Appends unoccupied territories to the map
-            for(Territory t : Territory.territoryList){
+            for(Territory t : Territory.allTerritories()){
                 
                 if(t.continent() == null){
                     
