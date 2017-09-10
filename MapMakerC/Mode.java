@@ -104,8 +104,6 @@ public class Mode
     ///Final Modes//////////////////////////////////////////
     
     static public final Mode DEFAULT                     = new Mode();
-    static public final Mode EDIT_TERRITORY              = new Mode();
-    static public final Mode EDIT_CONTINENT              = new Mode();
     static public final Mode CREATE_TERRITORY            = new Mode();
     static public final Mode CREATE_CONTINENT            = new Mode();
     static public final Mode EDIT_TERRITORY_BONUS        = new Mode();
@@ -114,5 +112,6 @@ public class Mode
     static public final Mode EDIT_CONTINENT_BONUS        = new Mode();
     static public final Mode DELETE_TERRITORY            = new Mode();
     static public final Mode DELETE_CONTINENT            = new Mode();
+    static public final Mode SELECT_INFO_HEX             = new Mode();
     
 }

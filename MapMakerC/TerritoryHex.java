@@ -12,31 +12,48 @@ public class TerritoryHex extends Button
     }
     
     public void clicked() {
-        Mode mode = Mode.currentMode();
-        
-        if(mode == Mode.CREATE_CONTINENT ||
-           mode == Mode.EDIT_TERRITORY ||
-           mode == Mode.SET_LINK ||
-           mode == Mode.DELETE_TERRITORY ||
-           mode == Mode.EDIT_TERRITORY_BONUS){
-            
-            Selector.select(getTerritory());
-            
-        }else if(mode == Mode.EDIT_CONTINENT_COLOR ||
-                 mode == Mode.EDIT_CONTINENT_BONUS ||
-                 mode == Mode.DELETE_CONTINENT){
-            
-            if(Selector.select(getTerritory().continent())) {
-                        Selector.setValidator(Selector.NOTHING);
-                        
-                    } else {
+        try {
+            Mode mode = Mode.currentMode();
+
+            if(mode == Mode.CREATE_CONTINENT ||
+               mode == Mode.SET_LINK ||
+               mode == Mode.DELETE_TERRITORY){
+                    Selector.select(getTerritory());
+
+            }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
+                Selector.select(territory);
+                Selector.setValidator(Selector.NOTHING);
+                
+                territory.editBonus();
                 MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.EDIT_CONTINENT_COLOR) {
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
+                territory.continent().editColor();
+                MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.EDIT_CONTINENT_BONUS) {
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
+                territory.continent().editBonus();
+                MyWorld.theWorld.escape();
+
+            }else if(mode == Mode.DELETE_CONTINENT){
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);   
+
+            }else{
+                MyWorld.theWorld.escape();
+
             }
-            
-        }else{
+        } catch (Exception ex) {
+            System.out.println(ex);
             MyWorld.theWorld.escape();
-            
         }
+        
     }
     
     public ArrayList<TerritoryHex> getBorderingHex() {
