@@ -23,7 +23,7 @@ public class TerritoryHex extends Button
             }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
                 Selector.select(territory);
                 Selector.setValidator(Selector.NOTHING);
-                
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
                 territory.editBonus();
                 MyWorld.theWorld.escape();
 

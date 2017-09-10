@@ -8,12 +8,17 @@ public class MyWorld extends World
 {
     static final Color BASE_WORLD_COLOR = new Color(135, 135, 155);
     static final Color SELECTION_COLOR = Color.GREEN;
+    static final Color MENU_COLOR = new Color(156, 93, 82);
     
     static final int TRANSPARENT = 30;
     static final int OPAQUE = 255;
     
     static final int WORLD_WIDTH = 1920;
     static final int WORLD_HEIGHT = 1080;
+    
+    static final int CONTINENT_BONUS_X_LEFT = 550;
+    static final int CONTINENT_BONUS_X_RIGHT = 1200;
+    static final int CONTINENT_BONUS_Y_UP = 900;
     
     static final int COLLUMN_NUMBER = 29;
     static final int ROW_NUMBER = 15;
@@ -44,10 +49,11 @@ public class MyWorld extends World
         getBackground().setColor(BASE_WORLD_COLOR);
         getBackground().fill();
         
-        for(int i = 29; i < 34;i++){        //Hexagones violets sur le côté
+        //Hexagones bruns sur le côté
+        for(int i = 29; i < 34;i++){
             for(int j = -1; j <= 15; j++){
                 GreenfootImage hex;
-                hex = Hexagon.createImage(new Color(110,70,130),1);
+                hex = Hexagon.createImage(MENU_COLOR,1);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
                 int size = Hexagon.RADIUS;
                 
@@ -60,14 +66,26 @@ public class MyWorld extends World
         addObject(createLink, MyWorld.WORLD_WIDTH - 100, 130);
         addObject(editTerritoryBonus, MyWorld.WORLD_WIDTH - 100, 160);
         addObject(deleteTerritory, MyWorld.WORLD_WIDTH - 100, 190);
-        addObject(createContinent, MyWorld.WORLD_WIDTH - 100, 400);
-        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 100, 430);
-        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 100, 460);
-        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 490);
-        addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 1000);
-        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 900);
+        addObject(createContinent, MyWorld.WORLD_WIDTH - 100, 300);
+        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 100, 330);
+        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 100, 360);
+        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 390);
+        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 500);
+        addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
         
+        // placement des hexagones
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        
+        // zone des bonus de continent
+        for(SingleHex sh : getObjects(SingleHex.class)){
+            
+            if(sh.getX() > CONTINENT_BONUS_X_LEFT && sh.getX() < CONTINENT_BONUS_X_RIGHT && sh.getY() > CONTINENT_BONUS_Y_UP){
+                
+                removeObject(sh);
+                
+            }
+            
+        }
         
         Mode.changeMode(Mode.DEFAULT);
         

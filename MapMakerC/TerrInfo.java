@@ -1,4 +1,5 @@
-import greenfoot.*;
+import greenfoot.GreenfootImage;
+
 import java.awt.Color;
 
 public class TerrInfo extends Button {
@@ -18,8 +19,11 @@ public class TerrInfo extends Button {
     
     public void setDisplayedBonus(int newBonus) {
         if(newBonus > 0) {
-        this.setImage(new GreenfootImage(""+newBonus, 25 , Color.BLACK,Color.WHITE));
+        this.setImage(new GreenfootImage(""+newBonus, 25 , Color.BLACK,linkedTerrHex.getTerritory().getColor()));
     
+        }else{
+            setImage(new GreenfootImage(1,1));
+        
         }
     }
     

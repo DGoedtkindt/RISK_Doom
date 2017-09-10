@@ -96,6 +96,7 @@ public class Territory implements Selectable
     
     public void setNewLink(Territory newLink) {
         borderingTerritorySet.add(newLink);
+        
     }
 
     public void autoSetLinks(){
@@ -143,6 +144,7 @@ public class Territory implements Selectable
         int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
         bonusPoints = newBonus;
         trInfo.setDisplayedBonus(newBonus);
+
     }
     
     public int bonus() {
