@@ -1,6 +1,5 @@
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
-import java.awt.Color;
 
 public class OKButton extends Button
 {
