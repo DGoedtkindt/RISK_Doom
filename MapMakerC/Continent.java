@@ -96,14 +96,13 @@ public class Continent implements Selectable
         
         ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         Continent[] row = new Continent[xAxis];
-        for(int i = 0; i < continentList().size();) {
+        for(int i = 0; i < continentList().size(); i++) {
             if(i % xAxis == 0) {
                 row = new Continent[xAxis];
                 arrangedContinents.add(row);
                 
             }
             row[i % xAxis] = continentList().get(i);
-            i++;
             
         }
         
