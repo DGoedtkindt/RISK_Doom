@@ -1,5 +1,4 @@
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.io.File;
@@ -21,7 +20,8 @@ public class MakeXML extends Button
 {
     public MakeXML(){
         
-        GreenfootImage image = new GreenfootImage("Make XML", 25, Color.BLACK, Color.WHITE);
+        GreenfootImage image = new GreenfootImage("MakeXML.png");
+        image.scale(80, 80);
         this.setImage(image);
         
     }
@@ -83,11 +83,11 @@ public class MakeXML extends Button
                     territory.appendChild(infoHex);
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.getTerrInfo().getX());
+                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().xPos);
                     infoHex.setAttributeNode(infoHexX);
-
+                    
                     Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.getTerrInfo().getY());
+                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().yPos);
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives attributes to territory
@@ -135,23 +135,54 @@ public class MakeXML extends Button
             }
             
             //Appends unoccupied territories to the map
-            for(Territory t : Territory.territoryList){
+            for(Territory currentTerritory : Territory.allTerritories()){
                 
-                if(t.continent() == null){
+                if(currentTerritory.continent() == null){
                     
                     Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
                     rootElement.appendChild(unoccupiedTerritory);
                     
+                    ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
+                    
+                    //Appends hexes to territory
+                    for(TerritoryHex currentHex : composingHexes){
+                        
+                        Element hex = doc.createElement("hex");
+                        unoccupiedTerritory.appendChild(hex);
+                        
+                        //Gives attributes to hexes
+                        Attr hexX = doc.createAttribute("hexX");
+                        hexX.setValue("" + currentHex.getX());
+                        hex.setAttributeNode(hexX);
+                        
+                        Attr hexY = doc.createAttribute("hexY");
+                        hexY.setValue("" + currentHex.getY());
+                        hex.setAttributeNode(hexY);
+                        
+                    }
+                    
+                    //Appends infoHex to territory
+                    Element infoHex = doc.createElement("infoHex");
+                    unoccupiedTerritory.appendChild(infoHex);
+
+                    Attr infoHexX = doc.createAttribute("infoHexX");
+                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().xPos);
+                    infoHex.setAttributeNode(infoHexX);
+                    
+                    Attr infoHexY = doc.createAttribute("infoHexY");
+                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().yPos);
+                    infoHex.setAttributeNode(infoHexY);
+                    
                     //Gives unoccupied territory attributes
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + t.bonus());
+                    territoryPoints.setValue("" + currentTerritory.bonus());
                     unoccupiedTerritory.setAttributeNode(territoryPoints);
                     
                     Attr id = doc.createAttribute("territoryID");
-                    id.setValue("" + t.id());
+                    id.setValue("" + currentTerritory.id());
                     unoccupiedTerritory.setAttributeNode(id);
                     
-                    ArrayList<Territory> borderingTerritories = t.getBorderTerritories();
+                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
                     
                     //Appends borderings to unoccupied territory
                     for(Territory currentBordering : borderingTerritories){

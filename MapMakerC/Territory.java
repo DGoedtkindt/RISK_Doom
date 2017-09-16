@@ -7,9 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    public static ArrayList<Territory> territoryList = new ArrayList<Territory>();
-    private static int nextId = 0; //stoque le prochain ID à attribuer à un territoire
-    private int id; //l'identifiant de ce territoire
+    private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<SingleHex> singleHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private HashSet<Territory> borderingTerritorySet = new HashSet<>();
@@ -19,15 +17,12 @@ public class Territory implements Selectable
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
     private int bonusPoints = 0;
     private TerrInfo trInfo; 
+    private int id;
+    private static int nextId = 0;
     
     
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
-    
-    static public ArrayList<Territory> allTerritories(){
-        return territoryList;
-        
-    }
     
     public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
@@ -35,9 +30,22 @@ public class Territory implements Selectable
         createTerrHexs(infoHex);
         drawTerritory();
         removeSingleHexs();
-        setId();
-        autoSetLinks();
         Selector.selectableSet.add(this);
+        territoryList.add(this);
+        id = Territory.nextId;
+        Territory.nextId ++;
+    }
+    
+    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex, int id, int bonus)  throws Exception {
+        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
+        singleHexList = hexs;
+        createTerrHexs(infoHex);
+        removeSingleHexs();
+        Selector.selectableSet.add(this);
+        territoryList.add(this);
+        bonusPoints = bonus;
+        this.id = id;
+        drawTerritory();
     }
     
     public void destroy()
@@ -50,23 +58,16 @@ public class Territory implements Selectable
      * removes TerrInfo from world     
      */
     {
-        
         continentColor = MyWorld.BASE_WORLD_COLOR;
         makeTransparent();
-        
         for(SingleHex sh : singleHexList){
             getWorld().addObject(sh, sh.getCoord().rectCoord()[0], sh.getCoord().rectCoord()[1]);
             
         }
-        
         getWorld().removeObjects(terrHexList);
-        
-        territoryList.remove(this);
-        
-        if(continent != null) continent.removeTerritory(this);
-        
+        territoryList.set(id, null);
         Selector.selectableSet.remove(this);
-        
+        if(continent != null) continent.removeTerritory(this);
         for(Territory otherTerr : territoryList){
             if(otherTerr != null) {
                 otherTerr.removeLink(this);
@@ -75,6 +76,11 @@ public class Territory implements Selectable
         }
         
         getWorld().removeObject(trInfo);
+    }
+    
+    public static ArrayList<Territory> allTerritories() {
+        return (ArrayList<Territory>)territoryList.clone();
+    
     }
 
     public void setContinent(Continent newContinent) {
@@ -91,7 +97,6 @@ public class Territory implements Selectable
                 hex.drawTerrHex(continentColor);
                 
         }
-        
     }
     
     public void setNewLink(Territory newLink) {
@@ -120,6 +125,7 @@ public class Territory implements Selectable
     
     public int id() {
         return id;
+        
     }
     
     public Continent continent() {
@@ -141,9 +147,10 @@ public class Territory implements Selectable
     }
     
     public void editBonus() throws Exception {
-            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
-            bonusPoints = newBonus;
-            trInfo.setDisplayedBonus(newBonus);
+        int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+        bonusPoints = newBonus;
+        trInfo.setDisplayedBonus(newBonus);
+
     }
     
     public int bonus() {
@@ -151,17 +158,11 @@ public class Territory implements Selectable
         
     }
     
-    public TerrInfo getTerrInfo(){
-        
+    public TerrInfo terrInfo() {
         return trInfo;
-        
-    }
-    
-    public Color getColor(){
-        return continentColor;
     
     }
-
+    
     //Selectable methods/////////////////////////////////
     
     public void makeTransparent() {  
@@ -199,21 +200,21 @@ public class Territory implements Selectable
     //dessine le territoire sur le monde
     {
         drawHexs();
-        drawAllHexsLinks();
+        drawAllHexsLinks(); System.out.println("terrDrawn" + singleHexList.get(0).getCoord().hexCoord[0] + + singleHexList.get(0).getCoord().hexCoord[1]);
     }
     
     private void createTerrHexs(SingleHex infoHex)
     //crée tous les territoryHex de ce territoire
     {
         for(SingleHex hex : singleHexList) {
-                int[] rectCoord = hex.getCoord().rectCoord();
-                TerritoryHex trHex = new TerritoryHex(this, continentColor);
-                terrHexList.add(trHex);
-                getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
-                if(hex == infoHex) {
-                    trInfo = new TerrInfo(trHex);
-                    getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
-                }
+            int[] rectCoord = hex.getCoord().rectCoord();
+            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.getCoord().hexCoord[0], hex.getCoord().hexCoord[1]);
+            terrHexList.add(trHex);
+            getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
+            if(hex == infoHex) {
+                trInfo = new TerrInfo(trHex);
+                getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
+            }
         }
         
     }
@@ -221,9 +222,9 @@ public class Territory implements Selectable
     private void drawHexs(){
         GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
-                int xPos = hex.getX() - Hexagon.RADIUS;
-                int yPos = hex.getY() - Hexagon.RADIUS;
-                getBackground().drawImage(img, xPos, yPos);
+            int xPos = hex.getX() - Hexagon.RADIUS;
+            int yPos = hex.getY() - Hexagon.RADIUS;
+            getBackground().drawImage(img, xPos, yPos);
 
         }
     }
@@ -290,14 +291,6 @@ public class Territory implements Selectable
         
     /////////////////////////////////////////////////////////////////////////////////////////////    
     
-    private void setId()
-    {
-        
-        id = nextId;
-        territoryList.add(this);
-        nextId++;
-        
-    }
     
     private HashSet<TerritoryHex> getBorderingHex()
     {

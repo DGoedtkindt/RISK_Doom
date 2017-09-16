@@ -8,12 +8,32 @@ public class Continent implements Selectable
     
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    private int bonus = 0;
+
+    private int bonus;
+
     static private HashSet<Continent> continentList = new HashSet<Continent>();
     
     public Continent(ArrayList<Territory> territories) throws Exception{
         editColor();
         editBonus();
+        
+        continentList.add(this);
+        Selector.selectableSet.add(this);
+        
+        territoriesContained.addAll(0,territories);
+        
+        for(Territory t : territoriesContained){
+             
+                t.setContinent(this);
+             
+            }
+        
+    }
+    
+    public Continent(ArrayList<Territory> territories, Color color, int points) throws Exception{
+        
+        continentColor = color;
+        bonus = points;
         
         continentList.add(this);
         Selector.selectableSet.add(this);
@@ -37,7 +57,7 @@ public class Continent implements Selectable
                 t.setContinent(this);
 
             }
-            
+
     }
     
     public Color color(){
@@ -78,8 +98,6 @@ public class Continent implements Selectable
         return bonus;
     
     }
-    
-    //////////////////////////////////////////////////
     
     public static ArrayList<Continent> continentList(){
         ArrayList<Continent> continents = new ArrayList<>();

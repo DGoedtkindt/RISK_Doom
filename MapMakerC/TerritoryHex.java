@@ -5,10 +5,14 @@ import java.awt.Color;
 public class TerritoryHex extends Button
 {
     private Territory territory;
+    public int xPos;
+    public int yPos;
     
-    public TerritoryHex(Territory territory, Color color){
+    public TerritoryHex(Territory territory, Color color, int x, int y){
         this.territory = territory;
         drawTerrHex(color);
+        xPos = x;
+        yPos = y;
     }
     
     public void clicked() {
@@ -22,24 +26,28 @@ public class TerritoryHex extends Button
 
             }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
                 Selector.select(territory);
+                Selector.setValidator(Selector.NOTHING);
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
                 territory.editBonus();
                 MyWorld.theWorld.escape();
 
             }else if(mode == Mode.EDIT_CONTINENT_COLOR) {
                 Selector.select(territory.continent());
                 Selector.setValidator(Selector.NOTHING);
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
                 territory.continent().editColor();
                 MyWorld.theWorld.escape();
 
             }else if(mode == Mode.EDIT_CONTINENT_BONUS) {
                 Selector.select(territory.continent());
                 Selector.setValidator(Selector.NOTHING);
+                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
                 territory.continent().editBonus();
                 MyWorld.theWorld.escape();
 
             }else if(mode == Mode.DELETE_CONTINENT){
-                        Selector.select(territory.continent());
-                        Selector.setValidator(Selector.NOTHING);   
+                Selector.select(territory.continent());
+                Selector.setValidator(Selector.NOTHING);   
 
             }else{
                 MyWorld.theWorld.escape();

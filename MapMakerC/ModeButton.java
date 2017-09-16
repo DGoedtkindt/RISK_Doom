@@ -1,13 +1,14 @@
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 
 public class ModeButton extends Button {
     
     Mode linkedMode;
     Validator validator;
     
-    public ModeButton(String text, Mode mode, Validator validator){
-        createImageFromText(text);
+    public ModeButton(String imageName, Mode mode, Validator validator) throws IllegalArgumentException{
+        GreenfootImage img = new GreenfootImage(imageName);
+        img.scale(80, 80);
+        setImage(img);
         linkedMode = mode;
         this.validator = validator;
         
@@ -30,9 +31,4 @@ public class ModeButton extends Button {
     
     }
     
-    private void createImageFromText(String textToShow){
-        GreenfootImage image = new GreenfootImage(textToShow, 22, Color.BLACK, Color.WHITE);
-        this.setImage(image);
-        
-    }   
 }

@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import greenfoot.GreenfootImage;
 import java.awt.Font;
-import java.awt.FontMetrics;
 
 public class Mode
 {
@@ -102,50 +101,41 @@ public class Mode
     
     }
 
-    private static void drawModeMessage(String messageToDisplay){
-        
+    private static void drawModeMessage(String message){
         theWorld().getBackground().setColor(MyWorld.MENU_COLOR);
-        theWorld().getBackground().fillRect(MyWorld.WORLD_WIDTH - 200, 700, 200, 380);
+        theWorld().getBackground().fillRect(MyWorld.WORLD_WIDTH - 210, 700, 210, 380);
         
-        int spacing = 20;
-        int maxLineLength = 200;
+        Font font = new Font("Monospaced", Font.PLAIN, 17);
         
-        String[] words = messageToDisplay.split(" ");
+        String textToDisplay = wrapText(message, 18);
         
-        ArrayList<String> linesList = new ArrayList<String>();
+        GreenfootImage instructions = new GreenfootImage(200, 380);
+        instructions.setFont(font);
+        instructions.drawString(textToDisplay, 0, 0);
+        
+        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 210, 700);
+        
+    }
+    
+    private static String wrapText(String strToWrap, int maxLineLength) {
+        
+        String[] words = strToWrap.split(" ");
+        String finalString = "\n";
         
         String currentLine = "";
-        
-        Font instructionsFont = new Font("System", Font.PLAIN, 20);
-        FontMetrics fm = theWorld().getBackground().getAwtImage().getGraphics().getFontMetrics(instructionsFont);
-        
         for(String currentWord : words){
-            
-            if(fm.stringWidth(currentLine + currentWord) > maxLineLength){
-                linesList.add(currentLine);
+            if((currentLine + currentWord).length() > maxLineLength){
+                finalString += currentLine + "\n";
                 currentLine = "";
                 
             }
-            
             currentLine += " " + currentWord;
             
         }
+        finalString += currentLine;
         
-        linesList.add(currentLine);
-        
-        GreenfootImage instructions = new GreenfootImage(200, 380);
-        instructions.setFont(instructionsFont);
-        instructions.setColor(MyWorld.SELECTION_COLOR);
-        
-        for(int i = 0; i < linesList.size(); i++){
-            String line = linesList.get(i);
-            instructions.drawString(line, 0, 20 + i * spacing);
-            
-        }
-        
-        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 200, 700);
-        
-        
+        return finalString;
+    
     }
     
     ///Final Modes//////////////////////////////////////////
@@ -157,8 +147,8 @@ public class Mode
     static public final Mode SET_LINK                    = new Mode("Select two territories to allow troops to go from one to another.");
     static public final Mode EDIT_CONTINENT_COLOR        = new Mode("Select a continent and change its color.");
     static public final Mode EDIT_CONTINENT_BONUS        = new Mode("Select a continent and change its bonus.");
-    static public final Mode DELETE_TERRITORY            = new Mode("Select territories to delete them.");
-    static public final Mode DELETE_CONTINENT            = new Mode("Select continents to delete them without destroying their composing territories.");
-    static public final Mode SELECT_INFO_HEX             = new Mode("Select a hex wich will show the current bonus of this territory.");
+    static public final Mode DELETE_TERRITORY            = new Mode("Select a territory to delete it.");
+    static public final Mode DELETE_CONTINENT            = new Mode("Select a continent to delete it (without destroying it's composing territories).");
+    static public final Mode SELECT_INFO_HEX             = new Mode("Select the hex wich will show the current bonus of this territory.");
     
 }
