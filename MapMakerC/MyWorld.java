@@ -3,6 +3,7 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import greenfoot.GreenfootImage;
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class MyWorld extends World
 {
@@ -129,6 +130,7 @@ public class MyWorld extends World
     public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
+        if(Links.newLinks != null) Links.newLinks.destroy();
         
     }   
     

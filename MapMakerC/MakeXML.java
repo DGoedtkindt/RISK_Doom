@@ -1,5 +1,4 @@
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.io.File;
@@ -100,22 +99,7 @@ public class MakeXML extends Button
                     id.setValue("" + currentTerritory.id());
                     territory.setAttributeNode(id);
                     
-                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //Appends borderings to territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        territory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
-                    
-                }
-                
+                   
                 //Gives attributes to continent
                 Attr continentPoints = doc.createAttribute("continentPoints");
                 continentPoints.setValue("" + currentContinent.bonus());
@@ -151,20 +135,7 @@ public class MakeXML extends Button
                     Attr id = doc.createAttribute("territoryID");
                     id.setValue("" + t.id());
                     unoccupiedTerritory.setAttributeNode(id);
-                    
-                    ArrayList<Territory> borderingTerritories = t.getBorderTerritories();
-                    
-                    //Appends borderings to unoccupied territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        unoccupiedTerritory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
+                }
                     
                 }
                 

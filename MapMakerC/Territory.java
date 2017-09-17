@@ -10,13 +10,13 @@ public class Territory implements Selectable
     private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<SingleHex> singleHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
-    private HashSet<Territory> borderingTerritorySet = new HashSet<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld getWorld() {return MyWorld.theWorld;}
     private Continent continent = null;
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
     private int bonusPoints = 0;
-    private TerrInfo trInfo; 
+    private TerrInfo trInfo;
+    public ArrayList<LinkIndic> links = new ArrayList<>();
     
     
     
@@ -52,12 +52,6 @@ public class Territory implements Selectable
         territoryList.remove(this);
         Selector.selectableSet.remove(this);
         if(continent != null) continent.removeTerritory(this);
-        for(Territory otherTerr : territoryList){
-            if(otherTerr != null) {
-                otherTerr.removeLink(this);
-                
-            }
-        }
         
         getWorld().removeObject(trInfo);
     }
@@ -84,30 +78,6 @@ public class Territory implements Selectable
         
     }
     
-    public void setNewLink(Territory newLink) {
-        borderingTerritorySet.add(newLink);
-        
-    }
-
-    public void autoSetLinks(){
-         HashSet<TerritoryHex> borderingHexSet;
-         borderingHexSet = getBorderingHex();
-         for(TerritoryHex hex : borderingHexSet){
-             borderingTerritorySet.add(hex.getTerritory());
-            
-         }
-         borderingTerritorySet.remove(this);
-         for(Territory t : borderingTerritorySet){
-             t.setNewLink(this);
-             
-         }
-         
-    }
-    
-    public void removeLink(Territory terrToRemove){
-        borderingTerritorySet.remove(terrToRemove);
-    }
-    
     public int id() {
         return territoryList.indexOf(this);
         
@@ -115,14 +85,6 @@ public class Territory implements Selectable
     
     public Continent continent() {
         return continent;
-        
-    }
-    
-    public ArrayList<Territory> getBorderTerritories() {
-        ArrayList<Territory> borderTerritoryList = new ArrayList<>();
-        borderTerritoryList.addAll(0, borderingTerritorySet);
-        
-        return borderTerritoryList;
         
     }
     
