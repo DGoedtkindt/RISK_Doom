@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
+import greenfoot.GreenfootImage;
 
 public class Continent implements Selectable
 {
@@ -11,13 +12,15 @@ public class Continent implements Selectable
 
     private int bonus;
 
+
     static private HashSet<Continent> continentList = new HashSet<Continent>();
+
     
     public Continent(ArrayList<Territory> territories) throws Exception{
         editColor();
         editBonus();
         
-        continentList.add(this);
+        continentSet.add(this);
         Selector.selectableSet.add(this);
         
         territoriesContained.addAll(0,territories);
@@ -28,6 +31,7 @@ public class Continent implements Selectable
              
             }
         
+        updateBonusDisplay();
     }
     
     public Continent(ArrayList<Territory> territories, Color color, int points) throws Exception{
@@ -45,6 +49,7 @@ public class Continent implements Selectable
                 t.setContinent(this);
              
             }
+            updateBonusDisplay();
         
     }
     
@@ -58,6 +63,7 @@ public class Continent implements Selectable
 
             }
 
+            updateBonusDisplay();
     }
     
     public Color color(){
@@ -77,7 +83,7 @@ public class Continent implements Selectable
     }
     
     public void destroy() {
-        continentList.remove(this);
+        continentSet.remove(this);
         
         for(Territory terr : territoriesContained){
          
@@ -86,12 +92,14 @@ public class Continent implements Selectable
            }
         
         Selector.selectableSet.remove(this);
+        updateBonusDisplay();
                
     }
     
     public void editBonus() throws Exception {
             int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent"));
             bonus = newBonus;
+            updateBonusDisplay();
     }
     
     public int bonus() {
@@ -99,10 +107,66 @@ public class Continent implements Selectable
     
     }
     
+
+
+    //Private methods////////////////////////////////////////////////
+    
+    private static void updateBonusDisplay() {
+        GreenfootImage background = new GreenfootImage(590, 160);
+        background.setColor(Color.white);
+        background.fill();
+        
+        int xAxis = (int)Math.sqrt(2*continentSet.size());
+        
+        ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
+        Continent[] row = new Continent[xAxis];
+        for(int i = 0; i < continentList().size(); i++) {
+            if(i % xAxis == 0) {
+                row = new Continent[xAxis];
+                arrangedContinents.add(row);
+                
+            }
+            row[i % xAxis] = continentList().get(i);
+            
+        }
+        
+        int yAxis = arrangedContinents.size();
+        
+        for(int y = 0; y < yAxis; y++) {
+            for(int x = 0; x < xAxis; x++) {
+               Continent c = arrangedContinents.get(y)[x];
+               if(c != null) {
+                   GreenfootImage img = c.bonusImage();
+                   int xMultiplier = (int) (background.getWidth() / (xAxis+1));
+                   int yMultiplier = (int) (background.getHeight() / (yAxis+1));
+                   background.drawImage(img, (x+1) * xMultiplier, (y+1) * yMultiplier);
+                   
+               }
+            
+            }
+        
+        }
+        
+        MyWorld.theWorld.getBackground().drawImage(background,560,920);
+    }
+    
+    private GreenfootImage bonusImage() {
+        GreenfootImage img = new GreenfootImage(60, 30);
+        img.setColor(continentColor);
+        img.fill();
+        GreenfootImage txt = new GreenfootImage("" + bonus, 18, Color.BLACK, continentColor);
+        img.drawImage(txt, 30 - txt.getWidth()/2, 15 - txt.getHeight()/2);
+        
+        return img;
+    
+    }
+    
+    //Public Static methods////////////////////////////////////////////////
+    
     public static ArrayList<Continent> continentList(){
         ArrayList<Continent> continents = new ArrayList<>();
         
-        continents.addAll(0, continentList);
+        continents.addAll(0, continentSet);
         
         return continents;
         

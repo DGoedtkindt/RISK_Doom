@@ -21,6 +21,7 @@ public class MakeXML extends Button
     public MakeXML(){
         
         GreenfootImage image = new GreenfootImage("MakeXML.png");
+
         image.scale(80, 80);
         this.setImage(image);
         
@@ -83,11 +84,13 @@ public class MakeXML extends Button
                     territory.appendChild(infoHex);
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().xPos);
+
+                    infoHexX.setValue("" + currentTerritory.terrInfo().getX());
                     infoHex.setAttributeNode(infoHexX);
                     
                     Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().yPos);
+
+                    infoHexY.setValue("" + currentTerritory.terrInfo().getY());
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives attributes to territory
@@ -99,22 +102,7 @@ public class MakeXML extends Button
                     id.setValue("" + currentTerritory.id());
                     territory.setAttributeNode(id);
                     
-                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //Appends borderings to territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        territory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
-                    
-                }
-                
+                   
                 //Gives attributes to continent
                 Attr continentPoints = doc.createAttribute("continentPoints");
                 continentPoints.setValue("" + currentContinent.bonus());
@@ -136,6 +124,7 @@ public class MakeXML extends Button
             
             //Appends unoccupied territories to the map
             for(Territory currentTerritory : Territory.allTerritories()){
+
                 
                 if(currentTerritory.continent() == null){
                     
@@ -181,20 +170,8 @@ public class MakeXML extends Button
                     Attr id = doc.createAttribute("territoryID");
                     id.setValue("" + currentTerritory.id());
                     unoccupiedTerritory.setAttributeNode(id);
-                    
-                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //Appends borderings to unoccupied territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        unoccupiedTerritory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
+
+                }
                     
                 }
                 

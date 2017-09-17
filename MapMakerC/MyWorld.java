@@ -35,6 +35,7 @@ public class MyWorld extends World
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
     
+
     ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
     ModeButton createContinent      = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
     ModeButton editContinentBonus   = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
@@ -138,6 +139,7 @@ public class MyWorld extends World
     public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
+        if(Links.newLinks != null) Links.newLinks.destroy();
         
     }   
     

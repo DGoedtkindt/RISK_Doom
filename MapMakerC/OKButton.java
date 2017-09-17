@@ -28,12 +28,12 @@ public class OKButton extends Button
             }else if(mode == Mode.DELETE_TERRITORY){
                 deleteTerritorySelection();
             
-            }else if(mode == Mode.SET_LINK){
-                createLinksForSelection();
-            
             }else if(mode == Mode.DELETE_CONTINENT){
                 deleteContinentSelection();
             
+            }else if(mode == Mode.SET_LINK){
+                Links.newLinks = null;
+                
             }
                 MyWorld.theWorld.escape();
             
@@ -86,20 +86,6 @@ public class OKButton extends Button
         
     }
     
-    private void createLinksForSelection(){
-        try{
-            Territory[] territoriesToLink;
-            territoriesToLink = Selector.getSelectedTerritoryPair();
-            territoriesToLink[0].setNewLink(territoriesToLink[1]);
-            territoriesToLink[1].setNewLink(territoriesToLink[0]);
-            
-          } catch(Exception e){
-            e.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
-              
-          }
-            
-    }
     
     private void deleteContinentSelection(){
         try{
