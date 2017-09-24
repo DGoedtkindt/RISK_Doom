@@ -144,7 +144,8 @@ public class Mode
     static public final Mode CREATE_TERRITORY            = new Mode("Create a territory by selecting at least two blank hexes.");
     static public final Mode CREATE_CONTINENT            = new Mode("Create a continent by selecting at least one territory that is not already part of a continent.");
     static public final Mode EDIT_TERRITORY_BONUS        = new Mode("Select a territory to change its bonus.");
-    static public final Mode SET_LINK                    = new Mode("Select two territories to allow troops to go from one to another.");
+    static public final Mode SET_LINK                    = new Mode("Click on the territories you want to connect. \n A dot will be placed at the exact place you click."
+                                                            + "\n You will be asked to chose a color the first time.");
     static public final Mode EDIT_CONTINENT_COLOR        = new Mode("Select a continent and change its color.");
     static public final Mode EDIT_CONTINENT_BONUS        = new Mode("Select a continent and change its bonus.");
     static public final Mode DELETE_TERRITORY            = new Mode("Select a territory to delete it.");

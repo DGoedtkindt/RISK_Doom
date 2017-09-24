@@ -21,6 +21,7 @@ public class MakeXML extends Button
     public MakeXML(){
         
         GreenfootImage image = new GreenfootImage("MakeXML.png");
+
         image.scale(80, 80);
         this.setImage(image);
         
@@ -32,7 +33,6 @@ public class MakeXML extends Button
         
     }
     
-    // Inspiré de https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
     private void saveToXML(){
         
         ArrayList<Continent> continentList = Continent.continentList();
@@ -60,7 +60,7 @@ public class MakeXML extends Button
                     Element territory = doc.createElement("territory");
                     continent.appendChild(territory);
                     
-                    ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
+                    ArrayList<TerritoryHex> composingHexes = currentTerritory.composingHex();
                     
                     //Appends hexes to territory
                     for(TerritoryHex currentHex : composingHexes){
@@ -70,11 +70,11 @@ public class MakeXML extends Button
                         
                         //Gives attributes to hexes
                         Attr hexX = doc.createAttribute("hexX");
-                        hexX.setValue("" + currentHex.getX());
+                        hexX.setValue("" + currentHex.coordinates().hexCoord[0]);
                         hex.setAttributeNode(hexX);
                         
                         Attr hexY = doc.createAttribute("hexY");
-                        hexY.setValue("" + currentHex.getY());
+                        hexY.setValue("" + currentHex.coordinates().hexCoord[1]);
                         hex.setAttributeNode(hexY);
                         
                     }
@@ -83,11 +83,13 @@ public class MakeXML extends Button
                     territory.appendChild(infoHex);
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().xPos);
+
+                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
                     infoHex.setAttributeNode(infoHexX);
                     
                     Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().yPos);
+
+                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives attributes to territory
@@ -95,26 +97,6 @@ public class MakeXML extends Button
                     territoryPoints.setValue("" + currentTerritory.bonus());
                     territory.setAttributeNode(territoryPoints);
                     
-                    Attr id = doc.createAttribute("territoryID");
-                    id.setValue("" + currentTerritory.id());
-                    territory.setAttributeNode(id);
-                    
-                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //Appends borderings to territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        territory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
-                    
-                }
-                
                 //Gives attributes to continent
                 Attr continentPoints = doc.createAttribute("continentPoints");
                 continentPoints.setValue("" + currentContinent.bonus());
@@ -136,13 +118,14 @@ public class MakeXML extends Button
             
             //Appends unoccupied territories to the map
             for(Territory currentTerritory : Territory.allTerritories()){
+
                 
                 if(currentTerritory.continent() == null){
                     
                     Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
                     rootElement.appendChild(unoccupiedTerritory);
                     
-                    ArrayList<TerritoryHex> composingHexes = currentTerritory.getComposingHex();
+                    ArrayList<TerritoryHex> composingHexes = currentTerritory.composingHex();
                     
                     //Appends hexes to territory
                     for(TerritoryHex currentHex : composingHexes){
@@ -152,11 +135,11 @@ public class MakeXML extends Button
                         
                         //Gives attributes to hexes
                         Attr hexX = doc.createAttribute("hexX");
-                        hexX.setValue("" + currentHex.getX());
+                        hexX.setValue("" + currentHex.coordinates().hexCoord[0]);
                         hex.setAttributeNode(hexX);
                         
                         Attr hexY = doc.createAttribute("hexY");
-                        hexY.setValue("" + currentHex.getY());
+                        hexY.setValue("" + currentHex.coordinates().hexCoord[1]);
                         hex.setAttributeNode(hexY);
                         
                     }
@@ -166,42 +149,25 @@ public class MakeXML extends Button
                     unoccupiedTerritory.appendChild(infoHex);
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().xPos);
+                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
                     infoHex.setAttributeNode(infoHexX);
                     
                     Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().yPos);
+                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives unoccupied territory attributes
                     Attr territoryPoints = doc.createAttribute("territoryPoints");
                     territoryPoints.setValue("" + currentTerritory.bonus());
                     unoccupiedTerritory.setAttributeNode(territoryPoints);
-                    
-                    Attr id = doc.createAttribute("territoryID");
-                    id.setValue("" + currentTerritory.id());
-                    unoccupiedTerritory.setAttributeNode(id);
-                    
-                    ArrayList<Territory> borderingTerritories = currentTerritory.getBorderTerritories();
-                    
-                    //Appends borderings to unoccupied territory
-                    for(Territory currentBordering : borderingTerritories){
-                        
-                        Element bordering = doc.createElement("borderingTerritory");
-                        unoccupiedTerritory.appendChild(bordering);
-                        
-                        Attr borderingID = doc.createAttribute("borderingID");
-                        borderingID.setValue("" + currentBordering.id());
-                        bordering.setAttributeNode(borderingID);
-                        
-                    }
+                }
                     
                 }
                 
             }
             
             //Saves
-            String fileName = JOptionPane.showInputDialog("Entrez le nom du fichier");
+            String fileName = JOptionPane.showInputDialog("Enter file name");
             
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();

@@ -14,6 +14,7 @@ import java.io.File;
 
 public class MyWorld extends World
 {
+    
     static final Color BASE_WORLD_COLOR = new Color(135, 135, 155);
     static final Color SELECTION_COLOR = Color.GREEN;
     static final Color MENU_COLOR = new Color(121, 163, 200);
@@ -31,10 +32,13 @@ public class MyWorld extends World
     static final int COLLUMN_NUMBER = 29;
     static final int ROW_NUMBER = 15;
     
+    static final SingleHex[][] SINGLE_HEX_ARRAY = new SingleHex[COLLUMN_NUMBER + 10][ROW_NUMBER + 10]; 
+    
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
     
+
     ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
     ModeButton createContinent      = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
     ModeButton editContinentBonus   = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
@@ -104,7 +108,7 @@ public class MyWorld extends World
     
     public void makeSingleHex(int x, int y) {
         SingleHex hex = new SingleHex(x,y);
-        int[] rectCoord = hex.getCoord().rectCoord();
+        int[] rectCoord = hex.coordinates().rectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
         
     }
@@ -138,6 +142,7 @@ public class MyWorld extends World
     public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
+        if(Links.newLinks != null) Links.newLinks.destroy();
         
     }   
     
@@ -174,165 +179,145 @@ public class MyWorld extends World
         try{
             
             File XMLFile = new File(fileName);
-            if(XMLFile.exists()){}
+            if(XMLFile.exists()){
                 
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                 Document doc = dBuilder.parse(XMLFile);
                 doc.getDocumentElement().normalize();
             
-            
-                ArrayList<ArrayList<Integer>> everyBorderingTerritory = new ArrayList<ArrayList<Integer>>();
-            
                 NodeList continentList = doc.getElementsByTagName("continent");
             
                 for(int i = 0; i < continentList.getLength(); i++){
                 
                     Node continentNode = continentList.item(i);
-                    Element currentContinent = (Element)continentNode;
-                    int rColor = Integer.parseInt(currentContinent.getAttribute("rContinentColor"));
-                    int gColor = Integer.parseInt(currentContinent.getAttribute("gContinentColor"));
-                    int bColor = Integer.parseInt(currentContinent.getAttribute("bContinentColor"));
-                    int continentBonus = Integer.parseInt(currentContinent.getAttribute("continentPoints"));
-                
-                    ArrayList<Territory> territoriesInContinent = new ArrayList<Territory>();
-                
-                    NodeList territoryList = currentContinent.getChildNodes();
-                
-                    for(int j = 0; j < territoryList.getLength(); j++){
-                    
-                        Node territoryNode = territoryList.item(i);
-                        Element currentTerritory = (Element)territoryNode;
-                    
-                        int territoryBonus = Integer.parseInt(currentTerritory.getAttribute("territoryPoints"));
-                        int territoryId = Integer.parseInt(currentTerritory.getAttribute("territoryID"));
-                        SingleHex infoHex = null;
-                    
-                        ArrayList<SingleHex> hexesInTerritory = new ArrayList<SingleHex>();
-                        ArrayList<Integer> borderingTerrs = new ArrayList<Integer>();
-                    
-                        NodeList hexList = currentTerritory.getChildNodes();
-                    
-                        for(int k = 0; k < hexList.getLength(); k++){
+                    if(continentNode.getNodeType() == Node.ELEMENT_NODE){
                         
-                            Node hexNode = hexList.item(i);
-                            Element currentHex = (Element)hexNode;
+                        Element currentContinent = (Element)continentNode;
+                    
+                        int rColor = Integer.parseInt(currentContinent.getAttribute("rContinentColor"));
+                        int gColor = Integer.parseInt(currentContinent.getAttribute("gContinentColor"));
+                        int bColor = Integer.parseInt(currentContinent.getAttribute("bContinentColor"));
+                        int continentBonus = Integer.parseInt(currentContinent.getAttribute("continentPoints"));
                         
-                            if(currentHex.hasAttribute("infoHexX")){
+                        ArrayList<Territory> territoriesInContinent = new ArrayList<Territory>();
+                        
+                        NodeList territoryList = currentContinent.getChildNodes();
+
+                        for(int j = 0; j < territoryList.getLength(); j++){
                             
-                                int infoHexX = Integer.parseInt(currentHex.getAttribute("infoHexX"));
-                                int infoHexY = Integer.parseInt(currentHex.getAttribute("infoHexY"));
+                            Node territoryNode = territoryList.item(j);
                             
-                                infoHex = new SingleHex(infoHexX, infoHexY);
-                            
-                            }else if(currentHex.hasAttribute("hexX")){
-                            
-                                int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
-                                int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
-                            
-                                hexesInTerritory.add(new SingleHex(xCoord, yCoord));
-                            
-                            }else if(currentHex.hasAttribute("borderingID")){
+                            if(territoryNode.getNodeType() == Node.ELEMENT_NODE){
                                 
-                                borderingTerrs.add(Integer.parseInt(currentHex.getAttribute("borderingID")));
+                                Element currentTerritory = (Element)territoryNode;
+
+                                int territoryBonus = Integer.parseInt(currentTerritory.getAttribute("territoryPoints"));
+                                SingleHex infoHex = null;
+
+                                ArrayList<SingleHex> hexesInTerritory = new ArrayList<SingleHex>();
+
+                                NodeList hexList = currentTerritory.getChildNodes();
+
+                                for(int k = 0; k < hexList.getLength(); k++){
+
+                                    Node hexNode = hexList.item(i);
+                                    if(hexNode.getNodeType() == Node.ELEMENT_NODE){
+                                        
+                                        Element currentHex = (Element)hexNode;
+
+                                        if(currentHex.hasAttribute("infoHexX")){
+
+                                            int infoHexX = Integer.parseInt(currentHex.getAttribute("infoHexX"));
+                                            int infoHexY = Integer.parseInt(currentHex.getAttribute("infoHexY"));
+
+                                            infoHex = SINGLE_HEX_ARRAY[infoHexX][infoHexY];
+
+                                        }else if(currentHex.hasAttribute("hexX")){
+
+                                            int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
+                                            int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
+
+                                            hexesInTerritory.add(SINGLE_HEX_ARRAY[xCoord][yCoord]);
+
+                                        }else if(currentHex.hasAttribute("borderingID")){
+
+                                        }
+
+                                    }
+
+                                }
                                 
+                                Territory t = new Territory(hexesInTerritory, infoHex, territoryBonus);
+                                territoriesInContinent.add(t);
                             }
-                            
+
                         }
-                        
-                        Territory t = new Territory(hexesInTerritory, infoHex, territoryId, territoryBonus);System.out.println("TerrCreated");
-                        territoriesInContinent.add(t);
-                        everyBorderingTerritory.add(borderingTerrs);
+
+                        Color continentColor = new Color(rColor, gColor, bColor);
+
+                        new Continent(territoriesInContinent, continentColor, continentBonus);
                         
                     }
                     
-                    Color continentColor = new Color(rColor, gColor, bColor);
-                    
-                    new Continent(territoriesInContinent, continentColor, continentBonus);
-                
                 }
             
-            
-            
+                
                 NodeList unoccupiedTerritories = doc.getElementsByTagName("unoccupiedTerritory");
             
                 for(int n = 0; n < unoccupiedTerritories.getLength(); n++){
                 
                     Node territoryNode = unoccupiedTerritories.item(n);
-                    Element currentTerritory = (Element)territoryNode;
-                    
-                    int territoryBonus = Integer.parseInt(currentTerritory.getAttribute("territoryPoints"));
-                    int territoryId = Integer.parseInt(currentTerritory.getAttribute("territoryID"));
-                    SingleHex infoHex = null;
-                    
-                    ArrayList<SingleHex> hexesInTerritory = new ArrayList<SingleHex>();
-                    ArrayList<Integer> borderingTerrs = new ArrayList<Integer>();
-                    
-                    NodeList hexList = currentTerritory.getChildNodes();
-                    
-                    for(int k = 0; k < hexList.getLength(); k++){
+                    if(territoryNode.getNodeType() == Node.ELEMENT_NODE){
                         
-                        Node hexNode = hexList.item(k);
-                        Element currentHex = (Element)hexNode;
-                        
-                        if(currentHex.hasAttribute("infoHexX")){
-                         
-                            int infoHexX = Integer.parseInt(currentHex.getAttribute("infoHexX"));
-                            int infoHexY = Integer.parseInt(currentHex.getAttribute("infoHexY"));
-                            
-                            infoHex = new SingleHex(infoHexX, infoHexY);
-                            
-                        }else if(currentHex.hasAttribute("hexX")){
-                            
-                            int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
-                            int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
-                            
-                            hexesInTerritory.add(new SingleHex(xCoord, yCoord));
-                            
-                        }else if(currentHex.hasAttribute("borderingID")){
-                        
-                            borderingTerrs.add(Integer.parseInt(currentHex.getAttribute("borderingID")));
-                            
-                        }
-                        
-                    }
+                        Element currentTerritory = (Element)territoryNode;
                     
-                    Territory t = new Territory(hexesInTerritory, infoHex, territoryId, territoryBonus);
-                    everyBorderingTerritory.add(borderingTerrs);
-                
-                }
-            
-                /*
-                for(int l = 0; l < Territory.allTerritories().size(); l++){
-                    
-                    Territory baseTerr = Territory.allTerritories().get(l);
-                    
-                    ArrayList<Integer> stuff = everyBorderingTerritory.get(l);
-                    
-                    for(int r = 0; r < Territory.allTerritories().size(); r++){
-                        
-                        Territory potBord = Territory.allTerritories().get(r);
-                        
-                        if(baseTerr != potBord){
-                            
-                            for(int i : stuff){
-                                
-                                if(potBord.id() == i){
-                                    
-                                    baseTerr.setNewLink(potBord);
-                                    
+                        int territoryBonus = Integer.parseInt(currentTerritory.getAttribute("territoryPoints"));
+                        SingleHex infoHex = null;
+
+                        ArrayList<SingleHex> hexesInTerritory = new ArrayList<SingleHex>();
+
+                        NodeList hexList = currentTerritory.getChildNodes();
+
+                        for(int k = 0; k < hexList.getLength(); k++){
+
+                            Node hexNode = hexList.item(k);
+                            if(hexNode.getNodeType() == Node.ELEMENT_NODE){
+
+                                Element currentHex = (Element)hexNode;
+
+                                if(currentHex.hasAttribute("infoHexX")){
+
+                                    int infoHexX = Integer.parseInt(currentHex.getAttribute("infoHexX"));
+                                    int infoHexY = Integer.parseInt(currentHex.getAttribute("infoHexY"));
+
+                                    infoHex = new SingleHex(infoHexX, infoHexY);
+
+                                }else if(currentHex.hasAttribute("hexX")){
+
+                                    int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
+                                    int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
+
+                                    hexesInTerritory.add(new SingleHex(xCoord, yCoord));
+
+                                }else if(currentHex.hasAttribute("borderingID")){
+
                                 }
-                                
+
                             }
-                            
+
                         }
-                        
+
+                        new Territory(hexesInTerritory, infoHex, territoryBonus);
+
                     }
                     
-                }*/
+                }
+                
+            }
                 
         }catch(Exception e){e.printStackTrace();}
-        
+        Mode.changeMode(Mode.DEFAULT);
     }
     
     private void init(){

@@ -10,11 +10,11 @@ public class SingleHex extends Button implements Selectable
     public SingleHex(int xHCoord, int yHCoord){
         coord.hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
-        
+        MyWorld.SINGLE_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] = this;
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
-    public Coordinates getCoord() {
+    public Coordinates coordinates() {
         return coord;
     }
     
