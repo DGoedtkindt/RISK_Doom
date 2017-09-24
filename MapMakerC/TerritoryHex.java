@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import greenfoot.MouseInfo;
 import greenfoot.Greenfoot;
 
@@ -8,6 +9,7 @@ public class TerritoryHex extends Button
 {
     private Territory territory;
     private Coordinates coord = new Coordinates();
+    public ArrayList<LinkSpot> linksPlacedInIt = new ArrayList<LinkSpot>();
     
     public TerritoryHex(Territory territory, Color color, int x, int y){
         this.territory = territory;
@@ -55,15 +57,31 @@ public class TerritoryHex extends Button
                 Selector.setValidator(Selector.NOTHING);
 
             }else if(mode == Mode.SET_LINK) {
-                if(Links.newLinks == null) {
-                    Links.newLinks = new Links();
+                if(Link.currentLink == null){
+                    
+                    int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
+                    int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
+                    int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+                    Color linkColor = new Color(rColor, gColor, bColor);
+                    Link.currentLink = new Link(linkColor);
+                }
+                
+                if(!territory.links.contains(Link.currentLink)){
+                    
+                    MouseInfo mouse = Greenfoot.getMouseInfo();
+
+                    Link.currentLink.linkedTerritories.add(territory);
+                    territory.links.add(Link.currentLink);
+                    int[] relativePos = {mouse.getX() - this.getX(), mouse.getY() - this.getY()};
+                    LinkSpot spot = new LinkSpot(Link.currentLink, this, relativePos);
+                    linksPlacedInIt.add(spot);
+                    
+                    int x = spot.terrHexCoordinates.rectCoord()[0] + spot.relativePosition[0];
+                    int y = spot.terrHexCoordinates.rectCoord()[1] + spot.relativePosition[1];
+                    getWorld().addObject(spot, x, y);
                     
                 }
-                MouseInfo mseInfo = Greenfoot.getMouseInfo();
-                LinkIndic newLink = new LinkIndic(territory);
-                MyWorld.theWorld.addObject(newLink,mseInfo.getX(), mseInfo.getY());
-                Links.newLinks.addlink(newLink, territory);
-            
+                
             }else{
                 MyWorld.theWorld.escape();
 
@@ -75,19 +93,19 @@ public class TerritoryHex extends Button
         
     }
     
-    public ArrayList<TerritoryHex> getBorderingHex() {
+    public ArrayList<TerritoryHex> getBorderingHexes() {
         List<TerritoryHex> allOtherTerritoryHex;
         ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
-        
+
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
-        
+
         for(TerritoryHex otherHex : allOtherTerritoryHex){
             if(this.distance(otherHex) < 2 * Hexagon.RADIUS){
                 borderingHexList.add(otherHex);
-                
+
             }
-            
-        }
+
+            }
         return borderingHexList;
     }
     

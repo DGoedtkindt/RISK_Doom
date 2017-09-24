@@ -32,7 +32,7 @@ public class OKButton extends Button
                 deleteContinentSelection();
             
             }else if(mode == Mode.SET_LINK){
-                Links.newLinks = null;
+                Link.currentLink = null;
                 
             }
                 MyWorld.theWorld.escape();

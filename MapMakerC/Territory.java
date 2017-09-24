@@ -2,6 +2,7 @@ import greenfoot.GreenfootImage;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
@@ -15,8 +16,8 @@ public class Territory implements Selectable
     public Color continentColor = MyWorld.BASE_WORLD_COLOR;
     private int bonusPoints = 0;
     private TerrInfo trInfo;
-    public ArrayList<LinkIndic> links = new ArrayList<>();
-    
+    public HashSet<Territory> borderingTerritories = new HashSet<Territory>();
+    public ArrayList<Link> links = new ArrayList<Link>();
     
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,7 @@ public class Territory implements Selectable
         createTerrHexs(infoHex);
         drawTerritory();
         removeSingleHexs();
+        borderingTerritories = findBorderingTerritories();
         Selector.selectableSet.add(this);
         territoryList.add(this);
     }
@@ -34,10 +36,11 @@ public class Territory implements Selectable
     public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex, int bonus)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         singleHexList = hexs;
-        createTerrHexs(infoHex);
         bonusPoints = bonus;
+        createTerrHexs(infoHex);
         drawTerritory();
         removeSingleHexs();
+        borderingTerritories = findBorderingTerritories();
         Selector.selectableSet.add(this);
         territoryList.add(this);
     }
@@ -119,6 +122,28 @@ public class Territory implements Selectable
     
     }
     
+    public void removeLink(Link link){
+        
+        LinkSpot spotToRemove = null;
+        
+        for(TerritoryHex th : terrHexList){
+            
+            for(LinkSpot ls : th.linksPlacedInIt){
+                
+                if(ls.specificLink() == link){
+                    
+                    spotToRemove = ls;
+                    
+                }
+                
+            }
+            
+        }
+        spotToRemove.remove();
+        links.remove(link);
+        
+    }
+    
     //Selectable methods/////////////////////////////////
     
     public void makeTransparent() {  
@@ -149,27 +174,27 @@ public class Territory implements Selectable
         drawTerritory();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Private methods////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public void drawTerritory()
+    private void drawTerritory()
     //dessine le territoire sur le monde
     {
-        drawHexs();System.out.println("terrDrawn  " + continentColor);
+        drawHexs();
         drawAllHexsLinks();
     }
     
     private void createTerrHexs(SingleHex infoHex)
     //crée tous les territoryHex de ce territoire
-    {
+        {
         for(SingleHex hex : singleHexList) {
             int[] rectCoord = hex.coordinates().rectCoord();
             TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.coordinates().hexCoord[0], hex.coordinates().hexCoord[1]);
             terrHexList.add(trHex);
             getWorld().addObject(trHex, rectCoord[0], rectCoord[1]);
             if(hex == infoHex) {
-                trInfo = new TerrInfo(trHex);
+                trInfo = new TerrInfo(trHex, bonusPoints);
                 getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
-            }System.out.println("  terrHexCreated  " + trHex);
+            }
         }
         
     }
@@ -243,6 +268,36 @@ public class Territory implements Selectable
                 getWorld().removeObject(hexToDel);
 
         }
+    }
+    
+    private HashSet<Territory> findBorderingTerritories(){
+        
+        HashSet<Territory> borderingTerrs = new HashSet<Territory>();
+        
+        for(TerritoryHex th : terrHexList){
+            
+            ArrayList<TerritoryHex> borderingHexes= th.getBorderingHexes();
+            
+            for(TerritoryHex borderingHex : borderingHexes){
+                
+                if(borderingHex.territory() != this){
+                    
+                    borderingTerrs.add(borderingHex.territory());
+                    
+                }
+                
+            }
+            
+        }
+        
+        for(Territory t : borderingTerrs){
+            
+            t.borderingTerritories.add(t);
+            
+        }
+        
+        return borderingTerrs;
+        
     }
     
 }

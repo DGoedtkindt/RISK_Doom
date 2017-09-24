@@ -11,7 +11,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,58 +67,45 @@ public class MakeXML extends Button
                         Element hex = doc.createElement("hex");
                         territory.appendChild(hex);
                         
-                        //Gives attributes to hexes
-                        Attr hexX = doc.createAttribute("hexX");
-                        hexX.setValue("" + currentHex.coordinates().hexCoord[0]);
-                        hex.setAttributeNode(hexX);
+                        for(LinkSpot currentSpot : currentHex.linksPlacedInIt){
+                            
+                            Element linkSpot = doc.createElement("linkSpot");
+                            hex.appendChild(linkSpot);
+                            
+                            linkSpot.setAttribute("rLinkColor", "" + currentSpot.specificLink().color().getRed());
+                            linkSpot.setAttribute("gLinkColor", "" + currentSpot.specificLink().color().getGreen());
+                            linkSpot.setAttribute("bLinkColor", "" + currentSpot.specificLink().color().getBlue());
+                            linkSpot.setAttribute("linkRelX", "" + currentSpot.relativePosition[0]);
+                            linkSpot.setAttribute("linkRelY", "" + currentSpot.relativePosition[1]);
+                        }
                         
-                        Attr hexY = doc.createAttribute("hexY");
-                        hexY.setValue("" + currentHex.coordinates().hexCoord[1]);
-                        hex.setAttributeNode(hexY);
+                        //Gives attributes to hexes
+                        hex.setAttribute("hexX", "" + currentHex.coordinates().hexCoord[0]);
+                        hex.setAttribute("hexY", "" + currentHex.coordinates().hexCoord[1]);
                         
                     }
                     //Appends infoHex to territory
                     Element infoHex = doc.createElement("infoHex");
                     territory.appendChild(infoHex);
 
-                    Attr infoHexX = doc.createAttribute("infoHexX");
-
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
-                    infoHex.setAttributeNode(infoHexX);
-                    
-                    Attr infoHexY = doc.createAttribute("infoHexY");
-
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
-                    infoHex.setAttributeNode(infoHexY);
+                    infoHex.setAttribute("infoHexX", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
+                    infoHex.setAttribute("infoHexY", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
                     
                     //Gives attributes to territory
-                    Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + currentTerritory.bonus());
-                    territory.setAttributeNode(territoryPoints);
+                    territory.setAttribute("territoryPoints", "" + currentTerritory.bonus());
                     
                 //Gives attributes to continent
-                Attr continentPoints = doc.createAttribute("continentPoints");
-                continentPoints.setValue("" + currentContinent.bonus());
-                continent.setAttributeNode(continentPoints);
+                continent.setAttribute("continentPoints", "" + currentContinent.bonus());
                 
-                Attr rContinentColor = doc.createAttribute("rContinentColor");
-                rContinentColor.setValue("" + (currentContinent.color()).getRed());
-                continent.setAttributeNode(rContinentColor);
-                
-                Attr gContinentColor = doc.createAttribute("gContinentColor");
-                gContinentColor.setValue("" + (currentContinent.color()).getGreen());
-                continent.setAttributeNode(gContinentColor);
-                
-                Attr bContinentColor = doc.createAttribute("bContinentColor");
-                bContinentColor.setValue("" + (currentContinent.color()).getBlue());
-                continent.setAttributeNode(bContinentColor);
+                continent.setAttribute("rContinentColor", "" + currentContinent.color().getRed());
+                continent.setAttribute("gContinentColor", "" + currentContinent.color().getGreen());
+                continent.setAttribute("bContinentColor", "" + currentContinent.color().getBlue());
                 
             }
             
             //Appends unoccupied territories to the map
             for(Territory currentTerritory : Territory.allTerritories()){
 
-                
                 if(currentTerritory.continent() == null){
                     
                     Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
@@ -133,37 +119,49 @@ public class MakeXML extends Button
                         Element hex = doc.createElement("hex");
                         unoccupiedTerritory.appendChild(hex);
                         
-                        //Gives attributes to hexes
-                        Attr hexX = doc.createAttribute("hexX");
-                        hexX.setValue("" + currentHex.coordinates().hexCoord[0]);
-                        hex.setAttributeNode(hexX);
+                        for(LinkSpot currentSpot : currentHex.linksPlacedInIt){
+                            
+                            Element linkSpot = doc.createElement("linkSpot");
+                            hex.appendChild(linkSpot);
+                            
+                            linkSpot.setAttribute("rLinkColor", "" + currentSpot.specificLink().color().getRed());
+                            linkSpot.setAttribute("gLinkColor", "" + currentSpot.specificLink().color().getGreen());
+                            linkSpot.setAttribute("bLinkColor", "" + currentSpot.specificLink().color().getBlue());
+                            linkSpot.setAttribute("linkRelX", "" + currentSpot.relativePosition[0]);
+                            linkSpot.setAttribute("linkRelY", "" + currentSpot.relativePosition[1]);
+                        }
                         
-                        Attr hexY = doc.createAttribute("hexY");
-                        hexY.setValue("" + currentHex.coordinates().hexCoord[1]);
-                        hex.setAttributeNode(hexY);
+                        //Gives attributes to hexes
+                        hex.setAttribute("hexX", "" + currentHex.coordinates().hexCoord[0]);
+                        hex.setAttribute("hexY", "" + currentHex.coordinates().hexCoord[1]);
                         
                     }
                     
                     //Appends infoHex to territory
                     Element infoHex = doc.createElement("infoHex");
                     unoccupiedTerritory.appendChild(infoHex);
-
-                    Attr infoHexX = doc.createAttribute("infoHexX");
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
-                    infoHex.setAttributeNode(infoHexX);
                     
-                    Attr infoHexY = doc.createAttribute("infoHexY");
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
-                    infoHex.setAttributeNode(infoHexY);
+                    infoHex.setAttribute("infoHexX", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
+                    infoHex.setAttribute("infoHexY", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
                     
                     //Gives unoccupied territory attributes
-                    Attr territoryPoints = doc.createAttribute("territoryPoints");
-                    territoryPoints.setValue("" + currentTerritory.bonus());
-                    unoccupiedTerritory.setAttributeNode(territoryPoints);
+                    unoccupiedTerritory.setAttribute("territoryPoints", "" + currentTerritory.bonus());
+                    
                 }
                     
                 }
                 
+            }
+            
+            //appends links to the map
+            for(Link currentLink : Link.allLinks){
+                
+                Element link = doc.createElement("link");
+                rootElement.appendChild(link);
+                
+                link.setAttribute("rLinkColor", "" + currentLink.color().getRed());
+                link.setAttribute("gLinkColor", "" + currentLink.color().getGreen());
+                link.setAttribute("bLinkColor", "" + currentLink.color().getBlue());
             }
             
             //Saves

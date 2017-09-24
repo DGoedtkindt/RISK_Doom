@@ -11,6 +11,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.util.List;
 
 public class MyWorld extends World
 {
@@ -125,7 +126,6 @@ public class MyWorld extends World
     }
     
     private Button getPressedButton(){
-        System.out.println(mouse.getActor());
         if(mouse.getActor() instanceof Button){
             return (Button)(mouse.getActor());
             
@@ -141,7 +141,19 @@ public class MyWorld extends World
     public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
-        if(Links.newLinks != null) Links.newLinks.destroy();
+        
+        for(Territory t : Territory.allTerritories()){
+            
+            if(t.links.contains(Link.currentLink)){
+                
+                t.removeLink(Link.currentLink);
+                
+            }
+            
+        }
+        
+        Link.allLinks.remove(Link.currentLink);
+        Link.currentLink = null;
         
     }   
     
@@ -184,9 +196,29 @@ public class MyWorld extends World
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                 Document doc = dBuilder.parse(XMLFile);
                 doc.getDocumentElement().normalize();
-            
+                
+                //getting links
+                NodeList linkList = doc.getElementsByTagName("link");
+                for(int i = 0; i <linkList.getLength(); i++){
+                    
+                    Node linkNode = linkList.item(i);
+                    if(linkNode.getNodeType() == Node.ELEMENT_NODE){
+                        
+                        Element currentLink = (Element)linkNode;
+                        
+                        int rColor = Integer.parseInt(currentLink.getAttribute("rLinkColor"));
+                        int gColor = Integer.parseInt(currentLink.getAttribute("gLinkColor"));
+                        int bColor = Integer.parseInt(currentLink.getAttribute("bLinkColor"));
+                        new Link(new Color(rColor, gColor, bColor));
+                        
+                    }
+                    
+                }
+                
+                ArrayList<LinkSpot> allLinkSpots = new ArrayList<LinkSpot>();
+                
+                //getting continents
                 NodeList continentList = doc.getElementsByTagName("continent");
-            
                 for(int i = 0; i < continentList.getLength(); i++){
                 
                     Node continentNode = continentList.item(i);
@@ -236,7 +268,32 @@ public class MyWorld extends World
 
                                             int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
                                             int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
-
+                                            
+                                            if(currentHex.hasChildNodes()){
+                                                
+                                                NodeList linkSpotList = currentHex.getElementsByTagName("linkSpot");
+                                            
+                                                for(int v = 0; v < linkSpotList.getLength(); v++){
+                                                    
+                                                    Element linkSpot = (Element)linkSpotList.item(v);
+                                                    
+                                                    int rSpotColor = Integer.parseInt(linkSpot.getAttribute("rLinkColor"));
+                                                    int gSpotColor = Integer.parseInt(linkSpot.getAttribute("gLinkColor"));
+                                                    int bSpotColor = Integer.parseInt(linkSpot.getAttribute("bLinkColor"));
+                                                    int relativeX  = Integer.parseInt(linkSpot.getAttribute("linkRelX"));
+                                                    int relativeY  = Integer.parseInt(linkSpot.getAttribute("linkRelY"));
+                                                    
+                                                    Coordinates hexCoord = new Coordinates(new int[]{xCoord, yCoord});
+                                                    Color linkColor = new Color(rSpotColor, gSpotColor, bSpotColor);
+                                                    int[] relativePos = {relativeX, relativeY};
+                                                    
+                                                    LinkSpot ls = new LinkSpot(linkColor, hexCoord, relativePos);
+                                                    allLinkSpots.add(ls);
+                                                    
+                                                }
+                                                
+                                            }
+                                            
                                             hexesInTerritory.add(SINGLE_HEX_ARRAY[xCoord][yCoord]);
 
                                         }else if(currentHex.hasAttribute("borderingID")){
@@ -298,6 +355,31 @@ public class MyWorld extends World
                                     int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
                                     int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
 
+                                    if(currentHex.hasChildNodes()){
+                                                
+                                        NodeList linkSpotList = currentHex.getElementsByTagName("linkSpot");
+
+                                        for(int v = 0; v < linkSpotList.getLength(); v++){
+
+                                            Element linkSpot = (Element)linkSpotList.item(v);
+
+                                            int rSpotColor = Integer.parseInt(linkSpot.getAttribute("rLinkColor"));
+                                            int gSpotColor = Integer.parseInt(linkSpot.getAttribute("gLinkColor"));
+                                            int bSpotColor = Integer.parseInt(linkSpot.getAttribute("bLinkColor"));
+                                            int relativeX  = Integer.parseInt(linkSpot.getAttribute("linkRelX"));
+                                            int relativeY  = Integer.parseInt(linkSpot.getAttribute("linkRelY"));
+
+                                            Coordinates hexCoord = new Coordinates(new int[]{xCoord, yCoord});
+                                            Color linkColor = new Color(rSpotColor, gSpotColor, bSpotColor);
+                                            int[] relativePos = {relativeX, relativeY};
+                                            
+                                            LinkSpot ls = new LinkSpot(linkColor, hexCoord, relativePos);
+                                            allLinkSpots.add(ls);
+
+                                        }
+                                                
+                                    }
+                                    
                                     hexesInTerritory.add(SINGLE_HEX_ARRAY[xCoord][yCoord]);
 
                                 }else if(currentHex.hasAttribute("borderingID")){
@@ -309,6 +391,24 @@ public class MyWorld extends World
                         }
                         
                         new Territory(hexesInTerritory, infoHex, territoryBonus);
+                    }
+                    
+                }
+                
+                List<TerritoryHex> territoryHexes= theWorld.getObjects(TerritoryHex.class);
+                
+                for(LinkSpot ls : allLinkSpots){
+                    
+                    for(TerritoryHex th : territoryHexes){
+                        
+                        if(ls.terrHexCoordinates.hexCoord[0] == th.coordinates().hexCoord[0] 
+                           && ls.terrHexCoordinates.hexCoord[1] == th.coordinates().hexCoord[1]){
+                            
+                            th.linksPlacedInIt.add(ls);
+                            ls.specificHex = th;
+                            theWorld.addObject(ls, ls.terrHexCoordinates.rectCoord()[0] + ls.relativePosition[0], ls.terrHexCoordinates.rectCoord()[1] + ls.relativePosition[1]);
+                        }
+                        
                     }
                     
                 }
