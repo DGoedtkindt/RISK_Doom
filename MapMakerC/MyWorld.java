@@ -37,7 +37,6 @@ public class MyWorld extends World
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
-    
 
     ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
     ModeButton createContinent      = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
@@ -50,7 +49,7 @@ public class MyWorld extends World
     OKButton okButton               = new OKButton();
     MakeXML makeXMLButton           = new MakeXML();
     ReadXMLButton readXMLButton     = new ReadXMLButton();
-
+    
     public MyWorld()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -101,7 +100,6 @@ public class MyWorld extends World
         }
         
         Mode.changeMode(Mode.DEFAULT);
-        
     }
     
     ///////////////////////////////
@@ -127,6 +125,7 @@ public class MyWorld extends World
     }
     
     private Button getPressedButton(){
+        System.out.println(mouse.getActor());
         if(mouse.getActor() instanceof Button){
             return (Button)(mouse.getActor());
             
@@ -268,6 +267,7 @@ public class MyWorld extends World
                 for(int n = 0; n < unoccupiedTerritories.getLength(); n++){
                 
                     Node territoryNode = unoccupiedTerritories.item(n);
+                    
                     if(territoryNode.getNodeType() == Node.ELEMENT_NODE){
                         
                         Element currentTerritory = (Element)territoryNode;
@@ -291,25 +291,24 @@ public class MyWorld extends World
                                     int infoHexX = Integer.parseInt(currentHex.getAttribute("infoHexX"));
                                     int infoHexY = Integer.parseInt(currentHex.getAttribute("infoHexY"));
 
-                                    infoHex = new SingleHex(infoHexX, infoHexY);
+                                    infoHex = SINGLE_HEX_ARRAY[infoHexX][infoHexY];
 
                                 }else if(currentHex.hasAttribute("hexX")){
 
                                     int xCoord = Integer.parseInt(currentHex.getAttribute("hexX"));
                                     int yCoord = Integer.parseInt(currentHex.getAttribute("hexY"));
 
-                                    hexesInTerritory.add(new SingleHex(xCoord, yCoord));
+                                    hexesInTerritory.add(SINGLE_HEX_ARRAY[xCoord][yCoord]);
 
                                 }else if(currentHex.hasAttribute("borderingID")){
 
                                 }
-
+                                
                             }
-
+                            
                         }
-
+                        
                         new Territory(hexesInTerritory, infoHex, territoryBonus);
-
                     }
                     
                 }

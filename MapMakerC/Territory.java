@@ -151,10 +151,10 @@ public class Territory implements Selectable
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    private void drawTerritory()
+    public void drawTerritory()
     //dessine le territoire sur le monde
     {
-        drawHexs();
+        drawHexs();System.out.println("terrDrawn  " + continentColor);
         drawAllHexsLinks();
     }
     
@@ -169,7 +169,7 @@ public class Territory implements Selectable
             if(hex == infoHex) {
                 trInfo = new TerrInfo(trHex);
                 getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
-            }
+            }System.out.println("  terrHexCreated  " + trHex);
         }
         
     }
