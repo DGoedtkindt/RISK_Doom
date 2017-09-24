@@ -21,7 +21,7 @@ public class TerrInfo extends Button {
         if(newBonus > 0) {
             GreenfootImage img = new GreenfootImage("texture1.png");
             img.scale(50, 60);
-            GreenfootImage txt = new GreenfootImage(""+newBonus, 25 , Color.WHITE,null);
+            GreenfootImage txt = new GreenfootImage("" + newBonus, 25 , Color.WHITE,null);
             img.drawImage(txt, 25-txt.getWidth()/2, 30-txt.getHeight()/2);
             this.setImage(img);
     

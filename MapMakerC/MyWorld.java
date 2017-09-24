@@ -221,7 +221,7 @@ public class MyWorld extends World
 
                                 for(int k = 0; k < hexList.getLength(); k++){
 
-                                    Node hexNode = hexList.item(i);
+                                    Node hexNode = hexList.item(k);
                                     if(hexNode.getNodeType() == Node.ELEMENT_NODE){
                                         
                                         Element currentHex = (Element)hexNode;
