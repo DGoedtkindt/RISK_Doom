@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
 
@@ -11,7 +10,7 @@ public class Continent implements Selectable
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
 
-    static private HashSet<Continent> continentList = new HashSet<Continent>();
+    static private ArrayList<Continent> continentList = new ArrayList<Continent>();
 
     public Continent(ArrayList<Territory> territories) throws Exception{
         editColor();
@@ -68,8 +67,8 @@ public class Continent implements Selectable
         
     }
     
-    public ArrayList<Territory> ContainedTerritories(){
-        return territoriesContained;
+    public ArrayList<Territory> containedTerritories(){
+        return (ArrayList<Territory>)territoriesContained.clone();
         
     }
     
@@ -161,11 +160,7 @@ public class Continent implements Selectable
     //Public Static methods////////////////////////////////////////////////
     
     public static ArrayList<Continent> continentList(){
-        ArrayList<Continent> continents = new ArrayList<>();
-        
-        continents.addAll(0, continentList);
-        
-        return continents;
+        return (ArrayList<Continent>)continentList.clone();
         
     }
     
@@ -173,7 +168,6 @@ public class Continent implements Selectable
     
     public void makeGreen() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeGreen();
         
         }
@@ -181,7 +175,6 @@ public class Continent implements Selectable
     
     public void makeTransparent() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeTransparent();
         
         }
@@ -189,7 +182,6 @@ public class Continent implements Selectable
     
     public void makeOpaque() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeOpaque();
         
         }

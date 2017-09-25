@@ -9,8 +9,14 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class MyWorld extends World
 {
@@ -31,8 +37,6 @@ public class MyWorld extends World
     
     static final int COLLUMN_NUMBER = 29;
     static final int ROW_NUMBER = 15;
-    
-    static final SingleHex[][] SINGLE_HEX_ARRAY = new SingleHex[COLLUMN_NUMBER + 10][ROW_NUMBER + 10]; 
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
@@ -86,7 +90,9 @@ public class MyWorld extends World
         addObject(readXMLButton, MyWorld.WORLD_WIDTH - 100, 700);
         
         // placement des hexagones
-        placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        try{
+            placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        }catch(Exception e) {e.printStackTrace(System.out);}
         
         // zone des bonus de continent
         for(SingleHex sh : getObjects(SingleHex.class)){
@@ -104,14 +110,14 @@ public class MyWorld extends World
     
     ///////////////////////////////
     
-    public void makeSingleHex(int x, int y) {
+    public void makeSingleHex(int x, int y) throws Exception {
         SingleHex hex = new SingleHex(x,y);
         int[] rectCoord = hex.coordinates().rectCoord();
         addObject(hex,rectCoord[0],rectCoord[1]);
         
     }
     
-    private void placeHexagonInCollumnRow(int collumn, int row){
+    private void placeHexagonInCollumnRow(int collumn, int row) throws Exception{
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
@@ -125,7 +131,6 @@ public class MyWorld extends World
     }
     
     private Button getPressedButton(){
-        System.out.println(mouse.getActor());
         if(mouse.getActor() instanceof Button){
             return (Button)(mouse.getActor());
             
@@ -167,13 +172,65 @@ public class MyWorld extends World
     }
     
     /////////////////////////////////////////////////
+    private static Document doc;
     
-    private void createNewMap(){
+    public static void readXMLMap(String fileName) {
+        try{
+            getDocument(fileName);
+            createTerritories();
+        } catch(Exception e) {
+            e.printStackTrace(System.out);
+        }
         
         
     }
     
-    public static void readXMLMap(String fileName){
+    private static void getDocument(String fileName) throws Exception {
+        File XMLFile = new File(fileName);
+                if(XMLFile.exists()){
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    doc = dBuilder.parse(XMLFile);
+                    doc.getDocumentElement().normalize();
+                } else {throw new Exception("File does not exist");}
+    }
+    
+    private static void createTerritories() throws Exception{
+                    NodeList terrNodeList = doc.getElementsByTagName("Territory");
+                    for(int i=0; i<terrNodeList.getLength();i++) {
+                        Element terrNode = (Element)terrNodeList.item(i);
+                        
+                        ArrayList<SingleHex> hexContained = new ArrayList<>();
+                        SingleHex infoHex = null;
+                        int id = Integer.parseInt(terrNode.getAttribute("id"));
+                        int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
+                        NodeList allChildren = terrNode.getChildNodes();
+                        for(int j=0; j<allChildren.getLength();j++) {
+                            Node child = allChildren.item(j);
+                            if(child.getNodeName() == "Hex") {
+                               Element hex = (Element)child;
+                               int hexX = Integer.parseInt(hex.getAttribute("hexX"));
+                               int hexY = Integer.parseInt(hex.getAttribute("hexY"));
+                               hexContained.add(SingleHex.SINGLE_HEX_ARRAY[hexX][hexY]);
+                            
+                            } else if(child.getNodeName() == "InfoHex") {
+                                Element infoHexNode = (Element)child;
+                                int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
+                                int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
+                                infoHex = SingleHex.SINGLE_HEX_ARRAY[hexX][hexY];
+                            
+                            }
+                            
+                        }
+                        
+                        new Territory(hexContained,infoHex,bonus, id);
+                            
+                        
+                        }
+    
+    }
+    
+  /*  public static void readXMLMap2(String fileName){
         
         try{
             
@@ -199,7 +256,7 @@ public class MyWorld extends World
                         int bColor = Integer.parseInt(currentContinent.getAttribute("bContinentColor"));
                         int continentBonus = Integer.parseInt(currentContinent.getAttribute("continentPoints"));
                         
-                        ArrayList<Territory> territoriesInContinent = new ArrayList<Territory>();
+                        ArrayList<Territory> territoriesInContinent = new ArrayList<>();
                         
                         NodeList territoryList = currentContinent.getChildNodes();
 
@@ -214,7 +271,7 @@ public class MyWorld extends World
                                 int territoryBonus = Integer.parseInt(currentTerritory.getAttribute("territoryPoints"));
                                 SingleHex infoHex = null;
 
-                                ArrayList<SingleHex> hexesInTerritory = new ArrayList<SingleHex>();
+                                ArrayList<SingleHex> hexesInTerritory = new ArrayList<>();
 
                                 NodeList hexList = currentTerritory.getChildNodes();
 
@@ -317,7 +374,7 @@ public class MyWorld extends World
                 
         }catch(Exception e){e.printStackTrace();}
         Mode.changeMode(Mode.DEFAULT);
-    }
+    }*/
     
     private void init(){
         

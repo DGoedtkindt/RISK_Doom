@@ -6,7 +6,7 @@ public class ReadXMLButton extends Button{
     }
     
     public void clicked() {
-        MyWorld.readXMLMap("test    ");
+        MyWorld.readXMLMap("XMLTest");
     }
     
 }

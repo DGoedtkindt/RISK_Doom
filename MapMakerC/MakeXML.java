@@ -15,17 +15,117 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import java.util.HashMap;
+import java.util.Set;
 
 public class MakeXML extends Button
-{
+{   
+    Document doc;
+    Element rootElement;
+    
     public MakeXML(){
-        
-        GreenfootImage image = new GreenfootImage("MakeXML.png");
-
-        image.scale(80, 80);
-        this.setImage(image);
+        try {
+            GreenfootImage image = new GreenfootImage("MakeXML.png");
+            image.scale(80, 80);
+            this.setImage(image);
+            
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            doc = docBuilder.newDocument();
+            rootElement = doc.createElement("map");//Création de rootElement
+            doc.appendChild(rootElement);
+        } catch (IllegalArgumentException | ParserConfigurationException | DOMException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
+    
+    public void saveToXML(){
+        createTerritoryNodes();
+        createContinentNodes();
+        saveFile();
         
     }
+    
+    
+    public void createTerritoryNodes(){
+        ArrayList<Territory> allTerrList = Territory.allTerritories();
+        for(Territory terr: allTerrList) {
+            Element terrNode = doc.createElement("Territory");
+            rootElement.appendChild(terrNode);
+            
+            //rajoute les coordonées du infoHex
+            Element infoHexNode = doc.createElement("InfoHex");
+            terrNode.appendChild(infoHexNode);
+            TerritoryHex infoHex = terr.infoHex();
+            infoHexNode.setAttribute("hexX", "" + infoHex.coordinates().hexCoord[0]);
+            infoHexNode.setAttribute("hexY", "" + infoHex.coordinates().hexCoord[1]);
+            
+            //rajouter tous les hexs
+            ArrayList<TerritoryHex> hexList = terr.composingHex();
+            for(TerritoryHex hex: hexList) {
+                Element HexNode = doc.createElement("Hex");
+                terrNode.appendChild(HexNode);
+                HexNode.setAttribute("hexX", "" + hex.coordinates().hexCoord[0]);
+                HexNode.setAttribute("hexY", "" + hex.coordinates().hexCoord[1]);
+            
+            }
+            
+            //rajouter l'id
+            int terrID = terr.id();
+            terrNode.setAttribute("id", "" + terrID);
+            
+            //rajouter le bonus
+            int terrBonus = terr.bonus();
+            terrNode.setAttribute("bonus", "" + terrBonus);
+
+        }
+    }
+    private void createContinentNodes(){
+        ArrayList<Continent> allContList = Continent.continentList();
+        for(Continent cont : allContList) {
+            Element contNode = doc.createElement("Continent");
+            rootElement.appendChild(contNode);
+            
+            ArrayList<Territory> terrContained = cont.containedTerritories();
+            for(Territory terr : terrContained) {
+                Element terrInCont = doc.createElement("TerrInCont");
+                terrInCont.setAttribute("id", "" + terr.id());
+                contNode.appendChild(terrInCont);
+            
+            }
+            
+            contNode.setAttribute("rColor", "" + (cont.color()).getRed());
+            contNode.setAttribute("gColor", "" + (cont.color()).getGreen());
+            contNode.setAttribute("bColor", "" + (cont.color()).getBlue());
+            
+            contNode.setAttribute("bonus", "" + cont.bonus());
+        
+        }
+    
+    
+    
+    
+    
+    }
+
+    private void saveFile() {
+        try{
+            String fileName = JOptionPane.showInputDialog("Enter file name");
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(fileName));
+            transformer.transform(source, result);
+            
+        } catch(HeadlessException | TransformerException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+    
+    
+   
     
     public void clicked(){
         
@@ -33,7 +133,7 @@ public class MakeXML extends Button
         
     }
     
-    private void saveToXML(){
+    /*private void saveToXML2(){
         
         ArrayList<Continent> continentList = Continent.continentList();
         
@@ -84,12 +184,12 @@ public class MakeXML extends Button
 
                     Attr infoHexX = doc.createAttribute("infoHexX");
 
-                    infoHexX.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
+                    infoHexX.setValue("" + currentTerritory.infoHex().coordinates().hexCoord[0]);
                     infoHex.setAttributeNode(infoHexX);
                     
                     Attr infoHexY = doc.createAttribute("infoHexY");
 
-                    infoHexY.setValue("" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
+                    infoHexY.setValue("" + currentTerritory.infoHex().coordinates().hexCoord[1]);
                     infoHex.setAttributeNode(infoHexY);
                     
                     //Gives attributes to territory
@@ -181,7 +281,7 @@ public class MakeXML extends Button
             
         }
    
-    }
+    }*/
     
     public void makeTransparent() {
         getImage().setTransparency(MyWorld.TRANSPARENT);

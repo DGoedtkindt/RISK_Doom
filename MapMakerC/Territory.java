@@ -21,25 +21,29 @@ public class Territory implements Selectable
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
-    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex)  throws Exception {
+    
+    
+    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex, int bonus, int id)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         singleHexList = hexs;
+        bonusPoints = bonus;
+        if(id != -1) {territoryList.add(id, this);}
+        else {territoryList.add(this);}
         createTerrHexs(infoHex);
+        trInfo.setDisplayedBonus(bonus);
         drawTerritory();
         removeSingleHexs();
         Selector.selectableSet.add(this);
-        territoryList.add(this);
+        
     }
     
-    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex, int bonus)  throws Exception {
-        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
-        singleHexList = hexs;
-        createTerrHexs(infoHex);
-        bonusPoints = bonus;
-        drawTerritory();
-        removeSingleHexs();
-        Selector.selectableSet.add(this);
-        territoryList.add(this);
+    public Territory(ArrayList<SingleHex> hexs, SingleHex infoHex)  throws Exception {
+        
+        new Territory(hexs, infoHex, 0, -1);
+        
+        
+        
+        
     }
     
     public void destroy()
@@ -114,8 +118,8 @@ public class Territory implements Selectable
         
     }
     
-    public TerrInfo terrInfo() {
-        return trInfo;
+    public TerritoryHex infoHex() {
+        return trInfo.linkedTerrHex();
     
     }
     
@@ -154,7 +158,7 @@ public class Territory implements Selectable
     public void drawTerritory()
     //dessine le territoire sur le monde
     {
-        drawHexs();System.out.println("terrDrawn  " + continentColor);
+        drawHexs();
         drawAllHexsLinks();
     }
     
@@ -169,7 +173,7 @@ public class Territory implements Selectable
             if(hex == infoHex) {
                 trInfo = new TerrInfo(trHex);
                 getWorld().addObject(trInfo,rectCoord[0], rectCoord[1]);
-            }System.out.println("  terrHexCreated  " + trHex);
+            }
         }
         
     }
@@ -239,7 +243,6 @@ public class Territory implements Selectable
             
     private void removeSingleHexs(){
         for(SingleHex hexToDel : singleHexList){
-                MyWorld.SINGLE_HEX_ARRAY[hexToDel.coordinates().hexCoord[0]][hexToDel.coordinates().hexCoord[1]] = null;
                 getWorld().removeObject(hexToDel);
 
         }

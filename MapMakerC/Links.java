@@ -14,7 +14,6 @@ public class Links {
         int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
         color = new Color(rColor,gColor,bColor);
         newLinks = this;
-    
     }
     
     public void addlink(LinkIndic linkIndic, Territory linkedTerr ) {
