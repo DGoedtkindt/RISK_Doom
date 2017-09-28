@@ -1,4 +1,4 @@
-//regroupe (normalement) les SingleHex, les Territory et les Continent
+//regroupe (normalement) les BlankHex, les Territory et les Continent
 
 
 public interface Selectable {

@@ -36,7 +36,7 @@ public class MyWorld extends World
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
 
-    ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_SINGLEHEX);
+    ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     ModeButton createContinent      = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
     ModeButton editContinentBonus   = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
     ModeButton editContinentColor   = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
@@ -89,11 +89,11 @@ public class MyWorld extends World
         }catch(Exception e) {e.printStackTrace(System.out);}
         
         // zone des bonus de continent
-        for(SingleHex sh : getObjects(SingleHex.class)){
+        for(BlankHex bh : getObjects(BlankHex.class)){
             
-            if(sh.getX() > CONTINENT_BONUS_X_LEFT && sh.getX() < CONTINENT_BONUS_X_RIGHT && sh.getY() > CONTINENT_BONUS_Y_UP){
+            if(bh.getX() > CONTINENT_BONUS_X_LEFT && bh.getX() < CONTINENT_BONUS_X_RIGHT && bh.getY() > CONTINENT_BONUS_Y_UP){
                 
-                removeObject(sh);
+                removeObject(bh);
                 
             }
             
@@ -108,7 +108,7 @@ public class MyWorld extends World
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
-                SingleHex hexToPlace = SingleHex.singleHexAt(x, y);
+                BlankHex hexToPlace = BlankHex.blankHexAt(x, y);
                 int[] rectCoords = hexToPlace.coordinates().rectCoord();
                 addObject(hexToPlace,rectCoords[0],rectCoords[1]);
                 
@@ -189,8 +189,8 @@ public class MyWorld extends World
         NodeList terrNodeList = doc.getElementsByTagName("Territory");
         for(int i = 0; i < terrNodeList.getLength(); i++) {
             Element terrNode = (Element)terrNodeList.item(i);
-            ArrayList<SingleHex> hexContained = new ArrayList<>();
-            SingleHex infoHex = null;
+            ArrayList<BlankHex> hexContained = new ArrayList<>();
+            BlankHex infoHex = null;
             int id = Integer.parseInt(terrNode.getAttribute("id"));
             int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
             NodeList allChildren = terrNode.getChildNodes();
@@ -200,18 +200,17 @@ public class MyWorld extends World
                    Element hex = (Element)child;
                    int hexX = Integer.parseInt(hex.getAttribute("hexX"));
                    int hexY = Integer.parseInt(hex.getAttribute("hexY"));
-                   hexContained.add(SingleHex.singleHexAt(hexX,hexY));
+                   hexContained.add(BlankHex.blankHexAt(hexX,hexY));
 
                 } else if(child.getNodeName() == "InfoHex") {
                     Element infoHexNode = (Element)child;
                     int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
                     int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
-                    infoHex = SingleHex.singleHexAt(hexX,hexY);
+                    infoHex = BlankHex.blankHexAt(hexX,hexY);
 
                 }
 
             }
-
             new Territory(hexContained,infoHex,bonus, id);
 
 
