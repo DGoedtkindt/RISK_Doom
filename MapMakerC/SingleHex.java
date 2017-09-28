@@ -8,7 +8,9 @@ public class SingleHex extends Button implements Selectable
     static public Color BASE_COLOR = Color.WHITE;
     private static final SingleHex[][] SINGLE_HEX_ARRAY = new SingleHex[40][20]; 
     
-    public static SingleHex singleHexAt(int hexX, int hexY) {
+    public static SingleHex singleHexAt(int hexX, int hexY) 
+    //this method makes sure we only create new SingleHex when necessary  
+    {
         SingleHex returnHex;
         if(SINGLE_HEX_ARRAY[hexX][hexY] != null) returnHex = SINGLE_HEX_ARRAY[hexX][hexY];
             else returnHex = new SingleHex(hexX,hexY);
