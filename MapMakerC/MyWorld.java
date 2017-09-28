@@ -35,8 +35,8 @@ public class MyWorld extends World
     static final int CONTINENT_BONUS_X_RIGHT = 1200;
     static final int CONTINENT_BONUS_Y_UP = 900;
     
-    static final int COLLUMN_NUMBER = 29;
-    static final int ROW_NUMBER = 15;
+    static final int COLLUMN_NUMBER = 34;
+    static final int ROW_NUMBER = 17;
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
@@ -65,8 +65,8 @@ public class MyWorld extends World
         getBackground().fill();
         
         //Hexagones bruns sur le côté
-        for(int i = 29; i < 34;i++){
-            for(int j = -1; j <= 15; j++){
+        for(int i = 34; i < 38;i++){
+            for(int j = -1; j <= 18; j++){
                 GreenfootImage hex;
                 hex = Hexagon.createImage(MENU_COLOR);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});

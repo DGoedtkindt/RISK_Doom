@@ -3,10 +3,22 @@ import java.util.List;
 import greenfoot.GreenfootImage;
 import java.awt.Font;
 
-public class Mode
+public enum Mode
 {
+    DEFAULT(""),
+    CREATE_TERRITORY("Create a territory by selecting at least two blank hexes."),
+    CREATE_CONTINENT("Create a continent by selecting at least one territory that is not already part of a continent."),
+    EDIT_TERRITORY_BONUS("Select a territory to change its bonus."),
+    SET_LINK("Click on the territories you want to connect. \n A dot will be placed at the exact place you click."
+                                                            + "\n You will be asked to chose a color the first time."),
+    EDIT_CONTINENT_COLOR("Select a continent and change its color."),
+    EDIT_CONTINENT_BONUS("Select a continent and change its bonus."),
+    DELETE_TERRITORY("Select a territory to delete it."),
+    DELETE_CONTINENT("Select a continent to delete it (without destroying it's composing territories)."),
+    SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory.");
     
-    public Mode(String text){
+    
+    Mode(String text){
         message = text;
         
     }
@@ -138,18 +150,5 @@ public class Mode
     
     }
     
-    ///Final Modes//////////////////////////////////////////
-    
-    static public final Mode DEFAULT                     = new Mode("");
-    static public final Mode CREATE_TERRITORY            = new Mode("Create a territory by selecting at least two blank hexes.");
-    static public final Mode CREATE_CONTINENT            = new Mode("Create a continent by selecting at least one territory that is not already part of a continent.");
-    static public final Mode EDIT_TERRITORY_BONUS        = new Mode("Select a territory to change its bonus.");
-    static public final Mode SET_LINK                    = new Mode("Click on the territories you want to connect. \n A dot will be placed at the exact place you click."
-                                                            + "\n You will be asked to chose a color the first time.");
-    static public final Mode EDIT_CONTINENT_COLOR        = new Mode("Select a continent and change its color.");
-    static public final Mode EDIT_CONTINENT_BONUS        = new Mode("Select a continent and change its bonus.");
-    static public final Mode DELETE_TERRITORY            = new Mode("Select a territory to delete it.");
-    static public final Mode DELETE_CONTINENT            = new Mode("Select a continent to delete it (without destroying it's composing territories).");
-    static public final Mode SELECT_INFO_HEX             = new Mode("Select the hex wich will show the current bonus of this territory.");
     
 }
