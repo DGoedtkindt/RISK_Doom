@@ -45,7 +45,8 @@ public class Continent implements Selectable
                 t.setContinent(this);
              
             }
-            updateBonusDisplay();
+        
+         updateBonusDisplay();
         
     }
     

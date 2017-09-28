@@ -3,6 +3,7 @@ import java.util.List;
 import java.awt.Color;
 import greenfoot.MouseInfo;
 import greenfoot.Greenfoot;
+import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
 {
@@ -56,7 +57,11 @@ public class TerritoryHex extends Button
 
             }else if(mode == Mode.SET_LINK) {
                 if(Links.newLinks == null) {
-                    Links.newLinks = new Links();
+                    int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
+                    int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
+                    int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+                    Color color = new Color(rColor,gColor,bColor);
+                    Links.newLinks = new Links(color);
                     
                 }
                 MouseInfo mseInfo = Greenfoot.getMouseInfo();

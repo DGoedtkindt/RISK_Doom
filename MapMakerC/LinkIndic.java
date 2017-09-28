@@ -8,6 +8,7 @@ public class LinkIndic extends Button{
     public LinkIndic(Territory territory) {
         links = Links.newLinks;
         terr = territory;
+        terr.links.add(this);
         
         GreenfootImage img = new GreenfootImage(16,16);
         img.setColor(links.color());
@@ -34,6 +35,11 @@ public class LinkIndic extends Button{
     public void destroy() {
         terr.links.remove(this);
         links.removelink(this);
+    
+    }
+    
+    public Territory linkedTerr() {
+        return terr;
     
     }
 }

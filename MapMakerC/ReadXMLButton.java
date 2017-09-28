@@ -7,6 +7,7 @@ public class ReadXMLButton extends Button{
     
     public void clicked() {
         MyWorld.readXMLMap("XMLTest");
+        Mode.changeMode(Mode.DEFAULT);
     }
     
 }

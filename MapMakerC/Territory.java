@@ -68,6 +68,12 @@ public class Territory implements Selectable
         if(continent != null) continent.removeTerritory(this);
         
         getWorld().removeObject(trInfo);
+        
+        for(LinkIndic link: links) {
+            link.destroy();
+        }
+        
+        
     }
     
     public static ArrayList<Territory> allTerritories() {
@@ -107,7 +113,7 @@ public class Territory implements Selectable
     }
     
     public void editBonus() {
-        int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le territoire"));
+        int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveaux bonus pour le territoire"));
         bonusPoints = newBonus;
         trInfo.setDisplayedBonus(newBonus);
 
