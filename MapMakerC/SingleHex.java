@@ -6,16 +6,21 @@ public class SingleHex extends Button implements Selectable
     private Coordinates coord = new Coordinates();
     
     static public Color BASE_COLOR = Color.WHITE;
-    static final SingleHex[][] SINGLE_HEX_ARRAY = new SingleHex[40][20]; 
+    private static final SingleHex[][] SINGLE_HEX_ARRAY = new SingleHex[40][20]; 
     
-    public SingleHex(int xHCoord, int yHCoord) throws Exception{
+    public static SingleHex singleHexAt(int hexX, int hexY) {
+        SingleHex returnHex;
+        if(SINGLE_HEX_ARRAY[hexX][hexY] != null) returnHex = SINGLE_HEX_ARRAY[hexX][hexY];
+            else returnHex = new SingleHex(hexX,hexY);
+        return returnHex;
+    }
+    
+    private SingleHex(int xHCoord, int yHCoord) {
         coord.hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
         if(SINGLE_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] == null) {
             SINGLE_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] = this;
-        } else {throw new Exception("Hex already exists at X: " +
-                                    coord.hexCoord[0] + " and Y: " +
-                                    coord.hexCoord[1] );}
+        } 
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     

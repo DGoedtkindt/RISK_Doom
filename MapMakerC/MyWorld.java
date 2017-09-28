@@ -104,19 +104,13 @@ public class MyWorld extends World
     
     ///////////////////////////////
     
-    public void makeSingleHex(int x, int y) throws Exception {
-        SingleHex hex = new SingleHex(x,y);
-        int[] rectCoord = hex.coordinates().rectCoord();
-        addObject(hex,rectCoord[0],rectCoord[1]);
-        
-    }
-    
     private void placeHexagonInCollumnRow(int collumn, int row) throws Exception{
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
-
-                makeSingleHex(x, y);
+                SingleHex hexToPlace = SingleHex.singleHexAt(x, y);
+                int[] rectCoords = hexToPlace.coordinates().rectCoord();
+                addObject(hexToPlace,rectCoords[0],rectCoords[1]);
                 
             }
             
@@ -206,13 +200,13 @@ public class MyWorld extends World
                    Element hex = (Element)child;
                    int hexX = Integer.parseInt(hex.getAttribute("hexX"));
                    int hexY = Integer.parseInt(hex.getAttribute("hexY"));
-                   hexContained.add(SingleHex.SINGLE_HEX_ARRAY[hexX][hexY]);
+                   hexContained.add(SingleHex.singleHexAt(hexX,hexY));
 
                 } else if(child.getNodeName() == "InfoHex") {
                     Element infoHexNode = (Element)child;
                     int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
                     int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
-                    infoHex = SingleHex.SINGLE_HEX_ARRAY[hexX][hexY];
+                    infoHex = SingleHex.singleHexAt(hexX,hexY);
 
                 }
 
