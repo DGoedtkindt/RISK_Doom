@@ -9,14 +9,8 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 public class MyWorld extends World
 {
@@ -143,7 +137,7 @@ public class MyWorld extends World
     
     //////////////////////////////////////////////////
     
-    public void escape(){
+    public static void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
         Links.newLinks = null;
