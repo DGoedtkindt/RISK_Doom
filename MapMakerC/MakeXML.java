@@ -43,8 +43,7 @@ public class MakeXML extends Button
         saveFile();
         
     }
-    
-    
+
     public void createTerritoryNodes(){
         ArrayList<Territory> allTerrList = Territory.allTerritories();
         for(Territory terr: allTerrList) {
@@ -126,7 +125,6 @@ public class MakeXML extends Button
     
     }
     
-
     private void saveFile() {
         try{
             String fileName = JOptionPane.showInputDialog("Enter file name");
@@ -140,19 +138,16 @@ public class MakeXML extends Button
         } catch(HeadlessException | TransformerException e) {
             e.printStackTrace(System.out);
         }
+        
     }
-    
-    
-   
     
     public void clicked(){
         
         saveToXML();
         
     }
-    
-    
-    
+   
+
     public void makeTransparent() {
         getImage().setTransparency(MyWorld.TRANSPARENT);
     

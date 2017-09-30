@@ -25,28 +25,31 @@ public class MyWorld extends World
     static final int WORLD_WIDTH = 1920;
     static final int WORLD_HEIGHT = 1080;
     
-    static final int CONTINENT_BONUS_X_LEFT = 550;
-    static final int CONTINENT_BONUS_X_RIGHT = 1200;
-    static final int CONTINENT_BONUS_Y_UP = 900;
+    static final int COLLUMN_NUMBER = 37;
+    static final int ROW_NUMBER = 19;
     
-    static final int COLLUMN_NUMBER = 34;
-    static final int ROW_NUMBER = 17;
+    //(Hexagonal Positions)
+    static final int CONTINENT_BONUS_ZONE_WIDTH = 12;
+    static final int CONTINENT_BONUS_ZONE_HEIGHT = 4;
+    static final int CONTINENT_BONUS_X_POSITION = COLLUMN_NUMBER / 2 - CONTINENT_BONUS_ZONE_WIDTH / 2;
+    static final int CONTINENT_BONUS_Y_POSITION = ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT;
     
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
 
-    ModeButton createTerritory      = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
-    ModeButton createContinent      = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
-    ModeButton editContinentBonus   = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
-    ModeButton editContinentColor   = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
-    ModeButton editTerritoryBonus   = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    ModeButton createLink           = new ModeButton("newLink.png",               Mode.SET_LINK,              Selector.IS_TERRITORY);
-    ModeButton deleteTerritory      = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
-    ModeButton deleteContinent      = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
-    OKButton okButton               = new OKButton();
-    MakeXML makeXMLButton           = new MakeXML();
-    ReadXMLButton readXMLButton     = new ReadXMLButton();
+    ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
+    ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    ModeButton editContinentBonus       = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
+    ModeButton editContinentColor       = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
+    ModeButton editTerritoryBonus       = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
+    ModeButton createLink               = new ModeButton("newLink.png",               Mode.SET_LINK,              Selector.IS_TERRITORY);
+    ModeButton deleteTerritory          = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
+    ModeButton deleteContinent          = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
+    OKButton okButton                   = new OKButton();
+    MakeXML makeXMLButton               = new MakeXML();
+    ReadXMLButton readXMLButton         = new ReadXMLButton();
+    MapCreationButton mapCreationButton = new MapCreationButton();
     
     public MyWorld()
     {    
@@ -59,14 +62,22 @@ public class MyWorld extends World
         
         theWorld = this;
         
-        //quelques trucs cosmétiques
         Greenfoot.setSpeed(60);
         getBackground().setColor(BASE_WORLD_COLOR);
         getBackground().fill();
+
+        basicMenu();
         
-        //Hexagones bruns sur le côté
-        for(int i = 34; i < 38;i++){
-            for(int j = -1; j <= 18; j++){
+    }
+    
+    ///////////////////////////////
+    
+    private void createMapMakerMenu(){
+        
+        //Hexagones bleus sur le côté
+        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 4;i++){
+            for(int j = -1; j <= ROW_NUMBER + 1; j++){
+
                 GreenfootImage hex;
                 hex = Hexagon.createImage(MENU_COLOR);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
@@ -87,28 +98,8 @@ public class MyWorld extends World
         addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 420);
         addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
-        addObject(readXMLButton, MyWorld.WORLD_WIDTH - 100, 700);
         
-        // placement des hexagones
-        try{
-            placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
-        }catch(Exception e) {e.printStackTrace(System.out);}
-        
-        // zone des bonus de continent
-        for(BlankHex bh : getObjects(BlankHex.class)){
-            
-            if(bh.getX() > CONTINENT_BONUS_X_LEFT && bh.getX() < CONTINENT_BONUS_X_RIGHT && bh.getY() > CONTINENT_BONUS_Y_UP){
-                
-                removeObject(bh);
-                
-            }
-            
-        }
-        
-        Mode.changeMode(Mode.DEFAULT);
     }
-    
-    ///////////////////////////////
     
     private void placeHexagonInCollumnRow(int collumn, int row) throws Exception{
         for(int x = 0; x < collumn; x++) {
@@ -123,6 +114,25 @@ public class MyWorld extends World
         }
         
     }
+
+    private void drawContinentBonusZone(){
+        
+        for(BlankHex bh : getObjects(BlankHex.class)){
+            
+            if(bh.coordinates().hexCoord[0] > CONTINENT_BONUS_X_POSITION 
+                    && bh.coordinates().hexCoord[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
+                    && bh.coordinates().hexCoord[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
+                
+                getBackground().drawImage(Hexagon.createImage(MENU_COLOR), bh.getX() - Hexagon.RADIUS, bh.getY() - Hexagon.RADIUS);
+                removeObject(bh);
+                
+            }
+            
+        }
+        
+    }
+    
+    /////////////////////////////////////////////////
     
     private Button getPressedButton(){
         if(mouse.getActor() instanceof Button){
@@ -247,11 +257,11 @@ public class MyWorld extends World
     
     }
     
-    
     private static void createLinks() throws Exception{
         NodeList linksNodeList = doc.getElementsByTagName("Links");
         for(int i = 0; i<linksNodeList.getLength();i++) {
             Element linksNode = (Element)linksNodeList.item(i);
+
             String colorString = linksNode.getAttribute("color");
             Color color = Color.decode(colorString);
             Links newLinks = new Links(color);
@@ -275,9 +285,32 @@ public class MyWorld extends World
     
     }
   
+    /////////////////////////////////////////////////
     
-    private void init(){
+    public void createNewMap(){
         
+        createMapMakerMenu();
+        
+        // placement des hexagones
+        try{
+            placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        }catch(Exception e) {e.printStackTrace(System.out);}
+        
+        // zone des bonus de continent
+        drawContinentBonusZone();
+        
+        Mode.changeMode(Mode.DEFAULT);
+        
+    }
+  
+    
+    ////////////////////////////////////////////////
+    
+    private void basicMenu(){
+        
+        addObject(mapCreationButton, WORLD_WIDTH / 3, WORLD_HEIGHT / 2 );
+        addObject(readXMLButton, 2 * WORLD_WIDTH / 3, WORLD_HEIGHT / 2 );
+
         
     }
     

@@ -51,9 +51,19 @@ public class Continent implements Selectable
     }
     
     public void editColor() throws Exception {
-            int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-            int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-            int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+            
+            int rColor = 0;
+            int gColor = 0;
+            int bColor = 0;
+            
+            String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
+            String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
+            String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
+            
+            if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
+            if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
+            if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
+            
             continentColor = new Color(rColor,gColor,bColor);
             for(Territory t : territoriesContained){
                 t.setContinent(this);
@@ -94,9 +104,11 @@ public class Continent implements Selectable
     }
     
     public void editBonus() throws Exception {
-            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent"));
-            bonus = newBonus;
-            updateBonusDisplay();
+        int newBonus = 0;
+        String bonusString = JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent");
+        if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
+        bonus = newBonus;
+        updateBonusDisplay();
     }
     
     public int bonus() {
@@ -109,7 +121,7 @@ public class Continent implements Selectable
     //Private methods////////////////////////////////////////////////
     
     private static void updateBonusDisplay() {
-        GreenfootImage background = new GreenfootImage(590, 160);
+        GreenfootImage background = new GreenfootImage(510, 118);
         background.setColor(MyWorld.MENU_COLOR);
         background.fill();
         
@@ -144,7 +156,7 @@ public class Continent implements Selectable
         
         }
         
-        MyWorld.theWorld.getBackground().drawImage(background,560,920);
+        MyWorld.theWorld.getBackground().drawImage(background,646,868);
     }
     
     private GreenfootImage bonusImage() {

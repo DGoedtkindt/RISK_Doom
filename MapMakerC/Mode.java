@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import greenfoot.GreenfootImage;
+import java.awt.Color;
 import java.awt.Font;
 
 public enum Mode
@@ -114,18 +115,19 @@ public enum Mode
     }
 
     private static void drawModeMessage(String message){
-        theWorld().getBackground().setColor(MyWorld.MENU_COLOR);
-        theWorld().getBackground().fillRect(MyWorld.WORLD_WIDTH - 210, 700, 210, 380);
         
         Font font = new Font("Monospaced", Font.PLAIN, 17);
         
-        String textToDisplay = wrapText(message, 18);
+        String textToDisplay = wrapText(message, 16);
         
-        GreenfootImage instructions = new GreenfootImage(200, 380);
+        GreenfootImage instructions = new GreenfootImage(182, 380);
+        instructions.setColor(MyWorld.MENU_COLOR);
+        instructions.fill();
+        instructions.setColor(Color.BLACK);
         instructions.setFont(font);
         instructions.drawString(textToDisplay, 0, 0);
         
-        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 210, 700);
+        theWorld().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 182, 700);
         
     }
     

@@ -3,7 +3,7 @@
  import java.awt.Color;
  
 public class Hexagon  {
-    static final int RADIUS = 35;
+    static public final int RADIUS = 32;
     
     public static GreenfootImage createImageWBorder(Color hexColor){
         

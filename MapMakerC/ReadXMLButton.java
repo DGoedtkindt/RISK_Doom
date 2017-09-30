@@ -6,8 +6,11 @@ public class ReadXMLButton extends Button{
     }
     
     public void clicked() {
-        MyWorld.readXMLMap("XMLTest.xml");
-        MyWorld.escape();
+        
+        MyWorld.readXMLMap("XMLTest");
+        getWorld().removeObject(MyWorld.theWorld.mapCreationButton);
+        getWorld().removeObject(MyWorld.theWorld.readXMLButton);
+      
     }
     
 }
