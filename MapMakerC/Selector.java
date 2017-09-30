@@ -25,21 +25,21 @@ public class Selector
     }
     
     
-    //Getters for SingleHex///////////////////////////////////////////////////
+    //Getters for BlankHex///////////////////////////////////////////////////
     
-    public static ArrayList<SingleHex> getSelectedHexes() throws Exception{
+    public static ArrayList<BlankHex> getSelectedHexes() throws Exception{
         if(selection.isEmpty()) throw new Exception("no hex selected");
         
-        ArrayList<SingleHex> singleHexSelectedList = new ArrayList<>();
+        ArrayList<BlankHex> blankhexSelectedList = new ArrayList<>();
         for(Selectable select : selection) {
-            try{SingleHex hex;
-                hex = (SingleHex)select;
-                singleHexSelectedList.add(hex);
+            try{BlankHex hex;
+                hex = (BlankHex)select;
+                blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
                 throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
-        return singleHexSelectedList;
+        return blankhexSelectedList;
     }
     
     //Getters for Territory///////////////////////////////////////////////////
@@ -160,7 +160,7 @@ public class Selector
     
     //Validators//////////////////////////////////////////////
     
-    public static final Validator IS_SINGLEHEX = (Object o) -> {return o instanceof SingleHex;};
+    public static final Validator IS_BLANKHEX = (Object o) -> {return o instanceof BlankHex;};
     public static final Validator IS_CONTINENT = (Object o) -> {return o instanceof Continent;};
     public static final Validator IS_TERRITORY = (Object o) -> {return o instanceof Territory;};
     public static final Validator IS_TERRITORY_NOT_IN_CONTINENT = (Object o) -> 

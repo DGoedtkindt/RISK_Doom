@@ -16,14 +16,137 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class MakeXML extends Button
-{
+{   
+    Document doc;
+    Element rootElement;
+    
     public MakeXML(){
+        try {
+            GreenfootImage image = new GreenfootImage("MakeXML.png");
+            image.scale(80, 80);
+            this.setImage(image);
+            
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            doc = docBuilder.newDocument();
+            rootElement = doc.createElement("map");//Création de rootElement
+            doc.appendChild(rootElement);
+        } catch (IllegalArgumentException | ParserConfigurationException | DOMException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
+    
+    public void saveToXML(){
+        createTerritoryNodes();
+        createContinentNodes();
+        createLinksNodes();
+        saveFile();
         
-        GreenfootImage image = new GreenfootImage("MakeXML.png");
+    }
+    
+    public void createTerritoryNodes(){
+        ArrayList<Territory> allTerrList = Territory.allTerritories();
+        for(Territory terr: allTerrList) {
+            Element terrNode = doc.createElement("Territory");
+            rootElement.appendChild(terrNode);
+            
+            //rajoute les coordonées du infoHex
+            Element infoHexNode = doc.createElement("InfoHex");
+            terrNode.appendChild(infoHexNode);
+            TerritoryHex infoHex = terr.infoHex();
+            infoHexNode.setAttribute("hexX", "" + infoHex.coordinates().hexCoord[0]);
+            infoHexNode.setAttribute("hexY", "" + infoHex.coordinates().hexCoord[1]);
+            
+            //rajouter tous les hexs
+            ArrayList<TerritoryHex> hexList = terr.composingHex();
+            for(TerritoryHex hex: hexList) {
+                Element HexNode = doc.createElement("Hex");
+                terrNode.appendChild(HexNode);
+                HexNode.setAttribute("hexX", "" + hex.coordinates().hexCoord[0]);
+                HexNode.setAttribute("hexY", "" + hex.coordinates().hexCoord[1]);
+            
+            }
+            
+            //rajouter l'id
+            int terrID = terr.id();
+            terrNode.setAttribute("id", "" + terrID);
+            
+            //rajouter le bonus
+            int terrBonus = terr.bonus();
+            terrNode.setAttribute("bonus", "" + terrBonus);
 
-        image.scale(80, 80);
-        this.setImage(image);
+        }
+    }
+    
+    private void createContinentNodes(){
+        ArrayList<Continent> allContList = Continent.continentList();
+        for(Continent cont : allContList) {
+            Element contNode = doc.createElement("Continent");
+            rootElement.appendChild(contNode);
+            
+            ArrayList<Territory> terrContained = cont.containedTerritories();
+            for(Territory terr : terrContained) {
+                Element terrInCont = doc.createElement("TerrInCont");
+                terrInCont.setAttribute("id", "" + terr.id());
+                contNode.appendChild(terrInCont);
+            
+            }
+            
+            contNode.setAttribute("rColor", "" + (cont.color()).getRed());
+            contNode.setAttribute("gColor", "" + (cont.color()).getGreen());
+            contNode.setAttribute("bColor", "" + (cont.color()).getBlue());
+            
+            contNode.setAttribute("bonus", "" + cont.bonus());
         
+        }
+    
+    }
+    
+    private void createLinksNodes() {
+        ArrayList<Links> allLinksList = Links.allLinks();
+        for(Links links : allLinksList) {
+            Element linksNode = doc.createElement("Links");
+            System.out.println("cocu");
+            rootElement.appendChild(linksNode);
+            ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
+            Element color = doc.createElement("Color");
+            linksNode.appendChild(color);
+            int rColor = links.color().getRed();
+            int gColor = links.color().getGreen();
+            int bColor = links.color().getBlue();
+            color.setAttribute("rColor", ""+rColor);
+            color.setAttribute("gColor", ""+gColor);
+            color.setAttribute("bColor", ""+bColor);
+            for(LinkIndic link : linksContained) {
+                Element linkNode = doc.createElement("Link");
+                linksNode.appendChild(linkNode);
+                int xPos = link.getX();
+                int yPos = link.getY();
+                int linkedTerrId = link.linkedTerr().id();
+                linkNode.setAttribute("xPos", ""+xPos);
+                linkNode.setAttribute("yPos", ""+yPos);
+                linkNode.setAttribute("terrId", ""+linkedTerrId);
+            
+            }
+        
+        
+        }
+    
+    }
+    
+    private void saveFile() {
+        try{
+            String fileName = JOptionPane.showInputDialog("Enter file name");
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(fileName));
+            transformer.transform(source, result);
+            
+        } catch(HeadlessException | TransformerException e) {
+            e.printStackTrace(System.out);
+        }
     }
     
     public void clicked(){
@@ -31,156 +154,7 @@ public class MakeXML extends Button
         saveToXML();
         
     }
-    
-    private void saveToXML(){
-        
-        ArrayList<Continent> continentList = Continent.continentList();
-        
-        try{
-            
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("map");//Création de rootElement
-            doc.appendChild(rootElement);
-            
-            //Appends continents to the map
-            for(Continent currentContinent : continentList){
-                
-                Element continent = doc.createElement("continent");
-                rootElement.appendChild(continent);
-                
-                ArrayList<Territory> territoriesInContinent = currentContinent.ContainedTerritories();
-                
-                //Appends territories to continent
-                for(Territory currentTerritory : territoriesInContinent){
-                    
-                    Element territory = doc.createElement("territory");
-                    continent.appendChild(territory);
-                    
-                    ArrayList<TerritoryHex> composingHexes = currentTerritory.composingHex();
-                    
-                    //Appends hexes to territory
-                    for(TerritoryHex currentHex : composingHexes){
-                        
-                        Element hex = doc.createElement("hex");
-                        territory.appendChild(hex);
-                        
-                        for(LinkSpot currentSpot : currentHex.linksPlacedInIt){
-                            
-                            Element linkSpot = doc.createElement("linkSpot");
-                            hex.appendChild(linkSpot);
-                            
-                            linkSpot.setAttribute("rLinkColor", "" + currentSpot.specificLink().color().getRed());
-                            linkSpot.setAttribute("gLinkColor", "" + currentSpot.specificLink().color().getGreen());
-                            linkSpot.setAttribute("bLinkColor", "" + currentSpot.specificLink().color().getBlue());
-                            linkSpot.setAttribute("linkRelX", "" + currentSpot.relativePosition[0]);
-                            linkSpot.setAttribute("linkRelY", "" + currentSpot.relativePosition[1]);
-                        }
-                        
-                        //Gives attributes to hexes
-                        hex.setAttribute("hexX", "" + currentHex.coordinates().hexCoord[0]);
-                        hex.setAttribute("hexY", "" + currentHex.coordinates().hexCoord[1]);
-                        
-                    }
-                    //Appends infoHex to territory
-                    Element infoHex = doc.createElement("infoHex");
-                    territory.appendChild(infoHex);
-
-                    infoHex.setAttribute("infoHexX", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
-                    infoHex.setAttribute("infoHexY", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
-                    
-                    //Gives attributes to territory
-                    territory.setAttribute("territoryPoints", "" + currentTerritory.bonus());
-                    
-                //Gives attributes to continent
-                continent.setAttribute("continentPoints", "" + currentContinent.bonus());
-                
-                continent.setAttribute("rContinentColor", "" + currentContinent.color().getRed());
-                continent.setAttribute("gContinentColor", "" + currentContinent.color().getGreen());
-                continent.setAttribute("bContinentColor", "" + currentContinent.color().getBlue());
-                
-            }
-            
-            //Appends unoccupied territories to the map
-            for(Territory currentTerritory : Territory.allTerritories()){
-
-                if(currentTerritory.continent() == null){
-                    
-                    Element unoccupiedTerritory = doc.createElement("unoccupiedTerritory");
-                    rootElement.appendChild(unoccupiedTerritory);
-                    
-                    ArrayList<TerritoryHex> composingHexes = currentTerritory.composingHex();
-                    
-                    //Appends hexes to territory
-                    for(TerritoryHex currentHex : composingHexes){
-                        
-                        Element hex = doc.createElement("hex");
-                        unoccupiedTerritory.appendChild(hex);
-                        
-                        for(LinkSpot currentSpot : currentHex.linksPlacedInIt){
-                            
-                            Element linkSpot = doc.createElement("linkSpot");
-                            hex.appendChild(linkSpot);
-                            
-                            linkSpot.setAttribute("rLinkColor", "" + currentSpot.specificLink().color().getRed());
-                            linkSpot.setAttribute("gLinkColor", "" + currentSpot.specificLink().color().getGreen());
-                            linkSpot.setAttribute("bLinkColor", "" + currentSpot.specificLink().color().getBlue());
-                            linkSpot.setAttribute("linkRelX", "" + currentSpot.relativePosition[0]);
-                            linkSpot.setAttribute("linkRelY", "" + currentSpot.relativePosition[1]);
-                        }
-                        
-                        //Gives attributes to hexes
-                        hex.setAttribute("hexX", "" + currentHex.coordinates().hexCoord[0]);
-                        hex.setAttribute("hexY", "" + currentHex.coordinates().hexCoord[1]);
-                        
-                    }
-                    
-                    //Appends infoHex to territory
-                    Element infoHex = doc.createElement("infoHex");
-                    unoccupiedTerritory.appendChild(infoHex);
-                    
-                    infoHex.setAttribute("infoHexX", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[0]);
-                    infoHex.setAttribute("infoHexY", "" + currentTerritory.terrInfo().linkedTerrHex().coordinates().hexCoord[1]);
-                    
-                    //Gives unoccupied territory attributes
-                    unoccupiedTerritory.setAttribute("territoryPoints", "" + currentTerritory.bonus());
-                    
-                }
-                    
-                }
-                
-            }
-            
-            //appends links to the map
-            for(Link currentLink : Link.allLinks){
-                
-                Element link = doc.createElement("link");
-                rootElement.appendChild(link);
-                
-                link.setAttribute("rLinkColor", "" + currentLink.color().getRed());
-                link.setAttribute("gLinkColor", "" + currentLink.color().getGreen());
-                link.setAttribute("bLinkColor", "" + currentLink.color().getBlue());
-            }
-            
-            //Saves
-            String fileName = JOptionPane.showInputDialog("Enter file name");
-            
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
-            transformer.transform(source, result);
-            
-        }catch(HeadlessException | IllegalStateException | ParserConfigurationException | TransformerException | DOMException e){
-            e.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
-            
-        }
    
-    }
-    
     public void makeTransparent() {
         getImage().setTransparency(MyWorld.TRANSPARENT);
     

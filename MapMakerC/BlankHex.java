@@ -1,16 +1,28 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class SingleHex extends Button implements Selectable
+public class BlankHex extends Button implements Selectable
 {
     private Coordinates coord = new Coordinates();
     
     static public Color BASE_COLOR = Color.WHITE;
+    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
     
-    public SingleHex(int xHCoord, int yHCoord){
+    public static BlankHex blankHexAt(int hexX, int hexY) 
+    //this method makes sure we only create new BlankHex when necessary  
+    {
+        BlankHex returnHex;
+        if(BLANK_HEX_ARRAY[hexX][hexY] != null) returnHex = BLANK_HEX_ARRAY[hexX][hexY];
+            else returnHex = new BlankHex(hexX,hexY);
+        return returnHex;
+    }
+    
+    private BlankHex(int xHCoord, int yHCoord) {
         coord.hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
-        MyWorld.SINGLE_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] = this;
+        if(BLANK_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] == null) {
+           BLANK_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] = this;
+        } 
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
@@ -26,7 +38,7 @@ public class SingleHex extends Button implements Selectable
         } else if(mode == Mode.SELECT_INFO_HEX) {
             try{
                 if(Selector.getSelectedHexes().contains(this)) {
-                    ArrayList<SingleHex> selectedHexes;
+                    ArrayList<BlankHex> selectedHexes;
                     selectedHexes = Selector.getSelectedHexes();
                     new Territory(selectedHexes, this);
                     
@@ -40,7 +52,6 @@ public class SingleHex extends Button implements Selectable
             
         } else{
             MyWorld.theWorld.escape();
-            
         }
         
     }

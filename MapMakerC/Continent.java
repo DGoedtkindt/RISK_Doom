@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
 
@@ -11,7 +10,7 @@ public class Continent implements Selectable
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
 
-    static private HashSet<Continent> continentList = new HashSet<Continent>();
+    static private ArrayList<Continent> continentList = new ArrayList<Continent>();
 
     public Continent(ArrayList<Territory> territories) throws Exception{
         editColor();
@@ -46,14 +45,25 @@ public class Continent implements Selectable
                 t.setContinent(this);
              
             }
-            updateBonusDisplay();
+        
+         updateBonusDisplay();
         
     }
     
     public void editColor() throws Exception {
-            int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-            int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-            int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+            
+            int rColor = 0;
+            int gColor = 0;
+            int bColor = 0;
+            
+            String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
+            String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
+            String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
+            
+            if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
+            if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
+            if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
+            
             continentColor = new Color(rColor,gColor,bColor);
             for(Territory t : territoriesContained){
                 t.setContinent(this);
@@ -68,8 +78,8 @@ public class Continent implements Selectable
         
     }
     
-    public ArrayList<Territory> ContainedTerritories(){
-        return territoriesContained;
+    public ArrayList<Territory> containedTerritories(){
+        return (ArrayList<Territory>)territoriesContained.clone();
         
     }
     
@@ -94,9 +104,11 @@ public class Continent implements Selectable
     }
     
     public void editBonus() throws Exception {
-            int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent"));
-            bonus = newBonus;
-            updateBonusDisplay();
+        int newBonus = 0;
+        String bonusString = JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent");
+        if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
+        bonus = newBonus;
+        updateBonusDisplay();
     }
     
     public int bonus() {
@@ -109,7 +121,7 @@ public class Continent implements Selectable
     //Private methods////////////////////////////////////////////////
     
     private static void updateBonusDisplay() {
-        GreenfootImage background = new GreenfootImage(590, 160);
+        GreenfootImage background = new GreenfootImage(510, 118);
         background.setColor(MyWorld.MENU_COLOR);
         background.fill();
         
@@ -144,7 +156,7 @@ public class Continent implements Selectable
         
         }
         
-        MyWorld.theWorld.getBackground().drawImage(background,560,920);
+        MyWorld.theWorld.getBackground().drawImage(background,646,868);
     }
     
     private GreenfootImage bonusImage() {
@@ -161,11 +173,7 @@ public class Continent implements Selectable
     //Public Static methods////////////////////////////////////////////////
     
     public static ArrayList<Continent> continentList(){
-        ArrayList<Continent> continents = new ArrayList<>();
-        
-        continents.addAll(0, continentList);
-        
-        return continents;
+        return (ArrayList<Continent>)continentList.clone();
         
     }
     
@@ -173,7 +181,6 @@ public class Continent implements Selectable
     
     public void makeGreen() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeGreen();
         
         }
@@ -181,7 +188,6 @@ public class Continent implements Selectable
     
     public void makeTransparent() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeTransparent();
         
         }
@@ -189,7 +195,6 @@ public class Continent implements Selectable
     
     public void makeOpaque() {
         for(Territory terr : territoriesContained) {
-        
             terr.makeOpaque();
         
         }

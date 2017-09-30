@@ -6,9 +6,10 @@ public class TerrInfo extends Button {
     
     private TerritoryHex linkedTerrHex;
     
-    public TerrInfo(TerritoryHex terrHex, int currentBonus) {
+    public TerrInfo(TerritoryHex terrHex) {
         linkedTerrHex = terrHex;
-        setDisplayedBonus(currentBonus);
+        setImage(new GreenfootImage(1,1));
+        
     }
     
     

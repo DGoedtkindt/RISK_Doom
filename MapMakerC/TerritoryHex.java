@@ -1,15 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 import greenfoot.MouseInfo;
 import greenfoot.Greenfoot;
+import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
 {
     private Territory territory;
     private Coordinates coord = new Coordinates();
-    public ArrayList<LinkSpot> linksPlacedInIt = new ArrayList<LinkSpot>();
     
     public TerritoryHex(Territory territory, Color color, int x, int y){
         this.territory = territory;
@@ -27,64 +26,73 @@ public class TerritoryHex extends Button
         try {
             Mode mode = Mode.currentMode();
 
-            if(mode == Mode.CREATE_CONTINENT ||
-               mode == Mode.DELETE_TERRITORY){
+            if(mode == Mode.DEFAULT){
+                MyWorld.theWorld.escape();
+                
+            }else switch (mode) {
+                case CREATE_CONTINENT :
+                case DELETE_TERRITORY :
                     Selector.select(territory());
-
-            }else if(mode == Mode.EDIT_TERRITORY_BONUS) {
-                Selector.select(territory);
-                Selector.setValidator(Selector.NOTHING);
-                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
-                territory.editBonus();
-                MyWorld.theWorld.escape();
-
-            }else if(mode == Mode.EDIT_CONTINENT_COLOR) {
-                Selector.select(territory.continent());
-                Selector.setValidator(Selector.NOTHING);
-                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
-                territory.continent().editColor();
-                MyWorld.theWorld.escape();
-
-            }else if(mode == Mode.EDIT_CONTINENT_BONUS) {
-                Selector.select(territory.continent());
-                Selector.setValidator(Selector.NOTHING);
-                MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
-                territory.continent().editBonus();
-                MyWorld.theWorld.escape();
-
-            }else if(mode == Mode.DELETE_CONTINENT){
-                Selector.select(territory.continent());
-                Selector.setValidator(Selector.NOTHING);
-
-            }else if(mode == Mode.SET_LINK) {
-                if(Link.currentLink == null){
+                    break;
                     
-                    int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-                    int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-                    int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-                    Color linkColor = new Color(rColor, gColor, bColor);
-                    Link.currentLink = new Link(linkColor);
-                }
-                
-                if(!territory.links.contains(Link.currentLink)){
+                case EDIT_TERRITORY_BONUS :
+                    Selector.select(territory);
+                    Selector.setValidator(Selector.NOTHING);
+                    MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
+                    territory.editBonus();
+                    MyWorld.theWorld.escape();
+                    break;
                     
-                    MouseInfo mouse = Greenfoot.getMouseInfo();
+                case EDIT_CONTINENT_COLOR :
+                    Selector.select(territory.continent());
+                    Selector.setValidator(Selector.NOTHING);
+                    MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
+                    territory.continent().editColor();
+                    MyWorld.theWorld.escape();
+                    break;
+                    
+                case EDIT_CONTINENT_BONUS :
+                    Selector.select(territory.continent());
+                    Selector.setValidator(Selector.NOTHING);
+                    MyWorld.theWorld.repaint(); //pour forcer l'actualisation des images
+                    territory.continent().editBonus();
+                    MyWorld.theWorld.escape();
+                    break;
+                    
+                case DELETE_CONTINENT :
+                    Selector.select(territory.continent());
+                    Selector.setValidator(Selector.NOTHING);
+                    break;
+                    
+                case SET_LINK :
+                    if(Links.newLinks == null) {
+                        int rColor = 0;
+                        int gColor = 0;
+                        int bColor = 0;
 
-                    Link.currentLink.linkedTerritories.add(territory);
-                    territory.links.add(Link.currentLink);
-                    int[] relativePos = {mouse.getX() - this.getX(), mouse.getY() - this.getY()};
-                    LinkSpot spot = new LinkSpot(Link.currentLink, this, relativePos);
-                    linksPlacedInIt.add(spot);
-                    
-                    int x = spot.terrHexCoordinates.rectCoord()[0] + spot.relativePosition[0];
-                    int y = spot.terrHexCoordinates.rectCoord()[1] + spot.relativePosition[1];
-                    getWorld().addObject(spot, x, y);
-                    
-                }
-                
-            }else{
-                MyWorld.theWorld.escape();
+                        String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
+                        String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
+                        String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
 
+                        if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
+                        if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
+                        if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
+                        
+                        Color color = new Color(rColor,gColor,bColor);
+                        Links.newLinks = new Links(color);
+                        
+                    }   MouseInfo mseInfo = Greenfoot.getMouseInfo();
+                    LinkIndic newLink = new LinkIndic(territory);
+                    MyWorld.theWorld.addObject(newLink,mseInfo.getX(), mseInfo.getY());
+                    Links.newLinks.addlink(newLink, territory);
+                    break;
+                    
+                case CREATE_TERRITORY :
+                    break;
+                    
+                default:
+                    MyWorld.theWorld.escape();
+                    break;
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
@@ -93,19 +101,19 @@ public class TerritoryHex extends Button
         
     }
     
-    public ArrayList<TerritoryHex> getBorderingHexes() {
+    public ArrayList<TerritoryHex> getBorderingHex() {
         List<TerritoryHex> allOtherTerritoryHex;
         ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
-
+        
         allOtherTerritoryHex = getWorld().getObjects(TerritoryHex.class);
-
+        
         for(TerritoryHex otherHex : allOtherTerritoryHex){
             if(this.distance(otherHex) < 2 * Hexagon.RADIUS){
                 borderingHexList.add(otherHex);
-
+                
             }
-
-            }
+            
+        }
         return borderingHexList;
     }
     
