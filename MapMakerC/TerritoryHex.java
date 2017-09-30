@@ -74,18 +74,13 @@ public class TerritoryHex extends Button
                         String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
                         String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
 
-                        if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
-                        if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
-                        if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
-                        
-                        Color color = new Color(rColor,gColor,bColor);
-                        Links.newLinks = new Links(color);
-                        
-                    }   MouseInfo mseInfo = Greenfoot.getMouseInfo();
-                    LinkIndic newLink = new LinkIndic(territory);
-                    MyWorld.theWorld.addObject(newLink,mseInfo.getX(), mseInfo.getY());
-                    Links.newLinks.addlink(newLink, territory);
-                    break;
+            }else if(mode == Mode.SET_LINK) {
+                if(Links.newLinks == null) {
+                    int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
+                    int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
+                    int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
+                    Color color = new Color(rColor,gColor,bColor);
+                    Links.newLinks = new Links(color);
                     
                 case CREATE_TERRITORY :
                     break;

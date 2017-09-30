@@ -54,12 +54,18 @@ public class MyWorld extends World
     public MyWorld()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
+        //for science
+        //new Menu();
+        //
+        
+        
+        
         theWorld = this;
         
         Greenfoot.setSpeed(60);
         getBackground().setColor(BASE_WORLD_COLOR);
         getBackground().fill();
-        
+
         basicMenu();
         
     }
@@ -71,6 +77,7 @@ public class MyWorld extends World
         //Hexagones bleus sur le côté
         for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 4;i++){
             for(int j = -1; j <= ROW_NUMBER + 1; j++){
+
                 GreenfootImage hex;
                 hex = Hexagon.createImage(MENU_COLOR);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
@@ -107,7 +114,7 @@ public class MyWorld extends World
         }
         
     }
-    
+
     private void drawContinentBonusZone(){
         
         for(BlankHex bh : getObjects(BlankHex.class)){
@@ -233,10 +240,8 @@ public class MyWorld extends World
             Element contNode = (Element)contNodeList.item(i);
             ArrayList<Territory> terrContained = new ArrayList<>();
             int bonus = Integer.parseInt(contNode.getAttribute("bonus"));
-            int rColor = Integer.parseInt(contNode.getAttribute("rColor"));
-            int gColor = Integer.parseInt(contNode.getAttribute("gColor"));
-            int bColor = Integer.parseInt(contNode.getAttribute("bColor"));
-            Color color = new Color(rColor,gColor,bColor);
+            String colorString = contNode.getAttribute("color");
+            Color color = Color.decode(colorString);
             NodeList allTerrIDs = contNode.getChildNodes();
             for(int j=0; j<allTerrIDs.getLength();j++) {
                 Element terrIdNode = (Element)allTerrIDs.item(j);
@@ -256,11 +261,9 @@ public class MyWorld extends World
         NodeList linksNodeList = doc.getElementsByTagName("Links");
         for(int i = 0; i<linksNodeList.getLength();i++) {
             Element linksNode = (Element)linksNodeList.item(i);
-            Element colorNode = (Element)(linksNode.getElementsByTagName("Color")).item(0);
-            int rColor = Integer.parseInt(colorNode.getAttribute("rColor"));
-            int gColor = Integer.parseInt(colorNode.getAttribute("gColor"));
-            int bColor = Integer.parseInt(colorNode.getAttribute("bColor"));
-            Color color = new Color(rColor,gColor,bColor);
+
+            String colorString = linksNode.getAttribute("color");
+            Color color = Color.decode(colorString);
             Links newLinks = new Links(color);
             Links.newLinks = newLinks;
             NodeList linkNodesList = linksNode.getElementsByTagName("Link");
@@ -299,6 +302,7 @@ public class MyWorld extends World
         Mode.changeMode(Mode.DEFAULT);
         
     }
+  
     
     ////////////////////////////////////////////////
     

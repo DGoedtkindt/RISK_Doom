@@ -10,6 +10,7 @@ public class ReadXMLButton extends Button{
         MyWorld.readXMLMap("XMLTest");
         getWorld().removeObject(MyWorld.theWorld.mapCreationButton);
         getWorld().removeObject(MyWorld.theWorld.readXMLButton);
+      
     }
     
 }

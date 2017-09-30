@@ -39,7 +39,7 @@ public class Territory implements Selectable
     
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex)  throws Exception {
         new Territory(hexs, infoHex, 0, -1);
-        
+
     }
     
     public void destroy()

@@ -52,6 +52,7 @@ public class BlankHex extends Button implements Selectable
             
         } else{
             MyWorld.theWorld.escape();
+            
         }
         
     }
