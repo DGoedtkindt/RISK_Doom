@@ -11,13 +11,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import java.util.HashMap;
-import java.util.Set;
 
 public class MakeXML extends Button
 {   
@@ -96,11 +92,8 @@ public class MakeXML extends Button
                 contNode.appendChild(terrInCont);
             
             }
-            
-            contNode.setAttribute("rColor", "" + (cont.color()).getRed());
-            contNode.setAttribute("gColor", "" + (cont.color()).getGreen());
-            contNode.setAttribute("bColor", "" + (cont.color()).getBlue());
-            
+            String contColor = "" + cont.color().getRGB();
+            contNode.setAttribute("color", contColor);
             contNode.setAttribute("bonus", "" + cont.bonus());
         
         }
@@ -112,17 +105,10 @@ public class MakeXML extends Button
         ArrayList<Links> allLinksList = Links.allLinks();
         for(Links links : allLinksList) {
             Element linksNode = doc.createElement("Links");
-            System.out.println("cocu");
             rootElement.appendChild(linksNode);
             ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
-            Element color = doc.createElement("Color");
-            linksNode.appendChild(color);
-            int rColor = links.color().getRed();
-            int gColor = links.color().getGreen();
-            int bColor = links.color().getBlue();
-            color.setAttribute("rColor", ""+rColor);
-            color.setAttribute("gColor", ""+gColor);
-            color.setAttribute("bColor", ""+bColor);
+            String linksColor = "" + links.color().getRGB();
+            linksNode.setAttribute("color", linksColor);
             for(LinkIndic link : linksContained) {
                 Element linkNode = doc.createElement("Link");
                 linksNode.appendChild(linkNode);
@@ -148,7 +134,7 @@ public class MakeXML extends Button
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
+            StreamResult result = new StreamResult(new File(fileName + ".xml"));
             transformer.transform(source, result);
             
         } catch(HeadlessException | TransformerException e) {
