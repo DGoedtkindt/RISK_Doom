@@ -66,32 +66,23 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        int rColor = 0;
-                        int gColor = 0;
-                        int bColor = 0;
-
-                        String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
-                        String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
-                        String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
-
-            }else if(mode == Mode.SET_LINK) {
-                if(Links.newLinks == null) {
-                    int rColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de rouge (int)"));
-                    int gColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de vert (int)"));
-                    int bColor = Integer.parseInt(JOptionPane.showInputDialog("Entrez la teinte de bleu (int)"));
-                    Color color = new Color(rColor,gColor,bColor);
-                    Links.newLinks = new Links(color);
-                    
+                        int rColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of red (0 - 255)"));
+                        int gColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of green (0 - 255)"));
+                        int bColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)"));
+                        Color color = new Color(rColor,gColor,bColor);
+                        Links.newLinks = new Links(color);
+                        break;
+                    }
                 case CREATE_TERRITORY :
                     break;
                     
                 default:
-                    MyWorld.theWorld.escape();
+                    MyWorld.escape();
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
+            MyWorld.escape();
         }
         
     }

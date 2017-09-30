@@ -6,8 +6,8 @@ public class ReadXMLButton extends Button{
     }
     
     public void clicked() {
-        
-        MyWorld.readXMLMap("XMLTest");
+        MyWorld.theWorld.setupScene();
+        MyWorld.readXMLMap("XMLTest.xml");
         getWorld().removeObject(MyWorld.theWorld.mapCreationButton);
         getWorld().removeObject(MyWorld.theWorld.readXMLButton);
       

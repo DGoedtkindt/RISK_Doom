@@ -51,15 +51,8 @@ public class MyWorld extends World
     ReadXMLButton readXMLButton         = new ReadXMLButton();
     MapCreationButton mapCreationButton = new MapCreationButton();
     
-    public MyWorld()
-    {    
+    public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-        //for science
-        //new Menu();
-        //
-        
-        
-        
         theWorld = this;
         
         Greenfoot.setSpeed(60);
@@ -72,7 +65,10 @@ public class MyWorld extends World
     
     ///////////////////////////////
     
-    private void createMapMakerMenu(){
+    public void setupScene(){
+        placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        //trou pour les bonus de continent
+        drawContinentBonusZone();
         
         //Hexagones bleus sur le côté
         for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 4;i++){
@@ -85,6 +81,7 @@ public class MyWorld extends World
                 
                 getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
             }
+        
         }
         
         // placement des boutons
@@ -99,9 +96,10 @@ public class MyWorld extends World
         addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
         
+        Mode.changeMode(Mode.DEFAULT);
     }
     
-    private void placeHexagonInCollumnRow(int collumn, int row) throws Exception{
+    private void placeHexagonInCollumnRow(int collumn, int row) {
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
@@ -275,7 +273,6 @@ public class MyWorld extends World
                 Territory terr = Territory.allTerritories().get(terrId);
                 LinkIndic link = new LinkIndic(terr);
                 theWorld.addObject(link,xPos,yPos);
-                
                 newLinks.addlink(link, terr);
             
             }
@@ -284,26 +281,7 @@ public class MyWorld extends World
     
     
     }
-  
-    /////////////////////////////////////////////////
-    
-    public void createNewMap(){
-        
-        createMapMakerMenu();
-        
-        // placement des hexagones
-        try{
-            placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
-        }catch(Exception e) {e.printStackTrace(System.out);}
-        
-        // zone des bonus de continent
-        drawContinentBonusZone();
-        
-        Mode.changeMode(Mode.DEFAULT);
-        
-    }
-  
-    
+
     ////////////////////////////////////////////////
     
     private void basicMenu(){
