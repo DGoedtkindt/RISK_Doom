@@ -134,6 +134,8 @@ public class MakeXML extends Button
             StreamResult result = new StreamResult(new File(fileName + ".xml"));
             transformer.transform(source, result);
             
+            MyWorld.theWorld.createMapImage(fileName);
+            
         } catch(HeadlessException | TransformerException e) {
             e.printStackTrace(System.out);
         }

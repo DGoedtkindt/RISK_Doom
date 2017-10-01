@@ -292,6 +292,14 @@ public class MyWorld extends World
         GreenfootImage mapImage = new GreenfootImage(1920, 1080);
         mapImage.drawImage(getBackground(), 0, 0);
         
+        for(BlankHex bh : getObjects(BlankHex.class)){
+            
+            int x = bh.getX() - Hexagon.RADIUS;
+            int y = bh.getY() - Hexagon.RADIUS;
+            mapImage.drawImage(bh.getImage(), x, y);
+            
+        }
+        
         BufferedImage worldMap = mapImage.getAwtImage();
         File out = new File(fileName + " Image");
         try{
