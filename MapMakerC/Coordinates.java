@@ -6,7 +6,7 @@ public class Coordinates
     
     public Coordinates() {}
     
-    public Coordinates(int[] hexCoordinates) {
+    public Coordinates(int[] hexCoordinates ) {
         hexCoord = hexCoordinates;
     }
     

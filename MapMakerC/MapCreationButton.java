@@ -12,7 +12,7 @@ public class MapCreationButton extends Button{
     
     public void clicked(){
         
-        MyWorld.theWorld.createNewMap();
+        MyWorld.theWorld.setupScene();
         getWorld().removeObject(MyWorld.theWorld.readXMLButton);
         getWorld().removeObject(MyWorld.theWorld.mapCreationButton);
         

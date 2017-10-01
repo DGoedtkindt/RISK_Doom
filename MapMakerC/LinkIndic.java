@@ -10,10 +10,9 @@ public class LinkIndic extends Button{
         terr = territory;
         terr.links.add(this);
         
-        GreenfootImage img = new GreenfootImage(16,16);
-        img.setColor(links.color());
-        img.fillOval(0, 0, 16, 16);
-        this.setImage(img);
+        GreenfootImage img = Hexagon.createImage(links.color(), 0.25);
+        setImage(img);
+        
     }
     
     public void clicked() {

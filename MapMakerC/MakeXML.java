@@ -43,7 +43,7 @@ public class MakeXML extends Button
         saveFile();
         
     }
-    
+
     public void createTerritoryNodes(){
         ArrayList<Territory> allTerrList = Territory.allTerritories();
         for(Territory terr: allTerrList) {
@@ -91,32 +91,22 @@ public class MakeXML extends Button
                 contNode.appendChild(terrInCont);
             
             }
-            
-            contNode.setAttribute("rColor", "" + (cont.color()).getRed());
-            contNode.setAttribute("gColor", "" + (cont.color()).getGreen());
-            contNode.setAttribute("bColor", "" + (cont.color()).getBlue());
-            
+            String contColor = "" + cont.color().getRGB();
+            contNode.setAttribute("color", contColor);
             contNode.setAttribute("bonus", "" + cont.bonus());
         
         }
     
     }
-    
+
     private void createLinksNodes() {
         ArrayList<Links> allLinksList = Links.allLinks();
         for(Links links : allLinksList) {
             Element linksNode = doc.createElement("Links");
-            System.out.println("cocu");
             rootElement.appendChild(linksNode);
             ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
-            Element color = doc.createElement("Color");
-            linksNode.appendChild(color);
-            int rColor = links.color().getRed();
-            int gColor = links.color().getGreen();
-            int bColor = links.color().getBlue();
-            color.setAttribute("rColor", ""+rColor);
-            color.setAttribute("gColor", ""+gColor);
-            color.setAttribute("bColor", ""+bColor);
+            String linksColor = "" + links.color().getRGB();
+            linksNode.setAttribute("color", linksColor);
             for(LinkIndic link : linksContained) {
                 Element linkNode = doc.createElement("Link");
                 linksNode.appendChild(linkNode);
@@ -141,12 +131,13 @@ public class MakeXML extends Button
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
+            StreamResult result = new StreamResult(new File(fileName + ".xml"));
             transformer.transform(source, result);
             
         } catch(HeadlessException | TransformerException e) {
             e.printStackTrace(System.out);
         }
+        
     }
     
     public void clicked(){

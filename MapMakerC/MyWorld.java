@@ -3,6 +3,7 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import greenfoot.GreenfootImage;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -11,6 +12,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class MyWorld extends World
 {
@@ -37,7 +40,7 @@ public class MyWorld extends World
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
-
+    
     ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
     ModeButton editContinentBonus       = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
@@ -51,26 +54,29 @@ public class MyWorld extends World
     ReadXMLButton readXMLButton         = new ReadXMLButton();
     MapCreationButton mapCreationButton = new MapCreationButton();
     
-    public MyWorld()
-    {    
+    public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
         
         Greenfoot.setSpeed(60);
         getBackground().setColor(BASE_WORLD_COLOR);
         getBackground().fill();
-        
+
         basicMenu();
         
     }
     
     ///////////////////////////////
     
-    private void createMapMakerMenu(){
+    public void setupScene(){
+        placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
+        //trou pour les bonus de continent
+        drawContinentBonusZone();
         
         //Hexagones bleus sur le côté
-        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 4;i++){
+        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 5;i++){
             for(int j = -1; j <= ROW_NUMBER + 1; j++){
+
                 GreenfootImage hex;
                 hex = Hexagon.createImage(MENU_COLOR);
                 int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
@@ -78,6 +84,7 @@ public class MyWorld extends World
                 
                 getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
             }
+        
         }
         
         // placement des boutons
@@ -92,9 +99,10 @@ public class MyWorld extends World
         addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
         
+        Mode.changeMode(Mode.DEFAULT);
     }
     
-    private void placeHexagonInCollumnRow(int collumn, int row) throws Exception{
+    private void placeHexagonInCollumnRow(int collumn, int row) {
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
@@ -107,7 +115,7 @@ public class MyWorld extends World
         }
         
     }
-    
+
     private void drawContinentBonusZone(){
         
         for(BlankHex bh : getObjects(BlankHex.class)){
@@ -233,10 +241,8 @@ public class MyWorld extends World
             Element contNode = (Element)contNodeList.item(i);
             ArrayList<Territory> terrContained = new ArrayList<>();
             int bonus = Integer.parseInt(contNode.getAttribute("bonus"));
-            int rColor = Integer.parseInt(contNode.getAttribute("rColor"));
-            int gColor = Integer.parseInt(contNode.getAttribute("gColor"));
-            int bColor = Integer.parseInt(contNode.getAttribute("bColor"));
-            Color color = new Color(rColor,gColor,bColor);
+            String colorString = contNode.getAttribute("color");
+            Color color = Color.decode(colorString);
             NodeList allTerrIDs = contNode.getChildNodes();
             for(int j=0; j<allTerrIDs.getLength();j++) {
                 Element terrIdNode = (Element)allTerrIDs.item(j);
@@ -256,11 +262,9 @@ public class MyWorld extends World
         NodeList linksNodeList = doc.getElementsByTagName("Links");
         for(int i = 0; i<linksNodeList.getLength();i++) {
             Element linksNode = (Element)linksNodeList.item(i);
-            Element colorNode = (Element)(linksNode.getElementsByTagName("Color")).item(0);
-            int rColor = Integer.parseInt(colorNode.getAttribute("rColor"));
-            int gColor = Integer.parseInt(colorNode.getAttribute("gColor"));
-            int bColor = Integer.parseInt(colorNode.getAttribute("bColor"));
-            Color color = new Color(rColor,gColor,bColor);
+
+            String colorString = linksNode.getAttribute("color");
+            Color color = Color.decode(colorString);
             Links newLinks = new Links(color);
             Links.newLinks = newLinks;
             NodeList linkNodesList = linksNode.getElementsByTagName("Link");
@@ -272,7 +276,6 @@ public class MyWorld extends World
                 Territory terr = Territory.allTerritories().get(terrId);
                 LinkIndic link = new LinkIndic(terr);
                 theWorld.addObject(link,xPos,yPos);
-                
                 newLinks.addlink(link, terr);
             
             }
@@ -281,25 +284,22 @@ public class MyWorld extends World
     
     
     }
-  
-    /////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////
     
-    public void createNewMap(){
+    public void createMapImage(String fileName){
         
-        createMapMakerMenu();
+        GreenfootImage mapImage = new GreenfootImage(1920, 1080);
+        mapImage.drawImage(getBackground(), 0, 0);
         
-        // placement des hexagones
+        BufferedImage worldMap = mapImage.getAwtImage();
+        File out = new File(fileName + " Image");
         try{
-            placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
-        }catch(Exception e) {e.printStackTrace(System.out);}
-        
-        // zone des bonus de continent
-        drawContinentBonusZone();
-        
-        Mode.changeMode(Mode.DEFAULT);
-        
-    }
+            ImageIO.write(worldMap, "PNG", out);
+        }catch(IOException e){e.printStackTrace();}
     
+    }
+
     ////////////////////////////////////////////////
     
     private void basicMenu(){

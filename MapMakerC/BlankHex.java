@@ -32,26 +32,33 @@ public class BlankHex extends Button implements Selectable
     
     public void clicked() {
         Mode mode = Mode.currentMode();
-        if(mode == Mode.CREATE_TERRITORY){
-            Selector.select(this);
-            
-        } else if(mode == Mode.SELECT_INFO_HEX) {
-            try{
-                if(Selector.getSelectedHexes().contains(this)) {
-                    ArrayList<BlankHex> selectedHexes;
-                    selectedHexes = Selector.getSelectedHexes();
-                    new Territory(selectedHexes, this);
-                    
-                }
+        
+        switch (mode) {
+            case CREATE_TERRITORY :
+                Selector.select(this);
+                break;
                 
-            } catch(Exception e){
-                e.printStackTrace(System.out);
-           
-         }
-            MyWorld.theWorld.escape();
-            
-        } else{
-            MyWorld.theWorld.escape();
+            case SELECT_INFO_HEX :
+                try{
+                    if(Selector.getSelectedHexes().contains(this)) {
+                        ArrayList<BlankHex> selectedHexes;
+                        selectedHexes = Selector.getSelectedHexes();
+                        new Territory(selectedHexes, this);
+                        
+                    }
+                    
+                } catch(Exception e){
+                    e.printStackTrace(System.out);
+                    
+                }      MyWorld.theWorld.escape();
+                break;
+                
+            case SET_LINK :
+                break;
+                
+            default:
+                MyWorld.theWorld.escape();
+                break;
         }
         
     }

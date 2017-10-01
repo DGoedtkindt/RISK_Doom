@@ -1,8 +1,8 @@
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import greenfoot.MouseInfo;
-import greenfoot.Greenfoot;
 import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
@@ -66,37 +66,31 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        int rColor = 0;
-                        int gColor = 0;
-                        int bColor = 0;
-
-                        String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
-                        String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
-                        String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
-
-                        if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
-                        if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
-                        if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
-                        
+                        int rColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of red (0 - 255)"));
+                        int gColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of green (0 - 255)"));
+                        int bColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)"));
                         Color color = new Color(rColor,gColor,bColor);
                         Links.newLinks = new Links(color);
-                        
-                    }   MouseInfo mseInfo = Greenfoot.getMouseInfo();
-                    LinkIndic newLink = new LinkIndic(territory);
-                    MyWorld.theWorld.addObject(newLink,mseInfo.getX(), mseInfo.getY());
-                    Links.newLinks.addlink(newLink, territory);
+                    }
+                    
+                    MouseInfo mouse = Greenfoot.getMouseInfo();
+                    int xPos = mouse.getX();
+                    int yPos = mouse.getY();
+                    
+                    getWorld().addObject(new LinkIndic(territory), xPos, yPos);
+                    
                     break;
                     
                 case CREATE_TERRITORY :
                     break;
                     
                 default:
-                    MyWorld.theWorld.escape();
+                    MyWorld.escape();
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
-            MyWorld.theWorld.escape();
+            MyWorld.escape();
         }
         
     }

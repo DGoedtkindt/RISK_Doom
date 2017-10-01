@@ -18,7 +18,6 @@ public enum Mode
     DELETE_CONTINENT("Select a continent to delete it (without destroying it's composing territories)."),
     SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory.");
     
-    
     Mode(String text){
         message = text;
         
@@ -151,6 +150,5 @@ public enum Mode
         return finalString;
     
     }
-    
     
 }

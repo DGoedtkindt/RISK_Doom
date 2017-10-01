@@ -116,12 +116,10 @@ public class Continent implements Selectable
     
     }
     
-
-
     //Private methods////////////////////////////////////////////////
     
     private static void updateBonusDisplay() {
-        GreenfootImage background = new GreenfootImage(510, 118);
+        GreenfootImage background = new GreenfootImage(496, 118);
         background.setColor(MyWorld.MENU_COLOR);
         background.fill();
         
@@ -156,7 +154,7 @@ public class Continent implements Selectable
         
         }
         
-        MyWorld.theWorld.getBackground().drawImage(background,646,868);
+        MyWorld.theWorld.getBackground().drawImage(background,620,900);
     }
     
     private GreenfootImage bonusImage() {
