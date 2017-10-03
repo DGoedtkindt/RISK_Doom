@@ -2,6 +2,8 @@ import greenfoot.GreenfootImage;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.awt.image.BufferedImage;
 
 public class MakeXML extends Button
 {   
@@ -36,14 +39,13 @@ public class MakeXML extends Button
         }
     }
     
-    public void saveToXML(){
+    public void clicked(){
         createTerritoryNodes();
         createContinentNodes();
         createLinksNodes();
         saveFile();
-        
     }
-
+    
     public void createTerritoryNodes(){
         ArrayList<Territory> allTerrList = Territory.allTerritories();
         for(Territory terr: allTerrList) {
@@ -134,17 +136,14 @@ public class MakeXML extends Button
             StreamResult result = new StreamResult(new File(fileName + ".xml"));
             transformer.transform(source, result);
             
-            MyWorld.theWorld.createMapImage(fileName);
+            BufferedImage mapImage = MyWorld.theWorld.createMapImage();
+            File out = new File(fileName + ".png");
+        
+            ImageIO.write(mapImage, "PNG", out);
             
-        } catch(HeadlessException | TransformerException e) {
-            e.printStackTrace(System.out);
+        } catch(IOException | HeadlessException | TransformerException e) {
+            e.printStackTrace(System.out); 
         }
-        
-    }
-    
-    public void clicked(){
-        
-        saveToXML();
         
     }
    

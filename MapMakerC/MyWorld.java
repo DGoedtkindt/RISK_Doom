@@ -1,10 +1,12 @@
 import greenfoot.World;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
+import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -12,8 +14,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class MyWorld extends World
 {
@@ -69,6 +69,10 @@ public class MyWorld extends World
     ///////////////////////////////
     
     public void setupScene(){
+        //d'abord clear tout les acteurs sur le monde
+        List<Actor> allActors = this.getObjects(null);
+        allActors.forEach((actor) -> this.removeObject(actor));
+        //créer les blankHexs
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
         //trou pour les bonus de continent
         drawContinentBonusZone();
@@ -287,7 +291,7 @@ public class MyWorld extends World
 
     ////////////////////////////////////////////////
     
-    public void createMapImage(String fileName){
+    public BufferedImage createMapImage(){
         
         GreenfootImage mapImage = new GreenfootImage(1920, 1080);
         mapImage.drawImage(getBackground(), 0, 0);
@@ -300,11 +304,8 @@ public class MyWorld extends World
             
         }
         
-        BufferedImage worldMap = mapImage.getAwtImage();
-        File out = new File(fileName + " Image");
-        try{
-            ImageIO.write(worldMap, "PNG", out);
-        }catch(IOException e){e.printStackTrace();}
+        return mapImage.getAwtImage();
+        
     
     }
 
