@@ -24,7 +24,7 @@ public class Links {
         } 
     }
     
-    //only use through LinkIndic.destroy() 
+    //only used through LinkIndic.destroy() 
     public void removelink(LinkIndic linkToRemove) {  
         MyWorld.theWorld.removeObject(linkToRemove);
         linkIndicList.remove(linkToRemove);

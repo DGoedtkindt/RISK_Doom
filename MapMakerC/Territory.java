@@ -17,11 +17,7 @@ public class Territory implements Selectable
     private TerrInfo trInfo;
     public ArrayList<LinkIndic> links = new ArrayList<>();
     
-    
-    
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
-    
-    
     
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus, int id)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
@@ -155,7 +151,7 @@ public class Territory implements Selectable
         drawTerritory();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
     
     public void drawTerritory()
     //dessine le territoire sur le monde

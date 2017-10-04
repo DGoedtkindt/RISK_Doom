@@ -1,9 +1,12 @@
 import greenfoot.World;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
+import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -15,9 +18,9 @@ import java.io.File;
 public class MyWorld extends World
 {
     
-    static final Color BASE_WORLD_COLOR = new Color(135, 135, 155);
+    static final Color BASE_WORLD_COLOR = new Color(100, 100, 110);
     static final Color SELECTION_COLOR = Color.GREEN;
-    static final Color MENU_COLOR = new Color(121, 163, 200);
+    static final Color MENU_COLOR = new Color(100, 100, 110);
     
     static final int TRANSPARENT = 30;
     static final int OPAQUE = 255;
@@ -37,7 +40,7 @@ public class MyWorld extends World
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
-
+    
     ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
     ModeButton editContinentBonus       = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
@@ -48,8 +51,10 @@ public class MyWorld extends World
     ModeButton deleteContinent          = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     OKButton okButton                   = new OKButton();
     MakeXML makeXMLButton               = new MakeXML();
-    ReadXMLButton readXMLButton         = new ReadXMLButton();
-    MapCreationButton mapCreationButton = new MapCreationButton();
+    MapChooser mapThumbnail             = new MapChooser();
+    LeftButton leftButton = new LeftButton(mapThumbnail);
+    RightButton rightButton = new RightButton(mapThumbnail);
+
     
     public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -66,12 +71,18 @@ public class MyWorld extends World
     ///////////////////////////////
     
     public void setupScene(){
+        //d'abord clear tout les acteurs sur le monde
+        List<Actor> allActors = this.getObjects(null);
+        allActors.forEach((actor) -> this.removeObject(actor));
+        getBackground().setColor(BASE_WORLD_COLOR);
+        getBackground().fill();
+        //créer les blankHexs
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
         //trou pour les bonus de continent
         drawContinentBonusZone();
         
         //Hexagones bleus sur le côté
-        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 4;i++){
+        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 5;i++){
             for(int j = -1; j <= ROW_NUMBER + 1; j++){
 
                 GreenfootImage hex;
@@ -284,10 +295,34 @@ public class MyWorld extends World
 
     ////////////////////////////////////////////////
     
+    public BufferedImage createMapImage(){
+        
+        GreenfootImage mapImage = new GreenfootImage(1920, 1080);
+        mapImage.drawImage(getBackground(), 0, 0);
+        
+        for(BlankHex bh : getObjects(BlankHex.class)){
+            
+            int x = bh.getX() - Hexagon.RADIUS;
+            int y = bh.getY() - Hexagon.RADIUS;
+            mapImage.drawImage(bh.getImage(), x, y);
+            
+        }
+        
+        return mapImage.getAwtImage();
+        
+    
+    }
+
+    ////////////////////////////////////////////////
+    
     private void basicMenu(){
         
-        addObject(mapCreationButton, WORLD_WIDTH / 3, WORLD_HEIGHT / 2 );
-        addObject(readXMLButton, 2 * WORLD_WIDTH / 3, WORLD_HEIGHT / 2 );
+        getBackground().setColor(BASE_WORLD_COLOR.brighter());
+        getBackground().fill();
+        addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
+        addObject(leftButton, WORLD_WIDTH / 3,WORLD_HEIGHT / 2);
+        addObject(rightButton, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2);
+
 
         
     }

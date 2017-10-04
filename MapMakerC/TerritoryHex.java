@@ -1,8 +1,8 @@
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import greenfoot.MouseInfo;
-import greenfoot.Greenfoot;
 import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
@@ -71,8 +71,16 @@ public class TerritoryHex extends Button
                         int bColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)"));
                         Color color = new Color(rColor,gColor,bColor);
                         Links.newLinks = new Links(color);
-                        break;
                     }
+                    
+                    MouseInfo mouse = Greenfoot.getMouseInfo();
+                    int xPos = mouse.getX();
+                    int yPos = mouse.getY();
+                    
+                    getWorld().addObject(new LinkIndic(territory), xPos, yPos);
+                    
+                    break;
+                    
                 case CREATE_TERRITORY :
                     break;
                     

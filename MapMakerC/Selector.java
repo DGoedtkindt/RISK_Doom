@@ -10,7 +10,6 @@ public class Selector
     private static HashSet<Selectable> selection = new HashSet<>();
     public static Predicate validator = (Object o) -> {return true;};
     
-    
     public static void select(Selectable selectedObject) {
         if(validator.test(selectedObject)) {
             if(!selection.contains(selectedObject)) {
@@ -24,7 +23,6 @@ public class Selector
         
         }
     }
-    
     
     //Getters for BlankHex///////////////////////////////////////////////////
     
