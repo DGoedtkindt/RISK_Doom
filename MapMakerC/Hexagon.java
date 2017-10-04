@@ -7,7 +7,7 @@ public class Hexagon  {
     
     public static GreenfootImage createImageWBorder(Color hexColor){
         
-        GreenfootImage img = createImage(Color.black);
+        GreenfootImage img = createImage(Color.BLACK);
         img.drawImage(createImage(hexColor,0.95), 0, 0);
         
         return img;
