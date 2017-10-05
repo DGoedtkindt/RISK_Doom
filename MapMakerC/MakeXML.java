@@ -133,11 +133,18 @@ public class MakeXML extends Button
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName + ".xml"));
+            File dir = new File(".");
+            try{ 
+                dir = new File("Maps");
+                if(!dir.exists()) throw new Exception("The Maps directory does not seem to exist." +
+                        "Please make sure " + dir.getAbsolutePath() + " exists");
+            
+            }catch(Exception e) {System.err.println(e);}
+            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + fileName + ".xml"));
             transformer.transform(source, result);
             
             BufferedImage mapImage = MyWorld.theWorld.createMapImage();
-            File out = new File(fileName + ".png");
+            File out = new File(dir.getAbsolutePath() + "/" + fileName + ".png");
         
             ImageIO.write(mapImage, "PNG", out);
             
