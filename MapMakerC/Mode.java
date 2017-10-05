@@ -1,28 +1,41 @@
-
 import java.util.ArrayList;
 import java.util.List;
+import greenfoot.GreenfootImage;
+import java.awt.Color;
+import java.awt.Font;
 
-
-public class Mode
+public enum Mode
 {
+    DEFAULT(""),
+    CREATE_TERRITORY("Create a territory by selecting at least two blank hexes."),
+    CREATE_CONTINENT("Create a continent by selecting at least one territory that is not already part of a continent."),
+    EDIT_TERRITORY_BONUS("Select a territory to change its bonus."),
+    SET_LINK("Click on the territories you want to connect. \n A dot will be placed at the exact place you click."
+                                                            + "\n You will be asked to chose a color the first time."),
+    EDIT_CONTINENT_COLOR("Select a continent and change its color."),
+    EDIT_CONTINENT_BONUS("Select a continent and change its bonus."),
+    DELETE_TERRITORY("Select a territory to delete it."),
+    DELETE_CONTINENT("Select a continent to delete it (without destroying it's composing territories)."),
+    SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory.");
+    
+    Mode(String text){
+        message = text;
+        
+    }
     
     static private Mode currentMode;
     
-    private String message;
+    private final String message;
     
-    private static MyWorld theWorld() {return MyWorld.theWorld;}
+    private static MyWorld world() {return MyWorld.theWorld;}
     
     ///Public Methods///////////////////////////////////////
-    
-    public String message(){
-        return message;
-        
-    }
     
     static public void changeMode(Mode newMode){
         currentMode = newMode;
         makeAllButtonsTransparent();
         makeValidButtonsOpaque(currentMode);
+        drawModeMessage(currentMode.message);
         
     }
     
@@ -46,73 +59,96 @@ public class Mode
                 if(t != null){
                     if(t.continent() == null){
                     unoccupiedTerritoriesNumber++;
-                }
+                    }
                 }
             }
             
-            theWorld().createTerritory.getImage().setTransparency(MyWorld.OPAQUE);
+            world().createTerritory.makeOpaque();
             if(unoccupiedTerritoriesNumber > 0){
-                theWorld().createContinent.getImage().setTransparency(MyWorld.OPAQUE);
+                world().createContinent.makeOpaque();
             }
             if(!Continent.continentList().isEmpty()){
-                theWorld().editContinentBonus.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().editContinentColor.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().deleteContinent.getImage().setTransparency(MyWorld.OPAQUE);
+                world().editContinentBonus.makeOpaque();
+                world().editContinentColor.makeOpaque();
+                world().deleteContinent.makeOpaque();
             }
             if(!allTerritories.isEmpty()){
-                theWorld().editTerritoryBonus.getImage().setTransparency(MyWorld.OPAQUE);
-                theWorld().deleteTerritory.getImage().setTransparency(MyWorld.OPAQUE);
+                world().editTerritoryBonus.makeOpaque();
+                world().deleteTerritory.makeOpaque();
             }
             if(allTerritories.size() > 1){
-                theWorld().createLink.getImage().setTransparency(MyWorld.OPAQUE);
+                world().createLink.makeOpaque();
             }
-            theWorld().makeXMLButton.getImage().setTransparency(MyWorld.OPAQUE);
+            world().makeXMLButton.makeOpaque();
             
         }else{
             
-            List<ModeButton> buttonList = theWorld().getObjects(ModeButton.class);
+            List<ModeButton> buttonList = world().getObjects(ModeButton.class);
             
             for(ModeButton mb : buttonList){
                 
                 if(mb.linkedMode == mode){
                     
-                    mb.getImage().setTransparency(MyWorld.OPAQUE);
+                    mb.makeOpaque();
                     
                 }
                 
             }
-            theWorld().okButton.getImage().setTransparency(MyWorld.OPAQUE);
+            world().okButton.makeOpaque();
         }
         
     }
     
     private static void makeAllButtonsTransparent() {
-        theWorld().createTerritory.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().createContinent.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editContinentBonus.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editContinentColor.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().editTerritoryBonus.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().createLink.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().deleteTerritory.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().deleteContinent.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().okButton.getImage().setTransparency(MyWorld.TRANSPARENT);
-        theWorld().makeXMLButton.getImage().setTransparency(MyWorld.TRANSPARENT);
+        world().createTerritory.makeTransparent();
+        world().createContinent.makeTransparent();
+        world().editContinentBonus.makeTransparent();
+        world().editContinentColor.makeTransparent();
+        world().editTerritoryBonus.makeTransparent();
+        world().createLink.makeTransparent();
+        world().deleteTerritory.makeTransparent();
+        world().deleteContinent.makeTransparent();
+        world().okButton.makeTransparent();
+        world().makeXMLButton.makeTransparent();
     
     }
 
+    private static void drawModeMessage(String message){
+        
+        Font font = new Font("Monospaced", Font.PLAIN, 17);
+        
+        String textToDisplay = wrapText(message, 16);
+        
+        GreenfootImage instructions = new GreenfootImage(182, 380);
+        instructions.setColor(MyWorld.WORLD_COLOR);
+        instructions.fill();
+        instructions.setColor(Color.WHITE);
+        instructions.setFont(font);
+        instructions.drawString(textToDisplay, 0, 0);
+        
+        world().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 182, 700);
+        
+    }
     
-    ///Final Modes//////////////////////////////////////////
+    private static String wrapText(String strToWrap, int maxLineLength) {
+        
+        String[] words = strToWrap.split(" ");
+        String finalString = "\n";
+        
+        String currentLine = "";
+        for(String currentWord : words){
+            if((currentLine + currentWord).length() > maxLineLength){
+                finalString += currentLine + "\n";
+                currentLine = "";
+                
+            }
+            currentLine += " " + currentWord;
+            
+        }
+        finalString += currentLine;
+        
+        return finalString;
     
-    static public final Mode DEFAULT                     = new Mode();
-    static public final Mode EDIT_TERRITORY              = new Mode();
-    static public final Mode EDIT_CONTINENT              = new Mode();
-    static public final Mode CREATE_TERRITORY            = new Mode();
-    static public final Mode CREATE_CONTINENT            = new Mode();
-    static public final Mode EDIT_TERRITORY_BONUS        = new Mode();
-    static public final Mode SET_LINK                    = new Mode();
-    static public final Mode EDIT_CONTINENT_COLOR        = new Mode();
-    static public final Mode EDIT_CONTINENT_BONUS        = new Mode();
-    static public final Mode DELETE_TERRITORY            = new Mode();
-    static public final Mode DELETE_CONTINENT            = new Mode();
+    }
     
 }

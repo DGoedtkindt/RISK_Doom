@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Selector
 {
@@ -7,33 +8,37 @@ public class Selector
     public static HashSet<Selectable> selectableSet = new HashSet<>();
     
     private static HashSet<Selectable> selection = new HashSet<>();
-    public static Validator validator = (Object o) -> {return true;};
+    public static Predicate validator = (Object o) -> {return true;};
     
-    
-    public static boolean select(Selectable selectedObject) {
-        if(validator.isValid(selectedObject)) {
-            selection.add(selectedObject);
-            updateAppearance();
-            return true;
-        } else { return false; }  
+    public static void select(Selectable selectedObject) {
+        if(validator.test(selectedObject)) {
+            if(!selection.contains(selectedObject)) {
+                selection.add(selectedObject);
+                selectedObject.makeGreen();
+            } else {
+                selection.remove(selectedObject);
+                updateAppearance();
+            }
+            
+        
+        }
     }
     
+    //Getters for BlankHex///////////////////////////////////////////////////
     
-    //Getters for SingleHex///////////////////////////////////////////////////
-    
-    public static ArrayList<SingleHex> getSelectedHexes() throws Exception{
+    public static ArrayList<BlankHex> getSelectedHexes() throws Exception{
         if(selection.isEmpty()) throw new Exception("no hex selected");
         
-        ArrayList<SingleHex> singleHexSelectedList = new ArrayList<>();
+        ArrayList<BlankHex> blankhexSelectedList = new ArrayList<>();
         for(Selectable select : selection) {
-            try{SingleHex hex;
-                hex = (SingleHex)select;
-                singleHexSelectedList.add(hex);
+            try{BlankHex hex;
+                hex = (BlankHex)select;
+                blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
                 throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
-        return singleHexSelectedList;
+        return blankhexSelectedList;
     }
     
     //Getters for Territory///////////////////////////////////////////////////
@@ -124,7 +129,7 @@ public class Selector
         makeSelectedGreen();
     }
     
-    public static void setValidator(Validator newValidator) {
+    public static void setValidator(Predicate newValidator) {
         validator = newValidator;
         updateAppearance();
     }
@@ -139,7 +144,7 @@ public class Selector
      
     private static void makeValidOpaque() {
      for(Selectable select : selectableSet) {
-         if(validator.isValid(select)) {
+         if(validator.test(select)) {
             select.makeOpaque();
          }
      }
@@ -154,15 +159,15 @@ public class Selector
     
     //Validators//////////////////////////////////////////////
     
-    public static final Validator IS_SINGLEHEX = (Object o) -> {return o instanceof SingleHex;};
-    public static final Validator IS_CONTINENT = (Object o) -> {return o instanceof Continent;};
-    public static final Validator IS_TERRITORY = (Object o) -> {return o instanceof Territory;};
-    public static final Validator IS_TERRITORY_NOT_IN_CONTINENT = (Object o) -> 
+    public static final Predicate IS_BLANKHEX = (Object o) -> {return o instanceof BlankHex;};
+    public static final Predicate IS_CONTINENT = (Object o) -> {return o instanceof Continent;};
+    public static final Predicate IS_TERRITORY = (Object o) -> {return o instanceof Territory;};
+    public static final Predicate IS_TERRITORY_NOT_IN_CONTINENT = (Object o) -> 
                     {if(o instanceof Territory) {
                         return ((Territory)(o)).continent() == null;
                     } else return false;
                         };
-    public static final Validator NOTHING = (Object o) -> {return false;};
-    public static final Validator EVERYTHING = (Object o) -> {return true;};
+    public static final Predicate NOTHING = (Object o) -> {return false;};
+    public static final Predicate EVERYTHING = (Object o) -> {return true;};
     
 }
