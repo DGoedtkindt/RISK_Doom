@@ -75,15 +75,11 @@ public class TerritoryHex extends Button
                         Links.newLinks = new Links(color);
                     }
                     
-                    if(!Links.newLinks.linkedTerrs.contains(territory)){
-                        
                         MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
+                        new LinkIndic(territory,xPos,yPos);
                         
-                        getWorld().addObject(new LinkIndic(territory), xPos, yPos);
-                        
-                    }
                     
                     break;
                     

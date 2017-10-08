@@ -5,14 +5,18 @@ public class LinkIndic extends Button{
     private Links links;
     private Territory terr;
     
-    public LinkIndic(Territory territory) {
+    public LinkIndic(Territory territory,int xPos,int yPos) {
         links = Links.newLinks;
         terr = territory;
         terr.links.add(this);
-        links.linkedTerrs.add(terr);
         
-        GreenfootImage img = Hexagon.createImage(links.color(), 0.25);
+        GreenfootImage img = Hexagon.createImage(links.color());
+        img.scale(10, 10);
         setImage(img);
+        
+        MyWorld.theWorld.addObject(this, xPos, yPos);
+        
+        links.addlink(this, terr);
         
     }
     
@@ -35,6 +39,7 @@ public class LinkIndic extends Button{
     public void destroy() {
         terr.links.remove(this);
         links.removelink(this);
+        MyWorld.theWorld.removeObject(this);
     
     }
     

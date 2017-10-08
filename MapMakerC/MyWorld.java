@@ -281,9 +281,7 @@ public class MyWorld extends World
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
                 Territory terr = Territory.allTerritories().get(terrId);
-                LinkIndic link = new LinkIndic(terr);
-                theWorld.addObject(link,xPos,yPos);
-                newLinks.addlink(link, terr);
+                LinkIndic link = new LinkIndic(terr,xPos,yPos);
             
             }
         

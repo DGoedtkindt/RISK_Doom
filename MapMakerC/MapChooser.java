@@ -33,7 +33,7 @@ public class MapChooser extends Button{
     public void clicked() {
         world().setupScene();
         MyWorld.readXMLMap(directory.getName() + "/" +fileList.get(mapNumber));
-        Mode.changeMode(Mode.DEFAULT);
+        MyWorld.escape();
         
     }
     
