@@ -12,7 +12,7 @@ public class Territory implements Selectable
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Continent continent = null;
-    public Color continentColor = MyWorld.WORLD_COLOR;
+    public Color continentColor = Color.white;
     private int bonusPoints = 0;
     private TerrInfo trInfo;
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -79,7 +79,7 @@ public class Territory implements Selectable
             continentColor = newContinent.color();
             
         }else {
-            continentColor = MyWorld.WORLD_COLOR;
+            continentColor = Color.WHITE;
             
         }
         drawTerritory();

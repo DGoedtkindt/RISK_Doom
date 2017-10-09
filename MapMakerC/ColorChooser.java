@@ -38,6 +38,9 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
+
  
 /* ColorChooserDemo.java requires no other files. */
 public class ColorChooser extends JPanel
@@ -45,6 +48,7 @@ public class ColorChooser extends JPanel
  
     protected JColorChooser tcc;
     protected JLabel banner;
+    public boolean isOpen = false;
  
     public ColorChooser() {
         super(new BorderLayout());
@@ -53,7 +57,7 @@ public class ColorChooser extends JPanel
         banner = new JLabel("Pick your color!",
                             JLabel.CENTER);
         banner.setForeground(MyWorld.WORLD_COLOR);
-        banner.setBackground(Color.red);
+        banner.setBackground(MyWorld.WORLD_COLOR.brighter());
         banner.setOpaque(true);
         banner.setFont(new Font("SansSerif", Font.BOLD, 24));
         banner.setPreferredSize(new Dimension(100, 65));
@@ -76,25 +80,53 @@ public class ColorChooser extends JPanel
         Color newColor = tcc.getColor();
         banner.setForeground(newColor);
     }
+    
+    public static Color getColor() {
+        ColorChooser cc = ColorChooser.createAndShowGUI();
+        while(cc.isOpen) {
+        //wait for user to close the color choser
+        try{Thread.sleep(100);}catch(InterruptedException e) {};
+        }
+        
+        return cc.tcc.getColor();
+    
+    }
  
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
-    public static void createAndShowGUI() {
+    private static ColorChooser createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("ColorChooserDemo");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
- 
+        
+        
         //Create and set up the content pane.
         JComponent newContentPane = new ColorChooser();
         newContentPane.setOpaque(true); //content panes must be opaque
         frame.setContentPane(newContentPane);
- 
+        ((ColorChooser)newContentPane).isOpen = true;
+        
+        
+        //Bricolage pour savoir quand la fenêtre se ferme
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ((ColorChooser)newContentPane).isOpen = false;
+                frame.dispose();
+            }
+        });
+        
+        
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+ 
+        
+        return (ColorChooser)newContentPane;
     }
  
  }

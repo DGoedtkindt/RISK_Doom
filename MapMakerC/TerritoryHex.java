@@ -68,10 +68,7 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        int rColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of red (0 - 255)"));
-                        int gColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of green (0 - 255)"));
-                        int bColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)"));
-                        Color color = new Color(rColor,gColor,bColor);
+                        Color color = ColorChooser.getColor();
                         Links.newLinks = new Links(color);
                     }
                     
