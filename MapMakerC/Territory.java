@@ -55,7 +55,7 @@ public class Territory implements Selectable
         continentColor = MyWorld.WORLD_COLOR;
         makeTransparent();
         for(BlankHex sh : blankHexList){
-            world().addObject(sh, sh.coordinates().rectCoord()[0], sh.coordinates().rectCoord()[1]);
+            world().addObject(sh, sh.rectCoord()[0], sh.rectCoord()[1]);
             
         }
         world().removeObjects(terrHexList);
@@ -171,8 +171,8 @@ public class Territory implements Selectable
     //crée tous les territoryHex de ce territoire
     {
         for(BlankHex hex : blankHexList) {
-            int[] rectCoord = hex.coordinates().rectCoord();
-            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.coordinates().hexCoord[0], hex.coordinates().hexCoord[1]);
+            int[] rectCoord = hex.rectCoord();
+            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.hexCoord()[0], hex.hexCoord()[1]);
             terrHexList.add(trHex);
             world().addObject(trHex, rectCoord[0], rectCoord[1]);
             if(hex == infoHex) {

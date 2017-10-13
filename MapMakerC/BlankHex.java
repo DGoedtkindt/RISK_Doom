@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class BlankHex extends Button implements Selectable
 {
-    private Coordinates coord = new Coordinates();
+    private int[] hexCoord = new int[2];
     
     static public Color BASE_COLOR = Color.BLACK;
     private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
@@ -20,16 +20,20 @@ public class BlankHex extends Button implements Selectable
     }
     
     private BlankHex(int xHCoord, int yHCoord) {
-        coord.hexCoord = new int[]{xHCoord,yHCoord};
+        hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
-        if(BLANK_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] == null) {
-           BLANK_HEX_ARRAY[coord.hexCoord[0]][coord.hexCoord[1]] = this;
+        if(BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] == null) {
+           BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
         } 
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
-    public Coordinates coordinates() {
-        return coord;
+    public int[] hexCoord() {
+        return hexCoord;
+    }
+    
+    public int[] rectCoord() {
+        return Hexagon.hexToRectCoord(hexCoord);
     }
     
     public void clicked() {

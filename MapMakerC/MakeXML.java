@@ -62,16 +62,16 @@ public class MakeXML extends Button
             Element infoHexNode = doc.createElement("InfoHex");
             terrNode.appendChild(infoHexNode);
             TerritoryHex infoHex = terr.infoHex();
-            infoHexNode.setAttribute("hexX", "" + infoHex.coordinates().hexCoord[0]);
-            infoHexNode.setAttribute("hexY", "" + infoHex.coordinates().hexCoord[1]);
+            infoHexNode.setAttribute("hexX", "" + infoHex.hexCoord()[0]);
+            infoHexNode.setAttribute("hexY", "" + infoHex.hexCoord()[1]);
             
             //rajouter tous les hexs
             ArrayList<TerritoryHex> hexList = terr.composingHex();
             for(TerritoryHex hex: hexList) {
                 Element HexNode = doc.createElement("Hex");
                 terrNode.appendChild(HexNode);
-                HexNode.setAttribute("hexX", "" + hex.coordinates().hexCoord[0]);
-                HexNode.setAttribute("hexY", "" + hex.coordinates().hexCoord[1]);
+                HexNode.setAttribute("hexX", "" + hex.hexCoord()[0]);
+                HexNode.setAttribute("hexY", "" + hex.hexCoord()[1]);
             
             }
             
