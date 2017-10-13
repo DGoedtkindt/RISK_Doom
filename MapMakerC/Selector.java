@@ -58,28 +58,6 @@ public class Selector
         
         return territorySelectedList.get(0);
     }
-    
-    public static Territory[] getSelectedTerritoryPair() throws Exception {
-        if(selection.size() > 2) throw new Exception("too many Territories selected");
-        if(selection.size() < 2) throw new Exception("not enough Territory selected");
-        
-        Territory[] territoryArray = new Territory[2];
-        int i = 0;
-        for(Selectable select : selection){
-        
-            
-            try{Territory terr;
-                terr = (Territory)select;
-                territoryArray[i] = terr;
-            }  catch(ClassCastException cce) {
-                throw new Exception("selectable of the wrong type selected\n" + cce);}
-            i++;
-            
-        }
-        
-        return territoryArray;
-
-    }
 
     public static ArrayList<Territory> getSelectedTerritories() throws Exception {
         if(selection.isEmpty()) throw new Exception("no Territory selected");

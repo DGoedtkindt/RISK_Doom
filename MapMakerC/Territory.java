@@ -40,22 +40,18 @@ public class Territory implements Selectable
     }
     
     public void destroy()
-    /* reconstructs the BlankHexes
-     * destroys the TerritoryHexes
-     * removes itself from the territoryList
-     * removes itself from the continent
-     * removes itself from the selectableList
-     * breaks the links with other territories
-     * removes TerrInfo from world     
-     */
-    {
-        if(continent != null && continent.containedTerritories().size() == 1){
-            continent.destroy();
-        }
+    /*  repaints over itself in WORLD_COLOR
+     *  add the BlankHex back to the world
+     *  removes the TerritoryHexes
+     *  removes itself from the territory and selectable Collections
+     *      and from its continent
+     *  removes the terrInfo
+     *  destroys the LinkIndics */
+    {   
         continentColor = MyWorld.WORLD_COLOR;
         makeTransparent();
-        for(BlankHex sh : blankHexList){
-            world().addObject(sh, sh.rectCoord()[0], sh.rectCoord()[1]);
+        for(BlankHex bh : blankHexList){
+            world().addObject(bh, bh.rectCoord()[0], bh.rectCoord()[1]);
             
         }
         world().removeObjects(terrHexList);

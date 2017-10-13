@@ -1,4 +1,4 @@
-/* Code pris de https://docs.oracle.com/javase/tutorial/
+/** Code pris de https://docs.oracle.com/javase/tutorial/
         displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing   
         /examples/components/ColorChooserDemoProject/src
         /components/ColorChooserDemo.java
@@ -88,11 +88,12 @@ public class ColorChooser extends JPanel
         Color newColor = tcc.getColor();
         banner.setForeground(newColor);
     }
-    
+
     public static Color getColor() {
         ColorChooser cc = ColorChooser.createAndShowGUI();
+        
+        //we don't want the user changing anything before closing the window
         while(cc.isOpen) {
-        //wait for user to close the color choser
         try{Thread.sleep(100);}catch(InterruptedException e) {};
         }
         

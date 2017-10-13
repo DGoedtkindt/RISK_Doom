@@ -3,12 +3,14 @@ import java.util.ArrayList;
 
 public class BlankHex extends Button implements Selectable
 {
-    private int[] hexCoord = new int[2];
     
-    static public Color BASE_COLOR = Color.BLACK;
+    
+    private static final Color BASE_COLOR = Color.BLACK;
     private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
     
     private static MyWorld world() {return MyWorld.theWorld;}
+    
+    private int[] hexCoord = new int[2];
     
     public static BlankHex blankHexAt(int hexX, int hexY) 
     //this method makes sure we only create new BlankHex when necessary  
@@ -22,9 +24,7 @@ public class BlankHex extends Button implements Selectable
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
         Selector.selectableSet.add(this);
-        if(BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] == null) {
-           BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
-        } 
+        BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
@@ -41,27 +41,26 @@ public class BlankHex extends Button implements Selectable
         
         switch (mode) {
             case CREATE_TERRITORY :
-                Selector.select(this);
-                break;
+                Selector.select(this); break;
                 
             case SELECT_INFO_HEX :
                 try{
                     if(Selector.getSelectedHexes().contains(this)) {
+                        //créer un territoire
                         ArrayList<BlankHex> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
                         new Territory(selectedHexes, this);
-                        world().escape();
                         
                     }
                     
                 } catch(Exception e){
-                    e.printStackTrace(System.err);
-                    world().escape();
+                    System.err.println("Territory couldn't be created");
+
                 }
-                break;
+                MyWorld.escape(); break;
                 
             default:
-                world().escape();
+                MyWorld.escape();
                 break;
                 
         }
