@@ -86,7 +86,7 @@ public class MyWorld extends World
 
                 GreenfootImage hex;
                 hex = Hexagon.createImage(WORLD_COLOR);
-                int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
+                int[] rectCoord = Hexagon.hexToRectCoord(new int[]{i,j});
                 int size = Hexagon.RADIUS;
                 
                 getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
@@ -114,8 +114,8 @@ public class MyWorld extends World
             
             for(int y = 0; y < row; y++) {
                 BlankHex hexToPlace = BlankHex.blankHexAt(x, y);
-                int[] rectCoords = hexToPlace.coordinates().rectCoord();
-                addObject(hexToPlace,rectCoords[0],rectCoords[1]);
+                int[] rectCoord = hexToPlace.rectCoord();
+                addObject(hexToPlace,rectCoord[0],rectCoord[1]);
                 
             }
             
@@ -127,9 +127,9 @@ public class MyWorld extends World
         
         for(BlankHex bh : getObjects(BlankHex.class)){
             
-            if(bh.coordinates().hexCoord[0] > CONTINENT_BONUS_X_POSITION 
-                    && bh.coordinates().hexCoord[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
-                    && bh.coordinates().hexCoord[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
+            if(bh.hexCoord()[0] > CONTINENT_BONUS_X_POSITION 
+                    && bh.hexCoord()[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
+                    && bh.hexCoord()[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
                 
                 getBackground().drawImage(Hexagon.createImage(WORLD_COLOR), bh.getX() - Hexagon.RADIUS, bh.getY() - Hexagon.RADIUS);
                 removeObject(bh);
