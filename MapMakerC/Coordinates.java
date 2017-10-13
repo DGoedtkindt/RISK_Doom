@@ -10,7 +10,6 @@ public class Coordinates
         hexCoord = hexCoordinates;
     }
     
-    
     public static int[] hexToRectCoord(int[] hexCoord){
         int[] converted = new int[2];  //Tableau de retour
         

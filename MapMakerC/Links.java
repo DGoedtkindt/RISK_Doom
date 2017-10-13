@@ -2,13 +2,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public class Links {
-    public static Links newLinks;
-    public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
+    public static Links newLinks;   //c'est le Links en train d'être modifié. 
+                                    //== null quand un Links n'est pas en train d'etre créé
+    private ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
     private Color color;
     private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
     private static ArrayList<Links> linksList = new ArrayList<>();
-
-    private static MyWorld world() {return MyWorld.theWorld;}
     
     public Links(Color color) {
         this.color = color;
@@ -17,25 +16,28 @@ public class Links {
     }
     
     public void addlink(LinkIndic linkIndic, Territory linkedTerr ) {
-        if(!linkedTerrs.contains(linkedTerr)){
-            linkIndicList.add(linkIndic);
-            linkedTerrs.add(linkedTerr);
-        } else{
+        linkIndicList.add(linkIndic);
+        if(linkedTerrs.contains(linkedTerr)) {
             linkIndic.destroy();
-        } 
+        }
+        linkedTerrs.add(linkedTerr);
+        
+        //cet ordre bizare permet efficacement d'éviter 
+        //de supprimer un terr de la liste en cas de doubles
+        
     }
     
     //only used through LinkIndic.destroy() 
-    public void removelink(LinkIndic linkToRemove) {  
-        world().removeObject(linkToRemove);
-        linkIndicList.remove(linkToRemove);
+    public void removelink(LinkIndic linkToRemove) { 
         linkedTerrs.remove(linkToRemove.linkedTerr());
+        linkIndicList.remove(linkToRemove);
         
-        if(linkIndicList.size() == 1) {
+        
+        //pour supprimer le link quand l'avant dernier linkIndic a été supprimé
+        if(linkIndicList.size() == 1 && newLinks != this) {
             linkIndicList.get(0).destroy();
             linksList.remove(this);
         }
-   
     }
 
     public Color color() {return color;}

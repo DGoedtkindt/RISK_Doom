@@ -4,6 +4,14 @@ import java.util.Arrays;
 import java.io.File;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 public class MapChooser extends Button{
     
@@ -33,8 +41,7 @@ public class MapChooser extends Button{
     public void clicked() {
         world().setupScene();
         MyWorld.readXMLMap(directory.getName() + "/" +fileList.get(mapNumber));
-        Mode.changeMode(Mode.DEFAULT);
-        
+        MyWorld.escape();
     }
     
     public void next() {
@@ -51,18 +58,32 @@ public class MapChooser extends Button{
 
     }
     
+    public ArrayList<String> fileList(){return fileList;}
+    
+    ///Private methods///////////////////////////////////
+    
     private void updateImage() {
         String name = directory.getName() + "/" + fileList.get(mapNumber).replace(".xml", "");
         try{
-            GreenfootImage returnImage = new GreenfootImage(500,400);
+            GreenfootImage returnImage = new GreenfootImage(500,500);
             GreenfootImage mapImage = new GreenfootImage(name + ".png");
             mapImage.scale(500, 300);
             returnImage.drawImage(mapImage, 0, 0);
             returnImage.setFont(new Font("Monospaced", 0, 20));
             returnImage.setColor(Color.WHITE);
-            returnImage.drawString(name.replace(directory.getName() + "/", ""), 190, 350);
+            
+            String completeMessage = "";
+            completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Map Name :");
+            completeMessage += wrapText(getMapDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
+            completeMessage += "\n";
+            completeMessage += "Map " + (mapNumber + 1) + " out of " + fileArray.length;
+            
+            returnImage.drawString(completeMessage, 10, 300);
+            
             this.setImage(returnImage);
+            
         } catch(IllegalArgumentException e) {
+            
             GreenfootImage thumbnailNotFound = new GreenfootImage(500,300);
             thumbnailNotFound.setColor(new Color(150,150,150));
             thumbnailNotFound.fill();
@@ -75,6 +96,63 @@ public class MapChooser extends Button{
             this.setImage(thumbnailNotFound);
         } 
         
+    }
+    
+    private String getMapDescription(String fileName){
+        
+        String mapDescription = "";
+        Document doc;
+        
+        try{
+        
+            File XMLFile = new File(fileName);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(XMLFile);
+            doc.getDocumentElement().normalize();
+            
+            Element mapElement = ((Element)(doc.getElementsByTagName("map").item(0)));
+            
+            if(mapElement.hasAttribute("description")){
+                mapDescription = mapElement.getAttribute("description");
+                
+            }
+            
+        }catch(IOException | ParserConfigurationException | DOMException | SAXException e){System.err.println(e.getMessage());}
+        
+        if(!mapDescription.equals("")){
+            return mapDescription;
+        }else{return "This map has no description";}
+        
+    }
+    
+    private static String wrapText(String strToWrap, int maxLineLength, String entryName) {
+        
+        String nextEntry = "";
+        
+        for(char c : entryName.toCharArray()){
+            
+            nextEntry += " ";
+            
+        }
+        
+        String[] words = strToWrap.split(" ");
+        String finalString = "\n";
+        
+        String currentLine = entryName;
+        for(String currentWord : words){
+            if((currentLine + currentWord).length() > maxLineLength){
+                finalString += currentLine + "\n";
+                currentLine = nextEntry;
+                
+            }
+            currentLine += " " + currentWord;
+            
+        }
+        finalString += currentLine;
+        
+        return finalString;
+    
     }
     
 }

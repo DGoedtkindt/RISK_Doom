@@ -80,20 +80,6 @@ public class MyWorld extends World
         //trou pour les bonus de continent
         drawContinentBonusZone();
         
-        //Hexagones bleus sur le côté
-        for(int i = COLLUMN_NUMBER; i < COLLUMN_NUMBER + 5;i++){
-            for(int j = -1; j <= ROW_NUMBER + 1; j++){
-
-                GreenfootImage hex;
-                hex = Hexagon.createImage(WORLD_COLOR);
-                int[] rectCoord = Coordinates.hexToRectCoord(new int[]{i,j});
-                int size = Hexagon.RADIUS;
-                
-                getBackground().drawImage(hex,rectCoord[0]-size,rectCoord[1]-size);
-            }
-        
-        }
-        
         // placement des boutons
         addObject(createTerritory, MyWorld.WORLD_WIDTH -100, 100);
         addObject(createLink, MyWorld.WORLD_WIDTH - 70, 160);
@@ -131,7 +117,6 @@ public class MyWorld extends World
                     && bh.coordinates().hexCoord[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
                     && bh.coordinates().hexCoord[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
                 
-                getBackground().drawImage(Hexagon.createImage(WORLD_COLOR), bh.getX() - Hexagon.RADIUS, bh.getY() - Hexagon.RADIUS);
                 removeObject(bh);
                 
             }
@@ -158,6 +143,19 @@ public class MyWorld extends World
     public static void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
+        if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
+                    
+            Links.newLinks.LinkIndicsList().get(0).destroy();
+            Links.allLinks().remove(Links.newLinks);
+            System.err.println("You can't create a link that links less than 2 territories");
+                    
+        }
+        if(Links.newLinks != null){
+            for(LinkIndic li : Links.newLinks.LinkIndicsList()){
+                li.destroy();
+            }
+            
+        }
         Links.newLinks = null;
         
     }   
@@ -281,9 +279,8 @@ public class MyWorld extends World
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
                 Territory terr = Territory.allTerritories().get(terrId);
-                LinkIndic link = new LinkIndic(terr);
-                theWorld.addObject(link,xPos,yPos);
-                newLinks.addlink(link, terr);
+                TerritoryHex thForLinkIndic = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
+                new LinkIndic(terr, thForLinkIndic, xPos, yPos);
             
             }
         
@@ -299,17 +296,8 @@ public class MyWorld extends World
         GreenfootImage mapImage = new GreenfootImage(1920, 1080);
         mapImage.drawImage(getBackground(), 0, 0);
         
-        /*for(BlankHex bh : getObjects(BlankHex.class)){
-        
-        int x = bh.getX() - Hexagon.RADIUS;
-        int y = bh.getY() - Hexagon.RADIUS;
-        mapImage.drawImage(bh.getImage(), x, y);
-        
-        }*/
-        
         return mapImage.getAwtImage();
         
-    
     }
 
     ////////////////////////////////////////////////
@@ -319,8 +307,8 @@ public class MyWorld extends World
         getBackground().setColor(WORLD_COLOR.brighter());
         getBackground().fill();
         addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
-        addObject(leftButton, WORLD_WIDTH / 3,WORLD_HEIGHT / 2);
-        addObject(rightButton, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2);
+        addObject(leftButton, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(rightButton, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
 
 
         

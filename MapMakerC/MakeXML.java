@@ -17,6 +17,10 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.awt.image.BufferedImage;
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class MakeXML extends Button
 {   
@@ -31,21 +35,21 @@ public class MakeXML extends Button
             image.scale(80, 80);
             this.setImage(image);
             
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            doc = docBuilder.newDocument();
-            rootElement = doc.createElement("map");//Création de rootElement
-            doc.appendChild(rootElement);
-        } catch (IllegalArgumentException | ParserConfigurationException | DOMException ex) {
+            createNewDocument();
+        } catch (IllegalArgumentException| DOMException ex) {
             ex.printStackTrace(System.out);
         }
     }
     
     public void clicked(){
-        createTerritoryNodes();
-        createContinentNodes();
-        createLinksNodes();
-        saveFile();
+        if(Mode.currentMode() == Mode.DEFAULT){
+            
+            createTerritoryNodes();
+            createContinentNodes();
+            createLinksNodes();
+            saveFile();
+            
+        }
     }
     
     public void createTerritoryNodes(){
@@ -130,32 +134,87 @@ public class MakeXML extends Button
     
     private void saveFile() {
         try{
-            String fileName = JOptionPane.showInputDialog("Enter file name");
+            
+            String mapName = "";
+            String mapDescription = "";
+            
+            JTextField nameField = new JTextField(25);
+            JTextField descriptionField = new JTextField(65);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            File dir = new File(".");
-            try{ 
-                dir = new File("Maps");
-                if(!dir.exists()) throw new Exception("The Maps directory does not seem to exist." +
-                        "Please make sure " + dir.getAbsolutePath() + " exists");
+            JPanel questionPanel = new JPanel();
+            questionPanel.add(new JLabel("Name : "));
+            questionPanel.add(nameField);
+            questionPanel.add(Box.createHorizontalStrut(20));
+            questionPanel.add(new JLabel("Description : "));
+            questionPanel.add(descriptionField);
+
+            int output = JOptionPane.showConfirmDialog(null, questionPanel, "Give your map a name and a description", JOptionPane.OK_CANCEL_OPTION);
+            if (output == JOptionPane.OK_OPTION) {
+               mapName = nameField.getText();
+               mapDescription = descriptionField.getText();
+            }
             
-            }catch(Exception e) {System.err.println(e);}
-            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + fileName + ".xml"));
-            transformer.transform(source, result);
-            
-            BufferedImage mapImage = world().createMapImage();
-            File out = new File(dir.getAbsolutePath() + "/" + fileName + ".png");
-        
-            ImageIO.write(mapImage, "PNG", out);
+            if(mapName != null && !mapName.isEmpty() && mapName != "New Map"){
+                
+                int choice = JOptionPane.YES_OPTION;
+                
+                if(world().mapThumbnail.fileList().contains(mapName + ".xml")){
+                    
+                    choice = JOptionPane.showConfirmDialog(null, "Do you want to replace the existing map '" + mapName + "' with this one?", 
+                                                                 "Replacing an existing map", JOptionPane.YES_NO_OPTION);
+                    
+                }
+                
+                if(choice == JOptionPane.YES_OPTION){
+                        
+                        rootElement.setAttribute("description", mapDescription);
+                
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = transformerFactory.newTransformer();
+                        DOMSource source = new DOMSource(doc);
+                        File dir = new File(".");
+                        try{ 
+                            dir = new File("Maps");
+                            if(!dir.exists()) throw new Exception("The Maps directory does not seem to exist." +
+                                    "Please make sure " + dir.getAbsolutePath() + " exists");
+
+                        }catch(Exception e) {System.err.println(e);}
+                        StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + mapName + ".xml"));
+                        transformer.transform(source, result);
+
+                        BufferedImage mapImage = world().createMapImage();
+                        File out = new File(dir.getAbsolutePath() + "/" + mapName + ".png");
+
+                        ImageIO.write(mapImage, "PNG", out);}
+                
+            }else{
+                System.err.println("You can't save a map if it has no name or if its name is 'New Map'");
+                createNewDocument();
+                
+            }
             
         } catch(IOException | HeadlessException | TransformerException e) {
-            e.printStackTrace(System.out); 
+            System.err.println(e);
         }
         
     }
-   
+    
+    private void createNewDocument(){
+        
+        try {
+            
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            doc = docBuilder.newDocument();
+            rootElement = doc.createElement("map");//Création de rootElement
+            doc.appendChild(rootElement);
+            
+        } catch (IllegalArgumentException | ParserConfigurationException | DOMException ex) {
+            ex.printStackTrace(System.out);
+        }
+        
+    }
+    
     public void makeTransparent() {
         getImage().setTransparency(MyWorld.TRANSPARENT);
     

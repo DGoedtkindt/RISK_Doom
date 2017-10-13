@@ -3,7 +3,6 @@ import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
 {
@@ -68,22 +67,15 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        int rColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of red (0 - 255)"));
-                        int gColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of green (0 - 255)"));
-                        int bColor = Integer.parseInt(JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)"));
-                        Color color = new Color(rColor,gColor,bColor);
+                        Color color = ColorChooser.getColor();
                         Links.newLinks = new Links(color);
                     }
                     
-                    if(!Links.newLinks.linkedTerrs.contains(territory)){
-                        
                         MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
+                        new LinkIndic(territory, this, xPos, yPos);
                         
-                        getWorld().addObject(new LinkIndic(territory), xPos, yPos);
-                        
-                    }
                     
                     break;
                     

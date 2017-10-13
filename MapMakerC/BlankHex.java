@@ -56,12 +56,10 @@ public class BlankHex extends Button implements Selectable
                 }
                 break;
                 
-            case SET_LINK :
-                break;
-                
             default:
                 world().escape();
                 break;
+                
         }
         
     }

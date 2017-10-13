@@ -53,20 +53,8 @@ public class Continent implements Selectable
     }
     
     public void editColor() throws Exception {
+            continentColor = ColorChooser.getColor();
             
-            int rColor = 0;
-            int gColor = 0;
-            int bColor = 0;
-            
-            String rColorString = JOptionPane.showInputDialog("Enter the shade of red (0 - 255)");
-            String gColorString = JOptionPane.showInputDialog("Enter the shade of green (0 - 255)");
-            String bColorString = JOptionPane.showInputDialog("Enter the shade of blue (0 - 255)");
-            
-            if(!rColorString.isEmpty() && Integer.parseInt(rColorString) < 256){rColor = Integer.parseInt(rColorString);}
-            if(!gColorString.isEmpty() && Integer.parseInt(gColorString) < 256){gColor = Integer.parseInt(gColorString);}
-            if(!bColorString.isEmpty() && Integer.parseInt(bColorString) < 256){bColor = Integer.parseInt(bColorString);}
-            
-            continentColor = new Color(rColor,gColor,bColor);
             for(Territory t : territoriesContained){
                 t.setContinent(this);
 
@@ -86,7 +74,6 @@ public class Continent implements Selectable
     }
     
     public void removeTerritory(Territory territoryToRemove){
-        
         territoriesContained.remove(territoryToRemove);
         
     }
@@ -109,6 +96,7 @@ public class Continent implements Selectable
         int newBonus = 0;
         String bonusString = JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent");
         if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
+        if(newBonus <= 0){newBonus = 0;}
         bonus = newBonus;
         updateBonusDisplay();
     }

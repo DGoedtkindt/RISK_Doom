@@ -6,13 +6,14 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
+    private static Color BASE_COLOR = new Color(200, 200, 200);
     private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<BlankHex> blankHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Continent continent = null;
-    public Color continentColor = MyWorld.WORLD_COLOR;
+    public Color continentColor = BASE_COLOR;
     private int bonusPoints = 0;
     private TerrInfo trInfo;
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -48,6 +49,9 @@ public class Territory implements Selectable
      * removes TerrInfo from world     
      */
     {
+        if(continent != null && continent.containedTerritories().size() == 1){
+            continent.destroy();
+        }
         continentColor = MyWorld.WORLD_COLOR;
         makeTransparent();
         for(BlankHex sh : blankHexList){
@@ -79,7 +83,7 @@ public class Territory implements Selectable
             continentColor = newContinent.color();
             
         }else {
-            continentColor = MyWorld.WORLD_COLOR;
+            continentColor = BASE_COLOR;
             
         }
         drawTerritory();
@@ -105,9 +109,12 @@ public class Territory implements Selectable
     }
     
     public void editBonus() {
-        int newBonus = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nouveaux bonus pour le territoire"));
+        String bonusString = JOptionPane.showInputDialog("Entrez le nouveaux bonus pour le territoire");
+        int newBonus = 0;
+        if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
+        if(newBonus <= 0){newBonus = 0;}
         bonusPoints = newBonus;
-        trInfo.setDisplayedBonus(newBonus);
+        trInfo.setDisplayedBonus(bonusPoints);
 
     }
     
