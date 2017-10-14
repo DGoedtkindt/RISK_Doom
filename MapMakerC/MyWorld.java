@@ -39,6 +39,7 @@ public class MyWorld extends World
     static MyWorld theWorld; //pour accéder au monde depuis un non-acteur
     
     private MouseInfo mouse = Greenfoot.getMouseInfo();
+    private boolean init = true;
     
     ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
@@ -59,11 +60,12 @@ public class MyWorld extends World
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
         
+        
+        
         Greenfoot.setSpeed(60);
-        getBackground().setColor(WORLD_COLOR);
-        getBackground().fill();
-
-        basicMenu();
+        
+        GreenfootImage pineapple = new GreenfootImage("mightyPineAppleOfJustice.png");
+        getBackground().drawImage(pineapple, 0, 0);
         
     }
     
@@ -162,6 +164,11 @@ public class MyWorld extends World
     
     @Override
     public void act() {
+        if(init) {
+            basicMenu();
+            init = false;
+        
+        }
         mouse = Greenfoot.getMouseInfo();
         if(mouse != null && Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
             
