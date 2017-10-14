@@ -26,12 +26,13 @@ public class TerritoryHex extends Button
         return Hexagon.hexToRectCoord(hexCoord);
     }
     
+    @Override
     public void clicked() {
         try {
             Mode mode = Mode.currentMode();
 
             if(mode == Mode.DEFAULT){
-                world().escape();
+                MyWorld.escape();
                 
             }else switch (mode) {
                 case CREATE_CONTINENT :
@@ -44,7 +45,7 @@ public class TerritoryHex extends Button
                     Selector.setValidator(Selector.NOTHING);
                     world().repaint(); //pour forcer l'actualisation des images
                     territory.editBonus();
-                    world().escape();
+                    MyWorld.escape();
                     break;
                     
                 case EDIT_CONTINENT_COLOR :
@@ -52,7 +53,7 @@ public class TerritoryHex extends Button
                     Selector.setValidator(Selector.NOTHING);
                     world().repaint(); //pour forcer l'actualisation des images
                     territory.continent().editColor();
-                    world().escape();
+                    MyWorld.escape();
                     break;
                     
                 case EDIT_CONTINENT_BONUS :
@@ -60,7 +61,7 @@ public class TerritoryHex extends Button
                     Selector.setValidator(Selector.NOTHING);
                     world().repaint(); //pour forcer l'actualisation des images
                     territory.continent().editBonus();
-                    world().escape();
+                    MyWorld.escape();
                     break;
                     
                 case DELETE_CONTINENT :
@@ -77,7 +78,7 @@ public class TerritoryHex extends Button
                         MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
-                        new LinkIndic(territory, this, xPos, yPos);
+                        new LinkIndic(territory,xPos, yPos);
                         
                     
                     break;
@@ -87,12 +88,12 @@ public class TerritoryHex extends Button
                     break;
                     
                 default:
-                    world().escape();
+                    MyWorld.escape();
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
-            world().escape();
+            MyWorld.escape();
         }
         
     }

@@ -160,21 +160,24 @@ public class Continent implements Selectable
     }
     
     //Selectable methods/////////////////////////////////
-    
+
+    @Override
     public void makeGreen() {
         for(Territory terr : territoriesContained) {
             terr.makeGreen();
         
         }
     }
-    
+
+    @Override
     public void makeTransparent() {
         for(Territory terr : territoriesContained) {
             terr.makeTransparent();
         
         }
     }
-    
+ 
+    @Override
     public void makeOpaque() {
         for(Territory terr : territoriesContained) {
             terr.makeOpaque();

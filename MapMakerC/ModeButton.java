@@ -15,6 +15,7 @@ public class ModeButton extends Button {
         
     }
     
+    @Override
     public void clicked() {
         if(Mode.currentMode() == Mode.DEFAULT) {
             Mode.changeMode(linkedMode);

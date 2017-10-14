@@ -160,6 +160,7 @@ public class MyWorld extends World
         
     }   
     
+    @Override
     public void act() {
         mouse = Greenfoot.getMouseInfo();
         if(mouse != null && Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
@@ -279,13 +280,12 @@ public class MyWorld extends World
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
                 Territory terr = Territory.allTerritories().get(terrId);
-                TerritoryHex thForLinkIndic = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
-                new LinkIndic(terr, thForLinkIndic, xPos, yPos);
+                new LinkIndic(terr, xPos, yPos);
             
             }
         
         }
-    
+        Links.newLinks = null;
     
     }
 

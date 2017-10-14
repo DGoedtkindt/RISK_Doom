@@ -3,10 +3,10 @@
  import java.awt.Color;
  
 public class Hexagon  {
-    static public final int RADIUS = 32;
+    public static final int RADIUS = 32;
     
     public static GreenfootImage createImageWBorder(Color hexColor){
-        
+        //draw un plus petit hex coloré sur un Hex noir
         GreenfootImage img = createImage(Color.RED);
         img.drawImage(createImage(hexColor,0.95), 0, 0);
         
@@ -15,6 +15,8 @@ public class Hexagon  {
     }
 
     public static GreenfootImage createImage(Color color, double sizeInPercent){
+        //crée l'image d'un hexagone simple avec un multiplicateur de taille
+        //l'image de retour reste 2*RADIUSx2*RADIUS
         GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
         
         int[][] array  = getHexagonCoord(sizeInPercent);
@@ -26,6 +28,7 @@ public class Hexagon  {
     }
     
     public static GreenfootImage createImage(Color color){
+        //crée l'image d'un hexagone simple sans multiplicateur
         return createImage(color, 1);
         
     }

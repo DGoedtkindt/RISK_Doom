@@ -126,6 +126,7 @@ public class Territory implements Selectable
     
     //Selectable methods/////////////////////////////////
     
+    @Override
     public void makeTransparent() {  
         GreenfootImage img = Hexagon.createImage(MyWorld.WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
@@ -138,6 +139,7 @@ public class Territory implements Selectable
         
     }
     
+    @Override
     public void makeGreen() {
         GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
@@ -150,6 +152,7 @@ public class Territory implements Selectable
         
     }
 
+    @Override
     public void makeOpaque() {   
         drawTerritory();
     }

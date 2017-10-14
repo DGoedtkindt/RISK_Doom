@@ -38,6 +38,10 @@ public class MapChooser extends Button{
         
     }
     
+    /**
+     *Utiliser seulement à travers MyWorld.act()
+     */
+    @Override
     public void clicked() {
         world().setupScene();
         MyWorld.readXMLMap(directory.getName() + "/" +fileList.get(mapNumber));

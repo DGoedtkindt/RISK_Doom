@@ -14,6 +14,7 @@ public class OKButton extends Button
         
     }
     
+    @Override
     public void clicked(){
         
         Mode mode = Mode.currentMode();
@@ -23,29 +24,30 @@ public class OKButton extends Button
             switchToSelectInfoHex();
             
         }else {
-            //at this level, the ifs end with escape()
-            if(mode == Mode.CREATE_CONTINENT){
-                createContinentFromSelection();
-            
-            }else if(mode == Mode.DELETE_TERRITORY){
-                deleteTerritorySelection();
-            
-            }else if(mode == Mode.DELETE_CONTINENT){
-                deleteContinentSelection();
-            
-            }else if(mode == Mode.SET_LINK){
-                if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
-                    
-                    Links.newLinks.LinkIndicsList().get(0).destroy();
-                    Links.allLinks().remove(Links.newLinks);
-                    System.err.println("You can't create a link that links less than 2 territories");
-                    
-                }
-                
-                Links.newLinks = null;
-                
+            if(null != mode) //at this level, the ifs end with escape()
+            switch (mode) {
+                case CREATE_CONTINENT:
+                    createContinentFromSelection();
+                    break;
+                case DELETE_TERRITORY:
+                    deleteTerritorySelection();
+                    break;
+                case DELETE_CONTINENT:
+                    deleteContinentSelection();
+                    break;
+                case SET_LINK:
+                    if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
+                        
+                        Links.newLinks.LinkIndicsList().get(0).destroy();
+                        Links.allLinks().remove(Links.newLinks);
+                        System.err.println("You can't create a link that links less than 2 territories");
+                        
+                    }   Links.newLinks = null;
+                    break;
+                default:
+                    break;
             }
-                world().escape();
+                MyWorld.escape();
             
         }
         
@@ -67,7 +69,7 @@ public class OKButton extends Button
             
         } catch(Exception e){
            e.printStackTrace(System.out);
-           world().escape();
+           MyWorld.escape();
            
            }
         
@@ -90,7 +92,7 @@ public class OKButton extends Button
             
            } catch(Exception e){
             e.printStackTrace(System.out);
-            world().escape();
+            MyWorld.escape();
            
            }
         
@@ -103,7 +105,7 @@ public class OKButton extends Button
             
            } catch(Exception e){
             e.printStackTrace(System.out);
-            world().escape();
+            MyWorld.escape();
              
            }
              

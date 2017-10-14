@@ -56,7 +56,7 @@ public class ColorChooser extends JPanel
  
     protected JColorChooser tcc;
     protected JLabel banner;
-    public boolean isOpen = false;
+    private boolean isOpen = false;
  
     public ColorChooser() {
         super(new BorderLayout());
@@ -84,6 +84,7 @@ public class ColorChooser extends JPanel
         add(tcc, BorderLayout.PAGE_END);
     }
  
+    @Override
     public void stateChanged(ChangeEvent e) {
         Color newColor = tcc.getColor();
         banner.setForeground(newColor);

@@ -36,6 +36,7 @@ public class BlankHex extends Button implements Selectable
         return Hexagon.hexToRectCoord(hexCoord);
     }
     
+    @Override
     public void clicked() {
         Mode mode = Mode.currentMode();
         
@@ -68,17 +69,20 @@ public class BlankHex extends Button implements Selectable
     }
      
     //Selectable methods/////////////////////////////////////
-    
+
+    @Override
     public void makeGreen() {
         this.setImage(Hexagon.createImageWBorder(MyWorld.SELECTION_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
+    @Override
     public void makeOpaque() {
         this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
         this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
+    @Override
     public void makeTransparent() {
         this.getImage().setTransparency(MyWorld.TRANSPARENT);
     }
