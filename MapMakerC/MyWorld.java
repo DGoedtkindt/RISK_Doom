@@ -93,7 +93,7 @@ public class MyWorld extends World
         addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 420);
         addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
-        addObject(backButton, MyWorld.WORLD_WIDTH - 100, 700);
+        addObject(backButton, MyWorld.WORLD_WIDTH - 25, 27);
         
         Mode.changeMode(Mode.DEFAULT);
     }

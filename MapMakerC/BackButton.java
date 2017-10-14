@@ -1,10 +1,13 @@
 import javax.swing.JOptionPane;
+import greenfoot.GreenfootImage;
 
 public class BackButton extends Button{
 
     public BackButton(){
-        
-        //GreenfootImage
+        GreenfootImage img = new GreenfootImage("backToHome.png");
+        img.scale(30,30);
+        this.setImage(img);
+
         
     }
     
