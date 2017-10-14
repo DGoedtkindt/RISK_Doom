@@ -119,14 +119,14 @@ public enum Mode
         
         String textToDisplay = wrapText(message, 16);
         
-        GreenfootImage instructions = new GreenfootImage(182, 380);
+        GreenfootImage instructions = new GreenfootImage(182, 330);
         instructions.setColor(MyWorld.WORLD_COLOR);
         instructions.fill();
         instructions.setColor(Color.WHITE);
         instructions.setFont(font);
         instructions.drawString(textToDisplay, 0, 0);
         
-        world().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 182, 700);
+        world().getBackground().drawImage(instructions, MyWorld.WORLD_WIDTH - 182, 750);
         
     }
     

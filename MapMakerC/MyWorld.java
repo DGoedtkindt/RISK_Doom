@@ -50,11 +50,11 @@ public class MyWorld extends World
     ModeButton deleteContinent          = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     OKButton okButton                   = new OKButton();
     MakeXML makeXMLButton               = new MakeXML();
+    BackButton backButton               = new BackButton();
     MapChooser mapThumbnail             = new MapChooser();
     LeftButton leftButton = new LeftButton(mapThumbnail);
     RightButton rightButton = new RightButton(mapThumbnail);
 
-    
     public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
@@ -91,6 +91,7 @@ public class MyWorld extends World
         addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 420);
         addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
         addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
+        addObject(backButton, MyWorld.WORLD_WIDTH - 100, 700);
         
         Mode.changeMode(Mode.DEFAULT);
     }
@@ -100,7 +101,7 @@ public class MyWorld extends World
             
             for(int y = 0; y < row; y++) {
                 BlankHex hexToPlace = BlankHex.blankHexAt(x, y);
-                int[] rectCoords = hexToPlace.coordinates().rectCoord();
+                int[] rectCoords = hexToPlace.rectCoord();
                 addObject(hexToPlace,rectCoords[0],rectCoords[1]);
                 
             }
@@ -113,9 +114,9 @@ public class MyWorld extends World
         
         for(BlankHex bh : getObjects(BlankHex.class)){
             
-            if(bh.coordinates().hexCoord[0] > CONTINENT_BONUS_X_POSITION 
-                    && bh.coordinates().hexCoord[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
-                    && bh.coordinates().hexCoord[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
+            if(bh.hexCoord()[0] > CONTINENT_BONUS_X_POSITION 
+                    && bh.hexCoord()[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
+                    && bh.hexCoord()[1] > ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT){
                 
                 removeObject(bh);
                 
@@ -140,7 +141,7 @@ public class MyWorld extends World
     
     //////////////////////////////////////////////////
     
-    public static void escape(){
+    public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
         if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
@@ -160,15 +161,13 @@ public class MyWorld extends World
         
     }   
     
+    @Override
     public void act() {
         mouse = Greenfoot.getMouseInfo();
         if(mouse != null && Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
             
             if(getPressedButton() != null){
                 getPressedButton().clicked();
-                
-            }else{
-                escape();
                 
             }
             
@@ -279,13 +278,12 @@ public class MyWorld extends World
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
                 Territory terr = Territory.allTerritories().get(terrId);
-                TerritoryHex thForLinkIndic = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
-                new LinkIndic(terr, thForLinkIndic, xPos, yPos);
+                new LinkIndic(terr, xPos, yPos);
             
             }
         
         }
-    
+        Links.newLinks = null;
     
     }
 
@@ -302,7 +300,22 @@ public class MyWorld extends World
 
     ////////////////////////////////////////////////
     
-    private void basicMenu(){
+    public void basicMenu(){
+        
+        for(Continent c : Continent.continentList()){
+            c.destroy();
+            
+        }
+        
+        for(Territory t : Territory.allTerritories()){
+            t.destroy();
+            
+        }
+        
+        for(Button b : getObjects(Button.class)){
+            removeObject(b);
+            
+        }
         
         getBackground().setColor(WORLD_COLOR.brighter());
         getBackground().fill();

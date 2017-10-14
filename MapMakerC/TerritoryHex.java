@@ -7,22 +7,26 @@ import java.awt.Color;
 public class TerritoryHex extends Button
 {
     private Territory territory;
-    private Coordinates coord = new Coordinates();
+    private int[] hexCoord = new int[2];
     
     private static MyWorld world() {return MyWorld.theWorld;}
     
     public TerritoryHex(Territory territory, Color color, int x, int y){
         this.territory = territory;
         drawTerrHex(color);
-        coord.hexCoord[0] = x;
-        coord.hexCoord[1] = y;
+        hexCoord[0] = x;
+        hexCoord[1] = y;
     }
     
-    public Coordinates coordinates(){
-        return coord;
-    
+    public int[] hexCoord() {
+        return hexCoord;
     }
     
+    public int[] rectCoord() {
+        return Hexagon.hexToRectCoord(hexCoord);
+    }
+    
+    @Override
     public void clicked() {
         try {
             Mode mode = Mode.currentMode();
@@ -74,7 +78,7 @@ public class TerritoryHex extends Button
                         MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
-                        new LinkIndic(territory, this, xPos, yPos);
+                        new LinkIndic(territory,xPos, yPos);
                         
                     
                     break;

@@ -40,22 +40,18 @@ public class Territory implements Selectable
     }
     
     public void destroy()
-    /* reconstructs the BlankHexes
-     * destroys the TerritoryHexes
-     * removes itself from the territoryList
-     * removes itself from the continent
-     * removes itself from the selectableList
-     * breaks the links with other territories
-     * removes TerrInfo from world     
-     */
-    {
-        if(continent != null && continent.containedTerritories().size() == 1){
-            continent.destroy();
-        }
+    /*  repaints over itself in WORLD_COLOR
+     *  add the BlankHex back to the world
+     *  removes the TerritoryHexes
+     *  removes itself from the territory and selectable Collections
+     *      and from its continent
+     *  removes the terrInfo
+     *  destroys the LinkIndics */
+    {   
         continentColor = MyWorld.WORLD_COLOR;
         makeTransparent();
-        for(BlankHex sh : blankHexList){
-            world().addObject(sh, sh.coordinates().rectCoord()[0], sh.coordinates().rectCoord()[1]);
+        for(BlankHex bh : blankHexList){
+            world().addObject(bh, bh.rectCoord()[0], bh.rectCoord()[1]);
             
         }
         world().removeObjects(terrHexList);
@@ -130,6 +126,7 @@ public class Territory implements Selectable
     
     //Selectable methods/////////////////////////////////
     
+    @Override
     public void makeTransparent() {  
         GreenfootImage img = Hexagon.createImage(MyWorld.WORLD_COLOR);
         for(TerritoryHex hex : terrHexList){
@@ -142,6 +139,7 @@ public class Territory implements Selectable
         
     }
     
+    @Override
     public void makeGreen() {
         GreenfootImage img = Hexagon.createImage(MyWorld.SELECTION_COLOR);
         for(TerritoryHex hex : terrHexList){
@@ -154,6 +152,7 @@ public class Territory implements Selectable
         
     }
 
+    @Override
     public void makeOpaque() {   
         drawTerritory();
     }
@@ -171,8 +170,8 @@ public class Territory implements Selectable
     //crée tous les territoryHex de ce territoire
     {
         for(BlankHex hex : blankHexList) {
-            int[] rectCoord = hex.coordinates().rectCoord();
-            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.coordinates().hexCoord[0], hex.coordinates().hexCoord[1]);
+            int[] rectCoord = hex.rectCoord();
+            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.hexCoord()[0], hex.hexCoord()[1]);
             terrHexList.add(trHex);
             world().addObject(trHex, rectCoord[0], rectCoord[1]);
             if(hex == infoHex) {

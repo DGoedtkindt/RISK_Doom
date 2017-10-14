@@ -5,29 +5,24 @@ import greenfoot.GreenfootImage;
 
 public class Continent implements Selectable
 {
+    //private static variables
+    private static ArrayList<Continent> continentList = new ArrayList<Continent>();
+    private static MyWorld world() {return MyWorld.theWorld;}
     
+    //private variable
     private Color continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
-
-    static private ArrayList<Continent> continentList = new ArrayList<Continent>();
-
-    private static MyWorld world() {return MyWorld.theWorld;}
     
+    //public methods
     public Continent(ArrayList<Territory> territories) throws Exception{
         editColor();
         editBonus();
         
         continentList.add(this);
         Selector.selectableSet.add(this);
-        
         territoriesContained.addAll(0,territories);
-        
-        for(Territory t : territoriesContained){
-             
-                t.setContinent(this);
-             
-            }
+        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
         updateBonusDisplay();
     }
@@ -39,28 +34,21 @@ public class Continent implements Selectable
         
         continentList.add(this);
         Selector.selectableSet.add(this);
-        
         territoriesContained.addAll(0,territories);
         
-        for(Territory t : territoriesContained){
-             
-                t.setContinent(this);
-             
-            }
+        //to Update the territories continent and color
+        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
          updateBonusDisplay();
         
     }
     
     public void editColor() throws Exception {
-            continentColor = ColorChooser.getColor();
-            
-            for(Territory t : territoriesContained){
-                t.setContinent(this);
+        continentColor = ColorChooser.getColor();
+        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
 
-            }
-
-            updateBonusDisplay();
+        updateBonusDisplay();
+        
     }
     
     public Color color(){
@@ -73,19 +61,17 @@ public class Continent implements Selectable
         
     }
     
-    public void removeTerritory(Territory territoryToRemove){
+    public void removeTerritory(Territory territoryToRemove)
+    {   //is only used through Territory.destroy()
         territoriesContained.remove(territoryToRemove);
+        if(territoriesContained.isEmpty()) this.destroy();
         
     }
     
     public void destroy() {
         continentList.remove(this);
         
-        for(Territory terr : territoriesContained){
-         
-            terr.setContinent(null);
-         
-           }
+        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
         Selector.selectableSet.remove(this);
         updateBonusDisplay();
@@ -109,13 +95,14 @@ public class Continent implements Selectable
     //Private methods////////////////////////////////////////////////
     
     private static void updateBonusDisplay() {
-        GreenfootImage background = new GreenfootImage(496, 118);
-        background.setColor(MyWorld.WORLD_COLOR);
-        background.fill();
+        //représente un tableau 2D pour l'arrangement des Bonus
+        ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         
+        //calculer le nombre de colonne pour l'affichage des bonus
+        //le nombre de colonne devrais tendre vers 2x le nombre de lignes
         int xAxis = (int)Math.sqrt(2*continentList.size());
         
-        ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
+        //rajouter les continents lignes par lignes avec xAxis continents par lignes
         Continent[] row = new Continent[xAxis];
         for(int i = 0; i < continentList().size(); i++) {
             if(i % xAxis == 0) {
@@ -127,8 +114,15 @@ public class Continent implements Selectable
             
         }
         
+        //le nombre de colonnes pour l'affichage des bonus
         int yAxis = arrangedContinents.size();
         
+        //créer l'image sur laquelle les bonus vont s'afficher
+        GreenfootImage background = new GreenfootImage(496, 118);
+        background.setColor(MyWorld.WORLD_COLOR);
+        background.fill();
+        
+        //dessiner 
         for(int y = 0; y < yAxis; y++) {
             for(int x = 0; x < xAxis; x++) {
                Continent c = arrangedContinents.get(y)[x];
@@ -166,21 +160,24 @@ public class Continent implements Selectable
     }
     
     //Selectable methods/////////////////////////////////
-    
+
+    @Override
     public void makeGreen() {
         for(Territory terr : territoriesContained) {
             terr.makeGreen();
         
         }
     }
-    
+
+    @Override
     public void makeTransparent() {
         for(Territory terr : territoriesContained) {
             terr.makeTransparent();
         
         }
     }
-    
+ 
+    @Override
     public void makeOpaque() {
         for(Territory terr : territoriesContained) {
             terr.makeOpaque();
