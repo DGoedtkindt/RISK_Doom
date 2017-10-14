@@ -61,8 +61,9 @@ public class Territory implements Selectable
         
         world().removeObject(trInfo);
         
-        for(LinkIndic link: links) {
-            link.destroy();
+        while(!links.isEmpty()) {
+            links.get(0).destroy();
+        
         }
         
         
