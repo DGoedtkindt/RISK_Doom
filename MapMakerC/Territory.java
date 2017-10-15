@@ -106,7 +106,7 @@ public class Territory implements Selectable
     }
     
     public void editBonus() {
-        String bonusString = JOptionPane.showInputDialog("Entrez le nouveaux bonus pour le territoire");
+        String bonusString = JOptionPane.showInputDialog("Enter the new bonus for this Territory");
         int newBonus = 0;
         if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
         if(newBonus <= 0){newBonus = 0;}
@@ -158,29 +158,13 @@ public class Territory implements Selectable
         drawTerritory();
     }
 
-    /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
     
     public void drawTerritory()
     //dessine le territoire sur le monde
     {
         drawHexs();
         drawAllHexsLinks();
-    }
-    
-    private void createTerrHexs(BlankHex infoHex)
-    //crée tous les territoryHex de ce territoire
-    {
-        for(BlankHex hex : blankHexList) {
-            int[] rectCoord = hex.rectCoord();
-            TerritoryHex trHex = new TerritoryHex(this, continentColor, hex.hexCoord()[0], hex.hexCoord()[1]);
-            terrHexList.add(trHex);
-            world().addObject(trHex, rectCoord[0], rectCoord[1]);
-            if(hex == infoHex) {
-                trInfo = new TerrInfo(trHex);
-                world().addObject(trInfo,rectCoord[0], rectCoord[1]);
-            }
-        }
-        
     }
     
     private void drawHexs(){
@@ -201,54 +185,85 @@ public class Territory implements Selectable
     }
     
     private void drawHexLinks(TerritoryHex hex){
-        ArrayList<Polygon> links = getLinkPolygon(hex);
+        ArrayList<Polygon> links = getLinkingDiamonds(hex);
         getBackground().setColor(continentColor);
-        for(Polygon poly : links){
-                getBackground().fillShape(poly);
+        for(Polygon diamond : links){
+                getBackground().fillShape(diamond);
 
         }
         
     }
     
-    private ArrayList<Polygon> getLinkPolygon(TerritoryHex thisHex)
+    private ArrayList<Polygon> getLinkingDiamonds(TerritoryHex thisHex)
     //retourne des losanges qui couvrent certains bords noirs de l'Hexagone
     //dirty code incoming!
     {
-        ArrayList<Polygon> linksPoly = new ArrayList<>();
-        int[][] temporary = new int[2][4]; //cette liste
+        ArrayList<Polygon> LinkingDiamonds = new ArrayList<>();
+        
+        int N_DIMENSION = 2;
+        int N_POINTS = 4;
+        int[][] diamPoints = new int[N_DIMENSION][N_POINTS]; 
+        //ce tableau
         //stoque temporairement les coordonée d'un logange
         //le temps d'être transformé en Polygon
         
-        temporary[0][0] = thisHex.getX();
-        temporary[1][0] = thisHex.getY();
+        //point 1: le centre du premier TerritoryHex
+        diamPoints[0][0] = thisHex.getX();
+        diamPoints[1][0] = thisHex.getY();
         
+        //Va check pour tous les TerritoryHex adjacent s'il faut faire un lien
+        //si oui, rajoute les 3 points restants et stoque le losange dans la liste
         for(TerritoryHex otherHex : terrHexList){
                 if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
                     if(thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS) { //pour ne lier que les hex adjacents
                         
-                        temporary[0][2] = otherHex.getX();
-                        temporary[1][2] = otherHex.getY();
+                        //point 3: le centre du deuxième TerritoryHex
+                        diamPoints[0][2] = otherHex.getX();
+                        diamPoints[1][2] = otherHex.getY();
                         
-                        double angle = Math.atan2(otherHex.getY()-thisHex.getY(), otherHex.getX()-thisHex.getX());
+                        //l'angle entre les deux TerrHex par rapport à l'horrizontale
+                        int X_DISTANCE = otherHex.getY()-thisHex.getY();
+                        int Y_DISTANCE = otherHex.getX()-thisHex.getX();
+                        double angle = Math.atan2(X_DISTANCE, Y_DISTANCE);
                         
-                        temporary[0][1] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
-                        temporary[1][1] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
-                        temporary[0][3] = temporary[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
-                        temporary[1][3] = temporary[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
+                        //point 2: à mis-chemin entre les deux TerrHex et dévié de +30° par rapport à l'angle
+                        diamPoints[0][1] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
+                        diamPoints[1][1] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
                         
-                        linksPoly.add(new Polygon(temporary[0],temporary[1],4));
+                        //point 4: à mis-chemin entre les deux TerrHex et dévié de -30° par rapport à l'angle
+                        diamPoints[0][3] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
+                        diamPoints[1][3] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
+                        
+                        Polygon newDiamond = new Polygon(diamPoints[0],diamPoints[1],4);
+                        LinkingDiamonds.add(newDiamond);
                         
                     }
                 }
         }
         
-        return linksPoly;
+        return LinkingDiamonds;
+        
+    }
+    
+    private void createTerrHexs(BlankHex infoHex)
+    //crée tous les territoryHex de ce territoire
+    {
+        for(BlankHex bh : blankHexList) {
+            TerritoryHex trHex = new TerritoryHex(this, continentColor, bh.hexCoord()[0], bh.hexCoord()[1]);
+            terrHexList.add(trHex);
+            world().addObject(trHex, bh.rectCoord()[0], bh.rectCoord()[1]);
+            if(bh == infoHex) {
+                trInfo = new TerrInfo(trHex);
+                world().addObject(trInfo,bh.rectCoord()[0], bh.rectCoord()[1]);
+                
+            }
+        }
         
     }
             
     private void removeBlankHexs(){
         for(BlankHex hexToDel : blankHexList){
-                world().removeObject(hexToDel);
+            world().removeObject(hexToDel);
 
         }
     }
