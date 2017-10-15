@@ -36,13 +36,13 @@ public class OKButton extends Button
                     deleteContinentSelection();
                     break;
                 case SET_LINK:
-                    if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
-                        
-                        Links.newLinks.LinkIndicsList().get(0).destroy();
-                        Links.allLinks().remove(Links.newLinks);
-                        System.err.println("You can't create a link that links less than 2 territories");
-                        
-                    }   Links.newLinks = null;
+                    if(!Links.newLinks.isLargeEnough()) {
+                        Links.newLinks.destroy();
+                        System.out.println("You cannot create Links with fewer"
+                                + " than 2 linked Territories");
+                    
+                    }
+                    Links.newLinks = null;
                     break;
                 default:
                     break;

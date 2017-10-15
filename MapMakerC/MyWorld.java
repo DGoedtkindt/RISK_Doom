@@ -60,10 +60,6 @@ public class MyWorld extends World
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
         
-        
-        
-        Greenfoot.setSpeed(60);
-        
         GreenfootImage pineapple = new GreenfootImage("mightyPineAppleOfJustice.png");
         getBackground().drawImage(pineapple, 0, 0);
         
@@ -146,17 +142,9 @@ public class MyWorld extends World
     public void escape(){
         Selector.clear();
         Mode.changeMode(Mode.DEFAULT);
-        if(Links.newLinks != null && Links.newLinks.LinkIndicsList().size() == 1){
-                    
-            Links.newLinks.LinkIndicsList().get(0).destroy();
-            Links.allLinks().remove(Links.newLinks);
-            System.err.println("You can't create a link that links less than 2 territories");
-                    
-        }
+
         if(Links.newLinks != null){
-            for(LinkIndic li : Links.newLinks.LinkIndicsList()){
-                li.destroy();
-            }
+            Links.newLinks.destroy();
             
         }
         Links.newLinks = null;

@@ -49,18 +49,22 @@ public class TerritoryHex extends Button
                     break;
                     
                 case EDIT_CONTINENT_COLOR :
-                    Selector.select(territory.continent());
-                    Selector.setValidator(Selector.NOTHING);
-                    world().repaint(); //pour forcer l'actualisation des images
-                    territory.continent().editColor();
+                    if(territory.continent() != null){
+                        Selector.select(territory.continent());
+                        Selector.setValidator(Selector.NOTHING);
+                        world().repaint(); //pour forcer l'actualisation des images
+                        territory.continent().editColor();
+                    }
                     world().escape();
                     break;
                     
                 case EDIT_CONTINENT_BONUS :
-                    Selector.select(territory.continent());
-                    Selector.setValidator(Selector.NOTHING);
-                    world().repaint(); //pour forcer l'actualisation des images
-                    territory.continent().editBonus();
+                    if(territory.continent() != null){
+                        Selector.select(territory.continent());
+                        Selector.setValidator(Selector.NOTHING);
+                        world().repaint(); //pour forcer l'actualisation des images
+                        territory.continent().editBonus();
+                    }
                     world().escape();
                     break;
                     
@@ -71,16 +75,14 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        Color color = ColorChooser.getColor();
-                        Links.newLinks = new Links(color);
-                    }
-                    
-                        MouseInfo mouse = Greenfoot.getMouseInfo();
-                        int xPos = mouse.getX();
-                        int yPos = mouse.getY();
-                        new LinkIndic(territory,xPos, yPos);
+                        Color newColor = ColorChooser.getColor();
+                        Links.newLinks = new Links(newColor);
                         
-                    
+                    }
+                    MouseInfo mouse = Greenfoot.getMouseInfo();
+                    int xPos = mouse.getX();
+                    int yPos = mouse.getY();
+                    new LinkIndic(territory,xPos, yPos);
                     break;
                     
                 case CREATE_TERRITORY :
@@ -92,7 +94,7 @@ public class TerritoryHex extends Button
                     break;
             }
         } catch (Exception ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
             world().escape();
         }
         

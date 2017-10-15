@@ -39,6 +39,21 @@ public class Links {
             linksList.remove(this);
         }
     }
+    
+    public boolean isLargeEnough() {
+        return linkIndicList.size() >= 2;
+        
+    }
+    
+    public void destroy() {
+        while(!linkIndicList.isEmpty()) {
+            linkIndicList.get(0).destroy();
+            
+        }
+        
+        linksList.remove(this);
+    
+    }
 
     public Color color() {return color;}
     
