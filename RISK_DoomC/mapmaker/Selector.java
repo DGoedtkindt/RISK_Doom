@@ -1,3 +1,5 @@
+package mapmaker;
+
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.function.Predicate;

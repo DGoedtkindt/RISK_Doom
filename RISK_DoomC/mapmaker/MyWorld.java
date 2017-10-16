@@ -16,6 +16,10 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import basepackage.Button;
+import basepackage.LeftArrow;
+import basepackage.RightArrow;
+
 
 public class MyWorld extends World
 {
@@ -55,8 +59,8 @@ public class MyWorld extends World
     MakeXML makeXMLButton               = new MakeXML();
     BackButton backButton               = new BackButton();
     MapChooser mapThumbnail             = new MapChooser();
-    LeftButton leftButton = new LeftButton(mapThumbnail);
-    RightButton rightButton = new RightButton(mapThumbnail);
+    LeftArrow leftArrow = new LeftArrow(mapThumbnail,100,60);
+    RightArrow rightArrow = new RightArrow(mapThumbnail,100,60);
 
     public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -317,8 +321,8 @@ public class MyWorld extends World
         getBackground().setColor(WORLD_COLOR.brighter());
         getBackground().fill();
         addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
-        addObject(leftButton, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
-        addObject(rightButton, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(rightArrow, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
 
 
         

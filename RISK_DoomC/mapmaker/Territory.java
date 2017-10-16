@@ -1,5 +1,6 @@
 package mapmaker;
 
+import basepackage.Hexagon;
 import greenfoot.GreenfootImage;
 import java.awt.Color;
 import java.awt.Polygon;

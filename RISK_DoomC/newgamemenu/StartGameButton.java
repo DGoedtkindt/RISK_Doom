@@ -9,6 +9,6 @@ public class StartGameButton extends Button {
      * game.GameScene to start the game.
      */
     @Override
-    protected void clicked() {}
+    public void clicked() {}
     
 }

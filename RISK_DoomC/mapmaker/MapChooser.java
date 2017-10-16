@@ -14,8 +14,11 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import basepackage.Button;
+import basepackage.Arrowable;
 
-public class MapChooser extends Button{
+
+public class MapChooser extends Button implements Arrowable{
     
     private int mapNumber = 0;
     private File directory;

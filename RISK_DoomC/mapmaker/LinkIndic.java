@@ -3,8 +3,10 @@ package mapmaker;
 //un objet de cette classe indique l'existance d'un Link entre plusieur Territory
 //par sa couleur
 
+import basepackage.Hexagon;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
+import basepackage.Button;
 
 public class LinkIndic extends Button{
     private Links links;

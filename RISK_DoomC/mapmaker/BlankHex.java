@@ -1,7 +1,9 @@
 package mapmaker;
 
+import basepackage.Hexagon;
 import java.awt.Color;
 import java.util.ArrayList;
+import basepackage.Button;
 
 public class BlankHex extends Button implements Selectable
 {

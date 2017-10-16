@@ -2,6 +2,7 @@ package mapmaker;
 
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
+import basepackage.Button;
 
 public class OKButton extends Button
 {

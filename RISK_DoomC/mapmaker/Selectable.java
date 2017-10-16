@@ -1,3 +1,4 @@
+package mapmaker;
 /**regroupe les BlankHex, les TerritoryHex, les Territory et les Continent*/
 
 public interface Selectable {

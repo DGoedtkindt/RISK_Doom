@@ -1,10 +1,12 @@
 package mapmaker;
 
+import basepackage.Hexagon;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import basepackage.Button;
 
 public class TerritoryHex extends Button
 {

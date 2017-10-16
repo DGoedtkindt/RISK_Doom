@@ -1,5 +1,7 @@
-import greenfoot.GreenfootImage;
+package mapmaker;
 
+import greenfoot.GreenfootImage;
+import basepackage.Button;
 import java.awt.Color;
 
 public class TerrInfo extends Button {

@@ -21,6 +21,8 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import basepackage.Button;
+
 
 /**ce bouton sauve l'état actuel de la Map dans un fichier .xml 
 ainsi que le thumbnail .png */

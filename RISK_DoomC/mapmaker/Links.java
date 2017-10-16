@@ -1,5 +1,8 @@
+package mapmaker;
+
 import java.awt.Color;
 import java.util.ArrayList;
+
 
 public class Links {
     public static Links newLinks;   //c'est le Links en train d'être modifié. 

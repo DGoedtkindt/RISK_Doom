@@ -2,6 +2,7 @@ package mapmaker;
 
 import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
+import basepackage.Button;
 
 public class BackButton extends Button{
 

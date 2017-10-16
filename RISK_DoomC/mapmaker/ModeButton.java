@@ -2,6 +2,7 @@ package mapmaker;
 
 import greenfoot.GreenfootImage;
 import java.util.function.Predicate;
+import basepackage.Button;
 
 public class ModeButton extends Button {
     

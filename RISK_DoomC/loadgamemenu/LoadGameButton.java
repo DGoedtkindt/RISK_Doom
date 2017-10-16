@@ -15,6 +15,6 @@ public class LoadGameButton extends Button{
      * passes the GameXML to the game.GameScene to start the game
      */
     @Override
-    protected void clicked() {}
+    public void clicked() {}
     
 }
