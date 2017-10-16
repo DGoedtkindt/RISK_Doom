@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
 /**
- *
- * @author Dario
+ *  stores all infos of a Territory
  */
-public class Territory {
+public class Territory implements Visitable{
+    protected TerritoryDrawer drawer;
+
+    @Override
+    public void accept(GameSaver gs) {
+        gs.visit(this);
+    }
     
 }

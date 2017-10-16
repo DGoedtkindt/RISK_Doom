@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
 /**
- *
- * @author Dario
+ *  Contains infos about the state of the game like an ArrayList of players
+ *  an ArrayList of Territories, the Difficulty etc...
  */
 public class GameState {
     

@@ -1,14 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
 /**
- *
- * @author Dario
+ * Contains infos about a player should not have any methods normally
  */
-public class Player {
+public class Player implements Visitable{
+    
+    protected Player() {
+        GameSaver.visitableList.add(this);
+    
+    }
+    @Override
+    public void accept(GameSaver gs) {
+        gs.visit(this);
+    }
     
 }

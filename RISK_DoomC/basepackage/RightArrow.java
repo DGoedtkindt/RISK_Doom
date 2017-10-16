@@ -1,5 +1,7 @@
 package basepackage;
 
+
+
 public class RightArrow extends Button {
     private final Arrowable linked;
     

@@ -1,6 +1,8 @@
 package basepackage;
 
 
+
+
 public class LeftArrow extends Button {
     private final Arrowable linked;
     

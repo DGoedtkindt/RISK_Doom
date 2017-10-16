@@ -9,6 +9,6 @@ package basepackage;
  *
  * @author Dario
  */
-public class TerritoryDrawer {
+public class BlankHex {
     
 }

@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
+import basepackage.Button;
+
 /**
- *
- * @author Dario
+ * Displays the combo points of the active player
+ * when clicked, should open a ComboChooser with the combos the player
+ * is allowed to play
  */
-public class ComboDisplay {
+public class ComboDisplay extends Button {
+    @Override
+    public void clicked() {}
     
 }

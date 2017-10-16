@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
+import basepackage.Button;
+
 /**
- *
- * @author Dario
+ *  displays some important information about a Territory
  */
-public class TerrInfo {
+public class TerrInfo extends Button{
+    @Override
+    public void clicked() {}
     
 }

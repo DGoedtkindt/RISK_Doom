@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
+import greenfoot.Actor;
+
 /**
- *
- * @author Dario
+ * Displays which combo point a player opened
  */
-public class ComboOpen {
+public class ComboOpen extends Actor{
     
 }

@@ -1,4 +1,6 @@
 package basepackage;
+
+
 import java.util.HashMap;
 
 public class Difficulty {

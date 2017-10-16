@@ -1,5 +1,7 @@
 package basepackage;
 
+
+
 //pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
  import greenfoot.GreenfootImage;
  import java.awt.Color;

@@ -1,6 +1,9 @@
 package game;
+import java.util.ArrayList;
 
 public class GameSaver {
+    protected static ArrayList<Visitable> visitableList = new ArrayList<>();
+    
     protected GameSaver(String saveName) {}
     
     /** Must visit the visitable classes and create a GameState from it.
@@ -14,5 +17,8 @@ public class GameSaver {
     
     }
     
+    protected void visit(Player p) {}
+    protected void visit(GameScene gs) {}
+    protected void visit(Territory terr) {}
     
 }
