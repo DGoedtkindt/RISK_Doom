@@ -1,5 +1,7 @@
 package game;
 
+import basepackage.TerritoryDrawer;
+
 /**
  *  stores all infos of a Territory
  */

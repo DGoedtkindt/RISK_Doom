@@ -28,13 +28,13 @@ public class Selector
     
     //Getters for BlankHex///////////////////////////////////////////////////
     
-    public static ArrayList<BlankHex> getSelectedHexes() throws Exception{
+    public static ArrayList<BlankHexMM> getSelectedHexes() throws Exception{
         if(selection.isEmpty()) throw new Exception("no hex selected");
         
-        ArrayList<BlankHex> blankhexSelectedList = new ArrayList<>();
+        ArrayList<BlankHexMM> blankhexSelectedList = new ArrayList<>();
         for(Selectable select : selection) {
-            try{BlankHex hex;
-                hex = (BlankHex)select;
+            try{BlankHexMM hex;
+                hex = (BlankHexMM)select;
                 blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
                 throw new Exception("selectable of the wrong type selected\n" + cce);}
@@ -139,7 +139,7 @@ public class Selector
     
     //Validators//////////////////////////////////////////////
     
-    public static final Predicate IS_BLANKHEX = (Object o) -> {return o instanceof BlankHex;};
+    public static final Predicate IS_BLANKHEX = (Object o) -> {return o instanceof BlankHexMM;};
     public static final Predicate IS_CONTINENT = (Object o) -> {return o instanceof Continent;};
     public static final Predicate IS_TERRITORY = (Object o) -> {return o instanceof Territory;};
     public static final Predicate IS_TERRITORY_NOT_IN_CONTINENT = (Object o) -> 

@@ -1,6 +1,5 @@
-package game;
+package basepackage;
 import java.util.ArrayList;
-import basepackage.BlankHex;
 
 /**
  *  Manages the appearance of a Territory

@@ -3,42 +3,32 @@ package mapmaker;
 import basepackage.Hexagon;
 import java.awt.Color;
 import java.util.ArrayList;
-import basepackage.Button;
+import basepackage.BlankHex;
 
-public class BlankHex extends Button implements Selectable
+public class BlankHexMM extends BlankHex implements Selectable
 {
     
     
     private static final Color BASE_COLOR = Color.BLACK;
-    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
+    private static final BlankHexMM[][] BLANK_HEX_ARRAY = new BlankHexMM[40][20]; 
     
     private static MyWorld world() {return MyWorld.theWorld;}
     
-    private int[] hexCoord = new int[2];
-    
-    public static BlankHex blankHexAt(int hexX, int hexY) 
+    public static BlankHexMM blankHexAt(int hexX, int hexY) 
     //this method makes sure we only create new BlankHex when necessary  
     {
-        BlankHex returnHex;
+        BlankHexMM returnHex;
         if(BLANK_HEX_ARRAY[hexX][hexY] != null) returnHex = BLANK_HEX_ARRAY[hexX][hexY];
-            else returnHex = new BlankHex(hexX,hexY);
+            else returnHex = new BlankHexMM(hexX,hexY);
         return returnHex;
     }
     
-    private BlankHex(int xHCoord, int yHCoord) {
-        hexCoord = new int[]{xHCoord,yHCoord};
+    private BlankHexMM(int xHCoord, int yHCoord) {
+        super(xHCoord,yHCoord);
         Selector.selectableSet.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
-        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
     }
     
-    public int[] hexCoord() {
-        return hexCoord;
-    }
-    
-    public int[] rectCoord() {
-        return Hexagon.hexToRectCoord(hexCoord);
-    }
     
     @Override
     public void clicked() {
@@ -52,7 +42,7 @@ public class BlankHex extends Button implements Selectable
                 try{
                     if(Selector.getSelectedHexes().contains(this)) {
                         //créer un territoire
-                        ArrayList<BlankHex> selectedHexes;
+                        ArrayList<BlankHexMM> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
                         new Territory(selectedHexes, this);
                         

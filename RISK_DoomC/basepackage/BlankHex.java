@@ -1,14 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package basepackage;
+
+import java.awt.Color;
 
 /**
  *
- * @author Dario
  */
-public class BlankHex {
+public abstract class BlankHex extends Button{
+    private static final Color BASE_COLOR = Color.BLACK;
+    protected int[] hexCoord = new int[2];
+    
+    protected BlankHex(int xHCoord, int yHCoord) {
+        hexCoord = new int[]{xHCoord,yHCoord};
+        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
+    }
+    
+    public int[] hexCoord() {
+        return hexCoord;
+    }
+    
+    public int[] rectCoord() {
+        return Hexagon.hexToRectCoord(hexCoord);
+    }
     
 }

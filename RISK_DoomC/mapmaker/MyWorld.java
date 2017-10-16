@@ -104,7 +104,7 @@ public class MyWorld extends World
         for(int x = 0; x < collumn; x++) {
             
             for(int y = 0; y < row; y++) {
-                BlankHex hexToPlace = BlankHex.blankHexAt(x, y);
+                BlankHexMM hexToPlace = BlankHexMM.blankHexAt(x, y);
                 int[] rectCoords = hexToPlace.rectCoord();
                 addObject(hexToPlace,rectCoords[0],rectCoords[1]);
                 
@@ -116,7 +116,7 @@ public class MyWorld extends World
 
     private void drawContinentBonusZone(){
         
-        for(BlankHex bh : getObjects(BlankHex.class)){
+        for(BlankHexMM bh : getObjects(BlankHexMM.class)){
             
             if(bh.hexCoord()[0] > CONTINENT_BONUS_X_POSITION 
                     && bh.hexCoord()[0] < CONTINENT_BONUS_X_POSITION + CONTINENT_BONUS_ZONE_WIDTH 
@@ -211,8 +211,8 @@ public class MyWorld extends World
         NodeList terrNodeList = doc.getElementsByTagName("Territory");
         for(int i = 0; i < terrNodeList.getLength(); i++) {
             Element terrNode = (Element)terrNodeList.item(i);
-            ArrayList<BlankHex> hexContained = new ArrayList<>();
-            BlankHex infoHex = null;
+            ArrayList<BlankHexMM> hexContained = new ArrayList<>();
+            BlankHexMM infoHex = null;
             int id = Integer.parseInt(terrNode.getAttribute("id"));
             int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
             NodeList allChildren = terrNode.getChildNodes();
@@ -222,13 +222,13 @@ public class MyWorld extends World
                    Element hex = (Element)child;
                    int hexX = Integer.parseInt(hex.getAttribute("hexX"));
                    int hexY = Integer.parseInt(hex.getAttribute("hexY"));
-                   hexContained.add(BlankHex.blankHexAt(hexX,hexY));
+                   hexContained.add(BlankHexMM.blankHexAt(hexX,hexY));
 
                 } else if(child.getNodeName() == "InfoHex") {
                     Element infoHexNode = (Element)child;
                     int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
                     int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
-                    infoHex = BlankHex.blankHexAt(hexX,hexY);
+                    infoHex = BlankHexMM.blankHexAt(hexX,hexY);
 
                 }
 
