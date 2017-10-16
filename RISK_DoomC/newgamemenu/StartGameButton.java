@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package newgamemenu;
 
-/**
- *
- * @author Dario
- */
-public class StartGameButton {
+import basepackage.Button;
+
+public class StartGameButton extends Button {
+    
+    /**Must visit the Visitables of the NewGameMenu to create a GameOption.
+     * with the GameOption, create a GameXML and pass it to the constructor of 
+     * game.GameScene to start the game.
+     */
+    @Override
+    protected void clicked() {}
     
 }

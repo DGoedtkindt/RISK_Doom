@@ -2,11 +2,17 @@ package basepackage;
 
 
 public class LeftArrow extends Button {
+    private final Arrowable linked;
     
     public LeftArrow(Arrowable linked, int xSize, int ySize) {
-    
+        this.linked = linked;
+        
     }
     
-    public void clicked() {}
+    @Override
+    public void clicked() {
+        linked.previous();
+    
+    }
     
 }

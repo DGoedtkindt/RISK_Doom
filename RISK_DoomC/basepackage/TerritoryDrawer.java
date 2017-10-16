@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package newgamemenu;
+package basepackage;
 
 /**
  *
  * @author Dario
  */
-public class GameChooserImpl {
+public class TerritoryDrawer {
     
 }

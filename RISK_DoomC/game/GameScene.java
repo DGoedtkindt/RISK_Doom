@@ -1,14 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
-/**
- *
- * @author Dario
- */
-public class GameScene {
+import greenfoot.World;
+import basepackage.GameXML;
+
+public class GameScene extends World{
+    
+    /**create the game scene from a GameXML
+     * @param gameXML
+     */
+    public GameScene(GameXML gameXML) {
+        super(1920,1080,1);
+        
+    }
     
 }

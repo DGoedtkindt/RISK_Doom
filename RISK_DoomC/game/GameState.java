@@ -9,6 +9,6 @@ package game;
  *
  * @author Dario
  */
-public class XMLExtender {
+public class GameState {
     
 }

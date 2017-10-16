@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
-/**
- *
- * @author Dario
- */
 public class GameSaver {
+    protected GameSaver(String saveName) {}
+    
+    /** Must visit the visitable classes and create a GameState from it.
+     * then Create a GameXML from the already Made GameXML and the just-made
+     * GameState.
+     * Finally it must write the GameXML with the correct name
+     * @param saveName
+     */
+    protected void saveGame(String saveName) {
+    
+    
+    }
+    
     
 }
