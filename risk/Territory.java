@@ -138,6 +138,10 @@ public class Territory implements Selectable
                 
         }
         
+        trInfo.makeTransparent();
+        
+        for(LinkIndic li : links){li.makeTransparent();}
+        
     }
     
     @Override
@@ -156,6 +160,8 @@ public class Territory implements Selectable
     @Override
     public void makeOpaque() {   
         drawTerritory();
+        trInfo.makeOpaque();
+        for(LinkIndic li : links){li.makeOpaque();}
     }
 
     ///////////////////////////////////////////////////

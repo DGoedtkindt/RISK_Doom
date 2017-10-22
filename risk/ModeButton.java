@@ -18,20 +18,18 @@ public class ModeButton extends Button {
     @Override
     public void clicked() {
         
-        if(Mode.currentMode() == Mode.MAP_EDITOR_DEFAULT) {
+        if(isUsable()) {
             Mode.changeMode(linkedMode);
             Selector.setValidator(validator);
         }
     }
     
-    public void makeTransparent() {
-        getImage().setTransparency(MyWorld.TRANSPARENT);
-    
-    }
-    
-    public void makeOpaque() {
-        getImage().setTransparency(MyWorld.OPAQUE);
-    
+    private boolean isUsable(){
+        
+        if(this.getImage().getTransparency() == MyWorld.OPAQUE){//Le bouton est opaque s'il est utilisable
+           return true; 
+        }else{return false;}
+        
     }
     
 }

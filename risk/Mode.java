@@ -26,6 +26,8 @@ public enum Mode
     
     //Menu modes
     GAME_MENU(""),
+    LOAD_GAME_MENU(""),
+    NEW_GAME_MENU(""),
     MAP_EDITOR_MENU(""),
     MAIN_MENU("");
     
@@ -93,6 +95,12 @@ public enum Mode
             world().makeXMLButton.makeOpaque();
             world().backButton.makeOpaque();
             
+        }else if(mode == GAME_DEFAULT){
+            
+        }else if(mode == MAP_EDITOR_MENU || mode == GAME_MENU || mode == LOAD_GAME_MENU || mode == NEW_GAME_MENU){
+        
+            world().backButton.makeOpaque();
+            
         }else{
             
             List<ModeButton> buttonList = world().getObjects(ModeButton.class);
@@ -123,7 +131,7 @@ public enum Mode
         world().okButton.makeTransparent();
         world().makeXMLButton.makeTransparent();
         world().backButton.makeTransparent();
-    
+        
     }
 
     private static void drawModeMessage(String message){

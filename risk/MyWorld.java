@@ -34,7 +34,8 @@ public class MyWorld extends World
     static final int COLLUMN_NUMBER = 37;
     static final int ROW_NUMBER = 19;
     
-    //(Hexagonal Positions)
+    //positions hexagonales pour dessiner le vide contenant l'affichage 
+    //des bonus des continents
     static final int CONTINENT_BONUS_ZONE_WIDTH = 12;
     static final int CONTINENT_BONUS_ZONE_HEIGHT = 4;
     static final int CONTINENT_BONUS_X_POSITION = COLLUMN_NUMBER / 2 - CONTINENT_BONUS_ZONE_WIDTH / 2;
@@ -75,6 +76,8 @@ public class MyWorld extends World
     ModeButton deleteContinent          = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     OKButton okButton                   = new OKButton();
     MakeXML makeXMLButton               = new MakeXML();
+    
+    //Bouton retour
     BackButton backButton               = new BackButton();
     
     public MyWorld() {    
@@ -106,17 +109,17 @@ public class MyWorld extends World
         drawContinentBonusZone();
         
         // placement des boutons
-        addObject(createTerritory, MyWorld.WORLD_WIDTH -100, 100);
-        addObject(createLink, MyWorld.WORLD_WIDTH - 70, 160);
-        addObject(editTerritoryBonus, MyWorld.WORLD_WIDTH - 130, 160);
-        addObject(deleteTerritory, MyWorld.WORLD_WIDTH - 100, 220);
-        addObject(createContinent, MyWorld.WORLD_WIDTH - 100, 300);
-        addObject(editContinentBonus, MyWorld.WORLD_WIDTH - 70, 360);
-        addObject(editContinentColor, MyWorld.WORLD_WIDTH - 130, 360);
-        addObject(deleteContinent, MyWorld.WORLD_WIDTH - 100, 420);
-        addObject(okButton, MyWorld.WORLD_WIDTH - 100, 510);
-        addObject(makeXMLButton, MyWorld.WORLD_WIDTH - 100, 600);
-        addObject(backButton, MyWorld.WORLD_WIDTH - 25, 27);
+        addObject(createTerritory, WORLD_WIDTH -100, 100);
+        addObject(createLink, WORLD_WIDTH - 70, 160);
+        addObject(editTerritoryBonus, WORLD_WIDTH - 130, 160);
+        addObject(deleteTerritory, WORLD_WIDTH - 100, 220);
+        addObject(createContinent, WORLD_WIDTH - 100, 300);
+        addObject(editContinentBonus, WORLD_WIDTH - 70, 360);
+        addObject(editContinentColor, WORLD_WIDTH - 130, 360);
+        addObject(deleteContinent, WORLD_WIDTH - 100, 420);
+        addObject(okButton, WORLD_WIDTH - 100, 510);
+        addObject(makeXMLButton, WORLD_WIDTH - 100, 600);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
         
         currentDefaultMode = Mode.MAP_EDITOR_DEFAULT;
         Mode.changeMode(Mode.MAP_EDITOR_DEFAULT);
@@ -356,6 +359,7 @@ public class MyWorld extends World
     public void mainMenu(){
         
         currentDefaultMode = Mode.MAIN_MENU;
+        Mode.changeMode(Mode.MAIN_MENU);
         
         resetWorldObjects();
         prepareBackgroundForMenu();
@@ -371,6 +375,7 @@ public class MyWorld extends World
     public void mapEditorMenu(){
         
         currentDefaultMode = Mode.MAP_EDITOR_MENU;
+        Mode.changeMode(Mode.MAP_EDITOR_MENU);
         
         resetWorldObjects();
         prepareBackgroundForMenu();
@@ -378,18 +383,21 @@ public class MyWorld extends World
         addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
         addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
         addObject(rightArrow, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
 
     }
     
     public void gameMenu(){
         
         currentDefaultMode = Mode.GAME_MENU;
+        Mode.changeMode(Mode.GAME_MENU);
         
         resetWorldObjects();
         prepareBackgroundForMenu();
         
         addObject(newGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
         addObject(loadGameButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
         
     }
     

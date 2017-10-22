@@ -76,12 +76,12 @@ public class BlankHex extends Button implements Selectable{
     
     @Override
     public void makeOpaque() {
-        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
-        this.getImage().setTransparency(MyWorld.OPAQUE);
+    this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
+    this.getImage().setTransparency(MyWorld.OPAQUE);
     }
     
     @Override
     public void makeTransparent() {
-        this.getImage().setTransparency(MyWorld.TRANSPARENT);
+    this.getImage().setTransparency(MyWorld.TRANSPARENT);
     }
 }

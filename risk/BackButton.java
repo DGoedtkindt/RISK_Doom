@@ -15,11 +15,13 @@ public class BackButton extends Button{
     @Override
     public void clicked() {
         
+        int choice;
+        
         switch(Mode.currentMode()){
             
             case MAP_EDITOR_DEFAULT : 
                 
-                int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the menu? Unsaved changes will be lost.", 
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the map editor menu? Unsaved changes will be lost.", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
 
                 if(choice == JOptionPane.YES_OPTION){
@@ -30,13 +32,32 @@ public class BackButton extends Button{
                 
                 break;
                 
-            case GAME_DEFAULT : break;
+            case GAME_DEFAULT : 
+                
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the game menu? Your game will be lost if it is not saved.", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(choice == JOptionPane.YES_OPTION){
+
+                    world().gameMenu();
+
+                }
+                
+                break;
             
-            case MAP_EDITOR_MENU : break;
-            
-            case GAME_MENU : break;
-            
-            case MAIN_MENU : break;
+            case MAP_EDITOR_MENU :
+            case GAME_MENU : 
+                
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(choice == JOptionPane.YES_OPTION){
+
+                    world().mainMenu();
+
+                }
+                
+                break;
             
             default : world().escape();
             
@@ -44,14 +65,5 @@ public class BackButton extends Button{
         
     }
     
-    public void makeTransparent() {
-        getImage().setTransparency(MyWorld.TRANSPARENT);
-    
-    }
-    
-    public void makeOpaque() {
-        getImage().setTransparency(MyWorld.OPAQUE);
-    
-    }
     
 }
