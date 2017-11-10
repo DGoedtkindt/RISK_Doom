@@ -1,20 +1,18 @@
-//pour éviter les duplicates toutes les méthodes relatives a la forme des Hexagones sont ici
- import greenfoot.GreenfootImage;
- import java.awt.Color;
+import greenfoot.GreenfootImage;
  
 public class Hexagon  {
     public static final int RADIUS = 32;
     
-    public static GreenfootImage createImageWBorder(Color hexColor){
+    public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
-        GreenfootImage img = createImage(Color.RED);
+        GreenfootImage img = createImage(new GColor(230,20,20));
         img.drawImage(createImage(hexColor,0.95), 0, 0);
         
         return img;
         
     }
 
-    public static GreenfootImage createImage(Color color, double sizeInPercent){
+    public static GreenfootImage createImage(GColor color, double sizeInPercent){
         //crée l'image d'un hexagone simple avec un multiplicateur de taille
         //l'image de retour reste 2*RADIUSx2*RADIUS
         GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
@@ -27,7 +25,7 @@ public class Hexagon  {
         return img;
     }
     
-    public static GreenfootImage createImage(Color color){
+    public static GreenfootImage createImage(GColor color){
         //crée l'image d'un hexagone simple sans multiplicateur
         return createImage(color, 1);
         

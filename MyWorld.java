@@ -3,7 +3,6 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,8 @@ import java.io.File;
 public class MyWorld extends World
 {
     //Couleurs de base
-    static final Color WORLD_COLOR = new Color(55, 40, 55);
-    static final Color SELECTION_COLOR = new Color(0, 220, 0);
+    static final GColor WORLD_COLOR = new GColor(55, 40, 55);
+    static final GColor SELECTION_COLOR = new GColor(0, 220, 0);
     
     //Transparence et opacité des acteurs
     static final int TRANSPARENT = 30;
@@ -84,7 +83,7 @@ public class MyWorld extends World
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
         
-        mainMenu();
+        mapEditorMenu();
         
     }
     
@@ -270,7 +269,7 @@ public class MyWorld extends World
             ArrayList<Territory> terrContained = new ArrayList<>();
             int bonus = Integer.parseInt(contNode.getAttribute("bonus"));
             String colorString = contNode.getAttribute("color");
-            Color color = Color.decode(colorString);
+            GColor color = GColor.fromRGB(colorString);
             NodeList allTerrIDs = contNode.getChildNodes();
             for(int j=0; j<allTerrIDs.getLength();j++) {
                 Element terrIdNode = (Element)allTerrIDs.item(j);
@@ -292,7 +291,7 @@ public class MyWorld extends World
             Element linksNode = (Element)linksNodeList.item(i);
 
             String colorString = linksNode.getAttribute("color");
-            Color color = Color.decode(colorString);
+            GColor color = GColor.fromRGB(colorString);
             Links newLinks = new Links(color);
             Links.newLinks = newLinks;
             NodeList linkNodesList = linksNode.getElementsByTagName("Link");

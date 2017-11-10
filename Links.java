@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.util.ArrayList;
 
 
@@ -6,11 +5,11 @@ public class Links {
     public static Links newLinks;   //c'est le Links en train d'être modifié. 
                                     //== null quand un Links n'est pas en train d'etre créé
     public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
-    private Color color;
+    private GColor color;
     private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
     private static ArrayList<Links> linksList = new ArrayList<>();
     
-    public Links(Color color) {
+    public Links(GColor color) {
         this.color = color;
         newLinks = this;
         linksList.add(this);
@@ -56,7 +55,7 @@ public class Links {
     
     }
 
-    public Color color() {return color;}
+    public GColor color() {return color;}
     
     public ArrayList<LinkIndic> LinkIndicsList() {
         return (ArrayList<LinkIndic>)linkIndicList.clone();

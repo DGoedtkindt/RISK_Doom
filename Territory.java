@@ -1,19 +1,18 @@
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    private static Color BASE_COLOR = new Color(200, 200, 200);
+    private static GColor BASE_COLOR = new GColor(200, 200, 200);
     private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<BlankHex> blankHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Continent continent = null;
-    public Color continentColor = BASE_COLOR;
+    public GColor continentColor = BASE_COLOR;
     private int bonusPoints = 0;
     private TerrInfo trInfo;
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -194,7 +193,7 @@ public class Territory implements Selectable
         ArrayList<Polygon> links = getLinkingDiamonds(hex);
         getBackground().setColor(continentColor);
         for(Polygon diamond : links){
-                getBackground().fillShape(diamond);
+                getBackground().fillPolygon(diamond.xpoints,diamond.ypoints,diamond.npoints);
 
         }
         

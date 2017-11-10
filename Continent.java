@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
@@ -10,7 +9,7 @@ public class Continent implements Selectable
     private static MyWorld world() {return MyWorld.theWorld;}
     
     //private variable
-    private Color continentColor;
+    private GColor continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
     
@@ -27,7 +26,7 @@ public class Continent implements Selectable
         updateBonusDisplay();
     }
     
-    public Continent(ArrayList<Territory> territories, Color color, int points) throws Exception{
+    public Continent(ArrayList<Territory> territories, GColor color, int points) throws Exception{
         
         continentColor = color;
         bonus = points;
@@ -51,7 +50,7 @@ public class Continent implements Selectable
         
     }
     
-    public Color color(){
+    public GColor color(){
         return continentColor;
         
     }
@@ -145,7 +144,7 @@ public class Continent implements Selectable
         GreenfootImage img = new GreenfootImage(60, 30);
         img.setColor(continentColor);
         img.fill();
-        GreenfootImage txt = new GreenfootImage("" + bonus, 18, Color.BLACK, continentColor);
+        GreenfootImage txt = new GreenfootImage("" + bonus, 18, GColor.BLACK, continentColor);
         img.drawImage(txt, 30 - txt.getWidth()/2, 15 - txt.getHeight()/2);
         
         return img;

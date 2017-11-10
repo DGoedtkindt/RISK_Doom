@@ -114,7 +114,7 @@ public class MakeXML extends Button
                 contNode.appendChild(terrInCont);
             
             }
-            String contColor = "" + cont.color().getRGB();
+            String contColor = cont.color().toRGB();
             contNode.setAttribute("color", contColor);
             contNode.setAttribute("bonus", "" + cont.bonus());
         
@@ -128,7 +128,7 @@ public class MakeXML extends Button
             Element linksNode = doc.createElement("Links");
             rootElement.appendChild(linksNode);
             ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
-            String linksColor = "" + links.color().getRGB();
+            String linksColor = links.color().toRGB();
             linksNode.setAttribute("color", linksColor);
             for(LinkIndic link : linksContained) {
                 Element linkNode = doc.createElement("Link");

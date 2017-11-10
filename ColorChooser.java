@@ -64,8 +64,8 @@ public class ColorChooser extends JPanel
         //Set up the banner at the top of the window
         banner = new JLabel("Pick your color!",
                             JLabel.CENTER);
-        banner.setForeground(MyWorld.WORLD_COLOR);
-        banner.setBackground(MyWorld.WORLD_COLOR.brighter());
+        banner.setForeground(MyWorld.WORLD_COLOR.getAWTColor());
+        banner.setBackground(MyWorld.WORLD_COLOR.getAWTColor().brighter());
         banner.setOpaque(true);
         banner.setFont(new Font("SansSerif", Font.BOLD, 24));
         banner.setPreferredSize(new Dimension(100, 65));
@@ -90,7 +90,7 @@ public class ColorChooser extends JPanel
         banner.setForeground(newColor);
     }
 
-    public static Color getColor() {
+    public static GColor getColor() {
         ColorChooser cc = ColorChooser.createAndShowGUI();
         
         //we don't want the user changing anything before closing the window
@@ -98,7 +98,9 @@ public class ColorChooser extends JPanel
         try{Thread.sleep(100);}catch(InterruptedException e) {};
         }
         
-        return cc.tcc.getColor();
+        Color color = cc.tcc.getColor();
+        
+        return new GColor(color);
     
     }
  

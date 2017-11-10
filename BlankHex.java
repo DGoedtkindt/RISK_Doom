@@ -1,9 +1,8 @@
-import java.awt.Color;
 import java.util.ArrayList;
 
 public class BlankHex extends Button implements Selectable{
     
-    private static final Color BASE_COLOR = Color.BLACK;
+    private static final GColor BASE_COLOR = new GColor(20,7,12);
     private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
     
     private int[] hexCoord = new int[2];

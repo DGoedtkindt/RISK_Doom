@@ -2,8 +2,6 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Color;
-
 public class TerritoryHex extends Button
 {
     private Territory territory;
@@ -11,7 +9,7 @@ public class TerritoryHex extends Button
     
     private static MyWorld world() {return MyWorld.theWorld;}
     
-    public TerritoryHex(Territory territory, Color color, int x, int y){
+    public TerritoryHex(Territory territory, GColor color, int x, int y){
         this.territory = territory;
         drawTerrHex(color);
         hexCoord[0] = x;
@@ -75,7 +73,7 @@ public class TerritoryHex extends Button
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        Color newColor = ColorChooser.getColor();
+                        GColor newColor = ColorChooser.getColor();
                         Links.newLinks = new Links(newColor);
                         
                     }
@@ -122,7 +120,7 @@ public class TerritoryHex extends Button
         return borderingHexList;
     }
     
-    public void drawTerrHex(Color color){   
+    public void drawTerrHex(GColor color){   
         this.setImage(Hexagon.createImage(color, 0.95));
         this.getImage().setTransparency(150);
     }

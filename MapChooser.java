@@ -2,9 +2,8 @@ import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
-import java.awt.Color;
-import java.awt.Font;
 import java.io.IOException;
+import greenfoot.Font;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -82,11 +81,11 @@ public class MapChooser extends Button implements Arrowable{
                 //créer une image affichant "THUMBNAIL NOT FOUND"
                 GreenfootImage thumbnailNotFound = new GreenfootImage(500,300);
                 
-                thumbnailNotFound.setColor(new Color(150,150,150));
+                thumbnailNotFound.setColor(new GColor(150,150,150));
                 thumbnailNotFound.fill();
-                thumbnailNotFound.setColor(new Color(0,0,0));
+                thumbnailNotFound.setColor(new GColor(0,0,0));
                 
-                thumbnailNotFound.setFont(new Font("Monospaced", 0, 20));
+                thumbnailNotFound.setFont(new Font("Monospaced", 20));
                 thumbnailNotFound.drawString("THUMBNAIL NOT FOUND", 180, 170);
                 thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
                 System.err.println("The thumbnail for map " + name.replace(directory.getName() + "/", "") +
@@ -95,8 +94,8 @@ public class MapChooser extends Button implements Arrowable{
         } 
             
             //quelques settings d'apparence
-            returnImage.setFont(new Font("Monospaced", 0, 20));
-            returnImage.setColor(Color.WHITE);
+            returnImage.setFont(new Font("Monospaced", 20));
+            returnImage.setColor(GColor.WHITE);
             
             //créer le String de la description
             String completeMessage = "";

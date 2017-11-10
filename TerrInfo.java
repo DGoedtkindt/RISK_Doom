@@ -1,5 +1,4 @@
 import greenfoot.GreenfootImage;
-import java.awt.Color;
 
 public class TerrInfo extends Button {
     
@@ -20,7 +19,7 @@ public class TerrInfo extends Button {
         if(newBonus > 0) {
             GreenfootImage img = new GreenfootImage("terrInfo.png");
             img.scale(50, 60);
-            GreenfootImage txt = new GreenfootImage("" + newBonus, 25 , Color.WHITE,null);
+            GreenfootImage txt = new GreenfootImage("" + newBonus, 25 , GColor.WHITE,null);
             img.drawImage(txt, 25-txt.getWidth()/2, 30-txt.getHeight()/2);
             this.setImage(img);
     
