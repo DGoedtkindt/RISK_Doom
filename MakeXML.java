@@ -114,7 +114,7 @@ public class MakeXML extends Button
                 contNode.appendChild(terrInCont);
             
             }
-            String contColor = cont.color().toRGB();
+            String contColor = cont.color().encode();
             contNode.setAttribute("color", contColor);
             contNode.setAttribute("bonus", "" + cont.bonus());
         
@@ -128,7 +128,7 @@ public class MakeXML extends Button
             Element linksNode = doc.createElement("Links");
             rootElement.appendChild(linksNode);
             ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
-            String linksColor = links.color().toRGB();
+            String linksColor = links.color().encode();
             linksNode.setAttribute("color", linksColor);
             for(LinkIndic link : linksContained) {
                 Element linkNode = doc.createElement("Link");
@@ -172,7 +172,7 @@ public class MakeXML extends Button
                 System.out.println("You can't save a map if it has no name or if its name is 'New Map'");
                 writeQ = JOptionPane.NO_OPTION;
                 
-            } else if(world().mapThumbnail.fileList().contains(mapName + ".xml")){
+            } else if(new File("Maps/"+mapName+".xml").exists()){
                     writeQ = JOptionPane.showConfirmDialog(
                             null, "Do you want to replace the existing map '" + mapName + "' with this one?", 
                             "Replacing an existing map", JOptionPane.YES_NO_OPTION);
