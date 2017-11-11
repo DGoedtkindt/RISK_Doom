@@ -5,7 +5,7 @@ public class Hexagon  {
     
     public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
-        GreenfootImage img = createImage(new GColor(230,20,20));
+        GreenfootImage img = createImage(new GColor(20,2,5));
         img.drawImage(createImage(hexColor,0.95), 0, 0);
         
         return img;

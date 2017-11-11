@@ -202,6 +202,97 @@ public class MyWorld extends World
         
     }
     
+    //Préparation des menus//////////////////////////////////////////////
+    
+    private void resetWorldObjects(){
+        
+        for(Continent c : Continent.continentList()){
+            c.destroy();
+            
+        }
+        
+        for(Territory t : Territory.allTerritories()){
+            t.destroy();
+            
+        }
+        
+        for(Button b : getObjects(Button.class)){
+            removeObject(b);
+            
+        }
+        
+    }
+    
+    private void prepareBackgroundForMenu(){
+        
+        getBackground().setColor(WORLD_COLOR.brighter());
+        getBackground().fill();
+        
+        GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
+        pineapple.scale(400, 150);
+        getBackground().drawImage(pineapple, 75, 75);
+        
+    }
+    
+    //Menus//////////////////////////////////////////////
+    
+    public void mainMenu(){
+        
+        currentDefaultMode = Mode.MAIN_MENU;
+        Mode.changeMode(Mode.MAIN_MENU);
+        
+        resetWorldObjects();
+        prepareBackgroundForMenu();
+        
+        //Pour dessiner un joli logo (Pas d'image pour l'instant)
+        //getBackground().drawImage(new GreenfootImage("RISK.png"), WORLD_WIDTH / 2, WORLD_HEIGHT / 5 );
+        
+        addObject(playGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(mapEditorButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        
+    }
+    
+    public void mapEditorMenu(){
+        
+        currentDefaultMode = Mode.MAP_EDITOR_MENU;
+        Mode.changeMode(Mode.MAP_EDITOR_MENU);
+        
+        resetWorldObjects();
+        prepareBackgroundForMenu();
+        
+        addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
+        addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(rightArrow, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
+
+    }
+    
+    public void gameMenu(){
+        
+        currentDefaultMode = Mode.GAME_MENU;
+        Mode.changeMode(Mode.GAME_MENU);
+        
+        resetWorldObjects();
+        prepareBackgroundForMenu();
+        
+        addObject(newGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(loadGameButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
+        
+    }
+    
+    public void newGameMenu(){
+        
+        //A faire
+        
+    }
+    
+    public void loadGameMenu(){
+        
+        //A faire
+        
+    }
+    
     //Ouverture d'une map pour le map editor///////////////////////////////////////////////
     
     private static Document doc;
@@ -318,97 +409,6 @@ public class MyWorld extends World
         mapImage.drawImage(getBackground(), 0, 0);
         
         return mapImage.getAwtImage();
-        
-    }
-
-    //Préparation des menus//////////////////////////////////////////////
-    
-    private void resetWorldObjects(){
-        
-        for(Continent c : Continent.continentList()){
-            c.destroy();
-            
-        }
-        
-        for(Territory t : Territory.allTerritories()){
-            t.destroy();
-            
-        }
-        
-        for(Button b : getObjects(Button.class)){
-            removeObject(b);
-            
-        }
-        
-    }
-    
-    private void prepareBackgroundForMenu(){
-        
-        getBackground().setColor(WORLD_COLOR.brighter());
-        getBackground().fill();
-        
-        GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
-        pineapple.scale(400, 150);
-        getBackground().drawImage(pineapple, 75, 75);
-        
-    }
-    
-    //Menus//////////////////////////////////////////////
-    
-    public void mainMenu(){
-        
-        currentDefaultMode = Mode.MAIN_MENU;
-        Mode.changeMode(Mode.MAIN_MENU);
-        
-        resetWorldObjects();
-        prepareBackgroundForMenu();
-        
-        //Pour dessiner un joli logo (Pas d'image pour l'instant)
-        //getBackground().drawImage(new GreenfootImage("RISK.png"), WORLD_WIDTH / 2, WORLD_HEIGHT / 5 );
-        
-        addObject(playGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
-        addObject(mapEditorButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
-        
-    }
-    
-    public void mapEditorMenu(){
-        
-        currentDefaultMode = Mode.MAP_EDITOR_MENU;
-        Mode.changeMode(Mode.MAP_EDITOR_MENU);
-        
-        resetWorldObjects();
-        prepareBackgroundForMenu();
-        
-        addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
-        addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
-        addObject(rightArrow, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
-        addObject(backButton, WORLD_WIDTH - 25, 27);
-
-    }
-    
-    public void gameMenu(){
-        
-        currentDefaultMode = Mode.GAME_MENU;
-        Mode.changeMode(Mode.GAME_MENU);
-        
-        resetWorldObjects();
-        prepareBackgroundForMenu();
-        
-        addObject(newGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
-        addObject(loadGameButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
-        addObject(backButton, WORLD_WIDTH - 25, 27);
-        
-    }
-    
-    public void newGameMenu(){
-        
-        //A faire
-        
-    }
-    
-    public void loadGameMenu(){
-        
-        //A faire
         
     }
     

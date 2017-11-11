@@ -1,15 +1,12 @@
 import greenfoot.Color;
 
-/**
- *
- * @author Dario
- */
 public class GColor extends Color{
     
-    public static GColor fromRGB(String rgb) {
-        int r = Integer.parseInt(rgb.substring(1, 3));
-        int g = Integer.parseInt(rgb.substring(4, 6));
-        int b = Integer.parseInt(rgb.substring(7, 9));
+    public static GColor fromRGB(String rgbString) {
+        String[] rgbArray = rgbString.split(",");
+        int r = Integer.parseInt(rgbArray[0]);
+        int g = Integer.parseInt(rgbArray[1]);
+        int b = Integer.parseInt(rgbArray[2]);
         return new GColor(r,g,b);
         
     }
@@ -17,14 +14,17 @@ public class GColor extends Color{
     public GColor(int r, int g, int b) {
         super(r, g, b);
     }
- 
+    
+    public GColor(int r, int g, int b,int alpha) {
+        super(r, g, b, alpha);
+    }
     public GColor(java.awt.Color jColor) {
         super(jColor.getRed(),jColor.getGreen(),jColor.getBlue());
     
     }
     
     public String toRGB() {
-        return 1000000*this.getRed()+1000*this.getGreen()+this.getBlue() + "";
+        return getRed()+","+getGreen()+","+getBlue();
     
     }
     
