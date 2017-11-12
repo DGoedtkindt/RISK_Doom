@@ -6,6 +6,13 @@ public class RightArrow extends Button {
     public RightArrow(Arrowable linkedObject, int xSize, int ySize) {
         this.linked = linkedObject;
         this.setImage(new GreenfootImage("rightButton.png"));
+        this.getImage().scale(xSize, ySize);
+        
+    }
+    
+    public RightArrow(Arrowable linkedObject) {
+        this.linked = linkedObject;
+        this.setImage(new GreenfootImage("rightButton.png"));
         
     }
     

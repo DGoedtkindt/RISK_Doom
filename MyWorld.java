@@ -57,13 +57,6 @@ public class MyWorld extends World
     NewGameButton newGameButton         = new NewGameButton();
     LoadGameButton loadGameButton       = new LoadGameButton();
     
-    //Boutons dans le jeu
-    
-    //Boutons dans le menu du map editor
-    MapChooser mapThumbnail             = new MapChooser();
-    LeftArrow leftArrow                 = new LeftArrow(mapThumbnail,100,60);
-    RightArrow rightArrow               = new RightArrow(mapThumbnail,100,60);
-    
     //Boutons dans le map editor
     ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
@@ -260,6 +253,10 @@ public class MyWorld extends World
         resetWorldObjects();
         prepareBackgroundForMenu();
         
+        MapChooser mapThumbnail             = new MapChooser();
+        LeftArrow leftArrow                 = new LeftArrow(mapThumbnail,60,80);
+        RightArrow rightArrow               = new RightArrow(mapThumbnail,60,80);
+        
         addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
         addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
         addObject(rightArrow, 2 * WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
@@ -304,7 +301,7 @@ public class MyWorld extends World
             createContinents();
             createLinks();
         } catch(Exception e) {
-            e.printStackTrace(System.out);
+            e.printStackTrace(System.err);
         }
         
         
