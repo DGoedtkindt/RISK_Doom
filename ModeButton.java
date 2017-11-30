@@ -26,7 +26,7 @@ public class ModeButton extends Button {
     
     private boolean isUsable(){
         
-        if(this.getImage().getTransparency() == MyWorld.OPAQUE){//Le bouton est opaque s'il est utilisable
+        if(this.getImage().getTransparency() == OPAQUE){//Le bouton est opaque s'il est utilisable
            return true; 
         }else{return false;}
         

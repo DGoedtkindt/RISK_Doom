@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class BlankHex extends Button implements Selectable{
     
-    private static final GColor BASE_COLOR = new GColor(110,80,110);
     private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
     
     private int[] hexCoord = new int[2];
@@ -11,7 +10,7 @@ public class BlankHex extends Button implements Selectable{
     
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
-        this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
+        this.setImage(Hexagon.createImageWBorder(MyWorld.usedTheme.blankHexColor));
         Selector.selectableSet.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
     }
@@ -69,18 +68,18 @@ public class BlankHex extends Button implements Selectable{
 
     @Override
     public void makeGreen() {
-        this.setImage(Hexagon.createImageWBorder(MyWorld.SELECTION_COLOR));
-        this.getImage().setTransparency(MyWorld.OPAQUE);
+        this.setImage(Hexagon.createImageWBorder(MyWorld.usedTheme.selectionColor));
+        this.getImage().setTransparency(OPAQUE);
     }
     
     @Override
     public void makeOpaque() {
-    this.setImage(Hexagon.createImageWBorder(BASE_COLOR));
-    this.getImage().setTransparency(MyWorld.OPAQUE);
+        this.setImage(Hexagon.createImageWBorder(MyWorld.usedTheme.blankHexColor));
+        this.getImage().setTransparency(OPAQUE);
     }
     
     @Override
     public void makeTransparent() {
-    this.getImage().setTransparency(MyWorld.TRANSPARENT);
+        this.getImage().setTransparency(TRANSPARENT);
     }
 }

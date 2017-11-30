@@ -1,12 +1,13 @@
 import greenfoot.GreenfootImage;
  
 public class Hexagon  {
+    
     public static final int RADIUS = 32;
     
     public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
-        GreenfootImage img = createImage(MyWorld.WORLD_COLOR);
-        img.drawImage(createImage(hexColor,0.95), 0, 0);
+        GreenfootImage img = createImage(MyWorld.usedTheme.blankHexBorderColor);
+        img.drawImage(createImage(hexColor, 0.95), 0, 0);
         
         return img;
         

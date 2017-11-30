@@ -1,19 +1,16 @@
 import greenfoot.GreenfootImage;
 
 public class RightArrow extends Button {
-    private final Arrowable linked;
+    private Arrowable linked;
     
-    public RightArrow(Arrowable linkedObject, int xSize, int ySize) {
-        this.linked = linkedObject;
+    public RightArrow(Arrowable linkedObject) {
+        changeLinkedArrowable(linkedObject);
         this.setImage(new GreenfootImage("rightButton.png"));
-        this.getImage().scale(xSize, ySize);
         
     }
     
-    public RightArrow(Arrowable linkedObject) {
-        this.linked = linkedObject;
-        this.setImage(new GreenfootImage("rightButton.png"));
-        
+    public void changeLinkedArrowable(Arrowable linkedObject){
+        linked = linkedObject;
     }
     
     @Override

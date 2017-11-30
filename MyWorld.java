@@ -13,17 +13,13 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import javax.swing.JOptionPane;
 
 
 public class MyWorld extends World
 {
-    //Couleurs de base
-    static final GColor WORLD_COLOR = new GColor(55, 40, 55);
-    static final GColor SELECTION_COLOR = new GColor(0, 220, 0);
-    
-    //Transparence et opacité des acteurs
-    static final int TRANSPARENT = 30;
-    static final int OPAQUE = 255;
+    //Thème utilisé
+    static public Theme usedTheme = Theme.BASIC_DARK;
     
     //Taille du monde
     static final int WORLD_WIDTH = 1920;
@@ -46,37 +42,51 @@ public class MyWorld extends World
     //Détection de la souris
     private MouseInfo mouse;
     
+    //Détecteur d'escape
+    private CheckEscape escapeTester = new CheckEscape();
+    
     //Mode par défaut dans la partie du logiciel actuelle
     private Mode currentDefaultMode = Mode.MAIN_MENU;
     
-    //Boutons dans le menu principal            (Manque le theme editor)
-    PlayGameButton playGameButton       = new PlayGameButton();
-    MapEditorButton mapEditorButton     = new MapEditorButton();
+    //Boutons dans le menu principal
+    public PlayGameButton playGameButton    = new PlayGameButton();
+    public MapEditorButton mapEditorButton  = new MapEditorButton();
+    public OptionsButton optionsButton      = new OptionsButton();
     
     //Boutons dans le menu du jeu
-    NewGameButton newGameButton         = new NewGameButton();
-    LoadGameButton loadGameButton       = new LoadGameButton();
+    public NewGameButton newGameButton      = new NewGameButton();
+    public LoadGameButton loadGameButton    = new LoadGameButton();
+    
+    //Boutons dans le jeu
+    
+    //Boutons dans le menu du map editor
+    public MapChooser mapThumbnail          = new MapChooser();
+    public LeftArrow leftArrow              = new LeftArrow(mapThumbnail);
+    public RightArrow rightArrow            = new RightArrow(mapThumbnail);
     
     //Boutons dans le map editor
-    ModeButton createTerritory          = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
-    ModeButton createContinent          = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
-    ModeButton editContinentBonus       = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
-    ModeButton editContinentColor       = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
-    ModeButton editTerritoryBonus       = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    ModeButton createLink               = new ModeButton("newLink.png",               Mode.SET_LINK,              Selector.IS_TERRITORY);
-    ModeButton deleteTerritory          = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
-    ModeButton deleteContinent          = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
-    OKButton okButton                   = new OKButton();
-    MakeXML makeXMLButton               = new MakeXML();
+    public ModeButton createTerritory       = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
+    public ModeButton createContinent       = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    public ModeButton editContinentBonus    = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
+    public ModeButton editContinentColor    = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
+    public ModeButton editTerritoryBonus    = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
+    public ModeButton createLink            = new ModeButton("newLink.png",               Mode.SET_LINK,              Selector.IS_TERRITORY);
+    public ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
+    public ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
+    public OKButton okButton                = new OKButton();
+    public MakeXML makeXMLButton            = new MakeXML();
+    
+    //Boutons dans les options
+    public ThemeChooser themeChooser        = new ThemeChooser();
     
     //Bouton retour
-    BackButton backButton               = new BackButton();
+    public BackButton backButton            = new BackButton();
     
     public MyWorld() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         theWorld = this;
         
-        mapEditorMenu();
+        mainMenu();
         
     }
     
@@ -93,7 +103,7 @@ public class MyWorld extends World
         //d'abord clear tout les acteurs sur le monde
         List<Actor> allActors = this.getObjects(null);
         allActors.forEach((actor) -> this.removeObject(actor));
-        getBackground().setColor(WORLD_COLOR);
+        getBackground().setColor(usedTheme.backgroundColor);
         getBackground().fill();
         //créer les blankHexs
         placeHexagonInCollumnRow(COLLUMN_NUMBER, ROW_NUMBER);
@@ -165,14 +175,14 @@ public class MyWorld extends World
     
     public void escape(){
         Selector.clear();
-        Mode.changeMode(currentDefaultMode);
-
+        
         if(Links.newLinks != null){
             Links.newLinks.destroy();
-            
+            Links.newLinks = null;
         }
-        Links.newLinks = null;
         
+        Mode.changeMode(currentDefaultMode);
+
     }   
     
     @Override
@@ -188,8 +198,83 @@ public class MyWorld extends World
             
         }
         
-        if(Greenfoot.isKeyDown("Escape")){
-            escape();
+        escapeTester.testForEscape();
+        
+    }
+    
+    public void backToMenu(){
+        
+        int choice;
+        
+        switch(Mode.currentMode()){
+            
+            case MAP_EDITOR_DEFAULT : 
+                
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the map editor menu? Unsaved changes will be lost.", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(choice == JOptionPane.YES_OPTION){
+
+                    mapEditorMenu();
+
+                }
+                
+                break;
+                
+            case GAME_DEFAULT : 
+                
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the game menu? Your game will be lost if it is not saved.", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(choice == JOptionPane.YES_OPTION){
+
+                    gameMenu();
+
+                }
+                
+                break;
+            
+            case MAP_EDITOR_MENU :
+            case GAME_MENU :
+            case OPTIONS :
+                
+                choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(choice == JOptionPane.YES_OPTION){
+
+                    mainMenu();
+
+                }
+                
+                break;
+                
+            default : escape();
+            
+        }
+        
+    }
+    
+    private class CheckEscape{
+        
+        boolean escapeWasClicked = false;
+        
+        public void testForEscape(){
+            
+            if(escapeReleased()){
+                backToMenu();
+                
+            }
+            
+            if(Greenfoot.isKeyDown("Escape") != escapeWasClicked){
+                escapeWasClicked = !escapeWasClicked;
+                
+            }
+            
+        }
+        
+        private boolean escapeReleased(){
+            return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);
             
         }
         
@@ -218,12 +303,8 @@ public class MyWorld extends World
     
     private void prepareBackgroundForMenu(){
         
-        getBackground().setColor(WORLD_COLOR.brighter());
+        getBackground().setColor(usedTheme.backgroundColor.brighter());
         getBackground().fill();
-        
-        GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
-        pineapple.scale(400, 150);
-        getBackground().drawImage(pineapple, 75, 75);
         
     }
     
@@ -237,11 +318,16 @@ public class MyWorld extends World
         resetWorldObjects();
         prepareBackgroundForMenu();
         
+        GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
+        pineapple.scale(400, 150);
+        getBackground().drawImage(pineapple, 75, 75);
+        
         //Pour dessiner un joli logo (Pas d'image pour l'instant)
         //getBackground().drawImage(new GreenfootImage("RISK.png"), WORLD_WIDTH / 2, WORLD_HEIGHT / 5 );
         
-        addObject(playGameButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
-        addObject(mapEditorButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(playGameButton, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        addObject(mapEditorButton, WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        addObject(optionsButton, 3 * WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
         
     }
     
@@ -253,9 +339,8 @@ public class MyWorld extends World
         resetWorldObjects();
         prepareBackgroundForMenu();
         
-        MapChooser mapThumbnail             = new MapChooser();
-        LeftArrow leftArrow                 = new LeftArrow(mapThumbnail,60,80);
-        RightArrow rightArrow               = new RightArrow(mapThumbnail,60,80);
+        leftArrow.changeLinkedArrowable(mapThumbnail);
+        rightArrow.changeLinkedArrowable(mapThumbnail);
         
         addObject(mapThumbnail, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 );
         addObject(leftArrow, WORLD_WIDTH / 3,WORLD_HEIGHT / 2 - mapThumbnail.getImage().getHeight() / 5);
@@ -290,6 +375,24 @@ public class MyWorld extends World
         
     }
     
+    public void OptionsMenu(){
+        
+        currentDefaultMode = Mode.OPTIONS;
+        Mode.changeMode(Mode.OPTIONS);
+        
+        resetWorldObjects();
+        prepareBackgroundForMenu();
+        
+        leftArrow.changeLinkedArrowable(themeChooser);
+        rightArrow.changeLinkedArrowable(themeChooser);
+        
+        addObject(leftArrow, WORLD_WIDTH / 3, 3 * WORLD_HEIGHT / 5 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(rightArrow, 2 * WORLD_WIDTH / 3, 3 * WORLD_HEIGHT / 5 - mapThumbnail.getImage().getHeight() / 5);
+        addObject(themeChooser, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        addObject(backButton, WORLD_WIDTH - 25, 27);
+        
+    }
+    
     //Ouverture d'une map pour le map editor///////////////////////////////////////////////
     
     private static Document doc;
@@ -301,7 +404,7 @@ public class MyWorld extends World
             createContinents();
             createLinks();
         } catch(Exception e) {
-            e.printStackTrace(System.err);
+            System.err.println(e.getMessage());
         }
         
         
@@ -343,7 +446,7 @@ public class MyWorld extends World
                 }
 
             }
-            new Territory(hexContained,infoHex,bonus, id);
+            new Territory(hexContained, infoHex, bonus, id);
 
 
             }
@@ -408,5 +511,5 @@ public class MyWorld extends World
         return mapImage.getAwtImage();
         
     }
-    
+
 }

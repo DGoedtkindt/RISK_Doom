@@ -28,6 +28,7 @@ public enum Mode
     LOAD_GAME_MENU(""),
     NEW_GAME_MENU(""),
     MAP_EDITOR_MENU(""),
+    OPTIONS(""),
     MAIN_MENU("");
     
     Mode(String text){
@@ -60,60 +61,54 @@ public enum Mode
     
     private static void makeValidButtonsOpaque(Mode mode){
         
-        if(mode == MAP_EDITOR_DEFAULT){
-            
-            ArrayList<Territory> allTerritories = Territory.allTerritories();
-            
-            int unoccupiedTerritoriesNumber = 0;
-            
-            for(Territory t : allTerritories){
-                
-                if(t != null){
-                    if(t.continent() == null){
-                    unoccupiedTerritoriesNumber++;
+        switch (mode) {
+            case MAP_EDITOR_DEFAULT:
+                ArrayList<Territory> allTerritories = Territory.allTerritories();
+                int unoccupiedTerritoriesNumber = 0;
+                for(Territory t : allTerritories){
+                    
+                    if(t != null){
+                        if(t.continent() == null){
+                            unoccupiedTerritoriesNumber++;
+                        }
                     }
-                }
-            }
-            
-            world().createTerritory.makeOpaque();
-            if(unoccupiedTerritoriesNumber > 0){
-                world().createContinent.makeOpaque();
-            }
-            if(!Continent.continentList().isEmpty()){
-                world().editContinentBonus.makeOpaque();
-                world().editContinentColor.makeOpaque();
-                world().deleteContinent.makeOpaque();
-            }
-            if(!allTerritories.isEmpty()){
-                world().editTerritoryBonus.makeOpaque();
-                world().deleteTerritory.makeOpaque();
-            }
-            if(allTerritories.size() > 1){
-                world().createLink.makeOpaque();
-            }
-            world().makeXMLButton.makeOpaque();
-            world().backButton.makeOpaque();
-            
-        }else if(mode == GAME_DEFAULT){
-            
-        }else if(mode == MAP_EDITOR_MENU || mode == GAME_MENU || mode == LOAD_GAME_MENU || mode == NEW_GAME_MENU){
-        
-            world().backButton.makeOpaque();
-            
-        }else{
-            
-            List<ModeButton> buttonList = world().getObjects(ModeButton.class);
-            
-            for(ModeButton mb : buttonList){
-                
-                if(mb.linkedMode == mode){
+                }   world().createTerritory.makeOpaque();
+                if(unoccupiedTerritoriesNumber > 0){
+                    world().createContinent.makeOpaque();
+                }if(!Continent.continentList().isEmpty()){
+                    world().editContinentBonus.makeOpaque();
+                    world().editContinentColor.makeOpaque();
+                    world().deleteContinent.makeOpaque();
+                }if(!allTerritories.isEmpty()){
+                    world().editTerritoryBonus.makeOpaque();
+                    world().deleteTerritory.makeOpaque();
+                }if(allTerritories.size() > 1){
+                    world().createLink.makeOpaque();
+                }   
+                world().makeXMLButton.makeOpaque();
+                world().backButton.makeOpaque();
+                break;
+            case GAME_DEFAULT:
+                break;
+            case MAP_EDITOR_MENU:
+            case GAME_MENU:
+            case LOAD_GAME_MENU:
+            case NEW_GAME_MENU:
+            case OPTIONS:
+                world().backButton.makeOpaque();
+                break;
+            default:
+                List<ModeButton> buttonList = world().getObjects(ModeButton.class);
+                for(ModeButton mb : buttonList){
                     
-                    mb.makeOpaque();
+                    if(mb.linkedMode == mode){
+                        
+                        mb.makeOpaque();
+                        
+                    }
                     
-                }
-                
-            }
-            world().okButton.makeOpaque();
+                }   world().okButton.makeOpaque();
+                break;
         }
         
     }
@@ -140,7 +135,7 @@ public enum Mode
         String textToDisplay = wrapText(message, 16);
         
         GreenfootImage instructions = new GreenfootImage(182, 330);
-        instructions.setColor(MyWorld.WORLD_COLOR);
+        instructions.setColor(MyWorld.usedTheme.backgroundColor);
         instructions.fill();
         instructions.setColor(GColor.WHITE);
         instructions.setFont(font);

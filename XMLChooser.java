@@ -2,7 +2,16 @@ import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
+import java.io.IOException;
 import greenfoot.Font;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 
 public abstract class XMLChooser extends Button implements Arrowable{
     
@@ -11,37 +20,33 @@ public abstract class XMLChooser extends Button implements Arrowable{
     private String[] fileArray;
     private ArrayList<String> fileList = new ArrayList<>();
     
-    public XMLChooser(String directoryName, String defaultFile){
-        directory = new File(directoryName);
+    private static MyWorld world() {return MyWorld.theWorld;}
+    
+    public XMLChooser() {
+        
+        directory = new File("Maps");
         if(directory.isDirectory()) {
             fileArray = directory.list((File file, String name) -> {
                 return name.endsWith(".xml");
             });
-            
-            fileList.addAll(Arrays.asList(fileArray));
-            
-            if(fileList.contains(defaultFile + ".xml")) {
-                fileList.remove(defaultFile + ".xml");
-                fileList.add(0,defaultFile + ".xml");
-                
-            } else {
-                System.err.println(defaultFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
-            
-            }
-            
-        } else {
-            System.err.println("The " + directoryName + " directory was not found. please make sure it is placed there: " + directory.getAbsolutePath());
-            System.exit(0);
-            
-        }
+        } else System.err.println("The Map directory was not found. please make sure it is placed there: " + directory.getAbsolutePath());
+       
+        fileList.addAll(Arrays.asList(fileArray));
+        fileList.remove("New Map.xml");
+        fileList.add(0,"New Map.xml");
         
         updateImage();
         
     }
     
-    protected String currentFile() {
-        return directory.getName() + "/" + fileList.get(mapNumber);
-    
+    /**
+     *Utiliser seulement à travers MyWorld.act()
+     */
+    @Override
+    public void clicked() {
+        world().setupMapEditorScene();
+        MyWorld.readXMLMap(directory.getName() + "/" +fileList.get(mapNumber));
+        world().escape();
     }
     
     public void next() {
@@ -57,6 +62,8 @@ public abstract class XMLChooser extends Button implements Arrowable{
         updateImage();
 
     }
+    
+    private ArrayList<String> fileList(){return fileList;}
     
     ///Private methods///////////////////////////////////
     
@@ -82,7 +89,7 @@ public abstract class XMLChooser extends Button implements Arrowable{
                 thumbnailNotFound.setFont(new Font("Monospaced", 20));
                 thumbnailNotFound.drawString("THUMBNAIL NOT FOUND", 180, 170);
                 thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
-                System.err.println("The thumbnail for " + name.replace(directory.getName() + "/", "") +
+                System.err.println("The thumbnail for map " + name.replace(directory.getName() + "/", "") +
                                     " is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
                 returnImage.drawImage(thumbnailNotFound, 0, 0);
         } 
@@ -93,10 +100,10 @@ public abstract class XMLChooser extends Button implements Arrowable{
             
             //créer le String de la description
             String completeMessage = "";
-            completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Name :");
-            completeMessage += wrapText(getDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
+            completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Map Name :");
+            completeMessage += wrapText(getMapDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
             completeMessage += "\n";
-            completeMessage += (mapNumber + 1) + " out of " + fileArray.length;
+            completeMessage += "Map " + (mapNumber + 1) + " out of " + fileArray.length;
             
             //dessiner la description
             returnImage.drawString(completeMessage, 10, 300);
@@ -107,7 +114,33 @@ public abstract class XMLChooser extends Button implements Arrowable{
         
     }
     
-    protected abstract String getDescription(String fileName);
+    private String getMapDescription(String fileName){
+        
+        String mapDescription = "";
+        Document doc;
+        
+        try{
+        
+            File XMLFile = new File(fileName);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(XMLFile);
+            doc.getDocumentElement().normalize();
+            
+            Element mapElement = ((Element)(doc.getElementsByTagName("map").item(0)));
+            
+            if(mapElement.hasAttribute("description")){
+                mapDescription = mapElement.getAttribute("description");
+                
+            }
+            
+        }catch(IOException | ParserConfigurationException | DOMException | SAXException e){System.err.println(e.getMessage());}
+        
+        if(!mapDescription.equals("")){
+            return mapDescription;
+        }else{return "This map has no description";}
+        
+    }
     
     private static String wrapText(String strToWrap, int maxLineLength, String entryName) {
         

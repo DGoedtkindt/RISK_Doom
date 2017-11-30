@@ -64,8 +64,8 @@ public class ColorChooser extends JPanel
         //Set up the banner at the top of the window
         banner = new JLabel("Pick your color!",
                             JLabel.CENTER);
-        banner.setForeground(MyWorld.WORLD_COLOR.getAWTColor());
-        banner.setBackground(MyWorld.WORLD_COLOR.getAWTColor().brighter());
+        banner.setForeground(MyWorld.usedTheme.backgroundColor.getAWTColor());
+        banner.setBackground(MyWorld.usedTheme.backgroundColor.getAWTColor().brighter());
         banner.setOpaque(true);
         banner.setFont(new Font("SansSerif", Font.BOLD, 24));
         banner.setPreferredSize(new Dimension(100, 65));

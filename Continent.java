@@ -116,9 +116,18 @@ public class Continent implements Selectable
         //le nombre de colonnes pour l'affichage des bonus
         int yAxis = arrangedContinents.size();
         
+        //Détermine les coordonnées qui serviront à créer une image de la bonne taille
+        int[] firstHexPos = Hexagon.hexToRectCoord(new int[]{MyWorld.CONTINENT_BONUS_X_POSITION, 
+                                                            MyWorld.CONTINENT_BONUS_Y_POSITION});
+        
+        int[] secondHexPos = Hexagon.hexToRectCoord(new int[]{MyWorld.CONTINENT_BONUS_X_POSITION + MyWorld.CONTINENT_BONUS_ZONE_WIDTH, 
+                                                            MyWorld.CONTINENT_BONUS_Y_POSITION + MyWorld.CONTINENT_BONUS_ZONE_HEIGHT});
+        
+        int[] dimensions = new int[]{secondHexPos[0] - firstHexPos[0], secondHexPos[1] - firstHexPos[1]};
+        
         //créer l'image sur laquelle les bonus vont s'afficher
-        GreenfootImage background = new GreenfootImage(496, 118);
-        background.setColor(MyWorld.WORLD_COLOR);
+        GreenfootImage background = new GreenfootImage(dimensions[0], dimensions[1]);
+        background.setColor(MyWorld.usedTheme.backgroundColor);
         background.fill();
         
         //dessiner 
@@ -137,9 +146,9 @@ public class Continent implements Selectable
         
         }
         
-        world().getBackground().drawImage(background,620,900);
+        world().getBackground().drawImage(background, firstHexPos[0] - Hexagon.RADIUS + 3, firstHexPos[1]);
     }
-    
+
     private GreenfootImage bonusImage() {
         GreenfootImage img = new GreenfootImage(60, 30);
         img.setColor(continentColor);
