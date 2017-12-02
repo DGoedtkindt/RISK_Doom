@@ -1,7 +1,5 @@
 package appearance;
 
-import base.GColor;
-
 public class Appearance {
     //Taille du monde
     public static final int WORLD_WIDTH = 1920;
@@ -10,11 +8,6 @@ public class Appearance {
     //Pour la grille d'hexagones
     public static final int COLLUMN_NUMBER = 37;
     public static final int ROW_NUMBER = 19;
-    
-    //Couleurs de base
-    public static final GColor WORLD_COLOR = new GColor(55, 40, 55);
-    public static final GColor SELECTION_COLOR = new GColor(0, 220, 0);
-    public static final GColor BASE_HEX_COLOR = new GColor(110, 80, 110);
     
     //Transparence et opacité des acteurs
     public static final int TRANSPARENT = 30;

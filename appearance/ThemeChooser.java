@@ -76,7 +76,7 @@ public class ThemeChooser extends Button implements Arrowable{
 
     @Override
     public void clicked() {
-        MyWorld.usedTheme = currentTheme;
+        Theme.used = currentTheme;
         MyWorld.theWorld.getBackground().setColor(currentTheme.backgroundColor.brighter());
         MyWorld.theWorld.getBackground().fill();
     }

@@ -34,10 +34,7 @@ import java.io.File;
 import javax.swing.JOptionPane;
 
 
-public class MyWorld extends World
-{
-    //Thème utilisé
-    static public Theme usedTheme = Theme.BASIC_DARK;
+public class MyWorld extends World {
     
     //pour accéder au monde depuis un non-acteur
     public static MyWorld theWorld;
@@ -104,7 +101,7 @@ public class MyWorld extends World
         //d'abord clear tout les acteurs sur le monde
         List<Actor> allActors = this.getObjects(null);
         allActors.forEach((actor) -> this.removeObject(actor));
-        getBackground().setColor(usedTheme.backgroundColor);
+        getBackground().setColor(Theme.used.backgroundColor);
         getBackground().fill();
         //créer les blankHexs
         placeHexagonInCollumnRow(Appearance.COLLUMN_NUMBER, Appearance.ROW_NUMBER);
@@ -303,7 +300,7 @@ public class MyWorld extends World
     }
     
     private void prepareBackgroundForMenu(){
-        getBackground().setColor(usedTheme.backgroundColor.brighter());
+        getBackground().setColor(Theme.used.backgroundColor.brighter());
         getBackground().fill();
         
     }

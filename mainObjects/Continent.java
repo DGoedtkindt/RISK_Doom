@@ -3,6 +3,7 @@ package mainObjects;
 import appearance.Appearance;
 import Selection.Selectable;
 import Selection.Selector;
+import appearance.Theme;
 import base.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -133,7 +134,7 @@ public class Continent implements Selectable
         
         //créer l'image sur laquelle les bonus vont s'afficher
         GreenfootImage background = new GreenfootImage(dimensions[0], dimensions[1]);
-        background.setColor(MyWorld.usedTheme.backgroundColor);
+        background.setColor(Theme.used.backgroundColor);
         background.fill();
         
         //dessiner 

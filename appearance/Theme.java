@@ -5,7 +5,7 @@ import base.*;
 
 public class Theme {
     
-    public static ArrayList<Theme> themeList = new ArrayList<Theme>();
+    protected static ArrayList<Theme> themeList = new ArrayList<Theme>();
     
     public Theme(String themeName, GColor bhC, GColor bhBC, GColor bC, GColor tC, GColor terrC, GColor sC){
         
@@ -50,5 +50,8 @@ public class Theme {
                                                    new GColor(200, 200, 100),
                                                    new GColor(90, 90, 90),
                                                    new GColor(0, 150, 0));
+    
+    
+    public static Theme used = BASIC_DARK;
     
 }

@@ -1,6 +1,7 @@
 package base;
 
 import appearance.Appearance;
+import appearance.Theme;
 import mainObjects.Continent;
 import mainObjects.Territory;
 import java.util.ArrayList;
@@ -140,7 +141,7 @@ public enum Mode
         String textToDisplay = wrapText(message, 16);
         
         GreenfootImage instructions = new GreenfootImage(182, 330);
-        instructions.setColor(MyWorld.usedTheme.backgroundColor);
+        instructions.setColor(Theme.used.backgroundColor);
         instructions.fill();
         instructions.setColor(GColor.WHITE);
         instructions.setFont(font);

@@ -4,6 +4,7 @@ import appearance.Appearance;
 import links.LinkIndic;
 import Selection.Selectable;
 import Selection.Selector;
+import appearance.Theme;
 import base.*;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
@@ -18,7 +19,7 @@ public class Territory implements Selectable
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Continent continent = null;
-    public GColor continentColor = MyWorld.usedTheme.territoryColor;
+    public GColor continentColor = Theme.used.territoryColor;
     private int bonusPoints = 0;
     private TerrInfo trInfo;
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -53,7 +54,7 @@ public class Territory implements Selectable
      *  removes the terrInfo
      *  destroys the LinkIndics */
     {   
-        continentColor = MyWorld.usedTheme.backgroundColor;
+        continentColor = Theme.used.backgroundColor;
         makeTransparent();
         for(BlankHex bh : blankHexList){
             world().addObject(bh, bh.rectCoord()[0], bh.rectCoord()[1]);
@@ -85,7 +86,7 @@ public class Territory implements Selectable
             continentColor = newContinent.color();
             
         }else {
-            continentColor = MyWorld.usedTheme.territoryColor;
+            continentColor = Theme.used.territoryColor;
             
         }
         drawTerritory();
@@ -134,7 +135,7 @@ public class Territory implements Selectable
     
     @Override
     public void makeTransparent() {  
-        GreenfootImage img = Hexagon.createImage(MyWorld.usedTheme.backgroundColor);
+        GreenfootImage img = Hexagon.createImage(Theme.used.backgroundColor);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.RADIUS;
@@ -151,7 +152,7 @@ public class Territory implements Selectable
     
     @Override
     public void makeGreen() {
-        GreenfootImage img = Hexagon.createImage(MyWorld.usedTheme.selectionColor);
+        GreenfootImage img = Hexagon.createImage(Theme.used.selectionColor);
         for(TerritoryHex hex : terrHexList){
                 
                 int xPos = hex.getX() - Hexagon.RADIUS;

@@ -1,6 +1,7 @@
 package base;
 
 import appearance.Appearance;
+import appearance.Theme;
 import greenfoot.GreenfootImage;
  
 public class Hexagon  {
@@ -9,7 +10,7 @@ public class Hexagon  {
     
     public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
-        GreenfootImage img = createImage(MyWorld.usedTheme.blankHexBorderColor);
+        GreenfootImage img = createImage(Theme.used.blankHexBorderColor);
         img.drawImage(createImage(hexColor, 0.95), 0, 0);
         
         return img;

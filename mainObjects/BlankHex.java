@@ -3,6 +3,7 @@ package mainObjects;
 import appearance.Appearance;
 import Selection.Selectable;
 import Selection.Selector;
+import appearance.Theme;
 import base.*;
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class BlankHex extends Button implements Selectable{
     
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
-        this.setImage(Hexagon.createImageWBorder(MyWorld.usedTheme.blankHexColor));
+        this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
         Selector.selectableSet.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
     }
@@ -74,14 +75,14 @@ public class BlankHex extends Button implements Selectable{
 
     @Override
     public void makeGreen() {
-        this.setImage(Hexagon.createImageWBorder(Appearance.SELECTION_COLOR));
+        this.setImage(Hexagon.createImageWBorder(Theme.used.selectionColor));
         this.getImage().setTransparency(Appearance.OPAQUE);
         
     }
     
     @Override
     public void makeOpaque() {
-    this.setImage(Hexagon.createImageWBorder(Appearance.BASE_HEX_COLOR));
+    this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
     this.getImage().setTransparency(Appearance.OPAQUE);
     
     }

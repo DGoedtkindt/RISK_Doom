@@ -37,7 +37,7 @@ package base;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-import appearance.Appearance;
+import appearance.Theme;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -67,8 +67,8 @@ public class ColorChooser extends JPanel
         //Set up the banner at the top of the window
         banner = new JLabel("Pick your color!",
                             JLabel.CENTER);
-        banner.setForeground(MyWorld.usedTheme.backgroundColor.getAWTColor());
-        banner.setBackground(MyWorld.usedTheme.backgroundColor.getAWTColor().brighter());
+        banner.setForeground(Theme.used.backgroundColor.getAWTColor());
+        banner.setBackground(Theme.used.backgroundColor.getAWTColor().brighter());
         banner.setOpaque(true);
         banner.setFont(new Font("SansSerif", Font.BOLD, 24));
         banner.setPreferredSize(new Dimension(100, 65));
