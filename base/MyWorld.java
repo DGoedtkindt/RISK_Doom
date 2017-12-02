@@ -72,9 +72,6 @@ public class MyWorld extends World
     public OKButton okButton                = new OKButton();
     public MakeXML makeXMLButton            = new MakeXML();
     
-    //Boutons dans les options
-    public ThemeChooser themeChooser        = new ThemeChooser();
-    
     //Bouton retour
     public BackButton backButton            = new BackButton();
     
@@ -383,7 +380,8 @@ public class MyWorld extends World
         resetWorldObjects();
         prepareBackgroundForMenu();
         
-        addObject(themeChooser, getWidth() / 2, getHeight() / 2);
+        ThemeChooser themeC = new ThemeChooser();
+        themeC.addToWorld(this, getWidth() / 2, getHeight() / 2);
         addObject(backButton, getWidth() - 25, 27);
         
     }
