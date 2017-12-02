@@ -1,9 +1,9 @@
 package mapEditor;
 
+import selector.Selector;
 import appearance.Appearance;
 import mainObjects.Continent;
 import links.Links;
-import Selection.Selector;
 import base.*;
 import mainObjects.Territory;
 import greenfoot.GreenfootImage;

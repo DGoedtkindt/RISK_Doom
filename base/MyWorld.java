@@ -1,5 +1,6 @@
 package base;
 
+import selector.Selector;
 import appearance.Appearance;
 import appearance.ThemeChooser;
 import appearance.Theme;
@@ -11,7 +12,6 @@ import menuButtons.LoadGameButton;
 import menuButtons.NewGameButton;
 import menuButtons.MapEditorButton;
 import menuButtons.PlayGameButton;
-import Selection.Selector;
 import mapEditor.OKButton;
 import mapEditor.MakeXML;
 import mainObjects.Territory;

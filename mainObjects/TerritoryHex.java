@@ -1,8 +1,8 @@
 package mainObjects;
 
+import selector.Selector;
 import links.Links;
 import links.LinkIndic;
-import Selection.Selector;
 import base.*;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;

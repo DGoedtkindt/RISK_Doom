@@ -1,11 +1,11 @@
-package Selection;
+package selector;
 
-import mainObjects.BlankHex;
-import mainObjects.Continent;
-import mainObjects.Territory;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.function.Predicate;
+import mainObjects.BlankHex;
+import mainObjects.Continent;
+import mainObjects.Territory;
 
 public class Selector
 {

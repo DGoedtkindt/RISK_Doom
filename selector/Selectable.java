@@ -1,4 +1,4 @@
-package Selection;
+package selector;
 
 /**regroupe les BlankHex, les TerritoryHex, les Territory et les Continent*/
 

@@ -1,6 +1,5 @@
 package base;
 
-import appearance.Appearance;
 import appearance.Theme;
 import greenfoot.GreenfootImage;
  

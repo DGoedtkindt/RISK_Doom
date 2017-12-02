@@ -1,9 +1,8 @@
 package mainObjects;
 
-import appearance.Appearance;
+import selector.Selectable;
+import selector.Selector;
 import links.LinkIndic;
-import Selection.Selectable;
-import Selection.Selector;
 import appearance.Theme;
 import base.*;
 import greenfoot.GreenfootImage;

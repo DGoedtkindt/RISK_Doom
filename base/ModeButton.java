@@ -1,7 +1,7 @@
 package base;
 
+import selector.Selector;
 import appearance.Appearance;
-import Selection.Selector;
 import greenfoot.GreenfootImage;
 import java.util.function.Predicate;
 

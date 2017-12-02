@@ -42,6 +42,14 @@ public class Theme {
                                                      new GColor(255, 255, 255),
                                                      new GColor(150, 150, 150),
                                                      new GColor(0, 220, 0));
+    
+    static public final Theme DARIO = new Theme("Basic Dark", 
+                                                     new GColor(110,80,110),
+                                                     new GColor(55, 40, 55),
+                                                     new GColor(55, 40, 55),
+                                                     new GColor(255, 255, 255),
+                                                     new GColor(150, 150, 150),
+                                                     new GColor(0, 220, 0));
     //Example
     static public final Theme HORRIBLE = new Theme("Horrible", 
                                                    new GColor(100, 100, 100),
@@ -49,9 +57,9 @@ public class Theme {
                                                    new GColor(150, 30, 80),
                                                    new GColor(200, 200, 100),
                                                    new GColor(90, 90, 90),
-                                                   new GColor(0, 150, 0));
+                                                   new GColor(0, 220, 0));
     
     
-    public static Theme used = BASIC_DARK;
+    public static Theme used = DARIO;
     
 }

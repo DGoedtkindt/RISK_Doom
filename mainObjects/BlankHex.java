@@ -1,8 +1,8 @@
 package mainObjects;
 
+import selector.Selector;
+import selector.Selectable;
 import appearance.Appearance;
-import Selection.Selectable;
-import Selection.Selector;
 import appearance.Theme;
 import base.*;
 import java.util.ArrayList;
