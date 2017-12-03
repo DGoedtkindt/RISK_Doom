@@ -15,7 +15,7 @@ public class ThemeChooser extends Button implements Arrowable{
     
     public ThemeChooser(){
         
-        currentTheme = Theme.themeList.get(themeNumber);
+        currentTheme = Theme.values()[themeNumber];
         updateImage();
         
         rightArrow = new RightArrow(this);
@@ -39,7 +39,7 @@ public class ThemeChooser extends Button implements Arrowable{
     
     private void updateImage(){
         
-        currentTheme = Theme.themeList.get(themeNumber);
+        currentTheme = Theme.values()[themeNumber];
         
         GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH / 5, Appearance.WORLD_HEIGHT / 5);
         img.setColor(currentTheme.backgroundColor);
@@ -62,7 +62,7 @@ public class ThemeChooser extends Button implements Arrowable{
     
     @Override
     public void next() {
-        if(themeNumber < Theme.themeList.size()-1) themeNumber++;
+        if(themeNumber < Theme.values().length-1) themeNumber++;
         else themeNumber = 0;
         updateImage();
     }
@@ -70,7 +70,7 @@ public class ThemeChooser extends Button implements Arrowable{
     @Override
     public void previous() {
         if(themeNumber > 0) themeNumber--;
-        else themeNumber = Theme.themeList.size() - 1;
+        else themeNumber = Theme.values().length-1;
         updateImage();
     }
 
