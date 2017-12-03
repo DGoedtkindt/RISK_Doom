@@ -1,4 +1,4 @@
-package menuButtons;
+package menu;
 
 import base.Button;
 

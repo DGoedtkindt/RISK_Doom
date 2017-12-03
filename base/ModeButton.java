@@ -2,13 +2,15 @@ package base;
 
 import selector.Selector;
 import appearance.Appearance;
+import base.Button;
+import base.Mode;
 import greenfoot.GreenfootImage;
 import java.util.function.Predicate;
 
 public class ModeButton extends Button {
     
-    Mode linkedMode;
-    Predicate validator;
+    public Mode linkedMode;
+    public Predicate validator;
     
     public ModeButton(String imageName, Mode mode, Predicate validator) throws IllegalArgumentException{
         GreenfootImage img = new GreenfootImage(imageName);

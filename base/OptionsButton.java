@@ -1,7 +1,5 @@
 package base;
 
-import base.*;
-
 public class OptionsButton extends Button{
     
     public OptionsButton(){

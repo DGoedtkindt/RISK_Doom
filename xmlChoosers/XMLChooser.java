@@ -9,6 +9,13 @@ import java.io.File;
 import greenfoot.Font;
 import greenfoot.World;
 
+/**
+ * Un XMLChooser est un acteur qui permet de sélectionner un fichier XML.
+ * Il affiche le thumbnail lié au XML qui est actuellement sélectionné.
+ * L'utilisateur peut changer la sélection grâce aux Arrows qu'il crée
+ * Il fait une action quand on clique dessus
+ */
+
 public abstract class XMLChooser extends Button implements Arrowable {
     
     //un XMLChooser a une image de taille 500x500
@@ -20,6 +27,12 @@ public abstract class XMLChooser extends Button implements Arrowable {
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
     
+    /**
+     * @param directoryName le nom du folder où le XMLChooser va chercher
+     * les XML
+     * @param defaultFile le XML qui sera selectionné par défaut. 
+     * null pour pas de défaut.
+     */
     public XMLChooser(String directoryName, String defaultFile){
         directory = new File(directoryName);
         if(directory.isDirectory()) {
@@ -29,7 +42,9 @@ public abstract class XMLChooser extends Button implements Arrowable {
             
             fileList.addAll(Arrays.asList(fileArray));
             
-            if(fileList.contains(defaultFile + ".xml")) {
+            if(defaultFile != null && 
+                    fileList.contains(defaultFile + ".xml")) {
+                
                 fileList.remove(defaultFile + ".xml");
                 fileList.add(0,defaultFile + ".xml");
                 

@@ -1,12 +1,12 @@
-package menuButtons;
+package menu;
 
 import base.Button;
 import base.MyWorld;
 
 
-public class MapEditorButton extends Button{
+public class PlayGameButton extends Button{
     
-    public MapEditorButton(){
+    public PlayGameButton(){
         
         //Image
         
@@ -14,7 +14,7 @@ public class MapEditorButton extends Button{
     
     public void clicked(){
         
-        MyWorld.theWorld.mapEditorMenu();
+        MyWorld.theWorld.gameMenu();
         
     }
     
