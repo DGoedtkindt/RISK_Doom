@@ -25,7 +25,15 @@ public enum Theme {
          new GColor(150, 30, 80),
          new GColor(200, 200, 100),
          new GColor(90, 90, 90),
-         new GColor(0, 220, 0));
+         new GColor(0, 220, 0)),
+    
+    MINIMALIST ("MINIMALIST",
+         new GColor(10,10,10),
+         new GColor(17,17,17),
+         new GColor(10,10,10),
+         new GColor(255,255,255),
+         new GColor(200,200,200),
+         new GColor(200,20,20));
     
     public String name;
     public GColor blankHexColor;
@@ -52,6 +60,6 @@ public enum Theme {
         
     }
     
-    public static Theme used = WINE;
+    public static Theme used = MINIMALIST;
     
 }
