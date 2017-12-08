@@ -1,5 +1,6 @@
 package xmlChoosers;
 
+import appearance.Theme;
 import base.*;
 import arrowable.*;
 import greenfoot.GreenfootImage;
@@ -130,7 +131,7 @@ public abstract class XMLChooser extends Button implements Arrowable {
             
             //quelques settings d'apparence
             returnImage.setFont(new Font("Monospaced", 20));
-            returnImage.setColor(GColor.WHITE);
+            returnImage.setColor(Theme.used.textColor);
             
             //créer le String de la description
             String completeMessage = "";

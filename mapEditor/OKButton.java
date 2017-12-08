@@ -76,7 +76,7 @@ public class OKButton extends Button
             new Continent(selectedTerritories);
             
         } catch(Exception e){
-           e.printStackTrace(System.out);
+           System.err.println(e);
            world().escape();
            
            }
@@ -99,7 +99,7 @@ public class OKButton extends Button
             }
             
            } catch(Exception e){
-            e.printStackTrace(System.out);
+            System.err.println(e);
             world().escape();
            
            }
@@ -108,11 +108,11 @@ public class OKButton extends Button
     
     private void deleteContinentSelection(){
         try{
-            Continent continentToDelete = Selector.getSelectedContinent();
-            continentToDelete.destroy();
+            ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
+            continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
            } catch(Exception e){
-            e.printStackTrace(System.out);
+            System.err.println(e);
             world().escape();
              
            }

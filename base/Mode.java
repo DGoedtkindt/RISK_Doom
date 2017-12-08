@@ -143,7 +143,7 @@ public enum Mode
         GreenfootImage instructions = new GreenfootImage(182, 330);
         instructions.setColor(Theme.used.backgroundColor);
         instructions.fill();
-        instructions.setColor(GColor.WHITE);
+        instructions.setColor(Theme.used.textColor);
         instructions.setFont(font);
         instructions.drawString(textToDisplay, 0, 0);
         

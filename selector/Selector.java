@@ -48,22 +48,6 @@ public class Selector
     
     //Getters for Territory///////////////////////////////////////////////////
     
-    public static Territory getSelectedTerritory() throws Exception {
-        if(selection.size() > 1) throw new Exception("too many Territories selected");
-        if(selection.size() < 1) throw new Exception("no Territory selected");
-        
-        ArrayList<Territory> territorySelectedList = new ArrayList<>();
-        for(Selectable select : selection) {
-            try{Territory terr;
-                terr = (Territory)select;
-                territorySelectedList.add(terr);
-            }  catch(ClassCastException cce) {
-                throw new Exception("selectable of the wrong type selected\n" + cce);}
-        }
-        
-        return territorySelectedList.get(0);
-    }
-
     public static ArrayList<Territory> getSelectedTerritories() throws Exception {
         if(selection.isEmpty()) throw new Exception("no Territory selected");
         
@@ -79,10 +63,17 @@ public class Selector
 
     }
     
+    public static Territory getSelectedTerritory() throws Exception {
+        ArrayList<Territory> territorySelectedList = getSelectedTerritories();
+        
+        if(territorySelectedList.size() > 1) throw new Exception("too many Territories selected");
+        
+        return territorySelectedList.get(0);
+    }
+    
     //Getters for Continent///////////////////////////////////////////////////
     
-    public static Continent getSelectedContinent() throws Exception {
-        if(selection.size() > 1) throw new Exception("too many Continent selected");
+    public static ArrayList<Continent> continentSelectedList() throws Exception {
         if(selection.size() < 1) throw new Exception("no Continent selected");
         
         ArrayList<Continent> continentSelectedList = new ArrayList<>();
@@ -94,7 +85,8 @@ public class Selector
                 throw new Exception("selectable of the wrong type selected\n" + cce);}
         }
         
-        return continentSelectedList.get(0);
+        return continentSelectedList;
+    
     }
     
     ///////////////////////////////////////////////////////////

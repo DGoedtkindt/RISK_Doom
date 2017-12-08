@@ -74,7 +74,6 @@ public class TerritoryHex extends Button
                     
                 case DELETE_CONTINENT :
                     Selector.select(territory.continent());
-                    Selector.setValidator(Selector.NOTHING);
                     break;
                     
                 case SET_LINK :
