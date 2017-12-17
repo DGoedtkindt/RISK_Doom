@@ -1,4 +1,4 @@
-package links;
+package mainObjects;
 
 import base.GColor;
 import mainObjects.Territory;

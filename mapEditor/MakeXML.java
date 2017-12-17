@@ -2,8 +2,8 @@ package mapEditor;
 
 import appearance.Appearance;
 import mainObjects.Continent;
-import links.Links;
-import links.LinkIndic;
+import mainObjects.Links;
+import mainObjects.LinkIndic;
 import base.*;
 import mainObjects.Territory;
 import mainObjects.TerritoryHex;
@@ -109,7 +109,7 @@ public class MakeXML extends Button
     }
     
     private void createContinentNodes(){
-        ArrayList<Continent> allContList = Continent.continentList();
+        ArrayList<Continent> allContList = MyWorld.theWorld.map.continents;
         for(Continent cont : allContList) {
             Element contNode = doc.createElement("Continent");
             rootElement.appendChild(contNode);

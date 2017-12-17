@@ -2,7 +2,6 @@ package mainObjects;
 
 import selector.Selectable;
 import selector.Selector;
-import links.LinkIndic;
 import appearance.Theme;
 import base.*;
 import greenfoot.GreenfootImage;
@@ -35,7 +34,6 @@ public class Territory implements Selectable
         trInfo.setDisplayedBonus(bonus);
         drawTerritory();
         removeBlankHexs();
-        Selector.selectableSet.add(this);
         
     }
     
@@ -61,7 +59,6 @@ public class Territory implements Selectable
         }
         world().removeObjects(terrHexList);
         territoryList.remove(this);
-        Selector.selectableSet.remove(this);
         if(continent != null) continent.removeTerritory(this);
         
         world().removeObject(trInfo);

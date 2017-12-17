@@ -1,4 +1,4 @@
-package links;
+package mainObjects;
 
 //un objet de cette classe indique l'existance d'un Link entre plusieur Territory
 //par sa couleur

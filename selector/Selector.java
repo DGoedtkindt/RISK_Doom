@@ -1,5 +1,6 @@
 package selector;
 
+import base.*;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -10,7 +11,14 @@ import mainObjects.Territory;
 public class Selector
 {
     
-    public static HashSet<Selectable> selectableSet = new HashSet<>();
+    public static HashSet<Selectable> selectables() {
+        HashSet selectables = new HashSet<>();
+        selectables.addAll(MyWorld.theWorld.map.continents);
+        selectables.addAll(MyWorld.theWorld.map.territories);
+        selectables.addAll(BlankHex.BLANK_HEXS);
+    
+        return selectables;
+    }
     
     private static HashSet<Selectable> selection = new HashSet<>();
     public static Predicate validator = (Object o) -> {return true;};
@@ -112,13 +120,13 @@ public class Selector
     /////////////////////////////////////////////////////////
     
     private static void makeAllTransparent() {
-     for(Selectable select : selectableSet) {
+     for(Selectable select : selectables()) {
          select.makeTransparent();
      }
     }
      
     private static void makeValidOpaque() {
-     for(Selectable select : selectableSet) {
+     for(Selectable select : selectables()) {
          if(validator.test(select)) {
             select.makeOpaque();
          }

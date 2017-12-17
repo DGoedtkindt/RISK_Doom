@@ -12,7 +12,6 @@ import greenfoot.GreenfootImage;
 public class Continent implements Selectable
 {
     //private static variables
-    private static ArrayList<Continent> continentList = new ArrayList<Continent>();
     private static MyWorld world() {return MyWorld.theWorld;}
     
     //private variable
@@ -25,8 +24,7 @@ public class Continent implements Selectable
         editColor();
         editBonus();
         
-        continentList.add(this);
-        Selector.selectableSet.add(this);
+        world().map.continents.add(this);
         territoriesContained.addAll(0,territories);
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
@@ -38,8 +36,7 @@ public class Continent implements Selectable
         continentColor = color;
         bonus = points;
         
-        continentList.add(this);
-        Selector.selectableSet.add(this);
+        world().map.continents.add(this);
         territoriesContained.addAll(0,territories);
         
         //to Update the territories continent and color
@@ -75,11 +72,10 @@ public class Continent implements Selectable
     }
     
     public void destroy() {
-        continentList.remove(this);
+        world().map.continents.remove(this);
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
-        Selector.selectableSet.remove(this);
         updateBonusDisplay();
                
     }
@@ -106,17 +102,17 @@ public class Continent implements Selectable
         
         //calculer le nombre de colonne pour l'affichage des bonus
         //le nombre de colonne devrais tendre vers 2x le nombre de lignes
-        int xAxis = (int)Math.sqrt(2*continentList.size());
+        int xAxis = (int)Math.sqrt(2*world().map.continents.size());
         
         //rajouter les continents lignes par lignes avec xAxis continents par lignes
         Continent[] row = new Continent[xAxis];
-        for(int i = 0; i < continentList().size(); i++) {
+        for(int i = 0; i < world().map.continents.size(); i++) {
             if(i % xAxis == 0) {
                 row = new Continent[xAxis];
                 arrangedContinents.add(row);
                 
             }
-            row[i % xAxis] = continentList().get(i);
+            row[i % xAxis] = world().map.continents.get(i);
             
         }
         
@@ -165,13 +161,6 @@ public class Continent implements Selectable
         
         return img;
     
-    }
-    
-    //Public Static methods////////////////////////////////////////////////
-    
-    public static ArrayList<Continent> continentList(){
-        return (ArrayList<Continent>)continentList.clone();
-        
     }
     
     //Selectable methods/////////////////////////////////

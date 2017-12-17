@@ -81,7 +81,7 @@ public enum Mode
                 }   world().createTerritory.makeOpaque();
                 if(unoccupiedTerritoriesNumber > 0){
                     world().createContinent.makeOpaque();
-                }if(!Continent.continentList().isEmpty()){
+                }if(!world().map.continents.isEmpty()){
                     world().editContinentBonus.makeOpaque();
                     world().editContinentColor.makeOpaque();
                     world().deleteContinent.makeOpaque();

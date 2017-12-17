@@ -6,8 +6,8 @@ import appearance.ThemeChooser;
 import appearance.Theme;
 import mainObjects.BlankHex;
 import mainObjects.Continent;
-import links.Links;
-import links.LinkIndic;
+import mainObjects.Links;
+import mainObjects.LinkIndic;
 import menu.LoadGameButton;
 import menu.NewGameButton;
 import menu.MapEditorButton;
@@ -47,6 +47,10 @@ public class MyWorld extends World {
     
     //Mode par défaut dans la partie du logiciel actuelle
     private Mode currentDefaultMode = Mode.MAIN_MENU;
+    
+    //Objet Map et Game
+    public Map map = new Map();
+    public Game game = new Game();
     
     //Boutons dans le menu principal
     public PlayGameButton playGameButton    = new PlayGameButton();
@@ -281,19 +285,11 @@ public class MyWorld extends World {
     //Préparation des menus//////////////////////////////////////////////
     
     private void resetWorldObjects(){
+        map = new Map();
+        game = new Game();
         
-        for(Continent c : Continent.continentList()){
-            c.destroy();
-            
-        }
-        
-        for(Territory t : Territory.allTerritories()){
-            t.destroy();
-            
-        }
-        
-        for(Button b : getObjects(Button.class)){
-            removeObject(b);
+        for(Actor a : getObjects(Actor.class)){
+            removeObject(a);
             
         }
         
