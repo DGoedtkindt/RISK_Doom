@@ -14,7 +14,6 @@ public class TerrInfo extends Button {
         
     }
     
-    
     public void clicked() {
         linkedTerrHex.clicked();
     }

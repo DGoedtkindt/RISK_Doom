@@ -1,7 +1,6 @@
 package mainObjects;
 
 import selector.Selectable;
-import selector.Selector;
 import appearance.Appearance;
 import appearance.Theme;
 import base.*;
@@ -24,11 +23,8 @@ public class Continent implements Selectable
         editColor();
         editBonus();
         
-        world().map.continents.add(this);
         territoriesContained.addAll(0,territories);
-        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
-        updateBonusDisplay();
     }
     
     public Continent(ArrayList<Territory> territories, GColor color, int points) throws Exception{
@@ -36,14 +32,17 @@ public class Continent implements Selectable
         continentColor = color;
         bonus = points;
         
-        world().map.continents.add(this);
         territoriesContained.addAll(0,territories);
         
+    }
+    
+    public void addToWorld() {
         //to Update the territories continent and color
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+        world().map.continents.add(this);
         
-         updateBonusDisplay();
-        
+        updateBonusDisplay();
+    
     }
     
     public void editColor() throws Exception {
@@ -71,6 +70,9 @@ public class Continent implements Selectable
         
     }
     
+    /** removes it from the world and from all contained territories
+     * should not be used if it is outside the world.
+     */
     public void destroy() {
         world().map.continents.remove(this);
         
@@ -94,9 +96,7 @@ public class Continent implements Selectable
     
     }
     
-    //Private methods////////////////////////////////////////////////
-    
-    private static void updateBonusDisplay() {
+    public static void updateBonusDisplay() {
         //représente un tableau 2D pour l'arrangement des Bonus
         ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         
@@ -151,6 +151,8 @@ public class Continent implements Selectable
         
         world().getBackground().drawImage(background, firstHexPos[0] - Hexagon.RADIUS + 3, firstHexPos[1]);
     }
+    
+    //Private methods////////////////////////////////////////////////
 
     private GreenfootImage bonusImage() {
         GreenfootImage img = new GreenfootImage(60, 30);

@@ -55,12 +55,13 @@ public class BlankHex extends Button implements Selectable{
                         //créer un territoire
                         ArrayList<BlankHex> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
-                        new Territory(selectedHexes, this);
+                        Territory newTerr = new Territory(selectedHexes, this,0);   
+                        newTerr.addToWorld();
                         
                     }
                     
                 } catch(Exception e){
-                    System.err.println(e.getMessage());
+                    System.err.println(e);
 
                 }
                 world().escape(); break;

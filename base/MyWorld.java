@@ -1,13 +1,13 @@
 package base;
 
 import selector.Selector;
+import java.io.File;
+import mapXML.MapXML;
 import appearance.Appearance;
 import appearance.ThemeChooser;
 import appearance.Theme;
 import mainObjects.BlankHex;
-import mainObjects.Continent;
 import mainObjects.Links;
-import mainObjects.LinkIndic;
 import menu.LoadGameButton;
 import menu.NewGameButton;
 import menu.MapEditorButton;
@@ -22,16 +22,9 @@ import greenfoot.MouseInfo;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.File;
 import javax.swing.JOptionPane;
+import mainObjects.Continent;
 
 
 public class MyWorld extends World {
@@ -214,26 +207,20 @@ public class MyWorld extends World {
                 
                 choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the map editor menu? Unsaved changes will be lost.", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-
                 if(choice == JOptionPane.YES_OPTION){
-
                     mapEditorMenu();
 
                 }
-                
                 break;
                 
             case GAME_DEFAULT : 
                 
                 choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the game menu? Your game will be lost if it is not saved.", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-
                 if(choice == JOptionPane.YES_OPTION){
-
                     gameMenu();
 
                 }
-                
                 break;
             
             case MAP_EDITOR_MENU :
@@ -242,13 +229,10 @@ public class MyWorld extends World {
                 
                 choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-
                 if(choice == JOptionPane.YES_OPTION){
-
                     mainMenu();
 
                 }
-                
                 break;
                 
             default : escape();
@@ -258,16 +242,13 @@ public class MyWorld extends World {
     }
     
     private class CheckEscape{
-        
         boolean escapeWasClicked = false;
         
-        public void testForEscape(){
-            
+        public void testForEscape(){ 
             if(escapeReleased()){
                 backToMenu();
                 
             }
-            
             if(Greenfoot.isKeyDown("Escape") != escapeWasClicked){
                 escapeWasClicked = !escapeWasClicked;
                 
@@ -381,109 +362,11 @@ public class MyWorld extends World {
     
     //Ouverture d'une map pour le map editor///////////////////////////////////////////////
     
-    private static Document doc;
-    
-    public void readXMLMap(String fileName) {
-        try{
-            getDocument(fileName);
-            createTerritories();
-            createContinents();
-            createLinks();
-        } catch(Exception e) {
-            System.err.println(e.getMessage());
-        }
-        
-        
-    }
-    
-    private void getDocument(String fileName) throws Exception {
-        File XMLFile = new File(fileName);
-                if(XMLFile.exists()){
-                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                    doc = dBuilder.parse(XMLFile);
-                    doc.getDocumentElement().normalize();
-                } else {throw new Exception("File does not exist");}
-    }
-    
-    private void createTerritories() throws Exception{
-        NodeList terrNodeList = doc.getElementsByTagName("Territory");
-        for(int i = 0; i < terrNodeList.getLength(); i++) {
-            Element terrNode = (Element)terrNodeList.item(i);
-            ArrayList<BlankHex> hexContained = new ArrayList<>();
-            BlankHex infoHex = null;
-            int id = Integer.parseInt(terrNode.getAttribute("id"));
-            int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
-            NodeList allChildren = terrNode.getChildNodes();
-            for(int j=0; j<allChildren.getLength();j++) {
-                Node child = allChildren.item(j);
-                if(child.getNodeName() == "Hex") {
-                   Element hex = (Element)child;
-                   int hexX = Integer.parseInt(hex.getAttribute("hexX"));
-                   int hexY = Integer.parseInt(hex.getAttribute("hexY"));
-                   hexContained.add(BlankHex.blankHexAt(hexX,hexY));
-
-                } else if(child.getNodeName() == "InfoHex") {
-                    Element infoHexNode = (Element)child;
-                    int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
-                    int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
-                    infoHex = BlankHex.blankHexAt(hexX,hexY);
-
-                }
-
-            }
-            new Territory(hexContained, infoHex, bonus, id);
-
-
-            }
-    
-    }
-    
-    private void createContinents() throws Exception{
-        NodeList contNodeList = doc.getElementsByTagName("Continent");
-        for(int i = 0; i < contNodeList.getLength(); i++) {
-            Element contNode = (Element)contNodeList.item(i);
-            ArrayList<Territory> terrContained = new ArrayList<>();
-            int bonus = Integer.parseInt(contNode.getAttribute("bonus"));
-            String colorString = contNode.getAttribute("color");
-            GColor color = GColor.fromRGB(colorString);
-            NodeList allTerrIDs = contNode.getChildNodes();
-            for(int j=0; j<allTerrIDs.getLength();j++) {
-                Element terrIdNode = (Element)allTerrIDs.item(j);
-                int terrId = Integer.parseInt(terrIdNode.getAttribute("id"));
-                Territory terr = map.territories.get(terrId);
-                terrContained.add(terr);
-            
-            }
-            
-            new Continent(terrContained,color,bonus);
-            
-        }
-    
-    }
-    
-    private void createLinks() throws Exception{
-        NodeList linksNodeList = doc.getElementsByTagName("Links");
-        for(int i = 0; i<linksNodeList.getLength();i++) {
-            Element linksNode = (Element)linksNodeList.item(i);
-
-            String colorString = linksNode.getAttribute("color");
-            GColor color = GColor.fromRGB(colorString);
-            Links newLinks = new Links(color);
-            Links.newLinks = newLinks;
-            NodeList linkNodesList = linksNode.getElementsByTagName("Link");
-            for (int j=0; j<linkNodesList.getLength();j++) {
-                Element linkNode = (Element)linkNodesList.item(j);
-                int xPos = Integer.parseInt(linkNode.getAttribute("xPos"));
-                int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
-                int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
-                Territory terr = map.territories.get(terrId);
-                new LinkIndic(terr, xPos, yPos);
-            
-            }
-        
-        }
-        Links.newLinks = null;
+    public void loadMap(Map mapToLoad) {
+        mapToLoad.territories.forEach(Territory::addToWorld);
+        mapToLoad.continents.forEach(Continent::addToWorld);
+        mapToLoad.links.forEach(Links::addToWorld);
+        map = mapToLoad;
     
     }
 

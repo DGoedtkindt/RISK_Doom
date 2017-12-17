@@ -2,6 +2,7 @@ package xmlChoosers;
 
 import base.*;
 import arrowable.*;
+import mapXML.MapXML;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -51,7 +52,14 @@ public class MapChooser extends XMLChooser implements Arrowable{
     @Override
     public void clicked() {
         world().setupMapEditorScene();
-        world().readXMLMap(currentFile());
+        try {
+            MapXML mapXML = new MapXML(new File(currentFile()));
+            Map map = mapXML.getMap();
+            world().loadMap(map);
+        } catch (Exception ex) {
+            System.err.println("couldn't create MapXML from File");
+            ex.printStackTrace(System.err);
+        }
         world().escape();
     }
     

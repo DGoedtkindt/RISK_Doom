@@ -7,8 +7,6 @@ import base.Button;
 import base.Hexagon;
 import base.Mode;
 import base.MyWorld;
-import mainObjects.Territory;
-import mainObjects.TerritoryHex;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
@@ -16,6 +14,8 @@ public class LinkIndic extends Button{
     private Links links;
     private Territory terr;
     private TerritoryHex terrHex;
+    private int xPos;
+    private int yPos; 
     
     private MyWorld world(){return MyWorld.theWorld;}
     
@@ -26,20 +26,15 @@ public class LinkIndic extends Button{
         terr.links.add(this);
         links.addlink(this, terr);
         
-        //créer son image et rajouter au monde
+        //créer son image
         GreenfootImage img = Hexagon.createImage(links.color());
         img.scale(10, 10);
         setImage(img);
-        MyWorld.theWorld.addObject(this, xPos, yPos);
         
-        //pour que quand on clique dessus hors du mode DEFAULT il fasse l'action
-        //du TerritoryHex en dessous de lui
-        try{
-        terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
-        } catch(IndexOutOfBoundsException e){
-            System.err.println("new LinkIndic didn't find a terrHex at this position");
-            this.destroy();
-        }
+        //stoquer la position
+        this.xPos = xPos;
+        this.yPos = yPos;
+        
     }
     
     @Override
@@ -78,9 +73,21 @@ public class LinkIndic extends Button{
         }else{
             terrHex.clicked();
         }
-        
-        
     
+    }
+    
+    public void addToWorld() {
+        world().addObject(this, xPos, yPos);
+        
+        //pour que quand on clique dessus hors du mode DEFAULT il fasse l'action
+        //du TerritoryHex en dessous de lui
+        try{
+        terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
+        } catch(IndexOutOfBoundsException e){
+            System.err.println("new LinkIndic didn't find a terrHex at this position");
+            this.destroy();
+        }
+        
     }
     
     public void destroy() {

@@ -73,7 +73,7 @@ public class OKButton extends Button
                 }
                 
             }
-            new Continent(selectedTerritories);
+            new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception e){
            System.err.println(e);

@@ -12,27 +12,23 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class MapXML {
+    
     private Document xml;
     private XMLReader reader = new XMLReader();
     private XMLBuilder builder = new XMLBuilder();
     
     /**  Reads a File and creates a new MapXML from it
+     * @param mapFile the file containing the Map's XML
      * @throws java.io.FileNotFoundException
     */
-    public MapXML(String mapName) throws Exception {
-        File mapFile = new File("Maps/" + mapName);
-        if(!mapFile.exists()) throw new FileNotFoundException(
-                "the Map " + mapName + " was not found. ");
-
-        try {
-            builder.build(mapFile);
-        } catch (Exception ex) {
-            throw ex;
-        }
+    public MapXML(File mapFile) throws Exception {
+           if(mapFile.exists() && mapFile.isFile()) xml = builder.build(mapFile);
+           else throw new FileNotFoundException();
         
     }
     
     /** Creates a new MapXML from a Map object
+     * @throws java.lang.Exception
     */
     public MapXML(Map map) throws Exception{
             xml = builder.build(map);
@@ -40,9 +36,10 @@ public class MapXML {
     
     /** Reads the Map's XML to create a Map object.
      * @return the Map object representing this MapXML
+     * @throws java.lang.Exception
      */
-    public Map getMap() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Map getMap() throws Exception {
+        return reader.getMap(xml);
     
     }
     
