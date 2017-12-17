@@ -51,7 +51,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
     @Override
     public void clicked() {
         world().setupMapEditorScene();
-        MyWorld.readXMLMap(currentFile());
+        world().readXMLMap(currentFile());
         world().escape();
     }
     

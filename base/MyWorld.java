@@ -383,7 +383,7 @@ public class MyWorld extends World {
     
     private static Document doc;
     
-    public static void readXMLMap(String fileName) {
+    public void readXMLMap(String fileName) {
         try{
             getDocument(fileName);
             createTerritories();
@@ -396,7 +396,7 @@ public class MyWorld extends World {
         
     }
     
-    private static void getDocument(String fileName) throws Exception {
+    private void getDocument(String fileName) throws Exception {
         File XMLFile = new File(fileName);
                 if(XMLFile.exists()){
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -406,7 +406,7 @@ public class MyWorld extends World {
                 } else {throw new Exception("File does not exist");}
     }
     
-    private static void createTerritories() throws Exception{
+    private void createTerritories() throws Exception{
         NodeList terrNodeList = doc.getElementsByTagName("Territory");
         for(int i = 0; i < terrNodeList.getLength(); i++) {
             Element terrNode = (Element)terrNodeList.item(i);
@@ -439,7 +439,7 @@ public class MyWorld extends World {
     
     }
     
-    private static void createContinents() throws Exception{
+    private void createContinents() throws Exception{
         NodeList contNodeList = doc.getElementsByTagName("Continent");
         for(int i = 0; i < contNodeList.getLength(); i++) {
             Element contNode = (Element)contNodeList.item(i);
@@ -451,7 +451,7 @@ public class MyWorld extends World {
             for(int j=0; j<allTerrIDs.getLength();j++) {
                 Element terrIdNode = (Element)allTerrIDs.item(j);
                 int terrId = Integer.parseInt(terrIdNode.getAttribute("id"));
-                Territory terr = Territory.allTerritories().get(terrId);
+                Territory terr = map.territories.get(terrId);
                 terrContained.add(terr);
             
             }
@@ -462,7 +462,7 @@ public class MyWorld extends World {
     
     }
     
-    private static void createLinks() throws Exception{
+    private void createLinks() throws Exception{
         NodeList linksNodeList = doc.getElementsByTagName("Links");
         for(int i = 0; i<linksNodeList.getLength();i++) {
             Element linksNode = (Element)linksNodeList.item(i);
@@ -477,7 +477,7 @@ public class MyWorld extends World {
                 int xPos = Integer.parseInt(linkNode.getAttribute("xPos"));
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
-                Territory terr = Territory.allTerritories().get(terrId);
+                Territory terr = map.territories.get(terrId);
                 new LinkIndic(terr, xPos, yPos);
             
             }

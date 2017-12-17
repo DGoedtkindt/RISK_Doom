@@ -1,7 +1,6 @@
 package mainObjects;
 
 import selector.Selectable;
-import selector.Selector;
 import appearance.Theme;
 import base.*;
 import greenfoot.GreenfootImage;
@@ -11,7 +10,6 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
     private ArrayList<BlankHex> blankHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
@@ -28,8 +26,8 @@ public class Territory implements Selectable
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         blankHexList = hexs;
         bonusPoints = bonus;
-        if(id != -1) {territoryList.add(id, this);}
-        else {territoryList.add(this);}
+        if(id != -1) {world().map.territories.add(id, this);}
+        else {world().map.territories.add(this);}
         createTerrHexs(infoHex);
         trInfo.setDisplayedBonus(bonus);
         drawTerritory();
@@ -58,7 +56,7 @@ public class Territory implements Selectable
             
         }
         world().removeObjects(terrHexList);
-        territoryList.remove(this);
+        world().map.territories.remove(this);
         if(continent != null) continent.removeTerritory(this);
         
         world().removeObject(trInfo);
@@ -69,11 +67,6 @@ public class Territory implements Selectable
         }
         
         
-    }
-    
-    public static ArrayList<Territory> allTerritories() {
-        return (ArrayList<Territory>)territoryList.clone();
-    
     }
 
     public void setContinent(Continent newContinent) {
@@ -93,7 +86,7 @@ public class Territory implements Selectable
     }
     
     public int id() {
-        return territoryList.indexOf(this);
+        return world().map.territories.indexOf(this);
         
     }
     

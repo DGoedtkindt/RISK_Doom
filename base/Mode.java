@@ -69,7 +69,7 @@ public enum Mode
         
         switch (mode) {
             case MAP_EDITOR_DEFAULT:
-                ArrayList<Territory> allTerritories = Territory.allTerritories();
+                ArrayList<Territory> allTerritories = world().map.territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
                     
