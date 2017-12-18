@@ -1,19 +1,13 @@
 package base;
 
 import selector.Selector;
-import java.io.File;
-import mapXML.MapXML;
+import java.awt.event.ActionEvent;
 import appearance.Appearance;
 import appearance.ThemeChooser;
 import appearance.Theme;
 import mainObjects.BlankHex;
 import mainObjects.Links;
-import menu.LoadGameButton;
-import menu.NewGameButton;
-import menu.MapEditorButton;
-import menu.PlayGameButton;
 import mapEditor.OKButton;
-import mapEditor.MakeXML;
 import mainObjects.Territory;
 import xmlChoosers.MapChooser;
 import greenfoot.World;
@@ -46,13 +40,13 @@ public class MyWorld extends World {
     public Game game = new Game();
     
     //Boutons dans le menu principal
-    public PlayGameButton playGameButton    = new PlayGameButton();
-    public MapEditorButton mapEditorButton  = new MapEditorButton();
-    public OptionsButton optionsButton      = new OptionsButton();
+    public NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "");
+    public NButton mapEditorButton          = new NButton((ActionEvent ae) -> {mapEditorMenu();}, "");
+    public NButton optionsButton            = new NButton((ActionEvent ae) -> {optionsMenu();}  , "");
     
     //Boutons dans le menu du jeu
-    public NewGameButton newGameButton      = new NewGameButton();
-    public LoadGameButton loadGameButton    = new LoadGameButton();
+    public NButton newGameButton            = new NButton((ActionEvent ae) -> {newGameMenu();}  , "");
+    public NButton loadGameButton           = new NButton((ActionEvent ae) -> {loadGameMenu();} , "");
     
     //Boutons dans le map editor
     public ModeButton createTerritory       = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
@@ -64,7 +58,7 @@ public class MyWorld extends World {
     public ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
     public ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     public OKButton okButton                = new OKButton();
-    public MakeXML makeXMLButton            = new MakeXML();
+    public NButton makeXMLButton            = new NButton(NButton.saveFile, "");
     
     //Bouton retour
     public BackButton backButton            = new BackButton();
@@ -346,7 +340,7 @@ public class MyWorld extends World {
         
     }
     
-    public void OptionsMenu(){
+    public void optionsMenu(){
         
         currentDefaultMode = Mode.OPTIONS;
         Mode.changeMode(Mode.OPTIONS);
