@@ -1,6 +1,8 @@
 package base;
 
 import appearance.Appearance;
+import greenfoot.GreenfootImage;
+import greenfoot.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -17,7 +19,48 @@ public class NButton extends Button{
     
     static private MyWorld world(){return MyWorld.theWorld;}
     
-    public NButton(ActionListener al, String s){
+    /**
+     * NButton with a custom image and scale
+     * 
+     * @param al the action the button performs when clicked
+     * @param img the image of the Button
+     * @param width the width to which the image will be scaled
+     * @param height the height to which the image will be scaled
+     */
+    public NButton(ActionListener al, GreenfootImage img, int width, int height){
+        this.setImage(img);
+        this.getImage().scale(width, height);
+        action = al;
+        
+    }
+    
+    /**
+     * NButton initialized with an image scaled to default size : 80x80 
+     * 
+     * @param al the action the button performs when clicked
+     * @param img the image of the button
+     */
+    public NButton(ActionListener al, GreenfootImage img){
+        this.setImage(img);
+        this.getImage().scale(80, 80);
+        action = al;
+        
+    }
+    
+    /**
+     * NButton with a long image background (175x80) and a small text 
+     * 
+     * @param al the action the button performs when clicked
+     * @param txt the text displayed on the button
+     */
+    public NButton(ActionListener al, String txt){
+        GreenfootImage img = new GreenfootImage("button11-5.png");
+        this.setImage(img);
+        this.getImage().scale(175, 80);
+        GreenfootImage txtImg = new GreenfootImage(txt,20,Color.BLACK,new Color(0,0,0,0));
+        int xPos = (175-txtImg.getWidth())/2;
+        int yPos = (80-txtImg.getHeight())/2;
+        this.getImage().drawImage(txtImg, xPos, yPos);
         
         action = al;
         

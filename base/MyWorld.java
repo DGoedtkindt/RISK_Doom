@@ -40,13 +40,13 @@ public class MyWorld extends World {
     public Game game = new Game();
     
     //Boutons dans le menu principal
-    public NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "");
-    public NButton mapEditorButton          = new NButton((ActionEvent ae) -> {mapEditorMenu();}, "");
-    public NButton optionsButton            = new NButton((ActionEvent ae) -> {optionsMenu();}  , "");
+    public NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "Play");
+    public NButton mapEditorButton          = new NButton((ActionEvent ae) -> {mapEditorMenu();}, "Map Editor");
+    public NButton optionsButton            = new NButton((ActionEvent ae) -> {optionsMenu();}  , "Options");
     
     //Boutons dans le menu du jeu
-    public NButton newGameButton            = new NButton((ActionEvent ae) -> {newGameMenu();}  , "");
-    public NButton loadGameButton           = new NButton((ActionEvent ae) -> {loadGameMenu();} , "");
+    public NButton newGameButton            = new NButton((ActionEvent ae) -> {newGameMenu();}  , "New Game");
+    public NButton loadGameButton           = new NButton((ActionEvent ae) -> {loadGameMenu();} , "Load Game");
     
     //Boutons dans le map editor
     public ModeButton createTerritory       = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
@@ -58,10 +58,10 @@ public class MyWorld extends World {
     public ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
     public ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     public OKButton okButton                = new OKButton();
-    public NButton makeXMLButton            = new NButton(NButton.saveFile, "");
+    public NButton makeXMLButton            = new NButton(NButton.saveFile, new GreenfootImage("MakeXML.png"));
     
     //Bouton retour
-    public BackButton backButton            = new BackButton();
+    public NButton backButton            = new NButton((ActionEvent ae) -> {backToMenu();}, new GreenfootImage("backToHome.png"),30,30);
     
     
     ////////////////Contructor
