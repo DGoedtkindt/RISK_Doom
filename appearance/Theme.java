@@ -2,6 +2,8 @@ package appearance;
 
 import base.*;
 
+//The code below is Free to edit by the user.
+
 public enum Theme {
     DARK ("DARKNESS", 
          new GColor(0, 0, 0),
@@ -35,6 +37,10 @@ public enum Theme {
          new GColor(200,200,200),
          new GColor(200,20,20)),;
     
+    public static Theme used = WINE;
+    
+    //From here the code should not be touched by the user.
+    
     public String name;
     public GColor blankHexColor;
     public GColor blankHexBorderColor;
@@ -59,7 +65,5 @@ public enum Theme {
         selectionColor = sC;
         
     }
-    
-    public static Theme used = WINE;
     
 }

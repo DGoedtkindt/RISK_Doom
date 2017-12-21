@@ -2,9 +2,8 @@ package base;
 
 import appearance.Appearance;
 import appearance.Theme;
-import mainObjects.Continent;
 import mainObjects.Territory;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import greenfoot.GreenfootImage;
 import greenfoot.Font;
@@ -69,7 +68,7 @@ public enum Mode
         
         switch (mode) {
             case MAP_EDITOR_DEFAULT:
-                ArrayList<Territory> allTerritories = Territory.allTerritories();
+                Collection<Territory> allTerritories = world().map.territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
                     
@@ -81,7 +80,7 @@ public enum Mode
                 }   world().createTerritory.makeOpaque();
                 if(unoccupiedTerritoriesNumber > 0){
                     world().createContinent.makeOpaque();
-                }if(!Continent.continentList().isEmpty()){
+                }if(!world().map.continents.isEmpty()){
                     world().editContinentBonus.makeOpaque();
                     world().editContinentColor.makeOpaque();
                     world().deleteContinent.makeOpaque();

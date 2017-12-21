@@ -1,8 +1,6 @@
 package mainObjects;
 
 import selector.Selector;
-import links.Links;
-import links.LinkIndic;
 import base.*;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
@@ -80,6 +78,7 @@ public class TerritoryHex extends Button
                     if(Links.newLinks == null) {
                         GColor newColor = ColorChooser.getColor();
                         Links.newLinks = new Links(newColor);
+                        Links.newLinks.addToWorld();
                         
                     }
                     
@@ -88,7 +87,7 @@ public class TerritoryHex extends Button
                        MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
-                        new LinkIndic(territory,xPos, yPos); 
+                        new LinkIndic(territory,xPos, yPos).addToWorld(); 
                         
                     }
                     

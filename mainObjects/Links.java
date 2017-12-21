@@ -1,22 +1,28 @@
-package links;
+package mainObjects;
 
 import base.GColor;
-import mainObjects.Territory;
+import base.MyWorld;
 import java.util.ArrayList;
 
 
 public class Links {
+    
+    private MyWorld world() {return MyWorld.theWorld;}
     public static Links newLinks;   //c'est le Links en train d'être modifié. 
                                     //== null quand un Links n'est pas en train d'etre créé
     public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
     private GColor color;
     private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
-    private static ArrayList<Links> linksList = new ArrayList<>();
     
     public Links(GColor color) {
         this.color = color;
         newLinks = this;
-        linksList.add(this);
+    }
+    
+    public void addToWorld() {
+        linkIndicList.forEach(LinkIndic::addToWorld);
+        world().map.links.add(this);
+        
     }
     
     public void addlink(LinkIndic linkIndic, Territory linkedTerr ) {
@@ -40,7 +46,7 @@ public class Links {
         //pour supprimer le link quand l'avant dernier linkIndic a été supprimé
         if(linkIndicList.size() == 1 && newLinks != this) {
             linkIndicList.get(0).destroy();
-            linksList.remove(this);
+            world().map.links.remove(this);
         }
     }
     
@@ -55,7 +61,7 @@ public class Links {
             
         }
         
-        linksList.remove(this);
+        world().map.links.remove(this);
     
     }
 
@@ -63,11 +69,6 @@ public class Links {
     
     public ArrayList<LinkIndic> LinkIndicsList() {
         return (ArrayList<LinkIndic>)linkIndicList.clone();
-    
-    }
-    
-    public static ArrayList<Links> allLinks() {
-        return (ArrayList<Links>)linksList.clone();
     
     }
     

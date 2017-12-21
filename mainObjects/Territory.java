@@ -1,8 +1,6 @@
 package mainObjects;
 
 import selector.Selectable;
-import selector.Selector;
-import links.LinkIndic;
 import appearance.Theme;
 import base.*;
 import greenfoot.GreenfootImage;
@@ -12,46 +10,47 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    private static ArrayList<Territory> territoryList = new ArrayList<Territory>();
-    private ArrayList<BlankHex> blankHexList;
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Continent continent = null;
     public GColor continentColor = Theme.used.territoryColor;
     private int bonusPoints = 0;
+    private BlankHex infoHex;
     private TerrInfo trInfo;
+    private ArrayList<BlankHex> blankHexList;
+    
     public ArrayList<LinkIndic> links = new ArrayList<>();
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
-    public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus, int id)  throws Exception {
+    public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus)  throws Exception {
         if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
         blankHexList = hexs;
         bonusPoints = bonus;
-        if(id != -1) {territoryList.add(id, this);}
-        else {territoryList.add(this);}
-        createTerrHexs(infoHex);
-        trInfo.setDisplayedBonus(bonus);
-        drawTerritory();
-        removeBlankHexs();
-        Selector.selectableSet.add(this);
+        this.infoHex = infoHex;
         
     }
     
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex)  throws Exception {
-        new Territory(hexs, infoHex, 0, -1);
+        new Territory(hexs, infoHex, 0);
 
     }
     
+    public void addToWorld() {
+        //pas fool proof, devrais éviter de rajouter 2 fois au monde
+            createTerrHexs();
+            trInfo.setDisplayedBonus(bonusPoints);
+            removeBlankHexs();
+            drawTerritory();
+            world().map.territories.add(this);
+        
+    }
+    
+    /** Removes this from the world, containing continent, Links, etc...
+     * Should not be used if territory is outside of the world
+     */
     public void destroy()
-    /*  repaints over itself in WORLD_COLOR
-     *  add the BlankHex back to the world
-     *  removes the TerritoryHexes
-     *  removes itself from the territory and selectable Collections
-     *      and from its continent
-     *  removes the terrInfo
-     *  destroys the LinkIndics */
     {   
         continentColor = Theme.used.backgroundColor;
         makeTransparent();
@@ -60,8 +59,7 @@ public class Territory implements Selectable
             
         }
         world().removeObjects(terrHexList);
-        territoryList.remove(this);
-        Selector.selectableSet.remove(this);
+        world().map.territories.remove(this);
         if(continent != null) continent.removeTerritory(this);
         
         world().removeObject(trInfo);
@@ -73,11 +71,6 @@ public class Territory implements Selectable
         
         
     }
-    
-    public static ArrayList<Territory> allTerritories() {
-        return (ArrayList<Territory>)territoryList.clone();
-    
-    }
 
     public void setContinent(Continent newContinent) {
         continent = newContinent;
@@ -88,7 +81,6 @@ public class Territory implements Selectable
             continentColor = Theme.used.territoryColor;
             
         }
-        drawTerritory();
         for(TerritoryHex hex : terrHexList){
                 hex.drawTerrHex(continentColor);
                 
@@ -96,7 +88,7 @@ public class Territory implements Selectable
     }
     
     public int id() {
-        return territoryList.indexOf(this);
+        return world().map.territories.indexOf(this);
         
     }
     
@@ -116,7 +108,6 @@ public class Territory implements Selectable
         if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
         if(newBonus <= 0){newBonus = 0;}
         bonusPoints = newBonus;
-        trInfo.setDisplayedBonus(bonusPoints);
 
     }
     
@@ -176,6 +167,7 @@ public class Territory implements Selectable
     {
         drawHexs();
         drawAllHexsLinks();
+        trInfo.setDisplayedBonus(bonusPoints);
     }
     
     private void drawHexs(){
@@ -225,38 +217,37 @@ public class Territory implements Selectable
         //Va check pour tous les TerritoryHex adjacent s'il faut faire un lien
         //si oui, rajoute les 3 points restants et stoque le losange dans la liste
         for(TerritoryHex otherHex : terrHexList){
-                if(otherHex != thisHex){ // ne pas faire de lien avec soi-même
-                    if(thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS) { //pour ne lier que les hex adjacents
-                        
-                        //point 3: le centre du deuxième TerritoryHex
-                        diamPoints[0][2] = otherHex.getX();
-                        diamPoints[1][2] = otherHex.getY();
-                        
-                        //l'angle entre les deux TerrHex par rapport à l'horrizontale
-                        int X_DISTANCE = otherHex.getY()-thisHex.getY();
-                        int Y_DISTANCE = otherHex.getX()-thisHex.getX();
-                        double angle = Math.atan2(X_DISTANCE, Y_DISTANCE);
-                        
-                        //point 2: à mis-chemin entre les deux TerrHex et dévié de +30° par rapport à l'angle
-                        diamPoints[0][1] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
-                        diamPoints[1][1] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
-                        
-                        //point 4: à mis-chemin entre les deux TerrHex et dévié de -30° par rapport à l'angle
-                        diamPoints[0][3] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
-                        diamPoints[1][3] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
-                        
-                        Polygon newDiamond = new Polygon(diamPoints[0],diamPoints[1],4);
-                        LinkingDiamonds.add(newDiamond);
-                        
-                    }
+                if(otherHex != thisHex && thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS){ //pour ne lier que les hex adjacents
+                    
+                    //point 3: le centre du deuxième TerritoryHex
+                    diamPoints[0][2] = otherHex.getX();
+                    diamPoints[1][2] = otherHex.getY();
+                    
+                    //l'angle entre les deux TerrHex par rapport à l'horrizontale
+                    int X_DISTANCE = otherHex.getY()-thisHex.getY();
+                    int Y_DISTANCE = otherHex.getX()-thisHex.getX();
+                    double angle = Math.atan2(X_DISTANCE, Y_DISTANCE);
+                    
+                    //point 2: à mis-chemin entre les deux TerrHex et dévié de +30° par rapport à l'angle
+                    diamPoints[0][1] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
+                    diamPoints[1][1] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
+                    
+                    //point 4: à mis-chemin entre les deux TerrHex et dévié de -30° par rapport à l'angle
+                    diamPoints[0][3] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
+                    diamPoints[1][3] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
+                    
+                    Polygon newDiamond = new Polygon(diamPoints[0],diamPoints[1],4);
+                    LinkingDiamonds.add(newDiamond);
+                    
                 }
-        }
+            // ne pas faire de lien avec soi-même
+                    }
         
         return LinkingDiamonds;
         
     }
     
-    private void createTerrHexs(BlankHex infoHex)
+    private void createTerrHexs()
     //crée tous les territoryHex de ce territoire
     {
         for(BlankHex bh : blankHexList) {
@@ -278,5 +269,6 @@ public class Territory implements Selectable
 
         }
     }
+    
     
 }

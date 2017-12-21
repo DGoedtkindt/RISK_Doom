@@ -3,7 +3,7 @@ package mapEditor;
 import selector.Selector;
 import appearance.Appearance;
 import mainObjects.Continent;
-import links.Links;
+import mainObjects.Links;
 import base.*;
 import mainObjects.Territory;
 import greenfoot.GreenfootImage;
@@ -73,7 +73,7 @@ public class OKButton extends Button
                 }
                 
             }
-            new Continent(selectedTerritories);
+            new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception e){
            System.err.println(e);

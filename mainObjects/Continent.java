@@ -1,7 +1,6 @@
 package mainObjects;
 
 import selector.Selectable;
-import selector.Selector;
 import appearance.Appearance;
 import appearance.Theme;
 import base.*;
@@ -12,7 +11,6 @@ import greenfoot.GreenfootImage;
 public class Continent implements Selectable
 {
     //private static variables
-    private static ArrayList<Continent> continentList = new ArrayList<Continent>();
     private static MyWorld world() {return MyWorld.theWorld;}
     
     //private variable
@@ -25,12 +23,8 @@ public class Continent implements Selectable
         editColor();
         editBonus();
         
-        continentList.add(this);
-        Selector.selectableSet.add(this);
         territoriesContained.addAll(0,territories);
-        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         
-        updateBonusDisplay();
     }
     
     public Continent(ArrayList<Territory> territories, GColor color, int points) throws Exception{
@@ -38,15 +32,17 @@ public class Continent implements Selectable
         continentColor = color;
         bonus = points;
         
-        continentList.add(this);
-        Selector.selectableSet.add(this);
         territoriesContained.addAll(0,territories);
         
+    }
+    
+    public void addToWorld() {
         //to Update the territories continent and color
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+        world().map.continents.add(this);
         
-         updateBonusDisplay();
-        
+        updateBonusDisplay();
+    
     }
     
     public void editColor() throws Exception {
@@ -74,12 +70,14 @@ public class Continent implements Selectable
         
     }
     
+    /** removes it from the world and from all contained territories
+     * should not be used if it is outside the world.
+     */
     public void destroy() {
-        continentList.remove(this);
+        world().map.continents.remove(this);
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
-        Selector.selectableSet.remove(this);
         updateBonusDisplay();
                
     }
@@ -98,25 +96,23 @@ public class Continent implements Selectable
     
     }
     
-    //Private methods////////////////////////////////////////////////
-    
-    private static void updateBonusDisplay() {
+    public static void updateBonusDisplay() {
         //représente un tableau 2D pour l'arrangement des Bonus
         ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         
         //calculer le nombre de colonne pour l'affichage des bonus
         //le nombre de colonne devrais tendre vers 2x le nombre de lignes
-        int xAxis = (int)Math.sqrt(2*continentList.size());
+        int xAxis = (int)Math.sqrt(2*world().map.continents.size());
         
         //rajouter les continents lignes par lignes avec xAxis continents par lignes
         Continent[] row = new Continent[xAxis];
-        for(int i = 0; i < continentList().size(); i++) {
+        for(int i = 0; i < world().map.continents.size(); i++) {
             if(i % xAxis == 0) {
                 row = new Continent[xAxis];
                 arrangedContinents.add(row);
                 
             }
-            row[i % xAxis] = continentList().get(i);
+            row[i % xAxis] = world().map.continents.get(i);
             
         }
         
@@ -155,6 +151,8 @@ public class Continent implements Selectable
         
         world().getBackground().drawImage(background, firstHexPos[0] - Hexagon.RADIUS + 3, firstHexPos[1]);
     }
+    
+    //Private methods////////////////////////////////////////////////
 
     private GreenfootImage bonusImage() {
         GreenfootImage img = new GreenfootImage(60, 30);
@@ -165,13 +163,6 @@ public class Continent implements Selectable
         
         return img;
     
-    }
-    
-    //Public Static methods////////////////////////////////////////////////
-    
-    public static ArrayList<Continent> continentList(){
-        return (ArrayList<Continent>)continentList.clone();
-        
     }
     
     //Selectable methods/////////////////////////////////

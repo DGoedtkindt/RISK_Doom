@@ -6,10 +6,12 @@ import appearance.Appearance;
 import appearance.Theme;
 import base.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class BlankHex extends Button implements Selectable{
     
-    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20]; 
+    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20];
+    public static final HashSet<BlankHex> BLANK_HEXS = new HashSet<>();
     
     private int[] hexCoord = new int[2];
     
@@ -18,7 +20,7 @@ public class BlankHex extends Button implements Selectable{
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
         this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
-        Selector.selectableSet.add(this);
+        BLANK_HEXS.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
     }
     
@@ -53,12 +55,13 @@ public class BlankHex extends Button implements Selectable{
                         //créer un territoire
                         ArrayList<BlankHex> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
-                        new Territory(selectedHexes, this);
+                        Territory newTerr = new Territory(selectedHexes, this,0);   
+                        newTerr.addToWorld();
                         
                     }
                     
                 } catch(Exception e){
-                    System.err.println(e.getMessage());
+                    System.err.println(e);
 
                 }
                 world().escape(); break;
