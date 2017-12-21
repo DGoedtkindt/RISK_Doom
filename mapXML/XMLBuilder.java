@@ -22,7 +22,7 @@ public class XMLBuilder {
     private Document doc;
     private Element rootElement;
     
-    /**builds a XML document from a Map Object
+    /**builds a XML Document from a Map Object
      *
      * @param fromMap
      * @throws java.lang.Exception

@@ -11,6 +11,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+/** Stores the XML Document representing a Map
+ */
 public class MapXML {
     
     private Document xml;
@@ -86,7 +88,7 @@ public class MapXML {
     
     }
     
-    /**  calculates the checksum of the document.
+    /**  calculates the checksum of the document
      *  to check if the map's XML has been corrupted.
     */
     public int calculateChecksum() {

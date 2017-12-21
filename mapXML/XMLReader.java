@@ -19,7 +19,6 @@ public class XMLReader {
     private Document doc;
     
     /**
-     *
      * @param fromDoc Document from where you create the Map
      * @return the Map representation of the Document
      * @throws java.lang.Exception
