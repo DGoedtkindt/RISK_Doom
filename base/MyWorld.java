@@ -72,6 +72,7 @@ public class MyWorld extends World {
         theWorld = this;
         
         mainMenu();
+        Greenfoot.start();
         
     }
     ////////////////////////

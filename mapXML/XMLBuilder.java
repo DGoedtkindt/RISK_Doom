@@ -93,10 +93,6 @@ public class XMLBuilder {
             
             }
             
-            //rajouter l'id
-            int terrID = terr.id();
-            terrNode.setAttribute("id", "" + terrID);
-            
             //rajouter le bonus
             int terrBonus = terr.bonus();
             terrNode.setAttribute("bonus", "" + terrBonus);

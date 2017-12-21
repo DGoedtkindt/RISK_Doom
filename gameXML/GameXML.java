@@ -1,5 +1,5 @@
 package gameXML;
 
-public class XMLReader {
+public class GameXML {
     
 }

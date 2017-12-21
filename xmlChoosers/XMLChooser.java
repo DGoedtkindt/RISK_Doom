@@ -124,8 +124,8 @@ public abstract class XMLChooser extends Button implements Arrowable {
                 thumbnailNotFound.setFont(new Font("Monospaced", 20));
                 thumbnailNotFound.drawString("THUMBNAIL NOT FOUND", 180, 170);
                 thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
-                System.err.println("The thumbnail for " + name.replace(directory.getName() + "/", "") +
-                                    " is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
+                System.err.println("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
+                                    "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
                 returnImage.drawImage(thumbnailNotFound, 0, 0);
         } 
             

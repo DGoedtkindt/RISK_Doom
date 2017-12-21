@@ -47,7 +47,6 @@ public class XMLReader {
             ArrayList<BlankHex> hexContained = new ArrayList<>();
             
             BlankHex infoHex = null;
-            int id = Integer.parseInt(terrNode.getAttribute("id"));
             int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
             
             NodeList allChildren = terrNode.getChildNodes();
