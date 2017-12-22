@@ -5,7 +5,10 @@ import greenfoot.GreenfootImage;
 import greenfoot.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -116,6 +119,19 @@ public class NButton extends Button{
             try {
                 MapXML xml = new MapXML(MyWorld.theWorld.map);
                 xml.write(mapName, mapDescription);
+                
+                //écrivre l'image du thumbnail (solution temporaire)
+                try{
+                    BufferedImage mapImage = MyWorld.theWorld.getBackground().getAwtImage();
+                    File out = new File(new File("Maps").getAbsolutePath() + "/" + mapName + ".png");
+
+                    ImageIO.write(mapImage, "PNG", out);
+                    System.out.println("done");
+
+                } catch(IOException ex) {
+                    System.err.println("thumbnail couldn't be saved : " + ex);
+
+                }
 
             } catch (Exception ex) {
                 System.err.println("Map could not be saved : "+ ex);

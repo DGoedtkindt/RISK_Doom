@@ -1,15 +1,59 @@
 package basicChoosers;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import arrowable.*;
+import greenfoot.Actor;
+import greenfoot.World;
 
-/**
- *
- * @author Dario
- */
-public class BasicChooser {
+public class BasicChooser extends Actor implements Arrowable{
+    
+    private ChoiceList choices;
+    private RightArrow rightArrow;
+    private LeftArrow leftArrow;
+    
+    /**
+     * @param choiceList the choices this chooser will allow to choose from.
+     */
+    public BasicChooser(ChoiceList choiceList) {
+        choices = choiceList;
+        rightArrow = new RightArrow(this);
+        leftArrow = new LeftArrow(this);
+        updateImage();
+    
+    }
+    
+    public void addToWorld(World world, int xPos, int yPos) {
+        world.addObject(this, xPos, yPos);
+        world.addObject(rightArrow, xPos+100, yPos);
+        world.addObject(leftArrow, xPos-100, yPos);
+    
+    }
+    
+    public void destroy() {
+        getWorld().removeObject(rightArrow);
+        getWorld().removeObject(leftArrow);
+        choices.liberateChoice();
+        getWorld().removeObject(this);
+        
+    }
+
+    @Override
+    public void next() {
+        choices.next();
+        this.updateImage();
+        
+    }
+
+    @Override
+    public void previous() {
+        choices.previous();
+        this.updateImage();
+        
+    }
+    
+    private void updateImage() {
+        //for the moment it's basic, but it may be more complex in the future
+        this.setImage(choices.choiceImage());
+    
+    }
     
 }

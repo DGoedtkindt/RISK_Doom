@@ -72,7 +72,6 @@ public class MyWorld extends World {
         theWorld = this;
         
         mainMenu();
-        Greenfoot.start();
         
     }
     ////////////////////////
@@ -363,17 +362,6 @@ public class MyWorld extends World {
         mapToLoad.links.forEach(Links::addToWorld);
         map = mapToLoad;
     
-    }
-
-    //Création d'une image du monde//////////////////////////////////////////////
-    
-    public BufferedImage createMapImage(){
-        
-        GreenfootImage mapImage = new GreenfootImage(1920, 1080);
-        mapImage.drawImage(getBackground(), 0, 0);
-        
-        return mapImage.getAwtImage();
-        
     }
 
 }

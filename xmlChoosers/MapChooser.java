@@ -51,10 +51,10 @@ public class MapChooser extends XMLChooser implements Arrowable{
 
     @Override
     public void clicked() {
-        world().setupMapEditorScene();
         try {
             MapXML mapXML = new MapXML(new File(currentFile()));
             Map map = mapXML.getMap();
+            world().setupMapEditorScene();
             world().loadMap(map);
         } catch (Exception ex) {
             System.err.println("couldn't create MapXML from File");

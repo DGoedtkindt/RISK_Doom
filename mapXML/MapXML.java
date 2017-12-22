@@ -1,10 +1,13 @@
 package mapXML;
 
 import base.Map;
+import base.MyWorld;
+import javax.imageio.ImageIO;
 import java.awt.HeadlessException;
 import java.io.File;
 import org.w3c.dom.Document;
 import java.io.FileNotFoundException;
+import java.awt.image.BufferedImage;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -63,24 +66,9 @@ public class MapXML {
             //écrire le fichier
             StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + mapName + ".xml"));
             transformer.transform(source, result);
-
-            //créer l'image du thumbnail
-            //entre commentaire puisque ce code part du principe que la map
-            //qu'on veut sauver est la map active sur le monde.
-            //je voudrais que cette classe soit correcte indépendament de
-            // l'état actuel du monde.
-            // il faudra probablement créer un nouveau monde à partir ce cette
-            // map pour pouvoir prendre l'image de ce monde-la
             
-            /*BufferedImage mapImage = ((MyWorld)getWorld()).createMapImage();
-            File out = new File(dir.getAbsolutePath() + "/" + mapName + ".png");
-
-            //écrivre l'image du thumbnail
-            ImageIO.write(mapImage, "PNG", out);*/
-
-            System.out.println("Map was succesfully saved (Except the thumbnail "
-                    + "as it is still in developpement)");
-
+            System.out.println("Map was succesfully saved");
+            
         } catch(HeadlessException | TransformerException e) {
             System.err.println("Map Couldn't be saved   : " + e);
 
@@ -93,6 +81,18 @@ public class MapXML {
     */
     public int calculateChecksum() {
         throw new UnsupportedOperationException("Not supported yet.");
+    
+    }
+    
+    /////////////////Private Methods
+    
+    private BufferedImage getThumbnail() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
+        /*MyWorld worldForThumbnail = new MyWorld();
+        worldForThumbnail.setupMapEditorScene();
+        worldForThumbnail.loadMap(getMap());
+        BufferedImage thumbnail = worldForThumbnail.createWorldImage();
+        return thumbnail;*/
     
     }
 }
