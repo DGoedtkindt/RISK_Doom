@@ -4,6 +4,13 @@ import arrowable.*;
 import greenfoot.Actor;
 import greenfoot.World;
 
+
+/**
+ * A BasicChooser is a group of actors that allows to choose between the choices
+ * of a ChoiceList. It being a group of actor means that it should not be
+ * added/removed from a World using World.addObject()/removeObject(), but rather
+ * with addToWorld()/destroy().
+ */
 public class BasicChooser extends Actor implements Arrowable{
     
     private ChoiceList choices;

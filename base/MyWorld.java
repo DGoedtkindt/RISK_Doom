@@ -15,10 +15,11 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
+import mapXML.MapXML;
 
 
 public class MyWorld extends World {
@@ -259,6 +260,8 @@ public class MyWorld extends World {
     
     //Préparation des menus//////////////////////////////////////////////
     
+    //cette méthode est risquée car elle risque de ne pas supprimmer des 
+    //acteurs correctement (destroy() devrais être utilisé)
     private void resetWorldObjects(){
         map = new Map();
         game = new Game();
@@ -309,6 +312,25 @@ public class MyWorld extends World {
         
         MapChooser mapC = new MapChooser();
         mapC.addToWorld(this, getWidth() / 2, getHeight() / 2 );
+        
+        NButton editMapB = new NButton((ActionEvent ae) -> {
+            try{
+                File mapFile = mapC.getCurrentFile();
+                MapXML mapXML = new MapXML(mapFile);
+                Map map = mapXML.getMap();
+                setupMapEditorScene();
+                loadMap(map);
+                 
+            } catch(Exception ex) {
+                System.err.println("couldn't create MapXML from File");
+                ex.printStackTrace(System.err);
+                
+            }
+            
+        }, "Edit Map");
+        
+        addObject(editMapB, getWidth()/2, 3 * getHeight() / 4);
+        
         
         addObject(backButton, getWidth() - 25, 27);
 

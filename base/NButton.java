@@ -20,7 +20,14 @@ public class NButton extends Button{
     
     private ActionListener action;
     
-    static private MyWorld world(){return MyWorld.theWorld;}
+    /**
+     * NButton with no image
+     * @param al the action the button performs when clicked
+     */
+    public NButton(ActionListener al) {
+        action = al;
+        
+    }
     
     /**
      * NButton with a custom image and scale
@@ -64,15 +71,13 @@ public class NButton extends Button{
         int xPos = (175-txtImg.getWidth())/2;
         int yPos = (80-txtImg.getHeight())/2;
         this.getImage().drawImage(txtImg, xPos, yPos);
-        
         action = al;
         
     }
     
     @Override
     public void clicked() {
-        
-        action.actionPerformed(null);
+        if(action != null) action.actionPerformed(null);
         
     }
     

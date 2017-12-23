@@ -3,7 +3,7 @@ package basicChoosers;
 import greenfoot.GreenfootImage;
 
 
-public class AtkArmiesChoice extends ChoiceList {
+public class AtkArmiesChoices extends ChoiceList {
 
     @Override
     protected void next() {

@@ -4,6 +4,7 @@ import appearance.Theme;
 import base.*;
 import arrowable.*;
 import greenfoot.GreenfootImage;
+import greenfoot.Actor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
@@ -11,13 +12,13 @@ import greenfoot.Font;
 import greenfoot.World;
 
 /**
- * Un XMLChooser est un acteur qui permet de sélectionner un fichier XML.
- * Il affiche le thumbnail lié au XML qui est actuellement sélectionné.
- * L'utilisateur peut changer la sélection grâce aux Arrows qu'il crée
- * Il fait une action quand on clique dessus
+ * A XMLChooser is a Group of Actors that enables the user to choose between
+ * .xml files. It being a group of actor means that it should not be
+ * added/removed from a World using World.addObject()/removeObject(), but rather
+ * with addToWorld()/destroy().
  */
 
-public abstract class XMLChooser extends Button implements Arrowable {
+public abstract class XMLChooser extends Actor implements Arrowable {
     
     //un XMLChooser a une image de taille 500x500
     
@@ -74,10 +75,15 @@ public abstract class XMLChooser extends Button implements Arrowable {
     
     }
     
-    public void removeFromWorld(World world) {
+    public void destroy(World world) {
         world.removeObject(this);
         world.removeObject(rightArrow);
         world.removeObject(leftArrow);
+                
+    }
+    
+    public File getCurrentFile() {
+        return new File(currentFile());
                 
     }
     
