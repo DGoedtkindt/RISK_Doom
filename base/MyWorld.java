@@ -310,7 +310,7 @@ public class MyWorld extends World {
         resetWorldObjects();
         prepareBackgroundForMenu();
         
-        MapChooser mapC = new MapChooser();
+        MapChooser mapC = new MapChooser(true);
         mapC.addToWorld(this, getWidth() / 2, getHeight() / 2 );
         
         NButton editMapB = new NButton((ActionEvent ae) -> {
@@ -351,8 +351,8 @@ public class MyWorld extends World {
     }
     
     public void newGameMenu(){
-        
-        //A faire
+        resetWorldObjects();
+        new newGameMenu.MenuManager().setupMenu(this);
         
     }
     

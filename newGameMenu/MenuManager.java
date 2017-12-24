@@ -12,7 +12,7 @@ import basicChoosers.DifficultyChoices;
 
 public class MenuManager {
     
-    protected MapChooser mapChooser = new MapChooser();
+    protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();
     protected BasicChooser difficulty = new BasicChooser(new DifficultyChoices());
     protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndGameOn();}, "Game On !");
@@ -27,9 +27,10 @@ public class MenuManager {
                 new GreenfootImage("Setup your game", 30, Theme.used.textColor, new GColor(0,0,0,0));
         world.getBackground().drawImage(title, 
                 (world.getWidth()-title.getWidth())/2, 50);
-        mapChooser.addToWorld(world,world.getWidth()/2, 320);
-        difficulty.addToWorld(world,world.getWidth()/2, 590);
-        playersPanel.addToWorld(world, world.getWidth()/2, 850);
+        mapChooser.addToWorld(world,world.getWidth()/2, 340);
+        difficulty.addToWorld(world,world.getWidth()/2, 520);
+        playersPanel.addToWorld(world, world.getWidth()/2, 750);
+        world.addObject(play, world.getWidth()/2, 980);
     
     }
 }

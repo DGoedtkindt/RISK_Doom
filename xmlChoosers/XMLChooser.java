@@ -32,10 +32,11 @@ public abstract class XMLChooser extends Actor implements Arrowable {
     /**
      * @param directoryName le nom du folder où le XMLChooser va chercher
      * les XML
-     * @param defaultFile le XML qui sera selectionné par défaut. 
-     * null pour pas de défaut.
+     * @param spectialFile le XML qui sera selectionné par défaut ou caché. 
+     * null pour pas de défaut/caché.
+     * @param defaultOrHide true: spectialFile et par défaut, false: special file est caché
      */
-    public XMLChooser(String directoryName, String defaultFile){
+    public XMLChooser(String directoryName, String spectialFile, boolean defaultOrHide){
         directory = new File(directoryName);
         if(directory.isDirectory()) {
             fileArray = directory.list((File file, String name) -> {
@@ -44,14 +45,14 @@ public abstract class XMLChooser extends Actor implements Arrowable {
             
             fileList.addAll(Arrays.asList(fileArray));
             
-            if(defaultFile != null && 
-                    fileList.contains(defaultFile + ".xml")) {
+            if(spectialFile != null && 
+                    fileList.contains(spectialFile + ".xml")) {
                 
-                fileList.remove(defaultFile + ".xml");
-                fileList.add(0,defaultFile + ".xml");
+                fileList.remove(spectialFile + ".xml");
+                if(defaultOrHide) fileList.add(0,spectialFile + ".xml");
                 
             } else {
-                System.err.println(defaultFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
+                System.err.println(spectialFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
             
             }
             

@@ -23,15 +23,17 @@ public class BasicChooser extends Actor implements Arrowable{
     public BasicChooser(ChoiceList choiceList) {
         choices = choiceList;
         rightArrow = new RightArrow(this);
+        rightArrow.getImage().scale(30, 30);
         leftArrow = new LeftArrow(this);
+        leftArrow.getImage().scale(30, 30);
         updateImage();
     
     }
     
     public void addToWorld(World world, int xPos, int yPos) {
         world.addObject(this, xPos, yPos);
-        world.addObject(rightArrow, xPos+100, yPos);
-        world.addObject(leftArrow, xPos-100, yPos);
+        world.addObject(rightArrow, xPos+50, yPos);
+        world.addObject(leftArrow, xPos-50, yPos);
     
     }
     
