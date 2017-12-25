@@ -19,7 +19,9 @@ import mainObjects.Player;
  * The destroy() method must be used to remove the the group of actor
  */
 public class PlayersPanel {
-    //Player Panel should be maximum 500x500 large
+    private final int WIDHT = 200;
+    private final int HEIGHT = 300;
+    
     
     private ArrayList<PlayerOptions> players = new ArrayList<>();
     private NButton newP;
@@ -46,16 +48,14 @@ public class PlayersPanel {
     protected void addToWorld(World toWorld, int xPos, int yPos) {
         world = toWorld; this.xPos = xPos; this.yPos = yPos;
         for(int i = 0; i < players.size(); i++) {
-            int poX = (-1 + 2*((int)(i/3)))*150;
-            int poY = (-1 +(i % 3)) * 100;
-            players.get(i).addToWorld(world, xPos + poX, yPos + poY);
+            players.get(i).addToWorld(world, objPos(i)[0], objPos(i)[1]);
             
         }
         
         if(players.size() < 6) {
-            int newPX = 200;
-            int newPY = (-1 +(players.size() % 3)) * 100;
-            world.addObject(newP, xPos + newPX, yPos + newPY);
+            world.addObject(newP,0,0);
+            newP.setLocation(objPos(players.size())[0], objPos(players.size())[1]);
+            
         }
     
     }
@@ -68,10 +68,19 @@ public class PlayersPanel {
     
     }
     
+    private int[] objPos(int num) {
+        int relXPos = (-1 + 2*((int)(num/3)))*HEIGHT/2;
+        int relYPos = (-1 +(num % 3)) * WIDHT/2;
+        return new int[]{xPos+relXPos,yPos+relYPos};
+
+        
+    }
+    
     private void removePlayer(PlayerOptions toRemove) {
         toRemove.delete();
         players.remove(toRemove);
         addToWorld(world, xPos, yPos);
+        if(players.size()<= 3) players.forEach(PlayerOptions::makeUndeletable);
         
     }
     
@@ -80,6 +89,7 @@ public class PlayersPanel {
         players.add(newPlayer);
         if(world != null) addToWorld(world, xPos, yPos);
         if(players.size()>5) world.removeObject(newP);
+        if(players.size()>3) players.forEach(PlayerOptions::makeDeletable);
     
     }
     
@@ -106,7 +116,7 @@ public class PlayersPanel {
         
         PlayerOptions(PlayersPanel panel,String initName) {
             manager = panel;
-            delete = new NButton((ActionEvent ae)-> {manager.removePlayer(this);}, new GreenfootImage("delete_Icon.png"));
+            delete = new NButton((ActionEvent ae)-> {manager.removePlayer(this);}, new GreenfootImage("delete_Icon.png"),20,20);
             editName =  new NButton((ActionEvent ae) -> {setName(askForName());});
             setName(initName);
         
@@ -114,17 +124,21 @@ public class PlayersPanel {
         
         void addToWorld(World toWorld, int xPos, int yPos) {
             world = toWorld; this.xPos = xPos; this.yPos = yPos;
-            world.addObject(editName, xPos, yPos-20);
+            world.addObject(editName, 0,0);
+            editName.setLocation(xPos, yPos-20);
             colorChooser.addToWorld(world, xPos, yPos+20);
+            delete.setLocation(xPos+25+(editName.getImage().getWidth()/2), yPos);
             
         };
         
         void makeDeletable() {
-            world.addObject(delete, xPos, yPos+25+(editName.getImage().getWidth()/2));
+            if(world != null)
+            world.addObject(delete, xPos+25+(editName.getImage().getWidth()/2), yPos);
             
         }
         
         void makeUndeletable() {
+            if(world != null)
             world.removeObject(delete);
         
         }
@@ -135,9 +149,12 @@ public class PlayersPanel {
         }
         
         void delete() {
-            world.removeObject(delete);
-            world.removeObject(editName);
+            if(world != null) {
+                world.removeObject(delete);
+                world.removeObject(editName);
+            }
             colorChooser.destroy();
+            world = null;
             
         }
         

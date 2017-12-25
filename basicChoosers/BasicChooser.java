@@ -31,9 +31,12 @@ public class BasicChooser extends Actor implements Arrowable{
     }
     
     public void addToWorld(World world, int xPos, int yPos) {
-        world.addObject(this, xPos, yPos);
-        world.addObject(rightArrow, xPos+50, yPos);
-        world.addObject(leftArrow, xPos-50, yPos);
+        world.addObject(this,0,0);
+        world.addObject(rightArrow, 0,0);
+        world.addObject(leftArrow, 0,0);
+        this.setLocation(xPos, yPos);
+        rightArrow.setLocation(xPos+50, yPos);
+        leftArrow.setLocation(xPos-50, yPos);
     
     }
     

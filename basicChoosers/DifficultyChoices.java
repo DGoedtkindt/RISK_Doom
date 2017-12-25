@@ -17,16 +17,12 @@ public class DifficultyChoices extends ChoiceList{
 
     @Override
     protected GreenfootImage choiceImage() {
+        //just for testing
         return new GreenfootImage(10,10);
     }
 
     @Override
     public String choiceValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void liberateChoice() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

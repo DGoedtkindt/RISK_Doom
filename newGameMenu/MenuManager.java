@@ -33,4 +33,10 @@ public class MenuManager {
         world.addObject(play, world.getWidth()/2, 980);
     
     }
+    
+    public void clearScene() {
+        throw new UnsupportedOperationException("Not supported yet.");
+        
+    }
+    
 }

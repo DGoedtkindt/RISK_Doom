@@ -20,6 +20,6 @@ public abstract class ChoiceList {
     //choice, this method allows to liberate the choice when This is destroyed
     //for example, it should not be allowed for two players to choose the same 
     //color, thus the ChoiceList for a color will block its selected color.
-    protected abstract void liberateChoice();
+    protected void liberateChoice() {}
 
 }

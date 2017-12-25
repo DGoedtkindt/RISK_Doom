@@ -17,6 +17,7 @@ public class PColorChoices extends ChoiceList{
 
     @Override
     protected GreenfootImage choiceImage() {
+        //just for testing
         return new GreenfootImage(10,10);
     }
 
@@ -27,7 +28,7 @@ public class PColorChoices extends ChoiceList{
 
     @Override
     protected void liberateChoice() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       //still needs to do something
     }
 
 }
