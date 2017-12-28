@@ -31,11 +31,8 @@ public class PlayersPanel {
     
     protected PlayersPanel() {
         addPlayer();addPlayer();addPlayer();
-        newP = new NButton((ActionEvent ae) -> {addPlayer();});
-        GreenfootImage newPimg = new GreenfootImage("+ New Player",24,Theme.used.textColor,new GColor(0,0,0,0));
-        newP.setImage(newPimg);
+        initNewP();
         
-    
     }
     
     protected ArrayList<Player> getPlayers() {
@@ -47,16 +44,9 @@ public class PlayersPanel {
     
     protected void addToWorld(World toWorld, int xPos, int yPos) {
         world = toWorld; this.xPos = xPos; this.yPos = yPos;
-        for(int i = 0; i < players.size(); i++) {
-            players.get(i).addToWorld(world, objPos(i)[0], objPos(i)[1]);
-            
-        }
-        
-        if(players.size() < 6) {
-            world.addObject(newP,0,0);
-            newP.setLocation(objPos(players.size())[0], objPos(players.size())[1]);
-            
-        }
+        players.forEach((PlayerOptions po) -> {po.addToWorld(world, 0, 0);});
+        world.addObject(newP,0,0);
+        updatePositions();
     
     }
     
@@ -65,6 +55,15 @@ public class PlayersPanel {
         players.forEach(PlayerOptions::delete);
         players = null;
         world = null;
+    
+    }
+    
+    private void updatePositions() {
+        for(int i = 0; i < players.size(); i++) {
+            players.get(i).changeLocation(objPos(i)[0], objPos(i)[1]);
+        
+        }
+        newP.setLocation(objPos(players.size())[0], objPos(players.size())[1]);
     
     }
     
@@ -91,6 +90,13 @@ public class PlayersPanel {
         if(players.size()>5) world.removeObject(newP);
         if(players.size()>3) players.forEach(PlayerOptions::makeDeletable);
     
+    }
+    
+    private void initNewP() {
+        newP = new NButton((ActionEvent ae) -> {addPlayer();});
+        GreenfootImage newPimg = new GreenfootImage("+ New Player",24,Theme.used.textColor,new GColor(0,0,0,0));
+        newP.setImage(newPimg);
+        
     }
     
     
@@ -124,16 +130,22 @@ public class PlayersPanel {
         
         void addToWorld(World toWorld, int xPos, int yPos) {
             world = toWorld; this.xPos = xPos; this.yPos = yPos;
-            world.addObject(editName, 0,0);
-            editName.setLocation(xPos, yPos-20);
+            world.addObject(editName, xPos,yPos-20);
             colorChooser.addToWorld(world, xPos, yPos+20);
-            delete.setLocation(xPos+25+(editName.getImage().getWidth()/2), yPos);
             
         };
         
+        void changeLocation(int newX, int newY) {
+            xPos = newX; yPos = newY;
+            editName.setLocation(xPos, yPos-20);
+            colorChooser.changeLocation(xPos, yPos+20);
+            delete.setLocation(xPos+100, yPos);
+        
+        }
+        
         void makeDeletable() {
             if(world != null)
-            world.addObject(delete, xPos+25+(editName.getImage().getWidth()/2), yPos);
+            world.addObject(delete, xPos+100, yPos);
             
         }
         

@@ -217,31 +217,30 @@ public class Territory implements Selectable
         //Va check pour tous les TerritoryHex adjacent s'il faut faire un lien
         //si oui, rajoute les 3 points restants et stoque le losange dans la liste
         for(TerritoryHex otherHex : terrHexList){
-                if(otherHex != thisHex && thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS){ //pour ne lier que les hex adjacents
+            if(otherHex != thisHex && thisHex.distance(otherHex) < 2.2*Hexagon.RADIUS){ //pour ne lier que les hex adjacents
+
+                //point 3: le centre du deuxième TerritoryHex
+                diamPoints[0][2] = otherHex.getX();
+                diamPoints[1][2] = otherHex.getY();
+
+                //l'angle entre les deux TerrHex par rapport à l'horrizontale
+                int X_DISTANCE = otherHex.getY()-thisHex.getY();
+                int Y_DISTANCE = otherHex.getX()-thisHex.getX();
+                double angle = Math.atan2(X_DISTANCE, Y_DISTANCE);
+
+                //point 2: à mis-chemin entre les deux TerrHex et dévié de +30° par rapport à l'angle
+                diamPoints[0][1] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
+                diamPoints[1][1] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
+
+                //point 4: à mis-chemin entre les deux TerrHex et dévié de -30° par rapport à l'angle
+                diamPoints[0][3] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
+                diamPoints[1][3] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
+
+                Polygon newDiamond = new Polygon(diamPoints[0],diamPoints[1],4);
+                LinkingDiamonds.add(newDiamond);
                     
-                    //point 3: le centre du deuxième TerritoryHex
-                    diamPoints[0][2] = otherHex.getX();
-                    diamPoints[1][2] = otherHex.getY();
-                    
-                    //l'angle entre les deux TerrHex par rapport à l'horrizontale
-                    int X_DISTANCE = otherHex.getY()-thisHex.getY();
-                    int Y_DISTANCE = otherHex.getX()-thisHex.getX();
-                    double angle = Math.atan2(X_DISTANCE, Y_DISTANCE);
-                    
-                    //point 2: à mis-chemin entre les deux TerrHex et dévié de +30° par rapport à l'angle
-                    diamPoints[0][1] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle + Math.PI/6));
-                    diamPoints[1][1] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle + Math.PI/6));
-                    
-                    //point 4: à mis-chemin entre les deux TerrHex et dévié de -30° par rapport à l'angle
-                    diamPoints[0][3] = diamPoints[0][0] + (int)(Hexagon.RADIUS * Math.cos(angle - Math.PI/6));
-                    diamPoints[1][3] = diamPoints[1][0] + (int)(Hexagon.RADIUS * Math.sin(angle - Math.PI/6));
-                    
-                    Polygon newDiamond = new Polygon(diamPoints[0],diamPoints[1],4);
-                    LinkingDiamonds.add(newDiamond);
-                    
-                }
-            // ne pas faire de lien avec soi-même
-                    }
+            }
+        }
         
         return LinkingDiamonds;
         

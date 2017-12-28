@@ -3,7 +3,6 @@ package base;
 import selector.Selector;
 import java.awt.event.ActionEvent;
 import appearance.Appearance;
-import appearance.ThemeChooser;
 import appearance.Theme;
 import mainObjects.BlankHex;
 import mainObjects.Links;
@@ -41,9 +40,9 @@ public class MyWorld extends World {
     public Game game = new Game();
     
     //Boutons dans le menu principal
-    public NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "Play");
-    public NButton mapEditorButton          = new NButton((ActionEvent ae) -> {mapEditorMenu();}, "Map Editor");
-    public NButton optionsButton            = new NButton((ActionEvent ae) -> {optionsMenu();}  , "Options");
+    public NButton playGameButton           = new NButton((ActionEvent ae) -> {this.resetWorldObjects();gameMenu();}     , "Play");
+    public NButton mapEditorButton          = new NButton((ActionEvent ae) -> {this.resetWorldObjects();mapEditorMenu();}, "Map Editor");
+    public NButton optionsButton            = new NButton((ActionEvent ae) -> {this.resetWorldObjects();optionsMenu();}  , "Options");
     
     //Boutons dans le menu du jeu
     public NButton newGameButton            = new NButton((ActionEvent ae) -> {newGameMenu();}  , "New Game");
@@ -261,7 +260,7 @@ public class MyWorld extends World {
     //Préparation des menus//////////////////////////////////////////////
     
     //cette méthode est risquée car elle risque de ne pas supprimmer des 
-    //acteurs correctement (destroy() devrais être utilisé)
+    //acteurs correctement (destroy() devrait être utilisé)
     private void resetWorldObjects(){
         map = new Map();
         game = new Game();
@@ -352,7 +351,7 @@ public class MyWorld extends World {
     
     public void newGameMenu(){
         resetWorldObjects();
-        new newGameMenu.MenuManager().setupMenu(this);
+        new newGameMenu.Manager().setupMenu(this);
         
     }
     
@@ -363,15 +362,7 @@ public class MyWorld extends World {
     }
     
     public void optionsMenu(){
-        
-        currentDefaultMode = Mode.OPTIONS;
-        Mode.changeMode(Mode.OPTIONS);
-        
-        resetWorldObjects();
-        prepareBackgroundForMenu();
-        
-        ThemeChooser themeC = new ThemeChooser();
-        themeC.addToWorld(this, getWidth() / 2, getHeight() / 2);
+        new UserPreferences.Manager().setupScene(this);
         addObject(backButton, getWidth() - 25, 27);
         
     }

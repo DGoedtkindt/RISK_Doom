@@ -18,7 +18,7 @@ import greenfoot.World;
  * with addToWorld()/destroy().
  */
 
-public abstract class XMLChooser extends Actor implements Arrowable {
+public abstract class XMLChooser implements Arrowable {
     
     //un XMLChooser a une image de taille 500x500
     
@@ -28,6 +28,7 @@ public abstract class XMLChooser extends Actor implements Arrowable {
     private ArrayList<String> fileList = new ArrayList<>();
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
+    private Thumbnail thumbnail;
     
     /**
      * @param directoryName le nom du folder où le XMLChooser va chercher
@@ -62,22 +63,25 @@ public abstract class XMLChooser extends Actor implements Arrowable {
             
         }
         
-        updateImage();
         
+        thumbnail = new Thumbnail();
         rightArrow = new RightArrow(this);
         leftArrow = new LeftArrow(this);
+        updateImage();
         
     }
     
+    private class Thumbnail extends Actor {}
+    
     public void addToWorld(World world, int xPos, int yPos) {
-        world.addObject(this, xPos, yPos);
+        world.addObject(thumbnail, xPos, yPos);
         world.addObject(leftArrow, xPos - 310, yPos - 70);
         world.addObject(rightArrow, xPos + 310, yPos -70);
     
     }
     
     public void destroy(World world) {
-        world.removeObject(this);
+        world.removeObject(thumbnail);
         world.removeObject(rightArrow);
         world.removeObject(leftArrow);
                 
@@ -145,12 +149,12 @@ public abstract class XMLChooser extends Actor implements Arrowable {
             completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Name :");
             completeMessage += wrapText(getDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
             completeMessage += "\n";
-            completeMessage += (mapNumber + 1) + " out of " + fileArray.length;
+            completeMessage += (mapNumber + 1) + " out of " + fileList.size();
             
             //dessiner la description
             returnImage.drawString(completeMessage, 10, 300);
             
-            this.setImage(returnImage);
+            thumbnail.setImage(returnImage);
             
         
         

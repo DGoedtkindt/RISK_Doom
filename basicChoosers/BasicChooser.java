@@ -13,9 +13,14 @@ import greenfoot.World;
  */
 public class BasicChooser extends Actor implements Arrowable{
     
+    private int halfGapSize = 50;
+    private int arrSize = 30;
     private ChoiceList choices;
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
+    private int x;
+    private int y;
+    
     
     /**
      * @param choiceList the choices this chooser will allow to choose from.
@@ -23,28 +28,43 @@ public class BasicChooser extends Actor implements Arrowable{
     public BasicChooser(ChoiceList choiceList) {
         choices = choiceList;
         rightArrow = new RightArrow(this);
-        rightArrow.getImage().scale(30, 30);
+        rightArrow.scale(arrSize);
         leftArrow = new LeftArrow(this);
-        leftArrow.getImage().scale(30, 30);
+        leftArrow.scale(arrSize);
         updateImage();
     
     }
     
-    public void addToWorld(World world, int xPos, int yPos) {
-        world.addObject(this,0,0);
-        world.addObject(rightArrow, 0,0);
-        world.addObject(leftArrow, 0,0);
-        this.setLocation(xPos, yPos);
-        rightArrow.setLocation(xPos+50, yPos);
-        leftArrow.setLocation(xPos-50, yPos);
+    public void addToWorld(World toWorld, int xPos, int yPos) {
+        x = xPos; y = yPos;
+        toWorld.addObject(this,x,y);
+        toWorld.addObject(rightArrow, x+halfGapSize,y);
+        toWorld.addObject(leftArrow, x-halfGapSize,y);
+    
+    }
+    
+    public void changeLocation(int newX, int newY) {
+        this.setLocation(newX, newY); x = newX; y = newY;
+        rightArrow.setLocation(x+halfGapSize,y);
+        leftArrow.setLocation(x-halfGapSize,y);
+    
+    }
+    
+    public void setArrows(int gapSize,int arrowSize) {
+        halfGapSize = gapSize/2;
+        arrSize = arrowSize;
+        rightArrow.scale(arrSize);
+        leftArrow.scale(arrSize);
+        rightArrow.setLocation(x+halfGapSize,y);
+        leftArrow.setLocation(x-halfGapSize,y);
     
     }
     
     public void destroy() {
         getWorld().removeObject(rightArrow);
         getWorld().removeObject(leftArrow);
-        choices.liberateChoice();
         getWorld().removeObject(this);
+        choices.liberateChoice();
         
     }
 
@@ -60,6 +80,11 @@ public class BasicChooser extends Actor implements Arrowable{
         choices.previous();
         this.updateImage();
         
+    }
+    
+    public String currentChoice() {
+        return choices.choiceValue();
+    
     }
     
     private void updateImage() {

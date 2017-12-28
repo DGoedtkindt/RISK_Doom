@@ -10,7 +10,7 @@ import base.NButton;
 import basicChoosers.BasicChooser;
 import basicChoosers.DifficultyChoices;
 
-public class MenuManager {
+public class Manager {
     
     protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();

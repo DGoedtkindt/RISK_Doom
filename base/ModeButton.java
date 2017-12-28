@@ -2,8 +2,6 @@ package base;
 
 import selector.Selector;
 import appearance.Appearance;
-import base.Button;
-import base.Mode;
 import greenfoot.GreenfootImage;
 import java.util.function.Predicate;
 
