@@ -13,6 +13,7 @@ public class Territory implements Selectable
     private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
+    private Map map() {return world().stateManager.map();}
     private Continent continent = null;
     public GColor continentColor = Theme.used.territoryColor;
     private int bonusPoints = 0;
@@ -43,7 +44,7 @@ public class Territory implements Selectable
             trInfo.setDisplayedBonus(bonusPoints);
             removeBlankHexs();
             drawTerritory();
-            world().map.territories.add(this);
+            map().territories.add(this);
         
     }
     
@@ -59,7 +60,7 @@ public class Territory implements Selectable
             
         }
         world().removeObjects(terrHexList);
-        world().map.territories.remove(this);
+        map().territories.remove(this);
         if(continent != null) continent.removeTerritory(this);
         
         world().removeObject(trInfo);
@@ -88,7 +89,7 @@ public class Territory implements Selectable
     }
     
     public int id() {
-        return world().map.territories.indexOf(this);
+        return map().territories.indexOf(this);
         
     }
     

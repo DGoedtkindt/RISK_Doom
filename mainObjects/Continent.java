@@ -12,6 +12,7 @@ public class Continent implements Selectable
 {
     //private static variables
     private static MyWorld world() {return MyWorld.theWorld;}
+    private static Map map() {return world().stateManager.map();}
     
     //private variable
     private GColor continentColor;
@@ -39,7 +40,7 @@ public class Continent implements Selectable
     public void addToWorld() {
         //to Update the territories continent and color
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
-        world().map.continents.add(this);
+        map().continents.add(this);
         
         updateBonusDisplay();
     
@@ -74,7 +75,7 @@ public class Continent implements Selectable
      * should not be used if it is outside the world.
      */
     public void destroy() {
-        world().map.continents.remove(this);
+        map().continents.remove(this);
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
@@ -102,17 +103,17 @@ public class Continent implements Selectable
         
         //calculer le nombre de colonne pour l'affichage des bonus
         //le nombre de colonne devrais tendre vers 2x le nombre de lignes
-        int xAxis = (int)Math.sqrt(2*world().map.continents.size());
+        int xAxis = (int)Math.sqrt(2*map().continents.size());
         
         //rajouter les continents lignes par lignes avec xAxis continents par lignes
         Continent[] row = new Continent[xAxis];
-        for(int i = 0; i < world().map.continents.size(); i++) {
+        for(int i = 0; i < map().continents.size(); i++) {
             if(i % xAxis == 0) {
                 row = new Continent[xAxis];
                 arrangedContinents.add(row);
                 
             }
-            row[i % xAxis] = world().map.continents.get(i);
+            row[i % xAxis] = map().continents.get(i);
             
         }
         

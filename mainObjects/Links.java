@@ -1,13 +1,13 @@
 package mainObjects;
 
-import base.GColor;
-import base.MyWorld;
+import base.*;
 import java.util.ArrayList;
 
 
 public class Links {
     
     private MyWorld world() {return MyWorld.theWorld;}
+    private Map map() {return world().stateManager.map();}
     public static Links newLinks;   //c'est le Links en train d'être modifié. 
                                     //== null quand un Links n'est pas en train d'etre créé
     public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
@@ -21,7 +21,7 @@ public class Links {
     
     public void addToWorld() {
         linkIndicList.forEach(LinkIndic::addToWorld);
-        world().map.links.add(this);
+        map().links.add(this);
         
     }
     
@@ -46,7 +46,7 @@ public class Links {
         //pour supprimer le link quand l'avant dernier linkIndic a été supprimé
         if(linkIndicList.size() == 1 && newLinks != this) {
             linkIndicList.get(0).destroy();
-            world().map.links.remove(this);
+            map().links.remove(this);
         }
     }
     
@@ -61,7 +61,7 @@ public class Links {
             
         }
         
-        world().map.links.remove(this);
+        map().links.remove(this);
     
     }
 

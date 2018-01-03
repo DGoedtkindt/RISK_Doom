@@ -1,7 +1,7 @@
 package mapEditor;
 
+import mode.Mode;
 import selector.Selector;
-import appearance.Appearance;
 import mainObjects.Continent;
 import mainObjects.Links;
 import base.*;
@@ -25,15 +25,13 @@ public class OKButton extends Button
     @Override
     public void clicked(){
         
-        Mode mode = Mode.currentMode();
-        
         //at this level the ifs that must not end with escape()
-        if(mode == Mode.CREATE_TERRITORY){
+        if(Mode.mode() == Mode.CREATE_TERRITORY){
             switchToSelectInfoHex();
             
         }else {
             //at this level, the ifs end with escape()
-            switch (mode) {
+            switch (Mode.mode()) {
                 case CREATE_CONTINENT:
                     createContinentFromSelection();
                     break;
@@ -55,7 +53,7 @@ public class OKButton extends Button
                 default:
                     break;
             }
-                world().escape();
+                world().stateManager.escape();
             
         }
         
@@ -77,7 +75,7 @@ public class OKButton extends Button
             
         } catch(Exception e){
            System.err.println(e);
-           world().escape();
+           world().stateManager.escape();
            
            }
         
@@ -85,7 +83,7 @@ public class OKButton extends Button
     
     private void switchToSelectInfoHex(){
         Selector.setValidator(Selector.NOTHING);
-        Mode.changeMode(Mode.SELECT_INFO_HEX);
+        Mode.setMode(Mode.SELECT_INFO_HEX);
         
     }
     
@@ -100,7 +98,7 @@ public class OKButton extends Button
             
            } catch(Exception e){
             System.err.println(e);
-            world().escape();
+            world().stateManager.escape();
            
            }
         
@@ -113,19 +111,10 @@ public class OKButton extends Button
             
            } catch(Exception e){
             System.err.println(e);
-            world().escape();
+            world().stateManager.escape();
              
            }
              
     }
     
-    public void makeTransparent() {
-        getImage().setTransparency(Appearance.TRANSPARENT);
-    
-    }
-    
-    public void makeOpaque() {
-        getImage().setTransparency(Appearance.OPAQUE);
-    
-    }
 }

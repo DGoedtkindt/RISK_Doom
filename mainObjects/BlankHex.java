@@ -1,5 +1,6 @@
 package mainObjects;
 
+import mode.Mode;
 import selector.Selector;
 import selector.Selectable;
 import appearance.Appearance;
@@ -43,9 +44,8 @@ public class BlankHex extends Button implements Selectable{
     
     @Override
     public void clicked() {
-        Mode mode = Mode.currentMode();
         
-        switch (mode) {
+        switch (Mode.mode()) {
             case CREATE_TERRITORY :
                 Selector.select(this); break;
                 
@@ -64,10 +64,10 @@ public class BlankHex extends Button implements Selectable{
                     System.err.println(e);
 
                 }
-                world().escape(); break;
+                world().stateManager.escape();; break;
                 
             default:
-                world().escape();
+                world().stateManager.escape();;
                 break;
                 
         }

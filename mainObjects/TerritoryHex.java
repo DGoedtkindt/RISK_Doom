@@ -1,5 +1,6 @@
 package mainObjects;
 
+import mode.Mode;
 import selector.Selector;
 import base.*;
 import greenfoot.Greenfoot;
@@ -11,7 +12,7 @@ public class TerritoryHex extends Button
     private Territory territory;
     private int[] hexCoord = new int[2];
     
-    private static MyWorld world() {return MyWorld.theWorld;}
+    private MyWorld world() {return MyWorld.theWorld;}
     
     public TerritoryHex(Territory territory, GColor color, int x, int y){
         this.territory = territory;
@@ -31,12 +32,10 @@ public class TerritoryHex extends Button
     @Override
     public void clicked() {
         try {
-            Mode mode = Mode.currentMode();
-
-            if(mode == Mode.MAP_EDITOR_DEFAULT){
-                world().escape();
+            if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
+                world().stateManager.escape();;
                 
-            }else switch (mode) {
+            }else switch (Mode.mode()) {
                 case CREATE_CONTINENT :
                 case DELETE_TERRITORY :
                     Selector.select(territory());
@@ -47,7 +46,7 @@ public class TerritoryHex extends Button
                     Selector.setValidator(Selector.NOTHING);
                     world().repaint(); //pour forcer l'actualisation des images
                     territory.editBonus();
-                    world().escape();
+                    world().stateManager.escape();;
                     break;
                     
                 case EDIT_CONTINENT_COLOR :
@@ -57,7 +56,7 @@ public class TerritoryHex extends Button
                         world().repaint(); //pour forcer l'actualisation des images
                         territory.continent().editColor();
                     }
-                    world().escape();
+                    world().stateManager.escape();;
                     break;
                     
                 case EDIT_CONTINENT_BONUS :
@@ -67,7 +66,7 @@ public class TerritoryHex extends Button
                         world().repaint(); //pour forcer l'actualisation des images
                         territory.continent().editBonus();
                     }
-                    world().escape();
+                    world().stateManager.escape();;
                     break;
                     
                 case DELETE_CONTINENT :
@@ -93,17 +92,13 @@ public class TerritoryHex extends Button
                     
                     break;
                     
-                case CREATE_TERRITORY :
-                case SELECT_INFO_HEX :
-                    break;
-                    
                 default:
-                    world().escape();
+                    world().stateManager.escape();;
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
-            world().escape();
+            world().stateManager.escape();;
         }
         
     }

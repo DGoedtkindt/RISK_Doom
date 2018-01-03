@@ -122,7 +122,7 @@ public class NButton extends Button{
         //si les conditions sont accomplies: sauver
         if(writeQ == JOptionPane.YES_OPTION){
             try {
-                MapXML xml = new MapXML(MyWorld.theWorld.map);
+                MapXML xml = new MapXML(MyWorld.theWorld.stateManager.map());
                 xml.write(mapName, mapDescription);
                 
                 //écrivre l'image du thumbnail (solution temporaire)

@@ -3,10 +3,8 @@ package mainObjects;
 //un objet de cette classe indique l'existance d'un Link entre plusieur Territory
 //par sa couleur
 
-import base.Button;
-import base.Hexagon;
-import base.Mode;
-import base.MyWorld;
+import mode.Mode;
+import base.*;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
@@ -18,6 +16,7 @@ public class LinkIndic extends Button{
     private int yPos; 
     
     private MyWorld world(){return MyWorld.theWorld;}
+    private StateManager manager() {return world().stateManager;}
     
     public LinkIndic(Territory territory, int xPos, int yPos) {
         //le lier au Links actif et a son territoire
@@ -40,7 +39,7 @@ public class LinkIndic extends Button{
     @Override
     public void clicked() {
         
-        if(Mode.currentMode() == Mode.MAP_EDITOR_DEFAULT){
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
             
             String[] actions = new String[]{"Delete the entire link", "Delete this particular link", "Extend this link", "Oh, I just wanted to greet it"};
             
@@ -61,11 +60,11 @@ public class LinkIndic extends Button{
                 case 1 : this.destroy();
                          break;
                     
-                case 2 : Mode.changeMode(Mode.SET_LINK);
+                case 2 : Mode.setMode(Mode.SET_LINK);
                          Links.newLinks = this.links;
                          break;
                 
-                default : world().escape(); 
+                default : manager().escape();; 
                           break;
                 
             }

@@ -1,7 +1,8 @@
-package base;
+package mode;
 
 import selector.Selector;
 import appearance.Appearance;
+import base.Button;
 import greenfoot.GreenfootImage;
 import java.util.function.Predicate;
 
@@ -10,7 +11,7 @@ public class ModeButton extends Button {
     public Mode linkedMode;
     public Predicate validator;
     
-    public ModeButton(String imageName, Mode mode, Predicate validator) throws IllegalArgumentException{
+    public ModeButton(String imageName, Mode mode, Predicate validator){
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(80, 80);
         setImage(img);
@@ -23,15 +24,14 @@ public class ModeButton extends Button {
     public void clicked() {
         
         if(isUsable()) {
-            Mode.changeMode(linkedMode);
+            Mode.setMode(linkedMode);
             Selector.setValidator(validator);
+            makeOpaque();
         }
     }
     
     private boolean isUsable(){
-        if(this.getImage().getTransparency() == Appearance.OPAQUE){//Le bouton est opaque s'il est utilisable
-           return true; 
-        }else{return false;}
+        return this.getImage().getTransparency() == Appearance.OPAQUE; //Le bouton est utilisable s'il est opaque
         
     }
     
