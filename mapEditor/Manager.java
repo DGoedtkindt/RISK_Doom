@@ -4,6 +4,7 @@ import appearance.Theme;
 import mode.Mode;
 import base.*;
 import greenfoot.GreenfootImage;
+import greenfoot.Actor;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -31,6 +32,7 @@ public class Manager extends StateManager{
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
         world().addObject(Mode.display, world().getWidth()-90, 850);
+        world().addObject(Continent.display, 840, 960);
         loadMap();
         
     }
@@ -58,9 +60,8 @@ public class Manager extends StateManager{
         mapToLoad = loadedMap;
         loadedMap = new Map();
         
-        world().removeObject(world().getObjects(null));
+        world().removeObjects(world().getObjects(Actor.class));
         
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
@@ -70,7 +71,8 @@ public class Manager extends StateManager{
             int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
             if(choice == JOptionPane.YES_OPTION){
-                world().load(new menu.Manager());
+                clearScene();
+                world().load(new mapEditorMenu.Manager());
 
             } 
         
@@ -85,6 +87,7 @@ public class Manager extends StateManager{
             Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
             
         }
+        
     }
 
 }

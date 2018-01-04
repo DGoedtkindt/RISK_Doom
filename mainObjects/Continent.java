@@ -4,17 +4,18 @@ import selector.Selectable;
 import appearance.Appearance;
 import appearance.Theme;
 import base.*;
+import greenfoot.Actor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
 
 public class Continent implements Selectable
 {
-    //private static variables
-    private static MyWorld world() {return MyWorld.theWorld;}
-    private static Map map() {return world().stateManager.map();}
+    public static final Actor display = new BonusDisplay();
     
     //private variable
+    private MyWorld world() {return MyWorld.theWorld;}
+    private Map map() {return world().stateManager.map();}
     private GColor continentColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
@@ -42,7 +43,7 @@ public class Continent implements Selectable
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         map().continents.add(this);
         
-        updateBonusDisplay();
+        ((BonusDisplay)display).update();
     
     }
     
@@ -50,7 +51,7 @@ public class Continent implements Selectable
         continentColor = ColorChooser.getColor();
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
 
-        updateBonusDisplay();
+        ((BonusDisplay)display).update();
         
     }
     
@@ -79,7 +80,7 @@ public class Continent implements Selectable
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
-        updateBonusDisplay();
+        ((BonusDisplay)display).update();
                
     }
     
@@ -89,80 +90,11 @@ public class Continent implements Selectable
         if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
         if(newBonus <= 0){newBonus = 0;}
         bonus = newBonus;
-        updateBonusDisplay();
+        ((BonusDisplay)display).update();
     }
     
     public int bonus() {
         return bonus;
-    
-    }
-    
-    public static void updateBonusDisplay() {
-        //représente un tableau 2D pour l'arrangement des Bonus
-        ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
-        
-        //calculer le nombre de colonne pour l'affichage des bonus
-        //le nombre de colonne devrais tendre vers 2x le nombre de lignes
-        int xAxis = (int)Math.sqrt(2*map().continents.size());
-        
-        //rajouter les continents lignes par lignes avec xAxis continents par lignes
-        Continent[] row = new Continent[xAxis];
-        for(int i = 0; i < map().continents.size(); i++) {
-            if(i % xAxis == 0) {
-                row = new Continent[xAxis];
-                arrangedContinents.add(row);
-                
-            }
-            row[i % xAxis] = map().continents.get(i);
-            
-        }
-        
-        //le nombre de colonnes pour l'affichage des bonus
-        int yAxis = arrangedContinents.size();
-        
-        //Détermine les coordonnées qui serviront à créer une image de la bonne taille
-        int[] firstHexPos = Hexagon.hexToRectCoord(new int[]{Appearance.CONTINENT_BONUS_X_POSITION, 
-                                                            Appearance.CONTINENT_BONUS_Y_POSITION});
-        
-        int[] secondHexPos = Hexagon.hexToRectCoord(new int[]{Appearance.CONTINENT_BONUS_X_POSITION + Appearance.CONTINENT_BONUS_ZONE_WIDTH, 
-                                                            Appearance.CONTINENT_BONUS_Y_POSITION + Appearance.CONTINENT_BONUS_ZONE_HEIGHT});
-        
-        int[] dimensions = new int[]{secondHexPos[0] - firstHexPos[0], secondHexPos[1] - firstHexPos[1]};
-        
-        //créer l'image sur laquelle les bonus vont s'afficher
-        GreenfootImage background = new GreenfootImage(dimensions[0], dimensions[1]);
-        background.setColor(Theme.used.backgroundColor);
-        background.fill();
-        
-        //dessiner 
-        for(int y = 0; y < yAxis; y++) {
-            for(int x = 0; x < xAxis; x++) {
-               Continent c = arrangedContinents.get(y)[x];
-               if(c != null) {
-                   GreenfootImage img = c.bonusImage();
-                   int xMultiplier = (int) (background.getWidth() / (xAxis+1));
-                   int yMultiplier = (int) (background.getHeight() / (yAxis+1));
-                   background.drawImage(img, (x+1) * xMultiplier, (y+1) * yMultiplier);
-                   
-               }
-            
-            }
-        
-        }
-        
-        world().getBackground().drawImage(background, firstHexPos[0] - Hexagon.RADIUS + 3, firstHexPos[1]);
-    }
-    
-    //Private methods////////////////////////////////////////////////
-
-    private GreenfootImage bonusImage() {
-        GreenfootImage img = new GreenfootImage(60, 30);
-        img.setColor(continentColor);
-        img.fill();
-        GreenfootImage txt = new GreenfootImage("" + bonus, 18, GColor.BLACK, continentColor);
-        img.drawImage(txt, 30 - txt.getWidth()/2, 15 - txt.getHeight()/2);
-        
-        return img;
     
     }
     
@@ -192,4 +124,73 @@ public class Continent implements Selectable
         }
     }
             
+}
+
+class BonusDisplay extends Actor {
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 200;
+    
+    private MyWorld world() {return MyWorld.theWorld;}
+    private Map map() {return world().stateManager.map();}
+    
+    BonusDisplay() {
+        this.setImage(new GreenfootImage(WIDTH, HEIGHT));
+    
+    }
+    
+    void update() {
+        this.setImage(new GreenfootImage(WIDTH, HEIGHT));
+        
+        //représente un tableau 2D pour l'arrangement des Bonus
+        ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
+        
+        //calculer le nombre de colonne pour l'affichage des bonus
+        //le nombre de colonne devrais tendre vers 2x le nombre de lignes
+        int xAxis = (int)Math.sqrt(2*map().continents.size());
+        
+        //rajouter les continents lignes par lignes avec xAxis continents par lignes
+        Continent[] row = new Continent[xAxis];
+        for(int i = 0; i < map().continents.size(); i++) {
+            if(i % xAxis == 0) {
+                row = new Continent[xAxis];
+                arrangedContinents.add(row);
+                
+            }
+            row[i % xAxis] = map().continents.get(i);
+            
+        }
+        
+        //le nombre de colonnes pour l'affichage des bonus
+        int yAxis = arrangedContinents.size();
+        
+        //dessiner 
+        for(int y = 0; y < yAxis; y++) {
+            for(int x = 0; x < xAxis; x++) {
+               Continent c = arrangedContinents.get(y)[x];
+               if(c != null) {
+                   GreenfootImage img = bonusImage(c);
+                   int xMultiplier = (int) (getImage().getWidth() / (xAxis+1));
+                   int yMultiplier = (int) (getImage().getHeight() / (yAxis+1));
+                   getImage().drawImage(img, (x+1) * xMultiplier, (y+1) * yMultiplier);
+                   
+               }
+            
+            }
+        
+        }
+        
+    }
+
+    private GreenfootImage bonusImage(Continent c) {
+        GreenfootImage img = new GreenfootImage(60, 30);
+        img.setColor(c.color());
+        img.fill();
+        GreenfootImage txt = new GreenfootImage("" + c.bonus(), 18, GColor.BLACK, c.color());
+        img.drawImage(txt, 30 - txt.getWidth()/2, 15 - txt.getHeight()/2);
+        
+        return img;
+    
+    }
+
+
 }

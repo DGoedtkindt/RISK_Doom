@@ -51,6 +51,7 @@ public class Manager extends StateManager{
         int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to what you were doing before", 
                                                              "Yes", JOptionPane.YES_NO_CANCEL_OPTION);
             if(choice == JOptionPane.YES_OPTION){
+                clearScene();
                 world().load(new menu.Manager());
 
             }

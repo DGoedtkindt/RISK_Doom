@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
+    private ArrayList<TerritoryHex> terrHexList;
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
@@ -40,13 +40,14 @@ public class Territory implements Selectable
     
     public void addToWorld() {
         //pas fool proof, devrais éviter de rajouter 2 fois au monde
-            createTerrHexs();
+            placeTerrHexs();
             trInfo.setDisplayedBonus(bonusPoints);
             removeBlankHexs();
             drawTerritory();
             map().territories.add(this);
         
     }
+  
     
     /** Removes this from the world, containing continent, Links, etc...
      * Should not be used if territory is outside of the world
@@ -247,9 +248,10 @@ public class Territory implements Selectable
         
     }
     
-    private void createTerrHexs()
-    //crée tous les territoryHex de ce territoire
+    private void placeTerrHexs()
+    //crée et place tous les territoryHex de ce territoire
     {
+        this.terrHexList = new ArrayList<>();
         for(BlankHex bh : blankHexList) {
             TerritoryHex trHex = new TerritoryHex(this, continentColor, bh.hexCoord()[0], bh.hexCoord()[1]);
             terrHexList.add(trHex);
