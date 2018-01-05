@@ -27,7 +27,7 @@ public class LinkIndic extends Button{
         
         //créer son image
         GreenfootImage img = Hexagon.createImage(links.color());
-        img.scale(10, 10);
+        img.scale(15, 15);
         setImage(img);
         
         //stoquer la position

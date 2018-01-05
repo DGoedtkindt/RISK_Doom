@@ -2,6 +2,7 @@ package mapEditor;
 
 import appearance.Theme;
 import mode.Mode;
+import mode.ModeMessageDisplay;
 import base.*;
 import greenfoot.GreenfootImage;
 import greenfoot.Actor;
@@ -18,10 +19,12 @@ public class Manager extends StateManager{
     private MyWorld world() {return MyWorld.theWorld;}
     
     private ControlPanel ctrlPanel;
+    private ModeMessageDisplay modeDisp;
     
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
-        this.ctrlPanel = new ControlPanel();
+        ctrlPanel = new ControlPanel();
+        modeDisp = new ModeMessageDisplay();
     
     }
     
@@ -31,10 +34,9 @@ public class Manager extends StateManager{
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
-        world().addObject(Mode.display, world().getWidth()-90, 850);
+        modeDisp.addToWorld(world().getWidth()-90, 850);
         world().addObject(Continent.display, 840, 960);
         loadMap();
-        
     }
     
     public void loadMap() {
@@ -59,6 +61,9 @@ public class Manager extends StateManager{
     public void clearScene() {
         mapToLoad = loadedMap;
         loadedMap = new Map();
+        
+        ctrlPanel.removeFromWorld();
+        modeDisp.removeFromWorld();
         
         world().removeObjects(world().getObjects(Actor.class));
         

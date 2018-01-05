@@ -20,9 +20,14 @@ public class BlankHex extends Button implements Selectable{
     
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
-        this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
+        setImage();
         BLANK_HEXS.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
+    }
+    
+    private void setImage() {
+        this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
+        
     }
     
     public static BlankHex blankHexAt(int hexX, int hexY) 

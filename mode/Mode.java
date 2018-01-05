@@ -1,7 +1,8 @@
 package mode;
 
-import appearance.Appearance;
 import appearance.Theme;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import base.MyWorld;
 import greenfoot.GreenfootImage;
 import greenfoot.Font;
@@ -28,8 +29,8 @@ public enum Mode
     }
     
     private static Mode currentMode;
-    public static final Actor display = new ModeMessageDisplay();
-    private final String message;
+    private static final ArrayList<ActionListener> actionsWhenModeChanges = new ArrayList<>();
+    protected final String message;
     
     public static Mode mode() {
         return currentMode;
@@ -38,49 +39,18 @@ public enum Mode
     
     public static void setMode(Mode newMode) {
         currentMode = newMode;
-        ((ModeMessageDisplay)display).display(currentMode.message);
+        actionsWhenModeChanges.forEach((ActionListener al)->(al.actionPerformed(null)));
         
     }
     
-}
-
-//Mode Message Display/////////////////////////////////////  
-class ModeMessageDisplay extends Actor {
-    private MyWorld world() {return MyWorld.theWorld;}
-    static final int WIDTH = 182;
-    static final int HEIGHT = 330;
+    public static void addModeChangeListener(ActionListener al) {
+        actionsWhenModeChanges.add(al);
     
-    ModeMessageDisplay() {this.setImage(new GreenfootImage(WIDTH,HEIGHT));}
-
-    void display(String message){
-        this.setImage(new GreenfootImage(WIDTH,HEIGHT));
-        Font font = new Font("Monospaced", 17);
-        String textToDisplay = wrapText(message, 16);
-        getImage().setColor(Theme.used.textColor);
-        getImage().setFont(font);
-        getImage().drawString(textToDisplay, 0, 0);
-
     }
-
-    private String wrapText(String strToWrap, int maxLineLength) {
-
-        String[] words = strToWrap.split(" ");
-        String finalString = "\n";
-
-        String currentLine = "";
-        for(String currentWord : words){
-            if((currentLine + currentWord).length() > maxLineLength){
-                finalString += currentLine + "\n";
-                currentLine = "";
-
-            }
-            currentLine += " " + currentWord;
-
-        }
-        finalString += currentLine;
-
-        return finalString;
-
+    
+    public static void removeModeChangeListener(ActionListener al) {
+        actionsWhenModeChanges.remove(al);
+    
     }
-
+    
 }
