@@ -1,8 +1,6 @@
 package mainObjects;
 
 import selector.Selectable;
-import appearance.Appearance;
-import appearance.Theme;
 import base.*;
 import greenfoot.Actor;
 import java.util.ArrayList;

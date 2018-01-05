@@ -2,9 +2,12 @@ package mapEditor;
 
 import appearance.Theme;
 import mode.Mode;
+import mode.ModeMessageDisplay;
 import base.*;
 import greenfoot.GreenfootImage;
 import greenfoot.Actor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -18,10 +21,15 @@ public class Manager extends StateManager{
     private MyWorld world() {return MyWorld.theWorld;}
     
     private ControlPanel ctrlPanel;
+    private ModeMessageDisplay modeDisp;
+    private NButton options;
+            
     
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
-        this.ctrlPanel = new ControlPanel();
+        ctrlPanel = new ControlPanel();
+        modeDisp = new ModeMessageDisplay();
+        options = new NButton(loadOptionsMenu, "Options");
     
     }
     
@@ -31,9 +39,12 @@ public class Manager extends StateManager{
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
-        world().addObject(Mode.display, world().getWidth()-90, 850);
+        modeDisp.addToWorld(world().getWidth()-90, 850);
         world().addObject(Continent.display, 840, 960);
+        world().addObject(options, world().getWidth()-120, 50);
         loadMap();
+        
+        
         
     }
     
@@ -47,18 +58,14 @@ public class Manager extends StateManager{
     
     @Override
     public Map map() {return loadedMap;}
-    
-    private void paintBackgroundDarker() {
-        GreenfootImage bckGrd = world().getBackground();
-        bckGrd.setColor(Theme.used.backgroundColor.darker());
-        bckGrd.fill();
-    
-    }
 
     @Override
     public void clearScene() {
         mapToLoad = loadedMap;
         loadedMap = new Map();
+        
+        ctrlPanel.removeFromWorld();
+        modeDisp.removeFromWorld();
         
         world().removeObjects(world().getObjects(Actor.class));
         
@@ -72,7 +79,7 @@ public class Manager extends StateManager{
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
             if(choice == JOptionPane.YES_OPTION){
                 clearScene();
-                world().load(new mapEditorMenu.Manager());
+                world().load(new menu.Manager());
 
             } 
         
@@ -89,5 +96,18 @@ public class Manager extends StateManager{
         }
         
     }
+    
+    /////Private Methods///////////////////////
+    
+    private void paintBackgroundDarker() {
+        GreenfootImage bckGrd = world().getBackground();
+        bckGrd.setColor(Theme.used.backgroundColor.darker());
+        bckGrd.fill();
+    
+    }
+    
+    private ActionListener loadOptionsMenu = (ActionEvent ae) -> {
+                clearScene();
+                world().load(new userPreferences.Manager(this));};
 
 }

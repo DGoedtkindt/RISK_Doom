@@ -78,6 +78,7 @@ public class Territory implements Selectable
         continent = newContinent;
         if(newContinent != null){
             continentColor = newContinent.color();
+            drawTerritory();
             
         }else {
             continentColor = Theme.used.territoryColor;

@@ -2,6 +2,8 @@ package mapEditor;
 
 import mode.Mode;
 import mode.ModeButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import base.*;
 import greenfoot.GreenfootImage;
 import selector.Selector;
@@ -19,6 +21,10 @@ public class ControlPanel {
     
     private MyWorld world() {return MyWorld.theWorld;}
     private StateManager manager() {return world().stateManager;}
+    
+    private ActionListener updateThis = (ActionEvent ae)-> {
+                modeChanged(Mode.mode());
+            };
     
     private ModeButton createTerritory       = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
     private ModeButton createContinent       = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
@@ -48,7 +54,7 @@ public class ControlPanel {
     
     }
     
-    protected void addToWorld(int xPos, int yPos) {
+    public void addToWorld(int xPos, int yPos) {
         world().addObject(createTerritory, xPos, 100);
         world().addObject(createLink, xPos + 30, 160);
         world().addObject(editTerritoryBonus, xPos-30, 160);
@@ -59,11 +65,14 @@ public class ControlPanel {
         world().addObject(deleteContinent, xPos, 420);
         world().addObject(okButton, xPos, 510);
         world().addObject(makeXMLButton, xPos, 600);
+        Mode.addModeChangeListener(updateThis);
+        
     }
     
-    protected void modeChanged(Mode newMode) {
+    private void modeChanged(Mode newMode) {
         makeAllButtonsTransparent();
         makeValidButtonsOpaque(newMode);
+        makeCurrentModesButtonOpaque();
     
     }
     
@@ -102,13 +111,26 @@ public class ControlPanel {
         
     }
     
+    private void makeCurrentModesButtonOpaque() {
+        Mode mode = Mode.mode();
+        this.allButtons.forEach((Button b) -> {
+            if(b instanceof ModeButton) 
+                if(((ModeButton)b).linkedMode==mode) 
+                    b.makeOpaque();
+        
+        });
+       
+    
+    }
+    
     private void makeAllButtonsTransparent() {
         allButtons.forEach(Button::makeTransparent);
         
     }
     
-    protected void removeFromWorld() {
-        allButtons.forEach((Button b) -> {world().removeObject(b);});
+    public void removeFromWorld() {
+        allButtons.forEach(world()::removeObject);
+        Mode.removeModeChangeListener(updateThis);
         
     }
     

@@ -6,6 +6,7 @@ import basicChoosers.ThemeChoices;
 import java.awt.event.ActionEvent;
 import base.*;
 import javax.swing.JOptionPane;
+import mainObjects.BlankHex;
 
 public class Manager extends StateManager{
     
@@ -33,6 +34,7 @@ public class Manager extends StateManager{
         Theme.used = Theme.values()[themeNum];
         MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor.brighter());
         MyWorld.theWorld.getBackground().fill();
+        BlankHex.updateAllImages();
         
         clearScene();
         world().load(previous);
