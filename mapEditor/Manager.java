@@ -23,7 +23,6 @@ public class Manager extends StateManager{
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
     private NButton options;
-            
     
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
@@ -43,9 +42,7 @@ public class Manager extends StateManager{
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth()-120, 50);
         loadMap();
-        
-        
-        
+
     }
     
     public void loadMap() {
