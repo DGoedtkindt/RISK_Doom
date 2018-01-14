@@ -5,15 +5,14 @@ import base.*;
 import appearance.Theme;
 import greenfoot.GreenfootImage;
 import java.awt.event.ActionEvent;
-import basicChoosers.BasicChooser;
-import basicChoosers.DifficultyChoices;
+import basicChoosers.DifficultyChooser;
 import javax.swing.JOptionPane;
 
 public class Manager extends StateManager{
     
     protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();
-    protected BasicChooser difficulty = new BasicChooser(new DifficultyChoices());
+    protected DifficultyChooser difficulty = new DifficultyChooser();
     protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndGameOn();}, "Game On !");
     private MyWorld world() {return MyWorld.theWorld;}
     
@@ -27,6 +26,7 @@ public class Manager extends StateManager{
                 (world().getWidth()-title.getWidth())/2, 50);
         mapChooser.addToWorld(world().getWidth()/2, 340);
         difficulty.addToWorld(world().getWidth()/2, 520);
+        difficulty.setArrows(150, DifficultyChooser.DEFAULT_ARROW_SIZE);
         playersPanel.addToWorld(world(),world().getWidth()/2, 750);
         world().addObject(play, world().getWidth()/2, 980);
     

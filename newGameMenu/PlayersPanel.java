@@ -2,8 +2,7 @@ package newGameMenu;
 
 import base.NButton;
 import base.GColor;
-import basicChoosers.BasicChooser;
-import basicChoosers.PColorChoices;
+import basicChoosers.PColorChooser;
 import greenfoot.GreenfootImage;
 import java.awt.event.ActionEvent;
 import appearance.Theme;
@@ -115,7 +114,7 @@ public class PlayersPanel {
         PlayersPanel manager;
         NButton delete; 
         NButton editName;
-        BasicChooser colorChooser = new BasicChooser(new PColorChoices());
+        PColorChooser colorChooser = new PColorChooser();
         int xPos;
         int yPos;
         
