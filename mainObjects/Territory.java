@@ -10,9 +10,10 @@ import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
-    private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
+    private ArrayList<TerritoryHex> terrHexList;
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
+    private Map map() {return world().stateManager.map();}
     private Continent continent = null;
     public GColor continentColor = Theme.used.territoryColor;
     private int bonusPoints = 0;
@@ -39,13 +40,14 @@ public class Territory implements Selectable
     
     public void addToWorld() {
         //pas fool proof, devrais éviter de rajouter 2 fois au monde
-            createTerrHexs();
+            placeTerrHexs();
             trInfo.setDisplayedBonus(bonusPoints);
             removeBlankHexs();
             drawTerritory();
-            world().map.territories.add(this);
+            map().territories.add(this);
         
     }
+  
     
     /** Removes this from the world, containing continent, Links, etc...
      * Should not be used if territory is outside of the world
@@ -59,7 +61,7 @@ public class Territory implements Selectable
             
         }
         world().removeObjects(terrHexList);
-        world().map.territories.remove(this);
+        map().territories.remove(this);
         if(continent != null) continent.removeTerritory(this);
         
         world().removeObject(trInfo);
@@ -76,6 +78,7 @@ public class Territory implements Selectable
         continent = newContinent;
         if(newContinent != null){
             continentColor = newContinent.color();
+            drawTerritory();
             
         }else {
             continentColor = Theme.used.territoryColor;
@@ -88,7 +91,7 @@ public class Territory implements Selectable
     }
     
     public int id() {
-        return world().map.territories.indexOf(this);
+        return map().territories.indexOf(this);
         
     }
     
@@ -246,9 +249,10 @@ public class Territory implements Selectable
         
     }
     
-    private void createTerrHexs()
-    //crée tous les territoryHex de ce territoire
+    private void placeTerrHexs()
+    //crée et place tous les territoryHex de ce territoire
     {
+        this.terrHexList = new ArrayList<>();
         for(BlankHex bh : blankHexList) {
             TerritoryHex trHex = new TerritoryHex(this, continentColor, bh.hexCoord()[0], bh.hexCoord()[1]);
             terrHexList.add(trHex);

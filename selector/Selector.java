@@ -10,11 +10,16 @@ import mainObjects.Territory;
 
 public class Selector
 {
+    private static MyWorld world() {
+        return MyWorld.theWorld;
+    }
     
     public static HashSet<Selectable> selectables() {
+        Map map = world().stateManager.map();
+        
         HashSet selectables = new HashSet<>();
-        selectables.addAll(MyWorld.theWorld.map.continents);
-        selectables.addAll(MyWorld.theWorld.map.territories);
+        selectables.addAll(map.continents);
+        selectables.addAll(map.territories);
         selectables.addAll(BlankHex.BLANK_HEXS);
     
         return selectables;

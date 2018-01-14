@@ -1,5 +1,6 @@
 package mainObjects;
 
+import mode.Mode;
 import selector.Selector;
 import selector.Selectable;
 import appearance.Appearance;
@@ -9,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BlankHex extends Button implements Selectable{
+    public static final int maxNColumn = 40;
+    public static final int maxNRow = 40;
     
-    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[40][20];
+    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[maxNColumn][maxNRow];
     public static final HashSet<BlankHex> BLANK_HEXS = new HashSet<>();
     
     private int[] hexCoord = new int[2];
@@ -19,9 +22,14 @@ public class BlankHex extends Button implements Selectable{
     
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
-        this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
+        setImage();
         BLANK_HEXS.add(this);
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
+    }
+    
+    private void setImage() {
+        this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
+        
     }
     
     public static BlankHex blankHexAt(int hexX, int hexY) 
@@ -31,6 +39,17 @@ public class BlankHex extends Button implements Selectable{
         if(BLANK_HEX_ARRAY[hexX][hexY] != null) returnHex = BLANK_HEX_ARRAY[hexX][hexY];
             else returnHex = new BlankHex(hexX,hexY);
         return returnHex;
+    }
+    
+    public static void updateAllImages() {
+        for(int x = 0; x < maxNColumn; x++) {
+            for(int y = 0; y < maxNRow; y++) {
+                blankHexAt(x,y).setImage();
+                
+            }
+            
+        }
+    
     }
     
     public int[] hexCoord() {
@@ -43,9 +62,8 @@ public class BlankHex extends Button implements Selectable{
     
     @Override
     public void clicked() {
-        Mode mode = Mode.currentMode();
         
-        switch (mode) {
+        switch (Mode.mode()) {
             case CREATE_TERRITORY :
                 Selector.select(this); break;
                 
@@ -64,10 +82,10 @@ public class BlankHex extends Button implements Selectable{
                     System.err.println(e);
 
                 }
-                world().escape(); break;
+                world().stateManager.escape();; break;
                 
             default:
-                world().escape();
+                world().stateManager.escape();;
                 break;
                 
         }

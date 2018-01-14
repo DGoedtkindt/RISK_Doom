@@ -1,8 +1,8 @@
 package basicChoosers;
 
 import arrowable.*;
+import base.MyWorld;
 import greenfoot.Actor;
-import greenfoot.World;
 
 
 /**
@@ -18,6 +18,7 @@ public class BasicChooser extends Actor implements Arrowable{
     private ChoiceList choices;
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
+    protected MyWorld world() {return MyWorld.theWorld;}
     private int x;
     private int y;
     
@@ -35,11 +36,11 @@ public class BasicChooser extends Actor implements Arrowable{
     
     }
     
-    public void addToWorld(World toWorld, int xPos, int yPos) {
+    public void addToWorld(int xPos, int yPos) {
         x = xPos; y = yPos;
-        toWorld.addObject(this,x,y);
-        toWorld.addObject(rightArrow, x+halfGapSize,y);
-        toWorld.addObject(leftArrow, x-halfGapSize,y);
+        world().addObject(this,x,y);
+        world().addObject(rightArrow, x+halfGapSize,y);
+        world().addObject(leftArrow, x-halfGapSize,y);
     
     }
     

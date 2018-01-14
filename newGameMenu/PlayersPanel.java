@@ -44,18 +44,18 @@ public class PlayersPanel {
     
     protected void addToWorld(World toWorld, int xPos, int yPos) {
         world = toWorld; this.xPos = xPos; this.yPos = yPos;
-        players.forEach((PlayerOptions po) -> {po.addToWorld(world, 0, 0);});
+        players.forEach((PlayerOptions po) -> {po.addToWorld(world,0, 0);});
         world.addObject(newP,0,0);
         updatePositions();
     
     }
     
     protected void destroy() {
-        world.removeObject(newP);
+        if(world != null) world.removeObject(newP);
         players.forEach(PlayerOptions::delete);
         players = null;
         world = null;
-    
+        
     }
     
     private void updatePositions() {
@@ -78,7 +78,7 @@ public class PlayersPanel {
     private void removePlayer(PlayerOptions toRemove) {
         toRemove.delete();
         players.remove(toRemove);
-        addToWorld(world, xPos, yPos);
+        if(world != null) addToWorld(world,xPos, yPos);
         if(players.size()<= 3) players.forEach(PlayerOptions::makeUndeletable);
         
     }
@@ -116,7 +116,6 @@ public class PlayersPanel {
         NButton delete; 
         NButton editName;
         BasicChooser colorChooser = new BasicChooser(new PColorChoices());
-        World world;
         int xPos;
         int yPos;
         
@@ -129,9 +128,9 @@ public class PlayersPanel {
         }
         
         void addToWorld(World toWorld, int xPos, int yPos) {
-            world = toWorld; this.xPos = xPos; this.yPos = yPos;
+            this.xPos = xPos; this.yPos = yPos;
             world.addObject(editName, xPos,yPos-20);
-            colorChooser.addToWorld(world, xPos, yPos+20);
+            colorChooser.addToWorld(xPos, yPos+20);
             
         };
         
@@ -144,14 +143,12 @@ public class PlayersPanel {
         }
         
         void makeDeletable() {
-            if(world != null)
-            world.addObject(delete, xPos+100, yPos);
+            if (world != null) world.addObject(delete, xPos+100, yPos);
             
         }
         
         void makeUndeletable() {
-            if(world != null)
-            world.removeObject(delete);
+            if(world != null) world.removeObject(delete);
         
         }
         
@@ -166,7 +163,6 @@ public class PlayersPanel {
                 world.removeObject(editName);
             }
             colorChooser.destroy();
-            world = null;
             
         }
         

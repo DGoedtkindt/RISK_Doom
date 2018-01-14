@@ -29,6 +29,7 @@ public abstract class XMLChooser implements Arrowable {
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
     private Thumbnail thumbnail;
+    protected MyWorld world() {return MyWorld.theWorld;}
     
     /**
      * @param directoryName le nom du folder où le XMLChooser va chercher
@@ -73,17 +74,17 @@ public abstract class XMLChooser implements Arrowable {
     
     private class Thumbnail extends Actor {}
     
-    public void addToWorld(World world, int xPos, int yPos) {
-        world.addObject(thumbnail, xPos, yPos);
-        world.addObject(leftArrow, xPos - 310, yPos - 70);
-        world.addObject(rightArrow, xPos + 310, yPos -70);
+    public void addToWorld(int xPos, int yPos) {
+        world().addObject(thumbnail, xPos, yPos);
+        world().addObject(leftArrow, xPos - 310, yPos - 70);
+        world().addObject(rightArrow, xPos + 310, yPos -70);
     
     }
     
-    public void destroy(World world) {
-        world.removeObject(thumbnail);
-        world.removeObject(rightArrow);
-        world.removeObject(leftArrow);
+    public void destroy() {
+        world().removeObject(thumbnail);
+        world().removeObject(rightArrow);
+        world().removeObject(leftArrow);
                 
     }
     

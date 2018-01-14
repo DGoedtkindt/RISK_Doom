@@ -1,6 +1,5 @@
 package xmlChoosers;
 
-import base.*;
 import arrowable.*;
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public class MapChooser extends XMLChooser implements Arrowable{
-    private static MyWorld world() {return MyWorld.theWorld;}
     
     public MapChooser(boolean isNewMapAChoice){
             super("Maps", "New Map",isNewMapAChoice);
