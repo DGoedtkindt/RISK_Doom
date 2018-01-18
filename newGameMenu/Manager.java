@@ -14,7 +14,7 @@ public class Manager extends StateManager{
     protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();
     protected BasicChooser difficulty = new BasicChooser(new DifficultyChoices());
-    protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndGameOn();}, "Game On !");
+    protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndGameOn();}, "Let's Play !");
     private MyWorld world() {return MyWorld.theWorld;}
     
     

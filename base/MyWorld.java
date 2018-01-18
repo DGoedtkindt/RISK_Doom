@@ -10,7 +10,6 @@ import greenfoot.MouseInfo;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 
 public class MyWorld extends World {
@@ -36,6 +35,7 @@ public class MyWorld extends World {
         super(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT, 1);
         theWorld = this;
         load(new menu.Manager());
+        Greenfoot.start();
         
     }
     
