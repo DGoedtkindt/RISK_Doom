@@ -13,7 +13,7 @@ public class Manager extends StateManager{
     protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();
     protected DifficultyChooser difficulty = new DifficultyChooser();
-    protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndGameOn();}, "Game On !");
+    protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndPlay();}, "Let's play !");
     private MyWorld world() {return MyWorld.theWorld;}
     
     
@@ -34,11 +34,14 @@ public class Manager extends StateManager{
     
     @Override
     public void clearScene() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        mapChooser.destroy();
+        playersPanel.destroy();
+        difficulty.destroy();
+        world().removeObject(play);
         
     }
     
-    private void getSettingsAndGameOn() {
+    private void getSettingsAndPlay() {
         throw new UnsupportedOperationException("Not supported yet.");
         
     };

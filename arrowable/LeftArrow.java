@@ -30,7 +30,7 @@ public class LeftArrow extends Button {
 
     @Override
     public void clicked() {
-        linked.next();
+        linked.previous();
     
     }
     
