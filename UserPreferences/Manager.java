@@ -1,8 +1,7 @@
 package userPreferences;
 
 import appearance.Theme;
-import basicChoosers.BasicChooser;
-import basicChoosers.ThemeChoices;
+import basicChoosers.ThemeChooser;
 import java.awt.event.ActionEvent;
 import base.*;
 import javax.swing.JOptionPane;
@@ -10,7 +9,7 @@ import mainObjects.BlankHex;
 
 public class Manager extends StateManager{
     
-    private BasicChooser themeChooser = new BasicChooser(new ThemeChoices());
+    private ThemeChooser themeChooser = new ThemeChooser();
     private NButton saveSettings = new NButton((ActionEvent ae) -> {applySettingsAndBack();},
             "Apply Changes");
     private MyWorld world() {return MyWorld.theWorld;}

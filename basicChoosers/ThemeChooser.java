@@ -6,7 +6,16 @@ import greenfoot.GreenfootImage;
 import base.*;
 import appearance.Theme;
 
-public class ThemeChoices extends ChoiceList {
+public class ThemeChooser extends BasicChooser {
+    
+    public ThemeChooser() {
+        super(new ThemeChoices());
+    }
+    
+
+}
+
+class ThemeChoices extends ChoiceList {
     private int  themeNumber = 0;
 
     @Override

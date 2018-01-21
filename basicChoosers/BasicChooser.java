@@ -11,10 +11,11 @@ import greenfoot.Actor;
  * added/removed from a World using World.addObject()/removeObject(), but rather
  * with addToWorld()/destroy().
  */
-public class BasicChooser extends Actor implements Arrowable{
-    
-    private int halfGapSize = 50;
-    private int arrSize = 30;
+public abstract class BasicChooser extends Actor implements Arrowable{
+    public static final int DEFAULT_HALF_GAP_SIZE = 50;
+    public static final int DEFAULT_ARROW_SIZE = 30;
+    private int halfGapSize = DEFAULT_HALF_GAP_SIZE;
+    private int arrSize = DEFAULT_ARROW_SIZE;
     private ChoiceList choices;
     private RightArrow rightArrow;
     private LeftArrow leftArrow;

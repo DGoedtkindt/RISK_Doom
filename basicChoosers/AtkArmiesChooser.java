@@ -2,8 +2,15 @@ package basicChoosers;
 
 import greenfoot.GreenfootImage;
 
+public class AtkArmiesChooser extends BasicChooser {
+    
+    public AtkArmiesChooser() {
+        super(new AtkArmiesChoices());
+    }
 
-public class DifficultyChoices extends ChoiceList{
+}
+
+class AtkArmiesChoices extends ChoiceList {
 
     @Override
     protected void next() {
@@ -17,8 +24,7 @@ public class DifficultyChoices extends ChoiceList{
 
     @Override
     protected GreenfootImage choiceImage() {
-        //just for testing
-        return new GreenfootImage(10,10);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
