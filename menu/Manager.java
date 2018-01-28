@@ -1,6 +1,8 @@
 package menu;
 
-import base.*;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import greenfoot.GreenfootImage;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
