@@ -1,12 +1,7 @@
 package mode;
 
-import appearance.Theme;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import base.MyWorld;
-import greenfoot.GreenfootImage;
-import greenfoot.Font;
-import greenfoot.Actor;
 
 public enum Mode
 {
