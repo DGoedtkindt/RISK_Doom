@@ -1,6 +1,9 @@
 package mapEditorMenu;
 
-import base.*;
+import base.Map;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JOptionPane;
