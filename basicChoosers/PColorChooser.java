@@ -64,7 +64,7 @@ class PColorChoices extends ChoiceList{
     private Color currentColor;
     
     public PColorChoices() {
-        if(!enoughFreeColor()) throw new UnsupportedOperationException("To many Color Choices blocked");
+        if(!enoughFreeColor()) throw new UnsupportedOperationException("Too many Color Choices blocked");
         colorNum = -1;
         
         next();
