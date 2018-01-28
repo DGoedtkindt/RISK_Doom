@@ -1,6 +1,5 @@
 package mapXML;
 
-import org.w3c.dom.Document;
 import base.Map;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import mainObjects.LinkIndic;
 import mainObjects.Links;
 import mainObjects.Territory;
 import mainObjects.TerritoryHex;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
@@ -37,7 +37,7 @@ public class XMLBuilder {
             
             return doc;
         } catch (Exception ex) {
-            ex.printStackTrace(System.err);
+            System.err.println(ex);
             throw ex;
         }
     }
