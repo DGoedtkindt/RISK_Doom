@@ -21,6 +21,8 @@ public class Player {
         if(!aPlayerIsDead()){
             getArmies();
             
+        }else{
+            //SOMEWHERE endGame();
         }
         
     }
