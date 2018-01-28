@@ -118,6 +118,9 @@ public class MyWorld extends World {
             
         }
         
+        /*String pressedKey = Greenfoot.getKey();
+        if(pressedKey != null){InputPanel.usedPanel.type(pressedKey);}*/
+        
         escapeTester.testForEscape();
         
     }

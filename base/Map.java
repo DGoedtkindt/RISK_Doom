@@ -1,7 +1,9 @@
 package base;
 
 import java.util.ArrayList;
-import mainObjects.*;
+import mainObjects.Continent;
+import mainObjects.Links;
+import mainObjects.Territory;
 
 /**
  * This Structured variable type stores the main objects of a map.
