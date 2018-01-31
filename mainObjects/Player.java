@@ -4,6 +4,8 @@ import base.GColor;
 
 public class Player {
     
+    private static final String ZOMBIE_NAME = "zombie";
+    
     private final String name;
     private final GColor color;
     private int armiesInHand = 0;
@@ -16,15 +18,37 @@ public class Player {
         
     }
     
-    public void startTurn(){
+    static public void nextPlayer(){
         
         if(!aPlayerIsDead()){
-            getArmies();
             
-        }else{
-            //SOMEWHERE endGame();
+            // SOMEWHERE on change de joueur
+            
+            // IF player.name != zombie (un truc comme ça, sauf si class Zombie extends Player)
+            //      showNextTurnPanel();
+            // ELSE play zombie turn
+            
         }
+        /*else{                 C'est en commentaire parce que c'est déjà géré dans aPlayerIsDead(), à voir comment on fait
+            Game.end();
+        }*/
         
+    }
+    
+    static public void showNextTurnPanel(){
+        
+        
+        
+    }
+    
+    public void startTurn(){
+        
+        getArmies();
+        
+    }
+    
+    public void endTurn(){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     private void getArmies(){
@@ -60,7 +84,7 @@ public class Player {
             }
             
             if(playersAlive.size() != SOMEWHERE players.size()){
-                SOMEWHERE endGame();
+                Game.end();
                 return true;
             }
             
