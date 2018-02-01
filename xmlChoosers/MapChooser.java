@@ -1,11 +1,13 @@
 package xmlChoosers;
 
 import arrowable.Arrowable;
+import base.Map;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import mapXML.MapXML;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,6 +46,20 @@ public class MapChooser extends XMLChooser implements Arrowable{
         }else{return "This map has no description";}
         
 
+    }
+    
+    public Map getSelectedMap() throws Exception {
+        try{
+                File mapFile = getCurrentFile();
+                MapXML mapXML = new MapXML(mapFile);
+                Map map = mapXML.getMap();
+                return map;
+                 
+            } catch(Exception ex) {
+                throw new Exception("Couldn't create MapXML from File");
+                
+            }
+        
     }
     
     

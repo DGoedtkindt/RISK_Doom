@@ -19,7 +19,6 @@ public class Player {
     }
     
     static public void nextPlayer(){
-        
         if(!aPlayerIsDead()){
             
             // SOMEWHERE on change de joueur
@@ -32,19 +31,22 @@ public class Player {
         /*else{                 C'est en commentaire parce que c'est déjà géré dans aPlayerIsDead(), à voir comment on fait
             Game.end();
         }*/
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     static public void showNextTurnPanel(){
+        throw new UnsupportedOperationException("Not supported yet.");
         
-        
+    }
+    
+    public boolean isZombie() {
+        throw new UnsupportedOperationException("Not supported yet.");
         
     }
     
     public void startTurn(){
-        
         getArmies();
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public void endTurn(){
@@ -68,11 +70,11 @@ public class Player {
         */
         
         armiesInHand += Math.floor(n / 3);
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     static public boolean aPlayerIsDead(){
-        
+        throw new UnsupportedOperationException("Not supported yet.");
         /*
         
         ArrayList<Player> playersAlive = new ArrayList<Player>();
@@ -91,8 +93,6 @@ public class Player {
         }
         
         */
-        
-        return false;
     }
     
 }

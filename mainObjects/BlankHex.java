@@ -81,10 +81,10 @@ public class BlankHex extends Button implements Selectable{
                     System.err.println(e);
 
                 }
-                world().stateManager.escape();; break;
+                world().stateManager.escape(); break;
                 
             default:
-                world().stateManager.escape();;
+                world().stateManager.escape();
                 break;
                 
         }

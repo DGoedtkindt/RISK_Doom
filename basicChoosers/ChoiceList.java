@@ -14,7 +14,7 @@ public abstract class ChoiceList {
     
     protected abstract GreenfootImage choiceImage();
     
-    public abstract String choiceValue();
+    protected abstract String choiceValue();
     
     //if This blocks other ChoiceLists from using its current
     //choice, this method allows to liberate the choice when This is destroyed

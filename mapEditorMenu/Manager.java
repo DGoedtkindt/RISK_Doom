@@ -5,9 +5,7 @@ import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import javax.swing.JOptionPane;
-import mapXML.MapXML;
 import xmlChoosers.MapChooser;
 
 public class Manager extends StateManager {
@@ -16,17 +14,16 @@ public class Manager extends StateManager {
     private MyWorld world() {return MyWorld.theWorld;}
     private NButton editMapB = new NButton((ActionEvent ae) -> {
             try{
-                File mapFile = mapC.getCurrentFile();
-                MapXML mapXML = new MapXML(mapFile);
-                Map map = mapXML.getMap();
+                Map map = mapC.getSelectedMap();
                 mapEditor.Manager newManager = new mapEditor.Manager(map);
                 world().load(newManager);
                  
             } catch(Exception ex) {
-                System.err.println("couldn't create MapXML from File");
                 ex.printStackTrace(System.err);
                 
             }
+            
+            
             
         }, "Edit Map");
 

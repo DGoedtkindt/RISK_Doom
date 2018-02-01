@@ -3,6 +3,7 @@ package newGameMenu;
 import xmlChoosers.MapChooser;
 import appearance.Theme;
 import base.GColor;
+import base.Game;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
@@ -45,7 +46,15 @@ public class Manager extends StateManager{
     }
     
     private void getSettingsAndPlay() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Game game = new Game();
+            game.players = playersPanel.getPlayers();
+            game.map = mapChooser.getSelectedMap();
+            game.difficulty = difficulty.selectedDifficulty();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
     };
 

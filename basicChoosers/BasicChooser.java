@@ -18,7 +18,7 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     public static final int DEFAULT_ARROW_SIZE = 30;
     private int halfGapSize = DEFAULT_HALF_GAP_SIZE;
     private int arrSize = DEFAULT_ARROW_SIZE;
-    private ChoiceList choices;
+    protected ChoiceList choices;
     private RightArrow rightArrow;
     private LeftArrow leftArrow;
     protected MyWorld world() {return MyWorld.theWorld;}
