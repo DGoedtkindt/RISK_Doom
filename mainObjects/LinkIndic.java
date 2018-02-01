@@ -3,8 +3,11 @@ package mainObjects;
 //un objet de cette classe indique l'existance d'un Link entre plusieur Territory
 //par sa couleur
 
+import base.Button;
+import base.Hexagon;
+import base.MyWorld;
+import base.StateManager;
 import mode.Mode;
-import base.*;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
@@ -15,7 +18,6 @@ public class LinkIndic extends Button{
     private int xPos;
     private int yPos; 
     
-    private MyWorld world(){return MyWorld.theWorld;}
     private StateManager manager() {return world().stateManager;}
     
     public LinkIndic(Territory territory, int xPos, int yPos) {

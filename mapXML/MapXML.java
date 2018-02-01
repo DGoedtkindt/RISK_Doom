@@ -1,11 +1,8 @@
 package mapXML;
 
 import base.Map;
-import base.MyWorld;
-import javax.imageio.ImageIO;
 import java.awt.HeadlessException;
 import java.io.File;
-import org.w3c.dom.Document;
 import java.io.FileNotFoundException;
 import java.awt.image.BufferedImage;
 import javax.xml.transform.Transformer;
@@ -13,6 +10,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 
 /** Stores the XML Document representing a Map
  */
@@ -70,7 +68,7 @@ public class MapXML {
             System.out.println("Map was succesfully saved");
             
         } catch(HeadlessException | TransformerException e) {
-            System.err.println("Map Couldn't be saved   : " + e);
+            System.err.println("Map couldn't be saved   : " + e);
 
         }
     

@@ -1,6 +1,8 @@
 package mainObjects;
 
-import base.*;
+import base.GColor;
+import base.Map;
+import base.MyWorld;
 import java.util.ArrayList;
 
 

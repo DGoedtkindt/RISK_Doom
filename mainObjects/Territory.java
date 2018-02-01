@@ -2,7 +2,10 @@ package mainObjects;
 
 import selector.Selectable;
 import appearance.Theme;
-import base.*;
+import base.GColor;
+import base.Hexagon;
+import base.Map;
+import base.MyWorld;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
 import java.util.ArrayList;

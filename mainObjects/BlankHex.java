@@ -5,7 +5,8 @@ import selector.Selector;
 import selector.Selectable;
 import appearance.Appearance;
 import appearance.Theme;
-import base.*;
+import base.Button;
+import base.Hexagon;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -17,8 +18,6 @@ public class BlankHex extends Button implements Selectable{
     public static final HashSet<BlankHex> BLANK_HEXS = new HashSet<>();
     
     private int[] hexCoord = new int[2];
-    
-    private static MyWorld world() {return MyWorld.theWorld;}
     
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};

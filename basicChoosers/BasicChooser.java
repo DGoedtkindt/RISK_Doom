@@ -1,6 +1,8 @@
 package basicChoosers;
 
-import arrowable.*;
+import arrowable.Arrowable;
+import arrowable.LeftArrow;
+import arrowable.RightArrow;
 import base.MyWorld;
 import greenfoot.Actor;
 

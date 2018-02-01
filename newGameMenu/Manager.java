@@ -1,8 +1,11 @@
 package newGameMenu;
 
 import xmlChoosers.MapChooser;
-import base.*;
 import appearance.Theme;
+import base.GColor;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import greenfoot.GreenfootImage;
 import java.awt.event.ActionEvent;
 import basicChoosers.DifficultyChooser;

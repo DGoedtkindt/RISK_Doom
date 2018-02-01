@@ -1,9 +1,12 @@
 package mapEditor;
 
 import appearance.Theme;
+import base.Map;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import mode.Mode;
 import mode.ModeMessageDisplay;
-import base.*;
 import greenfoot.GreenfootImage;
 import greenfoot.Actor;
 import java.awt.event.ActionEvent;

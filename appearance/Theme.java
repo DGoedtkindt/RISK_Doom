@@ -1,8 +1,8 @@
 package appearance;
 
-import base.*;
-
 //The code below is Free to edit by the user.
+
+import base.GColor;
 
 public enum Theme {
     DARK ("DARKNESS", 

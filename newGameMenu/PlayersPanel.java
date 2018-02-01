@@ -83,7 +83,7 @@ public class PlayersPanel {
     }
     
     private void addPlayer() {
-        PlayerOptions newPlayer = new PlayerOptions(this, "Player" + (players.size()+1));
+        PlayerOptions newPlayer = new PlayerOptions(this, "A New Player");
         players.add(newPlayer);
         if(world != null) addToWorld(world, xPos, yPos);
         if(players.size()>5) world.removeObject(newP);
@@ -152,8 +152,7 @@ public class PlayersPanel {
         }
         
         Player getPlayer() {
-            throw new UnsupportedOperationException("Not supported yet.");
-            
+            return new Player(name, GColor.fromRGB(colorChooser.currentChoice()));
         }
         
         void delete() {

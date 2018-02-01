@@ -3,8 +3,8 @@ package basicChoosers;
 import appearance.Appearance;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
-import base.*;
 import appearance.Theme;
+import base.Hexagon;
 
 public class ThemeChooser extends BasicChooser {
     

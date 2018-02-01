@@ -1,18 +1,20 @@
 package mainObjects;
 
+import base.Button;
+import base.ColorChooser;
+import base.GColor;
+import base.Hexagon;
 import mode.Mode;
 import selector.Selector;
-import base.*;
 import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
+
 public class TerritoryHex extends Button
 {
     private Territory territory;
     private int[] hexCoord = new int[2];
-    
-    private MyWorld world() {return MyWorld.theWorld;}
     
     public TerritoryHex(Territory territory, GColor color, int x, int y){
         this.territory = territory;

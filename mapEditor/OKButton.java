@@ -1,18 +1,16 @@
 package mapEditor;
 
+import base.Button;
 import mode.Mode;
 import selector.Selector;
 import mainObjects.Continent;
 import mainObjects.Links;
-import base.*;
 import mainObjects.Territory;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 
 public class OKButton extends Button
 {
-    
-    private MyWorld world() {return (MyWorld)this.getWorld();}
     
     public OKButton(){
         

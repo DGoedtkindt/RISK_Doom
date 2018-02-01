@@ -1,7 +1,10 @@
 package mainObjects;
 
+import base.ColorChooser;
+import base.GColor;
+import base.Map;
+import base.MyWorld;
 import selector.Selectable;
-import base.*;
 import greenfoot.Actor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

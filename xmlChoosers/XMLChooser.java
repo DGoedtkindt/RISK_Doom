@@ -1,15 +1,17 @@
 package xmlChoosers;
 
 import appearance.Theme;
-import base.*;
-import arrowable.*;
+import arrowable.Arrowable;
+import arrowable.LeftArrow;
+import arrowable.RightArrow;
+import base.GColor;
+import base.MyWorld;
 import greenfoot.GreenfootImage;
 import greenfoot.Actor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
 import greenfoot.Font;
-import greenfoot.World;
 
 /**
  * A XMLChooser is a Group of Actors that enables the user to choose between

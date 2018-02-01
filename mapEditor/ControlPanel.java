@@ -1,10 +1,13 @@
 package mapEditor;
 
+import base.Button;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import mode.Mode;
 import mode.ModeButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import base.*;
 import greenfoot.GreenfootImage;
 import selector.Selector;
 import java.util.ArrayList;

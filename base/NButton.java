@@ -109,7 +109,7 @@ public class NButton extends Button{
         int writeQ = JOptionPane.YES_OPTION;
 
         if(mapName == null || mapName.isEmpty() || mapName == "New Map") {
-            System.out.println("You can't save a map if it has no name or if its name is 'New Map'");
+            System.err.println("You can't save a map if it has no name or if its name is 'New Map'");
             writeQ = JOptionPane.NO_OPTION;
 
         } else if(new File("Maps/"+mapName+".xml").exists()){

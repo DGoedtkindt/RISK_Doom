@@ -1,9 +1,11 @@
 package userPreferences;
 
 import appearance.Theme;
+import base.MyWorld;
+import base.NButton;
+import base.StateManager;
 import basicChoosers.ThemeChooser;
 import java.awt.event.ActionEvent;
-import base.*;
 import javax.swing.JOptionPane;
 import mainObjects.BlankHex;
 

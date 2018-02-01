@@ -1,6 +1,7 @@
 package selector;
 
-import base.*;
+import base.Map;
+import base.MyWorld;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.function.Predicate;

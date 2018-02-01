@@ -4,11 +4,6 @@ import org.w3c.dom.Document;
 import java.io.FileNotFoundException;
 import java.io.File;
 import base.Game;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 /** Stores the XML Document representing a Game
  */
