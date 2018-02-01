@@ -53,7 +53,7 @@ public class Manager extends StateManager{
             game.difficulty = difficulty.selectedDifficulty();
             
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
         }
         
     };
