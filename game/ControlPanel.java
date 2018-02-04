@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
-/**
- *
- * @author dario
- */
+import base.NButton;
+import greenfoot.GreenfootImage;
+import java.awt.event.ActionEvent;
+
 public class ControlPanel {
+    
+    private NButton nextTurnButton = new NButton((ActionEvent ae) -> {Turn.nextTurn();}, new GreenfootImage(""));
     
 }
