@@ -23,6 +23,8 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
+    private int armies = 0;
+    private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
     
@@ -51,7 +53,6 @@ public class Territory implements Selectable
         
     }
   
-    
     /** Removes this from the world, containing continent, Links, etc...
      * Should not be used if territory is outside of the world
      */
@@ -125,6 +126,18 @@ public class Territory implements Selectable
     public TerritoryHex infoHex() {
         return trInfo.linkedTerrHex();
     
+    }
+    
+    public int armies(){
+        return armies;
+    }
+    
+    public Player owner(){
+        return owner;
+    }
+    
+    public void setOwner(Player newOwner){
+        owner = newOwner;
     }
     
     //Selectable methods/////////////////////////////////
@@ -275,6 +288,5 @@ public class Territory implements Selectable
 
         }
     }
-    
     
 }

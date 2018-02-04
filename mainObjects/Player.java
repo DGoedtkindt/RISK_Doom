@@ -1,10 +1,9 @@
 package mainObjects;
 
 import base.GColor;
+import base.MyWorld;
 
 public class Player {
-    
-    private static final String ZOMBIE_NAME = "zombie";
     
     private final String name;
     private final GColor color;
@@ -18,81 +17,35 @@ public class Player {
         
     }
     
-    static public void nextPlayer(){
-        if(!aPlayerIsDead()){
-            
-            // SOMEWHERE on change de joueur
-            
-            // IF player.name != zombie (un truc comme ça, sauf si class Zombie extends Player)
-            //      showNextTurnPanel();
-            // ELSE play zombie turn
-            
-        }
-        /*else{                 C'est en commentaire parce que c'est déjà géré dans aPlayerIsDead(), à voir comment on fait
-            Game.end();
-        }*/
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    static public void showNextTurnPanel(){
-        throw new UnsupportedOperationException("Not supported yet.");
-        
-    }
-    
-    public boolean isZombie() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        
-    }
-    
     public void startTurn(){
         getArmies();
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public void endTurn(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        //UPDATE THE SCREEN --> COMBOS
     }
     
     private void getArmies(){
         
         int n = 0;
         
-        /*
         
-        for(Territory t : SOMEWHERE territories.size()){
+        
+        for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
             
-            if(t.owner == this){
+            if(t.owner() == this){
                 n++;
             }
             
         }
         
-        */
-        
         armiesInHand += Math.floor(n / 3);
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     
-    static public boolean aPlayerIsDead(){
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*
-        
-        ArrayList<Player> playersAlive = new ArrayList<Player>();
-        
-        for(Territory t : SOMEWHERE territories.size()){
-            
-            if(t.owner != null && !playersAlive.contains(t.owner())){
-                playersAlive.add(t.owner());
-            }
-            
-            if(playersAlive.size() != SOMEWHERE players.size()){
-                Game.end();
-                return true;
-            }
-            
-        }
-        
-        */
+    public GColor color(){
+        return color;
+    }
+    
+    public String name(){
+        return name;
     }
     
 }
