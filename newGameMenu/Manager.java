@@ -51,6 +51,7 @@ public class Manager extends StateManager{
             game.players = playersPanel.getPlayers();
             game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
+            game.start();
             
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
