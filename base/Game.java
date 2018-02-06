@@ -8,6 +8,9 @@ import mainObjects.Player;
 import mainObjects.Territory;
 
 public class Game {
+    
+    private static final int STARTING_TERRITORIES = 1;
+    
     /**
      * in case we need this
      */
@@ -41,7 +44,7 @@ public class Game {
             int terrNumber = 0;
             Territory terrToAttribute;
             
-            while(terrNumber < 1){
+            while(terrNumber < STARTING_TERRITORIES){
                 
                 terrToAttribute = map.territories.get(Greenfoot.getRandomNumber(map.territories.size()));
                 
