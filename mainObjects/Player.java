@@ -48,4 +48,8 @@ public class Player {
         return name;
     }
     
+    public static Player createZombie(){
+        return new Player(ZOMBIE_NAME, new GColor(0, 0, 0));
+    }
+    
 }
