@@ -37,7 +37,7 @@ public class Turn {
                 
                 currentPlayer = game().players.get(currentPlayerNumber);
                 currentPlayerNumber++;
-                //(new NextTurnPanel(currentPlayer)).show();
+                (new NextTurnPanel(currentPlayer)).show();
                 
             }
             
@@ -66,7 +66,7 @@ public class Turn {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    class NextTurnPanel extends Button{
+    static class NextTurnPanel extends Button{
         
         private final Player OWNER;
         
