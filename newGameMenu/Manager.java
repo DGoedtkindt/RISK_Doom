@@ -49,6 +49,7 @@ public class Manager extends StateManager{
         try {
             Game game = new Game();
             game.players = playersPanel.getPlayers();
+            game.players.add(Player.createZombie());
             game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
             game.start();
@@ -57,7 +58,7 @@ public class Manager extends StateManager{
             ex.printStackTrace(System.err);
         }
         
-    };
+    }
 
     @Override
     public void escape() {
