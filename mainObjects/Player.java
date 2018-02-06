@@ -5,6 +5,8 @@ import base.MyWorld;
 
 public class Player {
     
+    public static final String ZOMBIE_NAME = "ZOMBIE";
+    
     private final String name;
     private final GColor color;
     private int armiesInHand = 0;
@@ -25,8 +27,6 @@ public class Player {
     private void getArmies(){
         
         int n = 0;
-        
-        
         
         for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
             
