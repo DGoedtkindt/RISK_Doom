@@ -18,20 +18,17 @@ public class ModeMessageDisplay {
     private class JustAnActor extends Actor {}
     private JustAnActor panel = new JustAnActor();
     
-    private ActionListener updateThis = (ActionEvent ae)-> {
-                display(Mode.mode().message);
-            };
+    private ActionListener updateThis = (ActionEvent ae)-> {display(Mode.mode().message);};
     
     public ModeMessageDisplay() {
         display("");
-    
+        
     }
     
     public void addToWorld(int xPos, int yPos) {
         world().addObject(panel, xPos, yPos);
         Mode.addModeChangeListener(updateThis);
         
-    
     }
     
     public void removeFromWorld() {
