@@ -11,5 +11,6 @@ public abstract class StateManager {
     public Map map() {throw new UnsupportedOperationException("There are no maps in this program state");}
     public Game game() {throw new UnsupportedOperationException("There are no games in this program state");}
     public abstract void escape();
+    protected MyWorld world() {return MyWorld.theWorld;}
     
 }
