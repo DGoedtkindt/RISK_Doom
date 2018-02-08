@@ -21,7 +21,6 @@ public class Manager extends StateManager{
     
     private Map loadedMap = new Map();
     private Map mapToLoad;
-    private MyWorld world() {return MyWorld.theWorld;}
     
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
