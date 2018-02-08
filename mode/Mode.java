@@ -16,7 +16,9 @@ public enum Mode
     EDIT_CONTINENT_BONUS("Select a continent and change its bonus."),
     DELETE_TERRITORY("Select a territory to delete it."),
     DELETE_CONTINENT("Select a continent to delete it (without destroying its composing territories)."),
-    SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory.");
+    SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory."),
+    //Game modes
+    GAME_DEFAULT("");
     
     Mode(String text){
         message = text;
