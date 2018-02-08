@@ -16,15 +16,15 @@ public class PColorChooser extends BasicChooser {
 class PColorChoices extends ChoiceList{
     
     private static enum Color {
-        ZERO (new GColor(0,0,0)),
-        ONE (new GColor(30,30,30)),
-        TWO (new GColor(60,60,60)),
-        THREE (new GColor(90,90,90)),
-        FOUR (new GColor(120,120,120)),
-        FIVE (new GColor(150,150,150)),
-        SIX (new GColor(180,180,180)),
-        SEVEN (new GColor(210,210,210)),
-        EIGHT (new GColor(240,240,240));
+        ZERO (new GColor(255, 30, 30)),
+        ONE (new GColor(30, 255, 30)),
+        TWO (new GColor(30, 30, 255)),
+        THREE (new GColor(255, 225, 30)),
+        FOUR (new GColor(225, 30, 255)),
+        FIVE (new GColor(30, 225, 255)),
+        SIX (new GColor(245, 245, 245)),
+        SEVEN (new GColor(100, 100, 100)),
+        EIGHT (new GColor(180, 180, 180));
         
         final GColor gColor;
        
