@@ -19,13 +19,13 @@ public class Turn {
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     
     public static void start() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public static void nextTurn(){
         
         if(aPlayerIsDead()){
-            game().end();
+            //game().end();
         }else{
             
             if(currentPlayerNumber == game().players.size()){
