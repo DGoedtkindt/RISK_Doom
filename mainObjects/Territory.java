@@ -138,6 +138,8 @@ public class Territory implements Selectable
     
     public void setOwner(Player newOwner){
         owner = newOwner;
+        drawTerritory();
+        
     }
     
     //Selectable methods/////////////////////////////////
@@ -186,6 +188,7 @@ public class Territory implements Selectable
     {
         drawHexs();
         drawAllHexsLinks();
+        drawPlayerColor();
         trInfo.setDisplayedBonus(bonusPoints);
     }
     
@@ -202,6 +205,13 @@ public class Territory implements Selectable
     private void drawAllHexsLinks(){
         for(TerritoryHex hex : terrHexList){
                 drawHexLinks(hex);
+
+        }
+    }
+    
+    private void drawPlayerColor(){
+        for(TerritoryHex hex : terrHexList){
+                hex.drawPlayerColor(owner);
 
         }
     }

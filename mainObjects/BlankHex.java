@@ -83,9 +83,7 @@ public class BlankHex extends Button implements Selectable{
                 }
                 world().stateManager.escape(); break;
                 
-            default:
-                world().stateManager.escape();
-                break;
+            default: break;
                 
         }
         
