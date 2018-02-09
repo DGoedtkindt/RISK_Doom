@@ -172,13 +172,15 @@ public class PlayersPanel {
         
         void setName(String initName) {
             name = initName;
-            GreenfootImage txtImg = new GreenfootImage(name,24,Theme.used.textColor,new GColor(0,0,0,0));
-            GreenfootImage editNameImg = new GreenfootImage(txtImg.getWidth()+40, 30);
-            editNameImg.drawImage(txtImg, 0, 5);
-            GreenfootImage editIcon = new GreenfootImage("edit_icon.png");
-            editIcon.scale(30,30);
-            editNameImg.drawImage(editIcon, txtImg.getWidth()+10, 0);
-            editName.setImage(editNameImg);
+            if(name != null) {
+                GreenfootImage txtImg = new GreenfootImage(name, 24, Theme.used.textColor, new GColor(0, 0, 0, 0));
+                GreenfootImage editNameImg = new GreenfootImage(txtImg.getWidth() + 40, 30);
+                editNameImg.drawImage(txtImg, 0, 5);
+                GreenfootImage editIcon = new GreenfootImage("edit_icon.png");
+                editIcon.scale(30, 30);
+                editNameImg.drawImage(editIcon, txtImg.getWidth() + 10, 0);
+                editName.setImage(editNameImg);
+            }
         
         }
         

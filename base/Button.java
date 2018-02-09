@@ -19,6 +19,6 @@ public abstract class Button extends Actor {
     
     }
     
-    protected MyWorld world() {return (MyWorld)this.getWorld();}
+    protected MyWorld world() {return MyWorld.theWorld;}
     
 }
