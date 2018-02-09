@@ -66,8 +66,7 @@ public class LinkIndic extends Button{
                          Links.newLinks = this.links;
                          break;
                 
-                default : manager().escape();; 
-                          break;
+                default : break;
                 
             }
             

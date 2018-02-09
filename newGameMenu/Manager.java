@@ -4,13 +4,13 @@ import xmlChoosers.MapChooser;
 import appearance.Theme;
 import base.GColor;
 import base.Game;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
 import java.awt.event.ActionEvent;
 import basicChoosers.DifficultyChooser;
 import javax.swing.JOptionPane;
+import mainObjects.Player;
 
 public class Manager extends StateManager{
     
@@ -18,8 +18,6 @@ public class Manager extends StateManager{
     protected PlayersPanel playersPanel = new PlayersPanel();
     protected DifficultyChooser difficulty = new DifficultyChooser();
     protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndPlay();}, "Let's play !");
-    private MyWorld world() {return MyWorld.theWorld;}
-    
     
     @Override
     public void setupScene() {
@@ -49,14 +47,16 @@ public class Manager extends StateManager{
         try {
             Game game = new Game();
             game.players = playersPanel.getPlayers();
+            game.players.add(Player.createZombie());
             game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
+            world().load(new game.Manager(game));
             
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
         
-    };
+    }
 
     @Override
     public void escape() {

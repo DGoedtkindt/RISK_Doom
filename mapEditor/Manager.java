@@ -1,8 +1,8 @@
 package mapEditor;
 
+//<editor-fold defaultstate="collapsed" desc="Imports">
 import appearance.Theme;
 import base.Map;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import mode.Mode;
@@ -16,12 +16,12 @@ import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
 import selector.Selector;
+//</editor-fold>
 
 public class Manager extends StateManager{
     
     private Map loadedMap = new Map();
     private Map mapToLoad;
-    private MyWorld world() {return MyWorld.theWorld;}
     
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;

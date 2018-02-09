@@ -17,8 +17,8 @@ public class GameXML {
      * @throws java.io.FileNotFoundException
     */
     public GameXML(File gameFile) throws Exception {
-           if(gameFile.exists() && gameFile.isFile()) xml = builder.build(gameFile);
-           else throw new FileNotFoundException();
+        if(gameFile.exists() && gameFile.isFile()) xml = builder.build(gameFile);
+        else throw new FileNotFoundException();
         
     }
     
@@ -26,7 +26,7 @@ public class GameXML {
      * @throws java.lang.Exception
     */
     public GameXML(Game game) throws Exception{
-            xml = builder.build(game);
+        xml = builder.build(game);
     }
     
     /** Reads the Map's XML to create a Map object.

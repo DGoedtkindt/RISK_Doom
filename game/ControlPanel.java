@@ -1,14 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
-/**
- *
- * @author dario
- */
+import base.MyWorld;
+
 public class ControlPanel {
+    
+    private MyWorld world() {return MyWorld.theWorld;}
+    
+    //private NButton nextTurnButton = new NButton((ActionEvent ae) -> {Turn.nextTurn();}, new GreenfootImage(""));
+    
+    public void addToWorld(int xPos, int yPos) {
+        
+    }
     
 }

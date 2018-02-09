@@ -14,7 +14,6 @@ public class Manager extends StateManager{
     private ThemeChooser themeChooser = new ThemeChooser();
     private NButton saveSettings = new NButton((ActionEvent ae) -> {applySettingsAndBack();},
             "Apply Changes");
-    private MyWorld world() {return MyWorld.theWorld;}
     private StateManager previous;
     
     public Manager(StateManager previousManager) {

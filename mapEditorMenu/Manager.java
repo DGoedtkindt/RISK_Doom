@@ -1,7 +1,6 @@
 package mapEditorMenu;
 
 import base.Map;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import java.awt.event.ActionEvent;
@@ -11,7 +10,6 @@ import xmlChoosers.MapChooser;
 public class Manager extends StateManager {
     
     private MapChooser mapC = new MapChooser(true);
-    private MyWorld world() {return MyWorld.theWorld;}
     private NButton editMapB = new NButton((ActionEvent ae) -> {
             try{
                 Map map = mapC.getSelectedMap();

@@ -146,7 +146,7 @@ class BonusDisplay extends Actor {
         ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         
         //calculer le nombre de colonne pour l'affichage des bonus
-        //le nombre de colonne devrais tendre vers 2x le nombre de lignes
+        //le nombre de colonne devrait tendre vers 2x le nombre de lignes
         int xAxis = (int)Math.sqrt(2*map().continents.size());
         
         //rajouter les continents lignes par lignes avec xAxis continents par lignes

@@ -1,6 +1,5 @@
 package menu;
 
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
@@ -8,7 +7,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 public class Manager extends StateManager {
-    private MyWorld world() {return MyWorld.theWorld;}
     
     //Buttons in the main menu
     private NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "Play");
@@ -78,13 +76,13 @@ public class Manager extends StateManager {
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){ 
-                clearScene(); setupScene();
-
-            }
-    
+        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?",
+                                                   "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(choice == JOptionPane.YES_OPTION){
+            clearScene();
+            setupScene();
+        }
+        
     }
 
 }

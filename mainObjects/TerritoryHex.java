@@ -136,4 +136,12 @@ public class TerritoryHex extends Button
         
     }
     
+    public void drawPlayerColor(Player p){
+        
+        if(p != null){
+            getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
+        }
+        
+    }
+    
 }
