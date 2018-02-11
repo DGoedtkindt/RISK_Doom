@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
+import mapXML.MapXML;
 import selector.Selector;
 //</editor-fold>
 
@@ -45,6 +46,9 @@ public class Manager extends StateManager{
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth()-120, 50);
         loadMap();
+        
+        //for testing
+        world().addObject(testHash, 20, 20);
 
     }
     
@@ -109,5 +113,16 @@ public class Manager extends StateManager{
     private ActionListener loadOptionsMenu = (ActionEvent ae) -> {
                 clearScene();
                 world().load(new userPreferences.Manager(this));};
+    
+    //////////for testing //////////////
+    private ActionListener printMapsHash = (ActionEvent ae) -> {
+        try {
+            MapXML mapXML = new MapXML(map());
+            System.out.println(mapXML.calculateChecksum());
+        } catch (Exception exception) {
+        }
+    };
+    
+    private NButton testHash = new NButton(printMapsHash,"Hash");
 
 }

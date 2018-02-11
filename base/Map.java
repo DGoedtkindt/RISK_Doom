@@ -9,6 +9,7 @@ import mainObjects.Territory;
  * This Structured variable type stores the main objects of a map.
  */
 public class Map {
+    public String name;
     public ArrayList<Territory> territories = new ArrayList<>();
     public ArrayList<Continent> continents = new ArrayList<>();
     public ArrayList<Links> links = new ArrayList<>();

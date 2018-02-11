@@ -10,7 +10,9 @@ public class Game {
      * in case we need this
      */
     public enum State {
-        HELLO("HELLO THERE!");
+        INITIALISATION("stuff still needs to be done for the game to truly start"),
+        INGAME("normal state of the game. players take turns"),
+        FINISHED("the game is finished");
         
         State(String description) {}
         

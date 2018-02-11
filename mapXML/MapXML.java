@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 public class MapXML {
     
     private Document xml;
+    private String name;
     private XMLReader reader = new XMLReader();
     private XMLBuilder builder = new XMLBuilder();
     
@@ -25,8 +26,10 @@ public class MapXML {
      * @throws java.io.FileNotFoundException
     */
     public MapXML(File mapFile) throws Exception {
-           if(mapFile.exists() && mapFile.isFile()) xml = builder.build(mapFile);
-           else throw new FileNotFoundException();
+        if(mapFile.exists() && mapFile.isFile()) {
+            xml = builder.build(mapFile);
+            name = mapFile.getName().replace(".xml", "");
+        } else throw new FileNotFoundException();
         
     }
     
@@ -34,7 +37,8 @@ public class MapXML {
      * @throws java.lang.Exception
     */
     public MapXML(Map map) throws Exception{
-            xml = builder.build(map);
+        name = map.name;
+        xml = builder.build(map);
     }
     
     /** Reads the Map's XML to create a Map object.
@@ -42,7 +46,9 @@ public class MapXML {
      * @throws java.lang.Exception
      */
     public Map getMap() throws Exception {
-        return reader.getMap(xml);
+        Map map = reader.getMap(xml);
+        map.name = name;
+        return map;
     
     }
     
@@ -50,6 +56,7 @@ public class MapXML {
     */
     public void write(String mapName, String description) {
         try{
+            name = mapName;
             //rajouter la description
             xml.getDocumentElement().setAttribute("description", description);
 
@@ -62,7 +69,7 @@ public class MapXML {
                         "Please make sure " + dir.getAbsolutePath() + " exists");
 
             //écrire le fichier
-            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + mapName + ".xml"));
+            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + name + ".xml"));
             transformer.transform(source, result);
             
             System.out.println("Map was succesfully saved");
@@ -78,7 +85,7 @@ public class MapXML {
      *  to check if the map's XML has been corrupted.
     */
     public int calculateChecksum() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return xml.hashCode();
     
     }
     

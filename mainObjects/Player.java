@@ -2,6 +2,7 @@ package mainObjects;
 
 import base.GColor;
 import base.MyWorld;
+import java.util.ArrayList;
 
 public class Player {
     
@@ -40,6 +41,11 @@ public class Player {
         
     }
     
+    public ArrayList<Territory> territories() {
+        throw new UnsupportedOperationException("Not supported yet");
+    
+    }
+    
     public GColor color(){
         return color;
     }
@@ -50,6 +56,10 @@ public class Player {
     
     public static Player createZombie(){
         return new Player(ZOMBIE_NAME, new GColor(0, 0, 0));
+    }
+
+    public int points() {
+        return 0;
     }
     
 }

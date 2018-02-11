@@ -12,7 +12,7 @@ public class GameXML {
     private XMLReader reader = new XMLReader();
     private XMLBuilder builder = new XMLBuilder();
     
-    /**  Reads a File and creates a new GameXML from it
+    /**  Reads a File and creates a new GameXML from it.
      * @param gameFile the file containing the game's XML
      * @throws java.io.FileNotFoundException
     */
@@ -22,7 +22,7 @@ public class GameXML {
         
     }
     
-    /** Creates a new GameXML from a Game object
+    /** Creates a new GameXML from a Game object.
      * @throws java.lang.Exception
     */
     public GameXML(Game game) throws Exception{
