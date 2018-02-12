@@ -1,29 +1,21 @@
 package mapEditorMenu;
 
+import base.Action;
 import base.Map;
 import base.NButton;
 import base.StateManager;
-import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import xmlChoosers.MapChooser;
 
 public class Manager extends StateManager {
     
-    private MapChooser mapC = new MapChooser(true);
-    private NButton editMapB = new NButton((ActionEvent ae) -> {
-            try{
-                Map map = mapC.getSelectedMap();
-                mapEditor.Manager newManager = new mapEditor.Manager(map);
-                world().load(newManager);
-                 
-            } catch(Exception ex) {
-                ex.printStackTrace(System.err);
-                
-            }
-            
-            
-            
-        }, "Edit Map");
+    private MapChooser mapC;
+    private NButton editMapB;
+
+    public Manager() {
+        this.editMapB = new NButton(editSelectedMap, "Edit Map");
+        this.mapC = new MapChooser(true);
+    }
 
     @Override
     public void setupScene() {
@@ -49,5 +41,17 @@ public class Manager extends StateManager {
             }
     }
 
+    private Action editSelectedMap = () -> {
+        try{
+            Map map = mapC.getSelectedMap();
+            mapEditor.Manager newManager = new mapEditor.Manager(map);
+            world().load(newManager);
+
+        } catch(Exception ex) {
+            ex.printStackTrace(System.err);
+
+        }
+
+    };
 
 }

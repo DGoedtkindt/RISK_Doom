@@ -1,11 +1,11 @@
 package game;
 
+import base.Action;
 import base.Game;
 import base.Map;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Greenfoot;
-import java.awt.event.ActionEvent;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Player;
@@ -20,15 +20,14 @@ public class Manager extends StateManager{
     private Game gameToLoad = new Game();
     private Game loadedGame = new Game();
     
-    private ControlPanel ctrlPanel = new ControlPanel();
-    private ModeMessageDisplay modeDisp = new ModeMessageDisplay();
-    private NButton options = new NButton(
-            (ActionEvent ae) -> {
-                clearScene();
-                world().load(new userPreferences.Manager(this));}
-            , "Options");
+    private ControlPanel ctrlPanel;
+    private ModeMessageDisplay modeDisp;
+    private NButton options;
     
     public Manager(Game loadGame) {
+        this.ctrlPanel = new ControlPanel();
+        this.modeDisp = new ModeMessageDisplay();
+        this.options = new NButton(loadOptionsMenu, "Options");
         gameToLoad = loadGame;
         
     }
@@ -109,5 +108,9 @@ public class Manager extends StateManager{
         Turn.start();
         
     }
+    
+    private Action loadOptionsMenu = () -> {
+                clearScene();
+                world().load(new userPreferences.Manager(this));};
     
 }

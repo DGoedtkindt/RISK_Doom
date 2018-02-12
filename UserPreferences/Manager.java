@@ -5,14 +5,13 @@ import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
-import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import mainObjects.BlankHex;
 
 public class Manager extends StateManager{
     
     private ThemeChooser themeChooser = new ThemeChooser();
-    private NButton saveSettings = new NButton((ActionEvent ae) -> {applySettingsAndBack();},
+    private NButton saveSettings = new NButton(() -> {applySettingsAndBack();},
             "Apply Changes");
     private StateManager previous;
     

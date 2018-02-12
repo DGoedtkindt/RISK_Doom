@@ -1,6 +1,5 @@
 package base;
 
-import java.awt.event.ActionEvent;
 import appearance.Appearance;
 import appearance.Theme;
 import mainObjects.BlankHex;
@@ -28,7 +27,7 @@ public class MyWorld extends World {
     
     //Bouton retour
     public final NButton backButton = 
-            new NButton((ActionEvent ae) -> {stateManager.escape();}, 
+            new NButton(() -> {stateManager.escape();}, 
                     new GreenfootImage("backToHome.png"),30,30);
     
     public MyWorld() {    

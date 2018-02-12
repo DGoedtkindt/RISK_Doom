@@ -3,19 +3,18 @@ package menu;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
-import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 public class Manager extends StateManager {
     
     //Buttons in the main menu
-    private NButton playGameButton           = new NButton((ActionEvent ae) -> {gameMenu();}     , "Play");
-    private NButton mapEditorButton          = new NButton((ActionEvent ae) -> {mapEditorMenu();}, "Map Editor");
-    private NButton optionsButton            = new NButton((ActionEvent ae) -> {optionsMenu();}  , "Options");
+    private NButton playGameButton           = new NButton(() -> {gameMenu();}     , "Play");
+    private NButton mapEditorButton          = new NButton(() -> {mapEditorMenu();}, "Map Editor");
+    private NButton optionsButton            = new NButton(() -> {optionsMenu();}  , "Options");
     
     //Buttons in game menu
-    private NButton newGameButton            = new NButton((ActionEvent ae) -> {newGameMenu();}  , "New Game");
-    private NButton loadGameButton           = new NButton((ActionEvent ae) -> {loadGameMenu();} , "Load Game");
+    private NButton newGameButton            = new NButton(() -> {newGameMenu();}  , "New Game");
+    private NButton loadGameButton           = new NButton(() -> {loadGameMenu();} , "Load Game");
 
     @Override
     public void setupScene() {

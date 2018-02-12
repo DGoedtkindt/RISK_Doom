@@ -38,7 +38,7 @@ public class ControlPanel {
     private ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
     private ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     private OKButton okButton                = new OKButton();
-    private NButton makeXMLButton            = new NButton(NButton.saveFile, new GreenfootImage("MakeXML.png"));
+    private NButton makeXMLButton            = new NButton(Manager.saveFile, new GreenfootImage("MakeXML.png"));
     
     //to easlily modify all buttons
     private ArrayList<Button> allButtons = new ArrayList<>();

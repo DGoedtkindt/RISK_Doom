@@ -4,7 +4,6 @@ import base.NButton;
 import base.GColor;
 import basicChoosers.PColorChooser;
 import greenfoot.GreenfootImage;
-import java.awt.event.ActionEvent;
 import appearance.Theme;
 import greenfoot.World;
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class PlayersPanel {
     }
     
     private void initNewP() {
-        newP = new NButton((ActionEvent ae) -> {addPlayer();});
+        newP = new NButton(() -> {addPlayer();});
         GreenfootImage newPimg = new GreenfootImage("+ New Player",24,Theme.used.textColor,new GColor(0,0,0,0));
         newP.setImage(newPimg);
         
@@ -120,8 +119,8 @@ public class PlayersPanel {
         
         PlayerOptions(PlayersPanel panel,String initName) {
             manager = panel;
-            delete = new NButton((ActionEvent ae)-> {manager.removePlayer(this);}, new GreenfootImage("delete_Icon.png"),20,20);
-            editName =  new NButton((ActionEvent ae) -> {setName(askForName());});
+            delete = new NButton(()-> {manager.removePlayer(this);}, new GreenfootImage("delete_Icon.png"),20,20);
+            editName =  new NButton(() -> {setName(askForName());});
             setName(initName);
         
         }

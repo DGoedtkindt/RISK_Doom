@@ -7,7 +7,6 @@ import base.Game;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
-import java.awt.event.ActionEvent;
 import basicChoosers.DifficultyChooser;
 import javax.swing.JOptionPane;
 import mainObjects.Player;
@@ -17,7 +16,7 @@ public class Manager extends StateManager{
     protected MapChooser mapChooser = new MapChooser(false);
     protected PlayersPanel playersPanel = new PlayersPanel();
     protected DifficultyChooser difficulty = new DifficultyChooser();
-    protected NButton play = new NButton((ActionEvent ae)->{getSettingsAndPlay();}, "Let's play !");
+    protected NButton play = new NButton(()->{getSettingsAndPlay();}, "Let's play !");
     
     @Override
     public void setupScene() {
