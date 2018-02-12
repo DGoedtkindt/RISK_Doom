@@ -1,31 +1,17 @@
 package mapEditor;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
-import appearance.Theme;
 import base.Action;
 import base.Map;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import mode.Mode;
 import mode.ModeMessageDisplay;
-import greenfoot.GreenfootImage;
 import greenfoot.Actor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
-import mapXML.MapXML;
 import selector.Selector;
 //</editor-fold>
 
@@ -40,7 +26,7 @@ public class Manager extends StateManager{
     
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
-        ctrlPanel = new ControlPanel();
+        ctrlPanel = new ControlPanel(this);
         modeDisp = new ModeMessageDisplay();
         options = new NButton(loadOptionsMenu, "Options");
     
@@ -110,80 +96,11 @@ public class Manager extends StateManager{
     
     //Action pour sauver le monde
     
-    protected static Action saveFile = () -> {
-        
-        String mapName = "";
-        String mapDescription = "";
-        
-        //créer la boite de dialogue
-        JTextField nameField = new JTextField(15);
-        JTextField descriptionField = new JTextField(65);
-        JPanel questionPanel = new JPanel();
-        questionPanel.add(new JLabel("Name : "));
-        questionPanel.add(nameField);
-        questionPanel.add(Box.createHorizontalStrut(20));
-        questionPanel.add(new JLabel("Description : "));
-        questionPanel.add(descriptionField);
-
-        //get le résultat de la boite de dialogue
-        int output = JOptionPane.showConfirmDialog(null, questionPanel, "Give your map a name and a description", JOptionPane.OK_CANCEL_OPTION);
-        if (output == JOptionPane.OK_OPTION) {
-           mapName = nameField.getText();
-           mapDescription = descriptionField.getText();
-        }
-
-        //vérifier quelques conditions
-        int writeQ = JOptionPane.YES_OPTION;
-
-        if(mapName == null || mapName.isEmpty() || mapName == "New Map") {
-            System.err.println("You can't save a map if it has no name or if its name is 'New Map'");
-            writeQ = JOptionPane.NO_OPTION;
-
-        } else if(new File("Maps/"+mapName+".xml").exists()){
-                writeQ = JOptionPane.showConfirmDialog(
-                        null, "Do you want to replace the existing map '" + mapName + "' with this one?", 
-                        "Replacing an existing map", JOptionPane.YES_NO_OPTION);
-
-        }
-
-        //si les conditions sont accomplies: sauver
-        if(writeQ == JOptionPane.YES_OPTION){
-            try {
-                MapXML xml = new MapXML(MyWorld.theWorld.stateManager.map());
-                xml.write(mapName, mapDescription);
-                
-                //écrivre l'image du thumbnail (solution temporaire)
-                try{
-                    BufferedImage mapImage = MyWorld.theWorld.getBackground().getAwtImage();
-                    File out = new File(new File("Maps").getAbsolutePath() + "/" + mapName + ".png");
-
-                    ImageIO.write(mapImage, "PNG", out);
-                    System.out.println("thumbnail saved");
-
-                } catch(IOException ex) {
-                    System.err.println("thumbnail couldn't be saved : " + ex);
-
-                }
-
-            } catch (Exception ex) {
-                System.err.println("Map could not be saved : "+ ex);
-            }
-
-        }
+    protected Action saveMap = () -> {
+        ( new MapSaver( map() ) ).saveMap();
     };
     
     /////Private Methods///////////////////////
-    
-    private static JPanel makeDialogBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    private void paintBackgroundDarker() {
-        GreenfootImage bckGrd = world().getBackground();
-        bckGrd.setColor(Theme.used.backgroundColor.darker());
-        bckGrd.fill();
-    
-    }
     
     private Action loadOptionsMenu = () -> {
                 clearScene();
