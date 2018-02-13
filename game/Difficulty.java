@@ -12,9 +12,6 @@ public enum Difficulty {
     public final int ZOMBIES_TURN_LIMIT;
     public final double ATTACK_CHANCE;
 
-    public int zombiesNextWave;
-    public int turnsBeforeNextWave;
-
     /**
     * Creates a Difficulty object, wich contains informations about the difficulty it represents.
     * 
@@ -34,24 +31,7 @@ public enum Difficulty {
         TURNS_BEFORE_ZOMBIES = turnsBeforeZombies;
         ZOMBIES_TURN_LIMIT = constantSpawn;
         ATTACK_CHANCE = attackChance;
-
-        zombiesNextWave = ZOMBIES_SPAWNING;
-        turnsBeforeNextWave = ZOMBIES_TURN_LIMIT;
-    }
-    
-    public void countdown(){
-        turnsBeforeNextWave --;
-        if(turnsBeforeNextWave == -1){
-            turnsBeforeNextWave = ZOMBIES_TURN_LIMIT;
-        }
-    }
-    
-    public void incrementNextWave(){
-        zombiesNextWave += INCREMENT;
-    }
-
-    public void reset(){
-        zombiesNextWave = ZOMBIES_SPAWNING;
+        
     }
     
 }

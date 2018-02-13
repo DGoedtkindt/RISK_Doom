@@ -123,7 +123,7 @@ public class Manager extends StateManager{
     public void start(){
         
         giveTerritoriesRandomly();
-        Turn.nextTurn();
+        Turn.startNewTurn();
         
     }
     

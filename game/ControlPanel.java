@@ -11,12 +11,16 @@ public class ControlPanel {
     
     private MyWorld world() {return MyWorld.theWorld;}
     
-    private NButton nextTurnButton = new NButton(() -> {Turn.nextTurn();}, new GreenfootImage("backToHome.png"));
+    private NButton nextTurnButton = new NButton(() -> {
+        Turn.endCurrentTurn();
+        Turn.startNewTurn();}
+            , new GreenfootImage("backToHome.png"));
     private ModeButton attackButton = new ModeButton("backToHome.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
     private ModeButton moveButton = new ModeButton("backToHome.png", Mode.MOVE, Selector.IS_NOT_OWNED_TERRITORY);
     
     public void addToWorld(int xPos, int yPos) {
-        
+        world().addObject(nextTurnButton, xPos, yPos);
+
     }
     
 }

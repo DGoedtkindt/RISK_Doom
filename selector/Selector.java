@@ -174,14 +174,14 @@ public class Selector
     public static final Predicate EVERYTHING = (Object o) -> {return true;};
     public static final Predicate IS_OWNED_TERRITORY = (Object o) -> {
                     if(o instanceof Territory){
-                        return ((Territory)(o)).owner() != Turn.currentPlayer;
+                        return ((Territory)(o)).owner() != Turn.currentTurn.player;
                     }else{
                         return false;
                     }
                     };
     public static final Predicate IS_NOT_OWNED_TERRITORY = (Object o) -> {
                     if(o instanceof Territory){
-                        return ((Territory)(o)).owner() == Turn.currentPlayer;
+                        return ((Territory)(o)).owner() == Turn.currentTurn.player;
                     }else{
                         return false;
                     }
