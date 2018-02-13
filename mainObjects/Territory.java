@@ -23,7 +23,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    private int armies = 0;
+    private int armies = 100;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -56,8 +56,7 @@ public class Territory implements Selectable
     /** Removes this from the world, containing continent, Links, etc...
      * Should not be used if territory is outside of the world
      */
-    public void destroy()
-    {   
+    public void destroy(){   
         continentColor = Theme.used.backgroundColor;
         makeTransparent();
         for(BlankHex bh : blankHexList){
@@ -77,7 +76,7 @@ public class Territory implements Selectable
         
         
     }
-
+    
     public void setContinent(Continent newContinent) {
         continent = newContinent;
         if(newContinent != null){
@@ -111,11 +110,13 @@ public class Territory implements Selectable
     
     public void editBonus() {
         String bonusString = JOptionPane.showInputDialog("Enter the new bonus for this Territory");
-        int newBonus = 0;
-        if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
-        if(newBonus <= 0){newBonus = 0;}
-        bonusPoints = newBonus;
-
+        
+        if(bonusString.matches("\\d+")){
+            int newBonus = Integer.parseInt(bonusString);
+            bonusPoints = newBonus;
+            
+        }
+        
     }
     
     public int bonus() {
@@ -140,6 +141,73 @@ public class Territory implements Selectable
         owner = newOwner;
         drawTerritory();
         
+    }
+    
+    public void invade(Territory target) throws Exception{
+        
+        String invadingArmiesString = JOptionPane.showInputDialog("The number of armies you're using");
+        
+        if(invadingArmiesString.matches("\\d+")){
+            
+            int invadingArmies = Integer.parseInt(invadingArmiesString);
+            
+            if(invadingArmies < 2){
+                throw new Exception("You can't attack a territory without at least two armies.");
+            }else if(invadingArmies > armies - 1){
+                throw new Exception("You don't have enough armies.");
+            }else{
+                armies -= invadingArmies;
+                target.attacked(invadingArmies, owner);
+            }
+
+            drawTerritory();
+            
+        }else{
+            throw new Exception("Invalid entry.");
+        }
+        
+    }
+    
+    public void attacked(int invadingArmies, Player invader){
+        
+        armies -= invadingArmies;
+        
+        if(armies == 0){
+            owner = null;
+        }else if(armies < 0){
+            armies = - armies;
+            owner = invader;
+        }
+        
+        drawTerritory();
+        
+    }
+    
+    public void moveTo(Territory destination) throws Exception{
+        
+        String movingArmiesString = JOptionPane.showInputDialog("The number of armies you're moving");
+        
+        if(movingArmiesString.matches("\\d+")){
+            
+            int movingArmies = Integer.parseInt(movingArmiesString);
+            
+            if(movingArmies > armies - 1){
+                throw new Exception("You don't have enough armies.");
+            }else{
+                armies -= movingArmies;
+                destination.addArmies(movingArmies);
+            }
+            
+            drawTerritory();
+            
+        }else{
+            throw new Exception("Invalid entry.");
+        }
+        
+    }
+    
+    public void addArmies(int a){
+        armies += a;
     }
     
     //Selectable methods/////////////////////////////////

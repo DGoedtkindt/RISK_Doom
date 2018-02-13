@@ -4,6 +4,7 @@ import base.Button;
 import base.ColorChooser;
 import base.GColor;
 import base.Hexagon;
+import game.Turn;
 import mode.Mode;
 import selector.Selector;
 import greenfoot.Greenfoot;
@@ -35,7 +36,7 @@ public class TerritoryHex extends Button
     public void clicked() {
         try {
             if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
-                world().stateManager.escape();;
+                world().stateManager.escape();
                 
             }else switch (Mode.mode()) {
                 case CREATE_CONTINENT :
@@ -94,13 +95,38 @@ public class TerritoryHex extends Button
                     
                     break;
                     
-                default:
-                    world().stateManager.escape();;
+                case ATTACK : 
+                    if(Selector.territoriesNumber() == 0){
+                        Selector.select(territory);
+                        Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+                        world().repaint(); //pour forcer l'actualisation des images
+                    }else{
+                        Selector.select(territory);
+                        Selector.getSelectedTerritories().get(0).invade(Selector.getSelectedTerritories().get(1));
+                        Selector.setValidator(Selector.NOTHING);
+                        world().repaint(); //pour forcer l'actualisation des images
+                        world().stateManager.escape();
+                    }
                     break;
+                
+                case MOVE : 
+                    if(Selector.territoriesNumber() == 0){
+                        Selector.select(territory);
+                        world().repaint(); //pour forcer l'actualisation des images
+                    }else{
+                        Selector.select(territory);
+                        Selector.getSelectedTerritories().get(0).moveTo(Selector.getSelectedTerritories().get(1));
+                        Selector.setValidator(Selector.NOTHING);
+                        world().repaint(); //pour forcer l'actualisation des images
+                        world().stateManager.escape();
+                    }
+                    break;
+                    
+                default: break;
             }
         } catch (Exception ex) {
-            ex.printStackTrace(System.err);
-            world().stateManager.escape();;
+            System.err.println(ex.getMessage());
+            world().stateManager.escape();
         }
         
     }
