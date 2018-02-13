@@ -25,14 +25,16 @@ public class Manager extends StateManager{
     private NButton options;
     
     public Manager(Game loadGame) {
-        this.ctrlPanel = new ControlPanel();
+        this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
         this.options = new NButton(loadOptionsMenu, "Options");
         gameToLoad = loadGame;
         
     }
     
+    @Override
     public Game game() {return loadedGame;}
+    @Override
     public Map map() {return loadedGame.map;}
 
     /*public void updateScene(Player player){
@@ -108,6 +110,11 @@ public class Manager extends StateManager{
         Turn.start();
         
     }
+    
+    protected Action saveGame = () -> {
+        (new GameSaver( game() )).saveGame();
+    
+    };
     
     private Action loadOptionsMenu = () -> {
                 clearScene();

@@ -34,8 +34,8 @@ public class XMLBuilder {
             createPlayerNodes();
             return doc;
         } catch (Exception ex) {
-            System.out.println(ex);
-            throw new Exception("Couldn't create Document from Game");
+            System.err.println("Couldn't create Document from Game");
+            throw ex;
         }
 
     }

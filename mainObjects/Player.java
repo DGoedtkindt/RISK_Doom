@@ -42,7 +42,7 @@ public class Player {
     }
     
     public ArrayList<Territory> territories() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException("Getting territories from player is not supported yet");
     
     }
     
