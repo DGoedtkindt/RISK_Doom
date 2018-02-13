@@ -2,6 +2,7 @@ package selector;
 
 import base.Map;
 import base.MyWorld;
+import game.Turn;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -85,6 +86,19 @@ public class Selector
         return territorySelectedList.get(0);
     }
     
+    public static int territoriesNumber(){
+        
+        ArrayList<Territory> territorySelectedList = new ArrayList<>();
+        for(Selectable select : selection) {
+            try{Territory terr;
+                terr = (Territory)select;
+                territorySelectedList.add(terr);
+            }  catch(ClassCastException cce) {}
+        }
+        return territorySelectedList.size();
+
+    }
+    
     //Getters for Continent///////////////////////////////////////////////////
     
     public static ArrayList<Continent> continentSelectedList() throws Exception {
@@ -158,5 +172,19 @@ public class Selector
                         };
     public static final Predicate NOTHING = (Object o) -> {return false;};
     public static final Predicate EVERYTHING = (Object o) -> {return true;};
+    public static final Predicate IS_OWNED_TERRITORY = (Object o) -> {
+                    if(o instanceof Territory){
+                        return ((Territory)(o)).owner() != Turn.currentPlayer;
+                    }else{
+                        return false;
+                    }
+                    };
+    public static final Predicate IS_NOT_OWNED_TERRITORY = (Object o) -> {
+                    if(o instanceof Territory){
+                        return ((Territory)(o)).owner() == Turn.currentPlayer;
+                    }else{
+                        return false;
+                    }
+                    };
     
 }
