@@ -51,7 +51,7 @@ public enum Difficulty {
     }
 
     public void reset(){
-        zombiesNextWave = 0;
+        zombiesNextWave = ZOMBIES_SPAWNING;
     }
-
+    
 }

@@ -13,36 +13,40 @@ import mainObjects.Territory;
 
 public class Turn {
     
-    private static Player currentPlayer;
+    public static Player currentPlayer;
     private static int currentPlayerNumber = 0;
 
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     
-    public static void start() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public static void nextTurn(){
         
-        if(aPlayerIsDead()){
-            //game().end();
+        if(((game.Manager)(MyWorld.theWorld.stateManager)).usedDifficulty.turnsBeforeNextWave == 0){
+            
+            zombieTurn();
+            
         }else{
             
-            if(currentPlayerNumber == game().players.size()){
-                
-                zombieTurn();
-                currentPlayerNumber = 0;
-                
+            if(aPlayerIsDead()){
+                //game().end();
             }else{
                 
-                currentPlayer = game().players.get(currentPlayerNumber);
-                currentPlayerNumber++;
-                (new NextTurnPanel(currentPlayer)).show();
+                if(currentPlayerNumber == game().players.size()){
+                    
+                    zombieTurn();
+                    currentPlayerNumber = 0;
+                    ((game.Manager)(MyWorld.theWorld.stateManager)).usedDifficulty.incrementNextWave();
+                    
+                }else{
+                    ((game.Manager)(MyWorld.theWorld.stateManager)).usedDifficulty.countdown();
+                    currentPlayer = game().players.get(currentPlayerNumber);
+                    currentPlayerNumber++;
+                    (new NextTurnPanel(currentPlayer)).show();
+                    
+                }
                 
             }
             
         }
-        
         
     }
     
@@ -52,18 +56,18 @@ public class Turn {
         
         for(Territory t : game().map.territories){
             
-            if(t.owner() != null && !playersAlive.contains(t.owner())){
+            if(t.owner() != null && !t.owner().name().equals(Player.ZOMBIE_NAME) && !playersAlive.contains(t.owner())){
                 playersAlive.add(t.owner());
             }
             
         }
         
-        return playersAlive.size() != game().players.size();
+        return playersAlive.size() != game().players.size() - 1;
         
     }
 
     private static void zombieTurn() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     
     static class NextTurnPanel extends Button{
@@ -76,11 +80,12 @@ public class Turn {
         
         public void show(){
             GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-            img.setColor(Theme.used.backgroundColor);
+            img.setColor(Theme.used.backgroundColor.brighter());
             img.fill();
             img.setColor(OWNER.color());
-            img.setFont(new Font("monospaced", 25));
-            //img.drawString(OWNER.name(), 1000, 500);
+            img.setFont(new Font("monospaced", 50));
+            img.drawString(OWNER.name(), 700, 500);
+            setImage(img);
             MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
             
         }
