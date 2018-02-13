@@ -167,6 +167,8 @@ public class PlayersPanel {
         String askForName() {
             
             String updatedName = JOptionPane.showInputDialog("New Name");
+            if(updatedName == null){updatedName = "";}
+            
             if(!updatedName.equals(Player.ZOMBIE_NAME)){
                 return updatedName;
             }else{

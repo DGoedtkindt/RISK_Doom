@@ -11,14 +11,17 @@ public enum Mode
     CREATE_CONTINENT("Create a continent by selecting at least one territory that is not already part of a continent."),
     EDIT_TERRITORY_BONUS("Select a territory to change its bonus."),
     SET_LINK("Click on the territories you want to connect. \n A dot will be placed at the exact place you click."
-                                                            + "\n You will be asked to chose a color the first time."),
+                                                            + "\n You will be asked to choose a color the first time."),
     EDIT_CONTINENT_COLOR("Select a continent and change its color."),
     EDIT_CONTINENT_BONUS("Select a continent and change its bonus."),
     DELETE_TERRITORY("Select a territory to delete it."),
     DELETE_CONTINENT("Select a continent to delete it (without destroying its composing territories)."),
     SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory."),
     //Game modes
-    GAME_DEFAULT("");
+    GAME_DEFAULT(""),
+    ATTACK("Click on one of your territories, then on an adjacent ennemy territory. "
+            + "Finally, choose the number of armies you want to use."),
+    MOVE("Move your armies from one of your territories to another.");
     
     Mode(String text){
         message = text;

@@ -1,72 +1,83 @@
 package game;
 
 import appearance.Appearance;
-import appearance.Theme;
 import base.Button;
 import base.Game;
 import base.MyWorld;
+import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import mainObjects.Player;
-import mainObjects.Territory;
+import mainObjects.Zombie;
 
 public class Turn {
+    private ArrayList<Player> players() {return game().players;}
     
-    private static Player currentPlayer;
-    private static int currentPlayerNumber = 0;
+    public Player player;
+    protected int turnNumber;
+    
+    public static Turn currentTurn;
 
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     
-    public static void start() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public static void nextTurn(){
-        
-        if(aPlayerIsDead()){
-            //game().end();
-        }else{
-            
-            if(currentPlayerNumber == game().players.size()){
-                
-                zombieTurn();
-                currentPlayerNumber = 0;
-                
-            }else{
-                
-                currentPlayer = game().players.get(currentPlayerNumber);
-                currentPlayerNumber++;
-                (new NextTurnPanel(currentPlayer)).show();
-                
-            }
-            
-        }
-        
+    protected Turn(int turnNumber) {
+        this.turnNumber = turnNumber;
+        int playerNumber = turnNumber % (players().size());
+        player = players().get(playerNumber);
         
     }
     
-    static public boolean aPlayerIsDead(){
-        
-        ArrayList<Player> playersAlive = new ArrayList<Player>();
-        
-        for(Territory t : game().map.territories){
-            
-            if(t.owner() != null && !playersAlive.contains(t.owner())){
-                playersAlive.add(t.owner());
-            }
-            
-        }
-        
-        return playersAlive.size() != game().players.size();
+    public static void endCurrentTurn() {
+        currentTurn.end();
         
     }
+    
+    public static void startNewTurn() {
+        if(currentTurn != null) {
+            int newTurnNumber = currentTurn.turnNumber + 1;
+            currentTurn = new Turn(newTurnNumber);
+        } else {
+            currentTurn = new Turn(0);
+        }
+            currentTurn.start();
+    }
+    
+    public void start(){
+        
+        new NextTurnPanel(player).show();
+        
+        if(player instanceof Zombie){
+            ((Zombie)player).takeTurn();
 
-    private static void zombieTurn() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        }else{;
+            //do stuff
+
+        }
+            
+        
     }
     
-    static class NextTurnPanel extends Button{
+    public void end() {
+        System.out.println("Turn.end() doesn't do anything yet");
+    
+    }
+    
+    private boolean aPlayerIsDead(){
+        for(Player p : players()) {
+            if(p.hasLostQ()) {
+                return true;
+            
+            }
+        
+        }
+        
+        return false;
+    }
+    
+}
+
+class NextTurnPanel extends Button{
         
         private final Player OWNER;
         
@@ -76,11 +87,12 @@ public class Turn {
         
         public void show(){
             GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-            img.setColor(Theme.used.backgroundColor);
-            img.fill();
             img.setColor(OWNER.color());
-            img.setFont(new Font("monospaced", 25));
-            //img.drawString(OWNER.name(), 1000, 500);
+            img.fill();
+            img.setColor(Color.BLACK);
+            img.setFont(new Font("monospaced", 50));
+            img.drawString(OWNER.name(), 700, 500);
+            setImage(img);
             MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
             
         }
@@ -88,9 +100,7 @@ public class Turn {
         @Override
         public void clicked() {
             MyWorld.theWorld.removeObject(this);
-            OWNER.startTurn();
+            
         }
         
     }
-    
-}

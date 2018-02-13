@@ -12,7 +12,7 @@ import greenfoot.GreenfootImage;
 
 public class Continent implements Selectable
 {
-    public static final Actor display = new BonusDisplay();
+    public static final BonusDisplay display = new BonusDisplay();
     
     //private variable
     private MyWorld world() {return MyWorld.theWorld;}
@@ -44,7 +44,7 @@ public class Continent implements Selectable
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         map().continents.add(this);
         
-        ((BonusDisplay)display).update();
+        display.update();
     
     }
     
@@ -52,7 +52,7 @@ public class Continent implements Selectable
         continentColor = ColorChooser.getColor();
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
 
-        ((BonusDisplay)display).update();
+        display.update();
         
     }
     
@@ -81,17 +81,20 @@ public class Continent implements Selectable
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
-        ((BonusDisplay)display).update();
+        display.update();
                
     }
     
-    public void editBonus() throws Exception {
-        int newBonus = 0;
+    public void editBonus(){
         String bonusString = JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent");
-        if(!bonusString.isEmpty()){newBonus = Integer.parseInt(bonusString);}
-        if(newBonus <= 0){newBonus = 0;}
-        bonus = newBonus;
-        ((BonusDisplay)display).update();
+        
+        if(bonusString.matches("\\d+")){
+            int newBonus = Integer.parseInt(bonusString);
+            
+            bonus = newBonus;
+            display.update();
+        }
+        
     }
     
     public int bonus() {

@@ -9,7 +9,7 @@ import base.StateManager;
 import greenfoot.GreenfootImage;
 import basicChoosers.DifficultyChooser;
 import javax.swing.JOptionPane;
-import mainObjects.Player;
+import mainObjects.Zombie;
 
 public class Manager extends StateManager{
     
@@ -46,9 +46,9 @@ public class Manager extends StateManager{
         try {
             Game game = new Game();
             game.players = playersPanel.getPlayers();
-            game.players.add(Player.createZombie());
             game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
+            game.players.add(new Zombie(game.difficulty));
             world().load(new game.Manager(game));
             
         } catch (Exception ex) {

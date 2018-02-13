@@ -6,16 +6,20 @@ import base.Map;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Greenfoot;
+import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Player;
 import mainObjects.Territory;
 import mode.Mode;
 import mode.ModeMessageDisplay;
+import selector.Selector;
 
 public class Manager extends StateManager{
 
-    private static final int STARTING_TERRITORIES = 1;
+    public Difficulty usedDifficulty;
+    
+    private static final int STARTING_TERRITORIES = 4;
     
     private Game gameToLoad = new Game();
     private Game loadedGame = new Game();
@@ -28,7 +32,7 @@ public class Manager extends StateManager{
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
         this.options = new NButton(loadOptionsMenu, "Options");
-        gameToLoad = loadGame;
+        this.gameToLoad = loadGame;
         
     }
     
@@ -36,21 +40,20 @@ public class Manager extends StateManager{
     public Game game() {return loadedGame;}
     @Override
     public Map map() {return loadedGame.map;}
-
-    /*public void updateScene(Player player){
-    }*/
     
     @Override
     public void setupScene() {
         Mode.setMode(Mode.GAME_DEFAULT);
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
-        ctrlPanel.addToWorld(world().getWidth()-100, 300);
-        modeDisp.addToWorld(world().getWidth()-90, 850);
+        ctrlPanel.addToWorld(world().getWidth() - 100, 300);
+        modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth()-120, 50);
+        world().addObject(options, world().getWidth() - 120, 50);
         loadGame();
-        
+        /*world().addObject(new mode.ModeButton("backToHome.png", mode.Mode.ATTACK, selector.Selector.IS_NOT_OWNED_TERRITORY), 1800, 300);
+        world().addObject(new mode.ModeButton("backToHome.png", mode.Mode.MOVE, selector.Selector.IS_NOT_OWNED_TERRITORY), 1800, 600);
+        world().addObject(new NButton(() -> {Turn.nextTurn();}, new GreenfootImage("backToHome.png")), 1800, 900);*/
     }
     
     private void loadGame(){
@@ -75,7 +78,21 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(Mode.mode() == Mode.GAME_DEFAULT) {
+
+            int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
+                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+            if(choice == JOptionPane.YES_OPTION){
+                clearScene();
+                world().load(new menu.Manager());
+
+            } 
+        
+        } else {
+            Selector.clear();
+            Mode.setMode(Mode.GAME_DEFAULT);
+            
+        }
     }
     
     private void giveTerritoriesRandomly(){
@@ -107,7 +124,7 @@ public class Manager extends StateManager{
     public void start(){
         
         giveTerritoriesRandomly();
-        Turn.start();
+        Turn.startNewTurn();
         
     }
     
@@ -119,5 +136,6 @@ public class Manager extends StateManager{
     private Action loadOptionsMenu = () -> {
                 clearScene();
                 world().load(new userPreferences.Manager(this));};
+
     
 }

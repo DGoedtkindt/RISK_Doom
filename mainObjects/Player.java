@@ -46,16 +46,17 @@ public class Player {
     
     }
     
+    public boolean hasLostQ() {
+        System.out.println("Player.hasLostQ is not supported yet");
+        return false;
+    }
+    
     public GColor color(){
         return color;
     }
     
     public String name(){
         return name;
-    }
-    
-    public static Player createZombie(){
-        return new Player(ZOMBIE_NAME, new GColor(0, 0, 0));
     }
 
     public int points() {
