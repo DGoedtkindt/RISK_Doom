@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import mapXML.MapXML;
 
 public class MapSaver {
+    
     private Map map;
     private String name;
     private String description;

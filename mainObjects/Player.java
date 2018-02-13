@@ -61,5 +61,5 @@ public class Player {
     public int points() {
         return 0;
     }
-    
+
 }
