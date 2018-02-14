@@ -1,5 +1,6 @@
 package mapXML;
 
+import appearance.MessageDisplayer;
 import base.Map;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -75,7 +76,7 @@ public class MapXML {
             System.out.println("Map was succesfully saved");
             
         } catch(HeadlessException | TransformerException e) {
-            System.err.println("Map couldn't be saved   : " + e);
+            MessageDisplayer.showMessage("Map couldn't be saved   : " + e);
 
         }
     
