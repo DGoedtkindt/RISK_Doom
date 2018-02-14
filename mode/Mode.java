@@ -21,7 +21,9 @@ public enum Mode
     GAME_DEFAULT(""),
     ATTACK("Click on one of your territories, then on an adjacent ennemy territory. "
             + "Finally, choose the number of armies you want to use."),
-    MOVE("Move your armies from one of your territories to another.");
+    MOVE("Move your armies from one of your territories to another."),
+    //Other modes
+    SHOWING_ERROR("");
     
     Mode(String text){
         message = text;

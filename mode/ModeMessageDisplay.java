@@ -38,7 +38,7 @@ public class ModeMessageDisplay {
     }
 
     private void display(String message){
-        panel.setImage(new GreenfootImage(WIDTH,HEIGHT));
+        panel.setImage(new GreenfootImage(WIDTH, HEIGHT));
         Font font = new Font("Monospaced", 17);
         String textToDisplay = wrapText(message, 16);
         panel.getImage().setColor(Theme.used.textColor);
