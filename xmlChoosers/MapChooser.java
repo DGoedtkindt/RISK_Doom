@@ -1,5 +1,6 @@
 package xmlChoosers;
 
+import appearance.MessageDisplayer;
 import arrowable.Arrowable;
 import base.Map;
 import java.io.File;
@@ -39,7 +40,10 @@ public class MapChooser extends XMLChooser implements Arrowable{
                 
             }
             
-        }catch(IOException | ParserConfigurationException | DOMException | SAXException e){System.err.println(e.getMessage());}
+        }catch(IOException | ParserConfigurationException | DOMException | SAXException e){
+            MessageDisplayer.showMessage(e.getMessage());
+            System.err.println(e.getMessage());
+        }
         
         if(!mapDescription.equals("")){
             return mapDescription;
