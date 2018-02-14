@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;
 import base.GColor;
@@ -96,35 +97,58 @@ public class TerritoryHex extends Button
                     break;
                     
                 case ATTACK : 
-                    if(Selector.territoriesNumber() == 0){
+                    if(Territory.actionSource == null
+                       && territory.owner() == Turn.currentTurn.player){
+                        
+                        Territory.actionSource = territory;
                         Selector.select(territory);
-                        Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+                        Selector.setValidator(Selector.IS_NOT_OWNED_CLOSE_TERRITORY);
                         world().repaint(); //pour forcer l'actualisation des images
-                    }else{
+                        
+                    }else if(territory.owner() != Turn.currentTurn.player){
+                        
                         Selector.select(territory);
-                        Selector.getSelectedTerritories().get(0).invade(Selector.getSelectedTerritories().get(1));
+                        try{
+                            Territory.actionSource.invade(territory);
+                        }catch(Exception e){
+                            MessageDisplayer.showMessage(e.getMessage());
+                        }
+                        Territory.actionSource = null;
                         Selector.setValidator(Selector.NOTHING);
                         world().repaint(); //pour forcer l'actualisation des images
                         world().stateManager.escape();
                     }
+                    
                     break;
                 
                 case MOVE : 
-                    if(Selector.territoriesNumber() == 0){
-                        Selector.select(territory);
-                        world().repaint(); //pour forcer l'actualisation des images
-                    }else{
-                        Selector.select(territory);
-                        Selector.getSelectedTerritories().get(0).moveTo(Selector.getSelectedTerritories().get(1));
-                        Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
-                        world().stateManager.escape();
+                    if(territory.owner() == Turn.currentTurn.player){
+                        
+                        if(Territory.actionSource == null){
+                            Territory.actionSource = territory;
+                            Selector.select(territory);
+                            world().repaint(); //pour forcer l'actualisation des images
+                        }else{
+                            Selector.select(territory);
+                            try{
+                                Territory.actionSource.moveTo(territory);
+                            }catch(Exception e){
+                                MessageDisplayer.showMessage(e.getMessage());
+                            }
+                            Territory.actionSource = null;
+                            Selector.setValidator(Selector.NOTHING);
+                            world().repaint(); //pour forcer l'actualisation des images
+                            world().stateManager.escape();
+                        }
+                        
                     }
+                    
                     break;
                     
                 default: break;
             }
         } catch (Exception ex) {
+            MessageDisplayer.showMessage(ex.getMessage());
             System.err.println(ex.getMessage());
             world().stateManager.escape();
         }
@@ -166,6 +190,7 @@ public class TerritoryHex extends Button
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
+            getImage().drawString("" + territory.armies, 20, 40);
         }
         
     }
