@@ -5,6 +5,7 @@ import base.Game;
 import base.Map;
 import base.NButton;
 import base.StateManager;
+import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
@@ -16,8 +17,6 @@ import mode.ModeMessageDisplay;
 import selector.Selector;
 
 public class Manager extends StateManager{
-
-    public Difficulty usedDifficulty;
     
     private static final int STARTING_TERRITORIES = 4;
     
@@ -29,15 +28,16 @@ public class Manager extends StateManager{
     private NButton options;
     
     public Manager(Game loadGame) {
-        ctrlPanel = new ControlPanel();
-        modeDisp = new ModeMessageDisplay();
-        options = new NButton(loadOptionsMenu, "Options");
-        usedDifficulty = loadGame.difficulty;
-        gameToLoad = loadGame;
+        this.ctrlPanel = new ControlPanel(this);
+        this.modeDisp = new ModeMessageDisplay();
+        this.options = new NButton(loadOptionsMenu, "Options");
+        this.gameToLoad = loadGame;
         
     }
     
+    @Override
     public Game game() {return loadedGame;}
+    @Override
     public Map map() {return loadedGame.map;}
     
     @Override
@@ -50,16 +50,17 @@ public class Manager extends StateManager{
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 120, 50);
         loadGame();
-        /*world().addObject(new mode.ModeButton("backToHome.png", mode.Mode.ATTACK, selector.Selector.IS_NOT_OWNED_TERRITORY), 1800, 300);
-        world().addObject(new mode.ModeButton("backToHome.png", mode.Mode.MOVE, selector.Selector.IS_NOT_OWNED_TERRITORY), 1800, 600);
-        world().addObject(new NButton(() -> {Turn.nextTurn();}, new GreenfootImage("backToHome.png")), 1800, 900);*/
     }
     
     private void loadGame(){
         loadMap();
         loadedGame = gameToLoad;
-        start();
-    
+        
+        if(loadedGame.gameState == Game.State.INITIALISATION){
+            start();
+            loadedGame.gameState = Game.State.INGAME;
+        }
+        
     }
     
     private void loadMap(){
@@ -72,7 +73,15 @@ public class Manager extends StateManager{
     
     @Override
     public void clearScene() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        gameToLoad = loadedGame;
+        loadedGame = new Game();
+        
+        ctrlPanel.removeFromWorld();
+        modeDisp.removeFromWorld();
+        
+        world().removeObjects(world().getObjects(Actor.class));
+        
     }
     
     @Override
@@ -98,22 +107,18 @@ public class Manager extends StateManager{
         
         for(Player p : loadedGame.players){
             
-            if(!p.name().equals(Player.ZOMBIE_NAME)){
-                
-                int terrNumber = 0;
-                Territory terrToAttribute;
+            int terrNumber = 0;
+            Territory terrToAttribute;
 
-                while(terrNumber < STARTING_TERRITORIES){
+            while(terrNumber < STARTING_TERRITORIES){
 
-                    terrToAttribute = loadedGame.map.territories.get(Greenfoot.getRandomNumber(loadedGame.map.territories.size()));
+                terrToAttribute = loadedGame.map.territories.get(Greenfoot.getRandomNumber(loadedGame.map.territories.size()));
 
-                    if(terrToAttribute.owner() == null){
-                        terrToAttribute.setOwner(p);
-                        terrNumber++;
-                    }
-
+                if(terrToAttribute.owner() == null){
+                    terrToAttribute.setOwner(p);
+                    terrNumber++;
                 }
-                
+
             }
             
         }
@@ -127,7 +132,14 @@ public class Manager extends StateManager{
         
     }
     
-    private Action loadOptionsMenu = () -> {clearScene();
-                                            world().load(new userPreferences.Manager(this));};
+    protected Action saveGame = () -> {
+        (new GameSaver( game() )).saveGame();
+    
+    };
+    
+    private Action loadOptionsMenu = () -> {
+                clearScene();
+                world().load(new userPreferences.Manager(this));};
+
     
 }

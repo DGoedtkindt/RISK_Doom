@@ -90,7 +90,7 @@ class NextTurnPanel extends Button{
             img.setColor(OWNER.color());
             img.fill();
             img.setColor(Color.BLACK);
-            img.setFont(new Font("monospaced", 50));
+            img.setFont(new Font("monospaced", true, false, 50));
             img.drawString(OWNER.name(), 700, 500);
             setImage(img);
             MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
