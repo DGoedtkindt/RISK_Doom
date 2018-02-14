@@ -3,7 +3,6 @@ package mapEditor;
 import base.Button;
 import base.MyWorld;
 import base.NButton;
-import base.StateManager;
 import mode.Mode;
 import mode.ModeButton;
 import java.awt.event.ActionListener;
@@ -23,7 +22,7 @@ public class ControlPanel {
     public final int HEIGHT = 600;
     
     private MyWorld world() {return MyWorld.theWorld;}
-    private StateManager manager() {return world().stateManager;}
+    private Manager manager;
     
     private ActionListener updateThis = (ActionEvent ae)-> {
                 modeChanged(Mode.mode());
@@ -38,12 +37,14 @@ public class ControlPanel {
     private ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
     private ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     private OKButton okButton                = new OKButton();
-    private NButton makeXMLButton            = new NButton(Manager.saveFile, new GreenfootImage("MakeXML.png"));
+    private NButton makeXMLButton;
     
     //to easlily modify all buttons
     private ArrayList<Button> allButtons = new ArrayList<>();
     
-    protected ControlPanel() {
+    protected ControlPanel(Manager manager) {
+        this.manager = manager;
+        this.makeXMLButton = new NButton( ((Manager)manager).saveMap, new GreenfootImage("MakeXML.png"));
         allButtons.add(createTerritory);
         allButtons.add(createLink);
         allButtons.add(editTerritoryBonus);
@@ -83,7 +84,7 @@ public class ControlPanel {
         
         switch (Mode.mode()) {
             case MAP_EDITOR_DEFAULT:
-                Collection<Territory> allTerritories = manager().map().territories;
+                Collection<Territory> allTerritories = manager.map().territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
                     
@@ -95,7 +96,7 @@ public class ControlPanel {
                 }   createTerritory.makeOpaque();
                 if(unoccupiedTerritoriesNumber > 0){
                     createContinent.makeOpaque();
-                }if(!manager().map().continents.isEmpty()){
+                }if(!manager.map().continents.isEmpty()){
                     editContinentBonus.makeOpaque();
                     editContinentColor.makeOpaque();
                     deleteContinent.makeOpaque();

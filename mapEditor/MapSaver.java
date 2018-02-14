@@ -1,6 +1,7 @@
 package mapEditor;
 
 
+import appearance.MessageDisplayer;
 import base.Map;
 import base.MyWorld;
 import java.awt.image.BufferedImage;
@@ -14,9 +15,10 @@ import javax.swing.JTextField;
 import mapXML.MapXML;
 
 public class MapSaver {
-    Map map;
-    String name;
-    String description;
+    
+    private Map map;
+    private String name;
+    private String description;
     
     public MapSaver(Map mapToSave) {
         map = mapToSave;
@@ -38,7 +40,7 @@ public class MapSaver {
         NamePanel namePanel = new NamePanel();
         int nameEntered = JOptionPane.showConfirmDialog(null, namePanel, "Give your map a name and a description", JOptionPane.OK_CANCEL_OPTION);
         if(nameEntered == JOptionPane.OK_OPTION) {
-            name = namePanel.getName();
+            name = namePanel.name();
             description = namePanel.description();
         };
     
@@ -73,10 +75,11 @@ public class MapSaver {
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                System.err.println("thumbnail couldn't be saved : " + ex);
+                MessageDisplayer.showMessage("thumbnail couldn't be saved : " + ex);
             }
             
         } catch (Exception ex) {
+            MessageDisplayer.showMessage("The Map could'nt be saved : " + ex);
             JOptionPane.showMessageDialog(null, "the Map could not be saved : " + ex);
         }
     
