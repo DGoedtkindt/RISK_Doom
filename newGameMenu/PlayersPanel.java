@@ -82,7 +82,7 @@ public class PlayersPanel {
     }
     
     private void addPlayer() {
-        PlayerOptions newPlayer = new PlayerOptions(this, "A New Player");
+        PlayerOptions newPlayer = new PlayerOptions(this, Player.NEW_PLAYER_NAME);
         players.add(newPlayer);
         if(world != null) addToWorld(world, xPos, yPos);
         if(players.size()>5) world.removeObject(newP);
@@ -105,8 +105,8 @@ public class PlayersPanel {
     
     /**
      * PlayersOption is a group of actor that allows the user to delete a player,
-     * change it's name, it's color. It also creates a Player Object from it's
-     * setting. 
+     * change its name, its color. It also creates a Player Object from its
+     * settings. 
      */
     private class PlayerOptions {
         String name;
@@ -167,13 +167,9 @@ public class PlayersPanel {
         String askForName() {
             
             String updatedName = JOptionPane.showInputDialog("New Name");
-            if(updatedName == null){updatedName = "";}
+            if(updatedName == null || updatedName.matches("\\s+")){updatedName = Player.NEW_PLAYER_NAME;}
             
-            if(!updatedName.equals(Player.ZOMBIE_NAME)){
-                return updatedName;
-            }else{
-                return "INVALID NAME";
-            }
+            return updatedName;
             
         }
         
