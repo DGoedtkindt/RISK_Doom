@@ -91,25 +91,72 @@ public class Turn {
 }
 
 class NextTurnPanel extends Button{
+    private static Game game(){return MyWorld.theWorld.stateManager.game();}
+    private static List<Player> players() {return game().players;}
         
     private final Player OWNER;
     private final Turn TURN;
+    
+    private TurnStat stats;
 
     public NextTurnPanel(){
         TURN = Turn.currentTurn;
         OWNER = TURN.player;
+        stats = new TurnStat(players(),TURN.turnNumber);
+        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
     }
 
     public void show(){
-        GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-        img.setColor(OWNER.color());
-        img.fill();
-        img.setColor(Color.BLACK);
-        img.setFont(new Font("monospaced", true, false, 50));
-        img.drawString(OWNER.name(), 700, 500);
-        setImage(img);
-        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        colorBackground();
+        writeName();
+        writeStats();
+        addToWorld();
 
+    }
+    
+    private void colorBackground() {
+        getImage().setColor(OWNER.color());
+        getImage().fill();
+    
+    }
+    
+    private void writeName() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        getImage().setFont(new Font("monospaced", true, false, 50));
+        getImage().drawString(OWNER.name(), 700, 500);
+    
+    }
+    
+    private void writeStats() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        
+        String infos = "";
+        String armies = "Total number of armies : " 
+                + stats.numberOfArmies.get(OWNER);
+        String territories = "Number of territories owned : " 
+                + stats.numberOfTerritories.get(OWNER);
+        String armiesPerTurn = "Armies in reinforcement this turn : "
+                + stats.numberOfArmiesPerTurn.get(OWNER);
+        
+        infos += armies + "\n";
+        infos += territories + "\n";
+        infos += armiesPerTurn + "\n";
+        
+        getImage().setFont(new Font("monospaced", true, false, 25));
+        getImage().drawString(infos, 600, 600);
+    }
+    
+    public void addToWorld() {
+        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    
     }
 
     @Override

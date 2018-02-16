@@ -13,6 +13,8 @@ public class TurnStat {
     public Map<Player, Integer> numberOfTerritories;
     public Map<Player, Integer> numberOfArmiesPerTurn;
     
+    public TurnStat() {}
+    
     public TurnStat(Collection<Player> players, int turnNumber) {
         numberOfArmies = new HashMap<>();
         numberOfTerritories = new HashMap<>();

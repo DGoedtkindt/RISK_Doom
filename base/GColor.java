@@ -37,4 +37,9 @@ public class GColor extends Color{
     
     }
     
+    public int luminosity() {
+        return (int)(0.21 * getRed() + 0.72 * getGreen() + 0.07 * getBlue());
+    
+    }
+    
 }
