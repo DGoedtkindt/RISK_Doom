@@ -2,8 +2,8 @@ package game;
 
 public enum Difficulty {
 
-    ZOMBIELESS("Zombieless", 0, 0, 0, -1, 0),
-    ZOMBIENESS("Zombieness", 0, 0, 0, -1, 0);
+    ZOMBIELESS("Zombieless", 0, 0, 0, 999, 0),
+    ZOMBIENESS("Zombieness", 0, 0, 0, 999, 1);
 
     public final String NAME;
     public final int ZOMBIES_SPAWNING;
@@ -20,7 +20,7 @@ public enum Difficulty {
     * @param increment Increments the number of zombie territories appearing at each wave.
     * @param turnsBeforeZombies The number of turns before the first wave of zombies.
     * @param constantSpawn The maximum number of turns before a new zombie wave. 
-    *                      This argument takes the value -1 if the only time when new zombies spawn is
+    *                      This argument takes the value 999 if the only time when new zombies spawn is
     *                      at the start of the zombie turn.
     * @param attackChance The probability that any zombie territory will attack a random adjacent territory.
     */

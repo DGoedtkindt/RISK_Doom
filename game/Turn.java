@@ -1,18 +1,24 @@
 package game;
 
 import appearance.Appearance;
+import appearance.ArmiesInHandDisplayer;
 import base.Button;
 import base.Game;
 import base.MyWorld;
 import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
+import java.awt.FontMetrics;
 import java.util.ArrayList;
 import mainObjects.Player;
 import mainObjects.Zombie;
+import mode.Mode;
+import selector.Selector;
 
 public class Turn {
     private ArrayList<Player> players() {return game().players;}
+    
+    public boolean hasGainedCombo = false;
     
     public Player player;
     protected int turnNumber;
@@ -25,6 +31,7 @@ public class Turn {
         this.turnNumber = turnNumber;
         int playerNumber = turnNumber % (players().size());
         player = players().get(playerNumber);
+        hasGainedCombo = false;
         
     }
     
@@ -45,13 +52,11 @@ public class Turn {
     
     public void start(){
         
-        new NextTurnPanel(player).show();
-        
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
 
-        }else{;
-            //do stuff
+        }else{
+            new NextTurnPanel(player).show();
 
         }
             
@@ -59,7 +64,7 @@ public class Turn {
     }
     
     public void end() {
-        System.out.println("Turn.end() doesn't do anything yet");
+        Zombie.ZOMBIE.countdown();
     
     }
     
@@ -90,8 +95,10 @@ class NextTurnPanel extends Button{
             img.setColor(OWNER.color());
             img.fill();
             img.setColor(Color.BLACK);
-            img.setFont(new Font("monospaced", 50));
-            img.drawString(OWNER.name(), 700, 500);
+            img.setFont(new Font("monospaced", true, false, 50));
+            FontMetrics fm = img.getAwtImage().getGraphics().getFontMetrics(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 50));
+            img.drawString(OWNER.name(), (img.getWidth() - fm.stringWidth(OWNER.name())) / 2, 
+                                         (img.getHeight() - fm.getMaxAscent() - fm.getMaxDescent()) / 2);
             setImage(img);
             MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
             
@@ -100,7 +107,10 @@ class NextTurnPanel extends Button{
         @Override
         public void clicked() {
             MyWorld.theWorld.removeObject(this);
-            
+            Turn.currentTurn.player.startTurn();
+            Mode.setMode(Mode.CLEARING_HAND);
+            Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+            ArmiesInHandDisplayer.show(OWNER);
         }
         
-    }
+}
