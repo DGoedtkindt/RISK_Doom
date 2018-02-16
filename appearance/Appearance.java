@@ -1,6 +1,6 @@
 package appearance;
 
-/*
+/**
  * Classe contenant des variables propres à l'apparence générale du jeu.
  */
 public class Appearance {
