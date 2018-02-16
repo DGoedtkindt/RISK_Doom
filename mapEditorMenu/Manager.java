@@ -1,5 +1,6 @@
 package mapEditorMenu;
 
+import appearance.MessageDisplayer;
 import base.Action;
 import base.Map;
 import base.NButton;
@@ -48,7 +49,7 @@ public class Manager extends StateManager {
             world().load(newManager);
 
         } catch(Exception ex) {
-            ex.printStackTrace(System.err);
+            MessageDisplayer.showMessage(ex.getMessage());
 
         }
 
