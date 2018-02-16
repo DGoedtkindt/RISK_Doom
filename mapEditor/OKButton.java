@@ -1,5 +1,6 @@
 package mapEditor;
 
+import appearance.MessageDisplayer;
 import base.Button;
 import mode.Mode;
 import selector.Selector;
@@ -42,8 +43,8 @@ public class OKButton extends Button
                 case SET_LINK:
                     if(!Links.newLinks.isLargeEnough()) {
                         Links.newLinks.destroy();
-                        System.err.println("You cannot create Links with fewer"
-                                + " than 2 linked Territories");
+                        MessageDisplayer.showMessage("You cannot create Links with fewer"
+                                                   + " than 2 linked Territories.");
                     
                     }
                     Links.newLinks = null;
@@ -64,7 +65,7 @@ public class OKButton extends Button
             for(Territory t : selectedTerritories){
                 
                 if(t.continent() != null){
-                    throw new Exception("A selected territory already has a continent");
+                    throw new Exception("A selected territory already has a continent.");
                     
                 }
                 
@@ -72,7 +73,7 @@ public class OKButton extends Button
             new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception e){
-           System.err.println(e);
+           MessageDisplayer.showMessage(e.getMessage());
            world().stateManager.escape();
            
            }
@@ -95,7 +96,7 @@ public class OKButton extends Button
             }
             
            } catch(Exception e){
-            System.err.println(e);
+            MessageDisplayer.showMessage(e.getMessage());
             world().stateManager.escape();
            
            }
@@ -108,7 +109,7 @@ public class OKButton extends Button
             continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
            } catch(Exception e){
-            System.err.println(e);
+            MessageDisplayer.showMessage(e.getMessage());
             world().stateManager.escape();
              
            }
