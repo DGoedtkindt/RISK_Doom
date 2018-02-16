@@ -1,5 +1,6 @@
 package selector;
 
+import appearance.MessageDisplayer;
 import base.Map;
 import base.MyWorld;
 import game.Turn;
@@ -47,7 +48,7 @@ public class Selector
     //Getters for BlankHex///////////////////////////////////////////////////
     
     public static ArrayList<BlankHex> getSelectedHexes() throws Exception{
-        if(selection.isEmpty()) throw new Exception("no hex selected");
+        if(selection.isEmpty()) throw new Exception("No hex selected.");
         
         ArrayList<BlankHex> blankhexSelectedList = new ArrayList<>();
         for(Selectable select : selection) {
@@ -55,7 +56,7 @@ public class Selector
                 hex = (BlankHex)select;
                 blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
-                throw new Exception("selectable of the wrong type selected\n" + cce);}
+                throw new Exception("Selectable of the wrong type selected\n" + cce);}
         }
         
         return blankhexSelectedList;
@@ -64,7 +65,7 @@ public class Selector
     //Getters for Territory///////////////////////////////////////////////////
     
     public static ArrayList<Territory> getSelectedTerritories() throws Exception {
-        if(selection.isEmpty()) throw new Exception("no Territory selected");
+        if(selection.isEmpty()) throw new Exception("No Territory selected.");
         
         ArrayList<Territory> territorySelectedList = new ArrayList<>();
         for(Selectable select : selection) {
@@ -72,7 +73,7 @@ public class Selector
                 terr = (Territory)select;
                 territorySelectedList.add(terr);
             }  catch(ClassCastException cce) {
-                throw new Exception("selectable of the wrong type selected\n" + cce);}
+                throw new Exception("Selectable of the wrong type selected\n" + cce);}
         }
         return territorySelectedList;
 
@@ -81,7 +82,7 @@ public class Selector
     public static Territory getSelectedTerritory() throws Exception {
         ArrayList<Territory> territorySelectedList = getSelectedTerritories();
         
-        if(territorySelectedList.size() > 1) throw new Exception("too many Territories selected");
+        if(territorySelectedList.size() > 1) throw new Exception("Too many Territories selected.");
         
         return territorySelectedList.get(0);
     }
@@ -102,7 +103,7 @@ public class Selector
     //Getters for Continent///////////////////////////////////////////////////
     
     public static ArrayList<Continent> continentSelectedList() throws Exception {
-        if(selection.size() < 1) throw new Exception("no Continent selected");
+        if(selection.size() < 1) throw new Exception("No Continent selected.");
         
         ArrayList<Continent> continentSelectedList = new ArrayList<>();
         for(Selectable select : selection) {
@@ -110,7 +111,7 @@ public class Selector
                 cont = (Continent)select;
                 continentSelectedList.add(cont);
             }  catch(ClassCastException cce) {
-                throw new Exception("selectable of the wrong type selected\n" + cce);}
+                throw new Exception("Selectable of the wrong type selected\n" + cce);}
         }
         
         return continentSelectedList;
@@ -174,7 +175,7 @@ public class Selector
     public static final Predicate EVERYTHING = (Object o) -> {return true;};
     public static final Predicate IS_OWNED_TERRITORY = (Object o) -> {
                     if(o instanceof Territory){
-                        return ((Territory)(o)).owner() != Turn.currentTurn.player;
+                        return ((Territory)(o)).owner() == Turn.currentTurn.player;
                     }else{
                         return false;
                     }
@@ -182,6 +183,26 @@ public class Selector
     public static final Predicate IS_NOT_OWNED_TERRITORY = (Object o) -> {
                     if(o instanceof Territory){
                         return ((Territory)(o)).owner() == Turn.currentTurn.player;
+                    }else{
+                        return false;
+                    }
+                    };
+    public static final Predicate IS_NOT_OWNED_CLOSE_TERRITORY = (Object o) -> {
+                    if(o instanceof Territory){
+                        try{
+                            
+                            if(((Territory)(o)).owner() != Turn.currentTurn.player &&
+                                    getSelectedTerritory().canAttack(((Territory)(o)))){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                            
+                        }catch(Exception e){
+                            MessageDisplayer.showMessage(e.getMessage());
+                            System.err.println(e.getMessage());
+                            return false;
+                        }
                     }else{
                         return false;
                     }
