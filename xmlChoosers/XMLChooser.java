@@ -1,5 +1,6 @@
 package xmlChoosers;
 
+import appearance.MessageDisplayer;
 import appearance.Theme;
 import arrowable.Arrowable;
 import arrowable.LeftArrow;
@@ -140,8 +141,10 @@ public abstract class XMLChooser implements Arrowable {
                 thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
                 System.err.println("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
                                     "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
+                MessageDisplayer.showMessage("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
+                                            "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
                 returnImage.drawImage(thumbnailNotFound, 0, 0);
-        } 
+            } 
             
             //quelques settings d'apparence
             returnImage.setFont(new Font("Monospaced", 20));
