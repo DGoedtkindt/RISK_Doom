@@ -1,5 +1,6 @@
 package gameXML;
 
+import appearance.MessageDisplayer;
 import base.Game;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class XMLBuilder {
             createPlayerNodes();
             return doc;
         } catch (Exception ex) {
-            System.err.println("Couldn't create Document from Game");
+            MessageDisplayer.showMessage("Couldn't create Document from Game");
             throw ex;
         }
 
@@ -53,7 +54,7 @@ public class XMLBuilder {
             
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
-            ex.printStackTrace(System.err);
+            MessageDisplayer.showMessage(ex.getMessage());
             throw ex;
         
         }
