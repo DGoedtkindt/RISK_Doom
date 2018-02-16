@@ -1,5 +1,6 @@
 package mapXML;
 
+import appearance.MessageDisplayer;
 import base.Map;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class XMLBuilder {
             
             return doc;
         } catch (Exception ex) {
-            System.err.println(ex);
+            MessageDisplayer.showMessage(ex.getMessage());
             throw ex;
         }
     }
@@ -55,7 +56,7 @@ public class XMLBuilder {
             
             return doc;
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            ex.printStackTrace(System.err);
+            MessageDisplayer.showMessage(ex.getMessage());
             throw ex;
         }
 
