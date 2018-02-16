@@ -9,6 +9,10 @@ import mainObjects.Player;
 import mode.Mode;
 import selector.Selector;
 
+/**
+ * Classe de l'objet qui indique le nombre d'armées que le joueur 
+ * peut placer depuis sa main au début de son tour.
+ */
 public class ArmiesInHandDisplayer extends Actor{
     
     private static ArmiesInHandDisplayer current;
@@ -16,7 +20,7 @@ public class ArmiesInHandDisplayer extends Actor{
     public int armies = 0;
     public final Player PLAYER;
     
-    public ArmiesInHandDisplayer(Player p){
+    private ArmiesInHandDisplayer(Player p){
         
         PLAYER = p;
         armies = p.armiesInHand;
@@ -24,6 +28,11 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Méthode qui donne à l'objet une image correspondant au nombre d'armées du joueur.
+     * @param armiesString Une chaîne de caractères représentant le nombre d'armées du 
+     *        joueur
+     */
     private void createImage(String armiesString){
         
         Font f = new Font("monospaced", true, false, 50);
@@ -41,6 +50,10 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Méthode permettant de créer un objet ArmiesInHandDisplayer.
+     * @param p Le joueur dont c'est le tour
+     */
     public static void show(Player p){
         
         current = new ArmiesInHandDisplayer(p);
@@ -48,6 +61,10 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Méthode permettant à un objet d'être mis à jour en fonction
+     * des actions du joueur.
+     */
     public static void update(){
         
         current.armies = current.PLAYER.armiesInHand;
