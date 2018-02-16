@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<game description="" difficulty="ZOMBIELESS" mapName="Origin">
+    <Player color="0,0,0" name="H1N1XX" points="0">
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+    </Player>
+    <Player color="255,30,30" name="A New Player" points="0">
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+    </Player>
+    <Player color="30,255,30" name="A New Player" points="0">
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+    </Player>
+    <Player color="30,30,255" name="A New Player" points="0">
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+        <Territory armies="100"/>
+    </Player>
+</game>

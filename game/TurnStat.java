@@ -12,6 +12,8 @@ public class TurnStat {
     public Map<Player, Integer> numberOfArmies;
     public Map<Player, Integer> numberOfTerritories;
     public Map<Player, Integer> numberOfArmiesPerTurn;
+    public Map<Player, Integer> numberOfPoints;
+    public Map<Player, Integer> numberOfContinents;
     
     public TurnStat() {}
     
