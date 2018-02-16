@@ -1,7 +1,9 @@
 package base;
 
 import game.Difficulty;
+import game.TurnStat;
 import java.util.ArrayList;
+import java.util.List;
 import mainObjects.Player;
 
 public class Game {
@@ -18,8 +20,9 @@ public class Game {
         
     }
     
+    public List<TurnStat> stats = new ArrayList<>();
     public State gameState = State.INITIALISATION;
-    public ArrayList<Player> players = new ArrayList<>();
+    public List<Player> players = new ArrayList<>();
     public Map map = new Map();
     public Difficulty difficulty;
     

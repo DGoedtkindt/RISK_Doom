@@ -26,8 +26,7 @@ public class Player {
         //UPDATE THE SCREEN --> COMBOS
     }
     
-    private void getArmies(){
-        
+    public int armyGainPerTurn() {
         int n = 0;
         
         for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
@@ -38,7 +37,14 @@ public class Player {
             
         }
         
-        armiesInHand += Math.floor(n / 3);
+        int fromTerritories = (int)Math.floor(n / 3);
+        int total = fromTerritories; //+other things
+        
+        return total;
+    }
+    
+    private void getArmies(){
+        armiesInHand += armyGainPerTurn();
         
     }
     

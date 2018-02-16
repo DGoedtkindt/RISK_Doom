@@ -16,42 +16,46 @@ public class Zombie extends Player{
     public Zombie(Difficulty difficulty) {
         super("H1N1XX",ZOMBIE_COLOR);
         this.difficulty = difficulty;
-        zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
-        turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
+        reset();
+        
     }
     
-    public int ZombiesNextWave() {
+    public int zombiesNextWave() {
         return zombiesNextWave;
     }
 
-    public int TurnsBeforeNextWave() {
+    public int turnsBeforeNextWave() {
         return turnsBeforeNextWave;
     }
     
     public void takeTurn() {
-        System.out.println("Zombie.takeTurn() is not supported yet");
+        //actions the zombie takes
+        turnsBeforeNextWave --;
+        if(turnsBeforeNextWave <= 0) {
+            propagate();
+            turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
+            zombiesNextWave += difficulty.INCREMENT;
+        
+        }
+        
         Turn.endCurrentTurn();
         Turn.startNewTurn();
     }
-    
-    public void countdown(){
-        turnsBeforeNextWave --;
-        if(turnsBeforeNextWave == -1){
-            turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
-        }
-    }
-    
-    public void incrementNextWave(){
-        zombiesNextWave += difficulty.INCREMENT;
-    }
 
-    public void reset(){
+    private void reset(){
         zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
+        turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
+        
     }
     
-    public boolean hasLost() {
+    @Override
+    public boolean hasLostQ() {
         return false; //zombies always come back!
     
+    }
+
+    private void propagate() {
+        System.out.println("Method propagate() in class Zombie is not supported yet");
     }
     
 
