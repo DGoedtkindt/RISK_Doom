@@ -1,5 +1,8 @@
 package appearance;
 
+/*
+ * Classe contenant des variables propres à l'apparence générale du jeu.
+ */
 public class Appearance {
     //Taille du monde
     public static final int WORLD_WIDTH = 1920;
@@ -13,7 +16,7 @@ public class Appearance {
     public static final int TRANSPARENT = 30;
     public static final int OPAQUE = 255;
     
-    //positions hexagonales pour dessiner le vide contenant l'affichage 
+    //Positions hexagonales pour dessiner le vide contenant l'affichage 
     //des bonus des continents
     public static final int CONTINENT_BONUS_ZONE_WIDTH = 12;
     public static final int CONTINENT_BONUS_ZONE_HEIGHT = 4;
