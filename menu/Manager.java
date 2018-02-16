@@ -8,14 +8,10 @@ import javax.swing.JOptionPane;
 public class Manager extends StateManager {
     
     //Buttons in the main menu
-    private NButton playGameButton           = new NButton(() -> {gameMenu();}     , "Play");
+    private NButton playGameButton           = new NButton(() -> {world().load(new gameTypeSelection.Manager());}     , "Play");
     private NButton mapEditorButton          = new NButton(() -> {mapEditorMenu();}, "Map Editor");
     private NButton optionsButton            = new NButton(() -> {optionsMenu();}  , "Options");
     
-    //Buttons in game menu
-    private NButton newGameButton            = new NButton(() -> {newGameMenu();}  , "New Game");
-    private NButton loadGameButton           = new NButton(() -> {loadGameMenu();} , "Load Game");
-
     @Override
     public void setupScene() {
         world().makeSureSceneIsClear();
@@ -30,8 +26,6 @@ public class Manager extends StateManager {
         world().removeObject(playGameButton);
         world().removeObject(mapEditorButton);
         world().removeObject(optionsButton);
-        world().removeObject(newGameButton);
-        world().removeObject(loadGameButton);
         
     }
     
@@ -39,13 +33,6 @@ public class Manager extends StateManager {
         GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
         pineapple.scale(400, 150);
         world().getBackground().drawImage(pineapple, 75, 75);
-    
-    }
-    
-    private void gameMenu() {
-        clearScene();
-        world().addObject(newGameButton, world().getWidth() / 4, world().getHeight() / 2);
-        world().addObject(loadGameButton, 3 * world().getWidth() / 4, world().getHeight() / 2); 
     
     }
     
@@ -61,25 +48,12 @@ public class Manager extends StateManager {
     
     }
     
-    private void newGameMenu() {
-        clearScene();
-        world().load(new newGameMenu.Manager());
-    
-    }
-    
-    private void loadGameMenu() {
-        clearScene();
-        throw new UnsupportedOperationException("There is no loadGameMenu Manager yet");
-    
-    }
-
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?",
-                                                   "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
+        int choice = JOptionPane.showConfirmDialog(null, "Do you really want to quit the game?",
+                                                   "Quit game", JOptionPane.YES_NO_CANCEL_OPTION);
         if(choice == JOptionPane.YES_OPTION){
-            clearScene();
-            setupScene();
+            System.exit(0);
         }
         
     }
