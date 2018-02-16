@@ -1,18 +1,25 @@
 package mainObjects;
 
+import appearance.MessageDisplayer;
 import selector.Selectable;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
 import base.Map;
 import base.MyWorld;
+import game.Turn;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
+    
+    public static Territory actionSource = null;
+    
     private ArrayList<TerritoryHex> terrHexList;
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
@@ -23,7 +30,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    private int armies = 100;
+    public int armies = 1;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -31,7 +38,7 @@ public class Territory implements Selectable
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus)  throws Exception {
-        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
+        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected.");
         blankHexList = hexs;
         bonusPoints = bonus;
         this.infoHex = infoHex;
@@ -115,6 +122,8 @@ public class Territory implements Selectable
             int newBonus = Integer.parseInt(bonusString);
             bonusPoints = newBonus;
             
+        }else{
+            MessageDisplayer.showMessage("Invalid entry.");
         }
         
     }
@@ -177,6 +186,9 @@ public class Territory implements Selectable
         }else if(armies < 0){
             armies = - armies;
             owner = invader;
+            if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
+                owner.gainComboPiece();
+            }
         }
         
         drawTerritory();
@@ -195,7 +207,7 @@ public class Territory implements Selectable
                 throw new Exception("You don't have enough armies.");
             }else{
                 armies -= movingArmies;
-                destination.addArmies(movingArmies);
+                destination.armies += movingArmies;
             }
             
             drawTerritory();
@@ -206,8 +218,51 @@ public class Territory implements Selectable
         
     }
     
-    public void addArmies(int a){
-        armies += a;
+    public boolean canAttack(Territory target){
+        
+        return neighbours().contains(target);
+        
+    }
+    
+    public HashSet<Territory> neighbours(){
+        
+        HashSet<Territory> targetableList = new HashSet<Territory>();
+        
+        for(TerritoryHex hex : terrHexList){
+            
+            for(TerritoryHex neighbour : hex.getBorderingHex()){
+                
+                targetableList.add(neighbour.territory());
+                
+            }
+            
+        }
+        
+        for(LinkIndic linkindic : links){
+            targetableList.addAll(linkindic.links.linkedTerrs);
+            
+        }
+        
+        targetableList.remove(this);
+        
+        return targetableList;
+        
+    }
+    
+    public void attackRandomly(){
+        
+        if(armies > 2 && !neighbours().isEmpty()){
+            
+            Territory target = (Territory)(neighbours().toArray()[Greenfoot.getRandomNumber(neighbours().size())]);
+            
+            int attackingArmies = Greenfoot.getRandomNumber(armies - 1) + 2;
+            
+            armies -= attackingArmies;
+            
+            target.attacked(attackingArmies, owner);
+            
+        }
+        
     }
     
     //Selectable methods/////////////////////////////////

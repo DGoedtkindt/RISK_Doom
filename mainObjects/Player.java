@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 public class Player {
     
-    public static final String ZOMBIE_NAME = "ZOMBIE";
+    public static final String NEW_PLAYER_NAME = "A New Player";
     
     private final String name;
     private final GColor color;
-    private int armiesInHand = 0;
+    public int armiesInHand = 3;
+    private int points = 0;
     
     private Combo combos = new Combo();
     
@@ -22,28 +23,65 @@ public class Player {
     
     public void startTurn(){
         getArmies();
-        //UPDATE THE SCREEN --> COMBOS
     }
     
     private void getArmies(){
         
-        int n = 0;
+        int terrNumber = 0;
+        int terrBonus = 0;
         
-        for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
+        for(Territory t : territories()){
             
             if(t.owner() == this){
-                n++;
+                terrNumber++;
+                terrBonus += t.bonus();
             }
             
         }
         
-        armiesInHand += Math.floor(n / 3);
+        int continentBonus = 0;
+        
+        for(Continent c : MyWorld.theWorld.stateManager.map().continents){
+            
+            int ownedTerrsInContinent = 0;
+            
+            for(Territory terrInContinent : c.containedTerritories()){
+                
+                if(terrInContinent.owner() == this){
+                    
+                    ownedTerrsInContinent ++;
+                    
+                }
+                
+            }
+            
+            if(ownedTerrsInContinent == c.containedTerritories().size()){
+                continentBonus += c.bonus();
+            }
+            
+        }
+        
+        armiesInHand += Math.floor(terrNumber / 3) + terrBonus;
         
     }
     
-    public ArrayList<Territory> territories() {
-        throw new UnsupportedOperationException("Getting territories from player is not supported yet");
+    public void gainComboPiece(){
+        combos.addRandomCombo();
+    }
     
+    public ArrayList<Territory> territories() {
+        ArrayList<Territory> ownedterritories = new ArrayList<Territory>();
+        
+        for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
+            
+            if(t.owner() == this){
+                ownedterritories.add(t);
+            }
+            
+        }
+        
+        return ownedterritories;
+        
     }
     
     public boolean hasLostQ() {
@@ -60,7 +98,11 @@ public class Player {
     }
 
     public int points() {
-        return 0;
+        return points;
     }
-
+    
+    public int comboPiecesNumber(){
+        return combos.comboPiecesNumber();
+    }
+    
 }
