@@ -19,9 +19,6 @@ public class MyWorld extends World {
     //Détection de la souris
     private MouseInfo mouse;
     
-    //Détecteur d'escape
-    private CheckEscape escapeTester = new CheckEscape();
-    
     //Le manager actuel du programme
     public StateManager stateManager;
     
@@ -120,30 +117,28 @@ public class MyWorld extends World {
         /*String pressedKey = Greenfoot.getKey();
         if(pressedKey != null){InputPanel.usedPanel.type(pressedKey);}*/
         
-        escapeTester.testForEscape();
+        CheckEscape.testForEscape();
         
     }
     
-    private class CheckEscape{
-        boolean escapeWasClicked = false;
-        
-        public void testForEscape(){ 
-            if(escapeReleased()){
-                stateManager.escape();
-                
-            }
-            if(Greenfoot.isKeyDown("Escape") != escapeWasClicked){
-                escapeWasClicked = !escapeWasClicked;
-                
-            }
-            
+}
+
+class CheckEscape{
+    static boolean escapeWasClicked = false;
+    
+    public static void testForEscape(){ 
+        if(escapeReleased()){
+            MyWorld.theWorld.stateManager.escape();
         }
         
-        private boolean escapeReleased(){
-            return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);
-            
+        if(Greenfoot.isKeyDown("Escape") != escapeWasClicked){
+            escapeWasClicked = !escapeWasClicked;
         }
         
     }
 
+    private static boolean escapeReleased(){
+        return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);
+    }
+    
 }

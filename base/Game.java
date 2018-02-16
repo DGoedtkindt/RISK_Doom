@@ -18,7 +18,7 @@ public class Game {
         
     }
     
-    public State gameState;
+    public State gameState = State.INITIALISATION;
     public ArrayList<Player> players = new ArrayList<>();
     public Map map = new Map();
     public Difficulty difficulty;
