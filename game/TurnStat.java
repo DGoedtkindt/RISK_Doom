@@ -9,18 +9,15 @@ import mainObjects.Territory;
 
 public class TurnStat {
     public int turnNumber;
-    public Map<Player, Integer> numberOfArmies;
-    public Map<Player, Integer> numberOfTerritories;
-    public Map<Player, Integer> numberOfArmiesPerTurn;
-    public Map<Player, Integer> numberOfPoints;
-    public Map<Player, Integer> numberOfContinents;
+    public Map<Player, Integer> numberOfArmies  = new HashMap<>();
+    public Map<Player, Integer> numberOfTerritories = new HashMap<>();
+    public Map<Player, Integer> numberOfArmiesPerTurn = new HashMap<>();
+    public Map<Player, Integer> numberOfPoints = new HashMap<>();
+    public Map<Player, Integer> numberOfContinents = new HashMap<>();
     
     public TurnStat() {}
     
-    public TurnStat(Collection<Player> players, int turnNumber) {
-        numberOfArmies = new HashMap<>();
-        numberOfTerritories = new HashMap<>();
-        numberOfArmiesPerTurn = new HashMap<>();   
+    public TurnStat(Collection<Player> players, int turnNumber) { 
         this.turnNumber = turnNumber;
         for(Player p : players) {
             Collection<Territory> terrs = p.territories();
