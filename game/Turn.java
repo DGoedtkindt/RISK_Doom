@@ -2,7 +2,6 @@ package game;
 
 import appearance.Appearance;
 import appearance.ArmiesInHandDisplayer;
-import appearance.ComboDisplayer;
 import base.Button;
 import base.Game;
 import base.MyWorld;
@@ -17,8 +16,6 @@ import selector.Selector;
 
 public class Turn {
     
-    public boolean hasGainedCombo = false;
-    
     public Player player;
     protected int turnNumber;
     
@@ -30,7 +27,6 @@ public class Turn {
         this.turnNumber = turnNumber;
         int playerNumber = turnNumber % (players().size());
         player = players().get(playerNumber);
-        hasGainedCombo = false;
         
     }
     
@@ -64,7 +60,6 @@ public class Turn {
             player.getArmies();
             ArmiesInHandDisplayer.show(player);
             Selector.setValidator(Selector.IS_OWNED_TERRITORY);
-            ComboDisplayer.displayCombos(player);
         }
       
     }

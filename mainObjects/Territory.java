@@ -7,7 +7,6 @@ import base.GColor;
 import base.Hexagon;
 import base.Map;
 import base.MyWorld;
-import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
@@ -186,10 +185,7 @@ public class Territory implements Selectable
         }else if(armies < 0){
             armies = - armies;
             owner = invader;
-            if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
-                owner.gainComboPiece();
-                Turn.currentTurn.hasGainedCombo = true;
-            }
+            
         }
         
         drawTerritory();

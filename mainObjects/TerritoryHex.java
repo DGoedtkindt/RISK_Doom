@@ -172,17 +172,6 @@ public class TerritoryHex extends Button
                     
                     break;
                     
-                case SAP : 
-                    if(territory.owner() != Turn.currentTurn.player){
-                        territory.owner().armiesInHand += territory.armies();
-                        territory.armies = 1;
-                        territory.setOwner(Turn.currentTurn.player);
-                        Turn.currentTurn.player.combos().useSap();
-                        Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
-                        world().stateManager.escape();
-                    }
-                    
                 default: break;
             }
         } catch (Exception ex) {

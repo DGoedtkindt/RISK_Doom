@@ -1,6 +1,5 @@
 package mainObjects;
 
-import appearance.ComboDisplayer;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ public class Player {
     private final GColor color;
     public int armiesInHand = 0;
     private int points = 0;
-    
-    private Combo combos = new Combo();
     
     public Player(String playerName, GColor c){
         name = playerName;
@@ -103,19 +100,6 @@ public class Player {
 
     public int points() {
         return points;
-    }
-    
-    public int comboPiecesNumber(){
-        return combos.comboPiecesNumber();
-    }
-    
-    public Combo combos(){
-        return combos;
-    }
-  
-    public void gainComboPiece(){
-          combos.addRandomCombo();
-          ComboDisplayer.updateDisplay(this);
     }
     
 }
