@@ -29,18 +29,13 @@ public class XMLBuilder {
      * @throws java.lang.Exception
      */
     protected Document build(Map fromMap) throws Exception {
-        try {
-            map = fromMap;
-            createNewDocument();
-            createTerritoryNodes();
-            createContinentNodes();
-            createLinksNodes();
-            
-            return doc;
-        } catch (Exception ex) {
-            MessageDisplayer.showException(ex);
-            throw ex;
-        }
+        map = fromMap;
+        createNewDocument();
+        createTerritoryNodes();
+        createContinentNodes();
+        createLinksNodes();
+
+        return doc;
     }
     
     /** Builds the Document from a XML File

@@ -60,7 +60,7 @@ public class Manager extends StateManager{
         loadedGame = gameToLoad;
         
         if(loadedGame.gameState == Game.State.INITIALISATION){
-            start();
+            initGame();
             loadedGame.gameState = Game.State.INGAME;
         }
         
@@ -128,10 +128,9 @@ public class Manager extends StateManager{
         
     }
     
-    public void start(){
-        
+    public void initGame(){
         giveTerritoriesRandomly();
-        Turn.startNewTurn();
+        Turn.startNewTurn(1);
         
     }
     

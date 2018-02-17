@@ -26,13 +26,13 @@ public class XMLBuilder {
     /**builds a XML Document from a Game Object
      *
      * @param fromGame
+     * @return a xml Document representing fromGame
      */
     protected Document build(Game fromGame) throws Exception {
         try {
             game = fromGame;
             createNewDocument();
             addMapName();
-            addActivePlayer();
             addDifficulty();
             addMapName();
             createPlayerNodes();
@@ -50,6 +50,7 @@ public class XMLBuilder {
     /** Builds the Document from a XML File
      * 
      * @param gameFile
+     * @return the xml Document saved in gameFile
      */
     protected Document build(File gameFile) throws Exception {
         try {
@@ -80,11 +81,6 @@ public class XMLBuilder {
     
     }
     
-    private void addActivePlayer() {
-        System.err.println("Active player can't be saved yet");
-        
-    }
-    
     private void addDifficulty() {
         rootElement.setAttribute("difficulty", game.difficulty.toString());
     
@@ -106,6 +102,7 @@ public class XMLBuilder {
                 Element terrNode = doc.createElement("Territory");
                 playerNode.appendChild(terrNode);
                 terrNode.setAttribute("armies", terr.armies() + "");
+                terrNode.setAttribute("terrID", terr.id() + "");
             
             }
         

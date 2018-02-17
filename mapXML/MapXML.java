@@ -5,7 +5,7 @@ import base.Map;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.awt.image.BufferedImage;
+import java.io.IOError;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -17,16 +17,41 @@ import org.w3c.dom.Document;
  */
 public class MapXML {
     
+    
+    private static final File DIR;
+    
     private Document xml;
     private String name;
     private XMLReader reader = new XMLReader();
     private XMLBuilder builder = new XMLBuilder();
+    
+    static{
+        DIR = new File("Maps");
+        if(!DIR.exists()) {
+            throw new IOError(new FileNotFoundException("The Maps directory does not seem to exist." +
+                    "Please make sure " + DIR.getAbsolutePath() + " exists"));
+        }
+        
+    }
     
     /**  Reads a File and creates a new MapXML from it
      * @param mapFile the file containing the Map's XML
      * @throws java.io.FileNotFoundException
     */
     public MapXML(File mapFile) throws Exception {
+        if(mapFile.exists() && mapFile.isFile()) {
+            xml = builder.build(mapFile);
+            name = mapFile.getName().replace(".xml", "");
+        } else throw new FileNotFoundException();
+        
+    }
+    
+    /** Gets the Map file with this name and creates a new MapXML from it
+     * @param mapName the name of file containing the Map's XML.
+    */
+    public MapXML(String mapName) throws Exception{
+        name = mapName;
+        File mapFile = new File(DIR.getAbsolutePath() + "/" + name + ".xml");
         if(mapFile.exists() && mapFile.isFile()) {
             xml = builder.build(mapFile);
             name = mapFile.getName().replace(".xml", "");
@@ -65,12 +90,10 @@ public class MapXML {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(xml);
-            File dir = new File("Maps");
-                if(!dir.exists()) System.err.println("The Maps directory does not seem to exist." +
-                        "Please make sure " + dir.getAbsolutePath() + " exists");
+            
 
             //écrire le fichier
-            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + name + ".xml"));
+            StreamResult result = new StreamResult(new File(DIR.getAbsolutePath() + "/" + name + ".xml"));
             transformer.transform(source, result);
             
             System.out.println("Map was succesfully saved");
@@ -84,9 +107,10 @@ public class MapXML {
     
     /**  calculates the checksum of the document
      *  to check if the map's XML has been corrupted.
+     * @return a int unique to the MapXML containing the same Map 
     */
     public int calculateChecksum() {
-        return xml.hashCode();
+        throw new UnsupportedOperationException();
     
     }
 

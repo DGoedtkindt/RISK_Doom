@@ -34,7 +34,6 @@ public class XMLReader {
             return map;
         } catch (Exception ex) {
             MessageDisplayer.showException(ex);
-            ex.printStackTrace(System.err);
             throw ex;
         }
 

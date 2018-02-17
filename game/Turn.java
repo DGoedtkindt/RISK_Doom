@@ -38,11 +38,17 @@ public class Turn {
     public static void startNewTurn() {
         if(currentTurn != null) {
             int newTurnNumber = currentTurn.turnNumber + 1;
-            currentTurn = new Turn(newTurnNumber);
+            startNewTurn(newTurnNumber);
         } else {
-            currentTurn = new Turn(1);
+            startNewTurn(1);
+            System.err.println("Turn.currentTurn was not initialized by the manager"
+                    + " before calling Turn.startNewTurn. This should not happen");
         }
-            currentTurn.showNextTurnPanel();
+    }
+    
+    protected static void startNewTurn(int turnNumber) {
+        currentTurn = new Turn(turnNumber);
+        currentTurn.showNextTurnPanel();
     }
     
     
