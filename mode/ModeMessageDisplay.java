@@ -9,14 +9,11 @@ import greenfoot.Font;
 import greenfoot.GreenfootImage;
 
 
-public class ModeMessageDisplay {
+public class ModeMessageDisplay extends Actor{
     final int WIDTH = 182;
     final int HEIGHT = 330;
     
     private MyWorld world() {return MyWorld.theWorld;}
-    
-    private class JustAnActor extends Actor {}
-    private JustAnActor panel = new JustAnActor();
     
     private ActionListener updateThis = (ActionEvent ae)-> {display(Mode.mode().message);};
     
@@ -26,24 +23,24 @@ public class ModeMessageDisplay {
     }
     
     public void addToWorld(int xPos, int yPos) {
-        world().addObject(panel, xPos, yPos);
+        world().addObject(this, xPos, yPos);
         Mode.addModeChangeListener(updateThis);
         
     }
     
     public void removeFromWorld() {
-        world().removeObject(panel);
+        world().removeObject(this);
         Mode.removeModeChangeListener(updateThis);
         
     }
 
     private void display(String message){
-        panel.setImage(new GreenfootImage(WIDTH, HEIGHT));
+        setImage(new GreenfootImage(WIDTH, HEIGHT));
         Font font = new Font("Monospaced", 17);
         String textToDisplay = wrapText(message, 16);
-        panel.getImage().setColor(Theme.used.textColor);
-        panel.getImage().setFont(font);
-        panel.getImage().drawString(textToDisplay, 0, 0);
+        getImage().setColor(Theme.used.textColor);
+        getImage().setFont(font);
+        getImage().drawString(textToDisplay, 0, 0);
 
     }
 
