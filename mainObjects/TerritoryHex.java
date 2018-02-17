@@ -38,10 +38,7 @@ public class TerritoryHex extends Button
     @Override
     public void clicked() {
         try {
-            if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
-                world().stateManager.escape();
-                
-            }else switch (Mode.mode()) {
+            switch (Mode.mode()) {
                 case CREATE_CONTINENT :
                 case DELETE_TERRITORY :
                     Selector.select(territory());
@@ -174,6 +171,17 @@ public class TerritoryHex extends Button
                     }
                     
                     break;
+                    
+                case SAP : 
+                    if(territory.owner() != Turn.currentTurn.player){
+                        territory.owner().armiesInHand += territory.armies();
+                        territory.armies = 1;
+                        territory.setOwner(Turn.currentTurn.player);
+                        Turn.currentTurn.player.combos().useSap();
+                        Selector.setValidator(Selector.NOTHING);
+                        world().repaint(); //pour forcer l'actualisation des images
+                        world().stateManager.escape();
+                    }
                     
                 default: break;
             }

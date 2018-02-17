@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.ComboDisplayer;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class Player {
     
     private final String name;
     private final GColor color;
-    public int armiesInHand = 3;
+    public int armiesInHand = 1;
     private int points = 0;
     
     private Combo combos = new Combo();
@@ -23,6 +24,7 @@ public class Player {
     
     public void startTurn(){
         getArmies();
+        Combo.display(this);
     }
     
     private void getArmies(){
@@ -61,12 +63,13 @@ public class Player {
             
         }
         
-        armiesInHand += Math.floor(terrNumber / 3) + terrBonus;
+        armiesInHand += Math.floor(terrNumber / 3) + terrBonus + continentBonus;
         
     }
     
     public void gainComboPiece(){
         combos.addRandomCombo();
+        ComboDisplayer.updateDisplay(this);
     }
     
     public ArrayList<Territory> territories() {
@@ -103,6 +106,10 @@ public class Player {
     
     public int comboPiecesNumber(){
         return combos.comboPiecesNumber();
+    }
+    
+    public Combo combos(){
+        return combos;
     }
     
 }

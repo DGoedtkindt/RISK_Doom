@@ -188,6 +188,7 @@ public class Territory implements Selectable
             owner = invader;
             if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
                 owner.gainComboPiece();
+                Turn.currentTurn.hasGainedCombo = true;
             }
         }
         
