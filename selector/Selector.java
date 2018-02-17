@@ -207,5 +207,34 @@ public class Selector
                         return false;
                     }
                     };
+    public static final Predicate IS_NOT_OWNED_CLOSE_TO_OWNED_TERRITORY = (Object o) -> {
+                    if(o instanceof Territory){
+                        try{
+                            
+                            if(((Territory)(o)).owner() != Turn.currentTurn.player){
+                                
+                                for(Territory t : Turn.currentTurn.player.territories()){
+                                    
+                                    if(t.canAttack((Territory)(o))){
+                                        return true;
+                                    }
+                                    
+                                }
+                                
+                                return false;
+                                
+                            }else{
+                                return false;
+                            }
+                            
+                        }catch(Exception e){
+                            MessageDisplayer.showMessage(e.getMessage());
+                            System.err.println(e.getMessage());
+                            return false;
+                        }
+                    }else{
+                        return false;
+                    }
+                    };
     
 }
