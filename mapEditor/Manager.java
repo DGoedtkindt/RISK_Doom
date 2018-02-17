@@ -97,15 +97,15 @@ public class Manager extends StateManager{
     //Action pour sauver le monde
     
     protected Action saveMap = () -> {
-        ( new MapSaver( map() ) ).saveMap();
+        ( new MapSaver(map())).saveMap();
     };
     
     /////Private Methods///////////////////////
     
     private Action loadOptionsMenu = () -> {
-                clearScene();
-                world().load(new userPreferences.Manager(this));};
+                if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
+                    clearScene();
+                    world().load(new userPreferences.Manager(this));
+                }};
     
-    
-
 }

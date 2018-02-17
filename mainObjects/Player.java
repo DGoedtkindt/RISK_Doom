@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.ComboDisplayer;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Player {
     
     public void startTurn(){
         getArmies();
+        Combo.display(this);
     }
     
 
@@ -54,11 +56,6 @@ public class Player {
     
     private void getArmies(){
         armiesInHand += armyGainPerTurn();
-
-    }
-    
-    public void gainComboPiece(){
-        combos.addRandomCombo();
 
     }
     
@@ -116,6 +113,15 @@ public class Player {
     
     public int comboPiecesNumber(){
         return combos.comboPiecesNumber();
+    }
+    
+    public Combo combos(){
+        return combos;
+    }
+  
+    public void gainComboPiece(){
+          combos.addRandomCombo();
+          ComboDisplayer.updateDisplay(this);
     }
     
 }
