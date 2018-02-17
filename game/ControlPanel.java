@@ -45,7 +45,7 @@ public class ControlPanel {
     
     protected void removeFromWorld() {
         allButtons.forEach(world()::removeObject);
-    
+
     }
     
 }

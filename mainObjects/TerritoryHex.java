@@ -186,7 +186,7 @@ public class TerritoryHex extends Button
                 default: break;
             }
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("" + ex.getMessage());
+            MessageDisplayer.showMessage(ex.getMessage());
             System.err.println(ex.getMessage());
             world().stateManager.escape();
         }
@@ -228,7 +228,7 @@ public class TerritoryHex extends Button
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-            getImage().drawString("" + territory.armies, 20, 40);
+            getImage().drawString("" + territory.armies(), 20, 40);
         }
         
     }

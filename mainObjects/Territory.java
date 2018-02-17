@@ -220,14 +220,13 @@ public class Territory implements Selectable
     }
     
     public boolean canAttack(Territory target){
-        
         return neighbours().contains(target);
         
     }
     
     public HashSet<Territory> neighbours(){
-        
-        HashSet<Territory> targetableList = new HashSet<Territory>();
+
+        HashSet<Territory> targetableList = new HashSet<>();
         
         for(TerritoryHex hex : terrHexList){
             
@@ -245,7 +244,6 @@ public class Territory implements Selectable
         }
         
         targetableList.remove(this);
-        
         return targetableList;
         
     }

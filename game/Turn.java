@@ -9,15 +9,11 @@ import base.MyWorld;
 import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
-import java.awt.FontMetrics;
-import java.util.ArrayList;
+import java.util.List;
 import mainObjects.Player;
 import mainObjects.Zombie;
-import mode.Mode;
-import selector.Selector;
 
 public class Turn {
-    private ArrayList<Player> players() {return game().players;}
     
     public boolean hasGainedCombo = false;
     
@@ -25,8 +21,8 @@ public class Turn {
     protected int turnNumber;
     
     public static Turn currentTurn;
-
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
+    private static List<Player> players() {return game().players;}
     
     protected Turn(int turnNumber) {
         this.turnNumber = turnNumber;
@@ -46,27 +42,33 @@ public class Turn {
             int newTurnNumber = currentTurn.turnNumber + 1;
             currentTurn = new Turn(newTurnNumber);
         } else {
-            currentTurn = new Turn(0);
+            currentTurn = new Turn(1);
         }
-            currentTurn.start();
+            currentTurn.showNextTurnPanel();
+    }
+    
+    
+    private void showNextTurnPanel() {
+        new NextTurnPanel().show();
+        
     }
     
     public void start(){
-        
+    
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
             new NextTurnPanel(player).show();
         }
-            
+      
+    }
+    
+    private void end() {
+        saveStats();
+        autoSave();
         
     }
-    
-    public void end() {
-        Zombie.ZOMBIE.countdown();
-    
-    }
-    
+        
     private boolean aPlayerIsDead(){
         for(Player p : players()) {
             if(p.hasLostQ()) {
@@ -78,39 +80,97 @@ public class Turn {
         
         return false;
     }
-    
+
+    private void saveStats() {
+        TurnStat stats = new TurnStat(players(),turnNumber);
+        game().stats.add(stats);
+    }
+
+    private void autoSave() {
+        System.out.println("Method autoSave() in class Turn is not supported yet");
+        
+    }
+
 }
 
 class NextTurnPanel extends Button{
+    private static Game game(){return MyWorld.theWorld.stateManager.game();}
+    private static List<Player> players() {return game().players;}
         
-        private final Player OWNER;
-        
-        public NextTurnPanel(Player player){
-            OWNER = player;
+    private final Player OWNER;
+    private final Turn TURN;
+    
+    private TurnStat stats;
+
+    public NextTurnPanel(){
+        TURN = Turn.currentTurn;
+        OWNER = TURN.player;
+        stats = new TurnStat(players(),TURN.turnNumber);
+        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
+    }
+
+    public void show(){
+        colorBackground();
+        writeName();
+        writeStats();
+        addToWorld();
+
+    }
+    
+    private void colorBackground() {
+        getImage().setColor(OWNER.color());
+        getImage().fill();
+    
+    }
+    
+    private void writeName() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        getImage().setFont(new Font("monospaced", true, false, 50));
+        getImage().drawString(OWNER.name(), 700, 500);
+    
+    }
+    
+    private void writeStats() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
         }
         
-        public void show(){
-            GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-            img.setColor(OWNER.color());
-            img.fill();
-            img.setColor(Color.BLACK);
-            img.setFont(new Font("monospaced", true, false, 50));
-            FontMetrics fm = img.getAwtImage().getGraphics().getFontMetrics(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 50));
-            img.drawString(OWNER.name(), (img.getWidth() - fm.stringWidth(OWNER.name())) / 2, 
-                                         (img.getHeight() - fm.getMaxAscent() - fm.getMaxDescent()) / 2);
-            setImage(img);
-            MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-            
-        }
+        String infos = "";
+        String armies = "Total number of armies : " 
+                + stats.numberOfArmies.get(OWNER);
+        String territories = "Number of territories owned : " 
+                + stats.numberOfTerritories.get(OWNER);
+        String armiesPerTurn = "Armies in reinforcement this turn : "
+                + stats.numberOfArmiesPerTurn.get(OWNER);
         
-        @Override
-        public void clicked() {
-            MyWorld.theWorld.removeObject(this);
-            Turn.currentTurn.player.startTurn();
-            Mode.setMode(Mode.CLEARING_HAND);
-            Selector.setValidator(Selector.IS_OWNED_TERRITORY);
-            ArmiesInHandDisplayer.show(OWNER);
-            ComboDisplayer.displayCombos(OWNER);
-        }
+        infos += armies + "\n";
+        infos += territories + "\n";
+        infos += armiesPerTurn + "\n";
         
+        getImage().setFont(new Font("monospaced", true, false, 25));
+        getImage().drawString(infos, 600, 600);
+    }
+    
+    public void addToWorld() {
+        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    
+    }
+
+    @Override
+      public void clicked() {
+          MyWorld.theWorld.removeObject(this);
+          Turn.currentTurn.player.startTurn();
+          Mode.setMode(Mode.CLEARING_HAND);
+          Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+          ArmiesInHandDisplayer.show(OWNER);
+          ComboDisplayer.displayCombos(OWNER);
+      }
+
 }
+

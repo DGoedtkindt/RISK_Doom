@@ -13,7 +13,7 @@ import mode.Mode;
  * 
  */
 public class MessageDisplayer extends Button{
-    
+
     private static Mode lastMode;
     
     private static final int TOTAL_WIDTH = 400;
@@ -34,6 +34,7 @@ public class MessageDisplayer extends Button{
         fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
         width = fm.stringWidth(message);
+
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         height = fm.getMaxAscent() + fm.getMaxDescent();
         
@@ -95,6 +96,7 @@ public class MessageDisplayer extends Button{
 
     }
     
+
     private void createTimer(){
         
         Timer timer = new Timer(40, (ActionEvent ae) -> {

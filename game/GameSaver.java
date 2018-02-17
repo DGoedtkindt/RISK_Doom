@@ -42,6 +42,7 @@ public class GameSaver {
         if(nameEntered == JOptionPane.OK_OPTION) {
             name = namePanel.name();
             description = namePanel.description();
+
         }
     
     }
