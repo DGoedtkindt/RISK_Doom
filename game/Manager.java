@@ -1,5 +1,6 @@
 package game;
 
+import appearance.ComboDisplayer;
 import base.Action;
 import base.Game;
 import base.Map;
@@ -26,11 +27,13 @@ public class Manager extends StateManager{
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
     private NButton options;
+    private ComboDisplayer comboDisplayer;
     
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
         this.options = new NButton(loadOptionsMenu, "Options");
+        this.comboDisplayer = ComboDisplayer.current();
         this.gameToLoad = loadGame;
         
     }
@@ -49,7 +52,11 @@ public class Manager extends StateManager{
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 120, 50);
+        world().addObject(comboDisplayer, world().getWidth() - 90, 900);
         loadGame();
+        for(Territory t : loadedGame.map.territories){
+            t.drawTerritory();
+        }
     }
     
     private void loadGame(){
@@ -133,13 +140,14 @@ public class Manager extends StateManager{
     }
     
     protected Action saveGame = () -> {
-        (new GameSaver( game() )).saveGame();
+        (new GameSaver(game())).saveGame();
     
     };
     
     private Action loadOptionsMenu = () -> {
-                clearScene();
-                world().load(new userPreferences.Manager(this));};
-
+                if(Mode.mode() == Mode.GAME_DEFAULT){
+                    clearScene();
+                    world().load(new userPreferences.Manager(this));
+                }};
     
 }
