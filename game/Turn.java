@@ -2,6 +2,7 @@ package game;
 
 import appearance.Appearance;
 import appearance.ArmiesInHandDisplayer;
+import appearance.ComboDisplayer;
 import base.Button;
 import base.Game;
 import base.MyWorld;
@@ -54,10 +55,8 @@ public class Turn {
         
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
-
         }else{
             new NextTurnPanel(player).show();
-
         }
             
         
@@ -111,6 +110,7 @@ class NextTurnPanel extends Button{
             Mode.setMode(Mode.CLEARING_HAND);
             Selector.setValidator(Selector.IS_OWNED_TERRITORY);
             ArmiesInHandDisplayer.show(OWNER);
+            ComboDisplayer.displayCombos(OWNER);
         }
         
 }
