@@ -12,6 +12,8 @@ import greenfoot.GreenfootImage;
 import java.util.List;
 import mainObjects.Player;
 import mainObjects.Zombie;
+import mode.Mode;
+import selector.Selector;
 
 public class Turn {
     
@@ -49,7 +51,7 @@ public class Turn {
     
     
     private void showNextTurnPanel() {
-        new NextTurnPanel().show();
+        new NextTurnPanel(this).show();
         
     }
     
@@ -58,7 +60,10 @@ public class Turn {
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
-            new NextTurnPanel(player).show();
+          Mode.setMode(Mode.CLEARING_HAND);
+          Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+          ArmiesInHandDisplayer.show(player);
+          ComboDisplayer.displayCombos(player);
         }
       
     }
@@ -102,8 +107,8 @@ class NextTurnPanel extends Button{
     
     private TurnStat stats;
 
-    public NextTurnPanel(){
-        TURN = Turn.currentTurn;
+    public NextTurnPanel(Turn turn){
+        TURN = turn;
         OWNER = TURN.player;
         stats = new TurnStat(players(),TURN.turnNumber);
         setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
@@ -166,10 +171,7 @@ class NextTurnPanel extends Button{
       public void clicked() {
           MyWorld.theWorld.removeObject(this);
           Turn.currentTurn.player.startTurn();
-          Mode.setMode(Mode.CLEARING_HAND);
-          Selector.setValidator(Selector.IS_OWNED_TERRITORY);
-          ArmiesInHandDisplayer.show(OWNER);
-          ComboDisplayer.displayCombos(OWNER);
+          
       }
 
 }
