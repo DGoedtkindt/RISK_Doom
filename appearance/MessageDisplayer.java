@@ -3,10 +3,8 @@ package appearance;
 import base.Button;
 import base.MyWorld;
 import greenfoot.GreenfootImage;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import mode.Mode;
 
@@ -19,9 +17,6 @@ public class MessageDisplayer extends Button{
     private static Mode lastMode;
     
     private static final int TOTAL_WIDTH = 400;
-    
-    private static final java.awt.Font awtFont = new java.awt.Font("Monospaced", Font.BOLD, 50);
-    private static final greenfoot.Font greenfootFont = new greenfoot.Font("Monospaced", true, false, 50);
     
     private static FontMetrics fm;
     
@@ -36,7 +31,7 @@ public class MessageDisplayer extends Button{
     private MessageDisplayer(String message){
         
         GreenfootImage img = new GreenfootImage(1, 1);
-        fm = img.getAwtImage().getGraphics().getFontMetrics(awtFont);
+        fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
         width = fm.stringWidth(message);
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
@@ -49,7 +44,7 @@ public class MessageDisplayer extends Button{
         img.fill();
         img.setColor(Theme.used.textColor);
         img.drawRect(1, 1, width - 3, height * linesNumber - 3);
-        img.setFont(greenfootFont);
+        img.setFont(Appearance.GREENFOOT_FONT);
         img.drawString(message, 0, fm.getMaxAscent());
         setImage(img);
         
