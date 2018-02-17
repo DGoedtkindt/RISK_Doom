@@ -31,7 +31,7 @@ public class Manager extends StateManager{
     private void applySettingsAndBack() {
         int themeNum = Integer.parseInt(themeChooser.currentChoice());
         Theme.used = Theme.values()[themeNum];
-        MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor.brighter());
+        MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor);
         MyWorld.theWorld.getBackground().fill();
         BlankHex.updateAllImages();
         
