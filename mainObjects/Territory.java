@@ -30,7 +30,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    public int armies = 1;
+    public int armies = 10;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();

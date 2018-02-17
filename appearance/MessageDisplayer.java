@@ -6,7 +6,6 @@ import greenfoot.GreenfootImage;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import mode.Mode;
 
@@ -62,7 +61,7 @@ public class MessageDisplayer extends Button{
      */
     public static void showMessage(String message){
         
-        MessageDisplayer displayer = new MessageDisplayer(message);
+        MessageDisplayer displayer = new MessageDisplayer("" + message);
         MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
         lastMode = Mode.mode();
         Mode.setMode(Mode.SHOWING_ERROR);
