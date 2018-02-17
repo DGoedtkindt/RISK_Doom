@@ -7,19 +7,18 @@ import base.MyWorld;
 import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
-import java.util.ArrayList;
+import java.util.List;
 import mainObjects.Player;
 import mainObjects.Zombie;
 
 public class Turn {
-    private ArrayList<Player> players() {return game().players;}
-    
-    public Player player;
-    protected int turnNumber;
     
     public static Turn currentTurn;
-
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
+    private static List<Player> players() {return game().players;}
+        
+    public Player player;
+    protected int turnNumber;
     
     protected Turn(int turnNumber) {
         this.turnNumber = turnNumber;
@@ -38,14 +37,18 @@ public class Turn {
             int newTurnNumber = currentTurn.turnNumber + 1;
             currentTurn = new Turn(newTurnNumber);
         } else {
-            currentTurn = new Turn(0);
+            currentTurn = new Turn(1);
         }
-            currentTurn.start();
+            currentTurn.showNextTurnPanel();
+    }
+    
+    
+    private void showNextTurnPanel() {
+        new NextTurnPanel().show();
+        
     }
     
     public void start(){
-        
-        new NextTurnPanel(player).show();
         
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
@@ -53,16 +56,16 @@ public class Turn {
         }else{;
             //do stuff
 
-        }
-            
+        }           
         
     }
     
-    public void end() {
-        System.out.println("Turn.end() doesn't do anything yet");
-    
+    private void end() {
+        saveStats();
+        autoSave();
+        
     }
-    
+        
     private boolean aPlayerIsDead(){
         for(Player p : players()) {
             if(p.hasLostQ()) {
@@ -74,33 +77,93 @@ public class Turn {
         
         return false;
     }
-    
+
+    private void saveStats() {
+        TurnStat stats = new TurnStat(players(),turnNumber);
+        game().stats.add(stats);
+    }
+
+    private void autoSave() {
+        System.out.println("Method autoSave() in class Turn is not supported yet");
+        
+    }
+
 }
 
 class NextTurnPanel extends Button{
+    private static Game game(){return MyWorld.theWorld.stateManager.game();}
+    private static List<Player> players() {return game().players;}
         
-        private final Player OWNER;
-        
-        public NextTurnPanel(Player player){
-            OWNER = player;
-        }
-        
-        public void show(){
-            GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-            img.setColor(OWNER.color());
-            img.fill();
-            img.setColor(Color.BLACK);
-            img.setFont(new Font("monospaced", 50));
-            img.drawString(OWNER.name(), 700, 500);
-            setImage(img);
-            MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-            
-        }
-        
-        @Override
-        public void clicked() {
-            MyWorld.theWorld.removeObject(this);
-            
-        }
-        
+    private final Player OWNER;
+    private final Turn TURN;
+    
+    private TurnStat stats;
+
+    public NextTurnPanel(){
+        TURN = Turn.currentTurn;
+        OWNER = TURN.player;
+        stats = new TurnStat(players(),TURN.turnNumber);
+        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
     }
+
+    public void show(){
+        colorBackground();
+        writeName();
+        writeStats();
+        addToWorld();
+
+    }
+    
+    private void colorBackground() {
+        getImage().setColor(OWNER.color());
+        getImage().fill();
+    
+    }
+    
+    private void writeName() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        getImage().setFont(new Font("monospaced", true, false, 50));
+        getImage().drawString(OWNER.name(), 700, 500);
+    
+    }
+    
+    private void writeStats() {
+        if(OWNER.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        
+        String infos = "";
+        String armies = "Total number of armies : " 
+                + stats.numberOfArmies.get(OWNER);
+        String territories = "Number of territories owned : " 
+                + stats.numberOfTerritories.get(OWNER);
+        String armiesPerTurn = "Armies in reinforcement this turn : "
+                + stats.numberOfArmiesPerTurn.get(OWNER);
+        
+        infos += armies + "\n";
+        infos += territories + "\n";
+        infos += armiesPerTurn + "\n";
+        
+        getImage().setFont(new Font("monospaced", true, false, 25));
+        getImage().drawString(infos, 600, 600);
+    }
+    
+    public void addToWorld() {
+        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    
+    }
+
+    @Override
+    public void clicked() {
+        MyWorld.theWorld.removeObject(this);
+        TURN.start();
+
+    }
+
+}

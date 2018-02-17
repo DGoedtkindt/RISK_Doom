@@ -4,6 +4,7 @@ import mode.Mode;
 import selector.Selector;
 import selector.Selectable;
 import appearance.Appearance;
+import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.Button;
 import base.Hexagon;
@@ -78,7 +79,7 @@ public class BlankHex extends Button implements Selectable{
                     }
                     
                 } catch(Exception e){
-                    System.err.println(e);
+                    MessageDisplayer.showMessage(e.getMessage());
 
                 }
                 world().stateManager.escape(); break;

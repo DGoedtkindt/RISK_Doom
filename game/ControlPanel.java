@@ -19,7 +19,7 @@ public class ControlPanel {
         Turn.startNewTurn();}
             , new GreenfootImage("backToHome.png"));
     private ModeButton attackButton = new ModeButton("backToHome.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
-    private ModeButton moveButton = new ModeButton("backToHome.png", Mode.MOVE, Selector.IS_NOT_OWNED_TERRITORY);
+    private ModeButton moveButton = new ModeButton("backToHome.png", Mode.MOVE, Selector.IS_OWNED_TERRITORY);
     
     
     //to easlily modify all buttons
@@ -37,13 +37,15 @@ public class ControlPanel {
     
     protected void addToWorld(int xPos, int yPos) {
         world().addObject(saveGame, xPos, yPos);
-        world().addObject(nextTurnButton, xPos, yPos+100);
+        world().addObject(nextTurnButton, xPos, yPos + 100);
+        world().addObject(attackButton, xPos, yPos + 200);
+        world().addObject(moveButton, xPos, yPos + 300);
         
     }
     
     protected void removeFromWorld() {
         allButtons.forEach(world()::removeObject);
-    
+
     }
     
 }

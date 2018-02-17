@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.MessageDisplayer;
 import selector.Selectable;
 import appearance.Theme;
 import base.GColor;
@@ -9,10 +10,14 @@ import base.MyWorld;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
 {
+    
+    public static Territory actionSource = null;
+    
     private ArrayList<TerritoryHex> terrHexList;
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
@@ -31,7 +36,7 @@ public class Territory implements Selectable
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
     
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus)  throws Exception {
-        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected");
+        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected.");
         blankHexList = hexs;
         bonusPoints = bonus;
         this.infoHex = infoHex;
@@ -115,6 +120,8 @@ public class Territory implements Selectable
             int newBonus = Integer.parseInt(bonusString);
             bonusPoints = newBonus;
             
+        }else{
+            MessageDisplayer.showMessage("Invalid entry.");
         }
         
     }
@@ -195,7 +202,7 @@ public class Territory implements Selectable
                 throw new Exception("You don't have enough armies.");
             }else{
                 armies -= movingArmies;
-                destination.addArmies(movingArmies);
+                destination.armies += movingArmies;
             }
             
             drawTerritory();
@@ -206,8 +213,29 @@ public class Territory implements Selectable
         
     }
     
-    public void addArmies(int a){
-        armies += a;
+    public boolean canAttack(Territory target){
+        
+        HashSet<Territory> targetableList = new HashSet<Territory>();
+        
+        for(TerritoryHex hex : terrHexList){
+            
+            for(TerritoryHex neighbour : hex.getBorderingHex()){
+                
+                targetableList.add(neighbour.territory());
+                
+            }
+            
+        }
+        
+        for(LinkIndic linkindic : links){
+            targetableList.addAll(linkindic.links.linkedTerrs);
+            
+        }
+        
+        targetableList.remove(this);
+        
+        return targetableList.contains(target);
+        
     }
     
     //Selectable methods/////////////////////////////////

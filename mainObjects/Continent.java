@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.MessageDisplayer;
 import base.ColorChooser;
 import base.GColor;
 import base.Map;
@@ -93,6 +94,8 @@ public class Continent implements Selectable
             
             bonus = newBonus;
             display.update();
+        }else{
+            MessageDisplayer.showMessage("Invalid entry.");
         }
         
     }

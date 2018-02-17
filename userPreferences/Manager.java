@@ -53,7 +53,7 @@ public class Manager extends StateManager{
                                                              "Yes", JOptionPane.YES_NO_CANCEL_OPTION);
             if(choice == JOptionPane.YES_OPTION){
                 clearScene();
-                world().load(new menu.Manager());
+                world().load(previous);
 
             }
     }

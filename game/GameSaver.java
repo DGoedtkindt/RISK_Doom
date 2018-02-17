@@ -1,5 +1,6 @@
 package game;
 
+import appearance.MessageDisplayer;
 import base.Game;
 import base.MyWorld;
 import gameXML.GameXML;
@@ -41,12 +42,13 @@ public class GameSaver {
         if(nameEntered == JOptionPane.OK_OPTION) {
             name = namePanel.name();
             description = namePanel.description();
-        };
+
+        }
     
     }
     
     private boolean nameIsValid() {
-        return !(name == null || name.isEmpty());
+        return !(name == null || name.isEmpty() || name.matches("\\s+"));
     
     }
     
@@ -74,12 +76,13 @@ public class GameSaver {
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                System.err.println("thumbnail couldn't be saved : " + ex);
+                MessageDisplayer.showMessage("thumbnail couldn't be saved : " + ex);
             }
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "the Game could not be saved : " + ex);
+            MessageDisplayer.showMessage("the Game could not be saved : " + ex);
             ex.printStackTrace();
+            
         }
     
     }

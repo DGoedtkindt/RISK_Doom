@@ -1,6 +1,7 @@
 package mapEditor;
 
 
+import appearance.MessageDisplayer;
 import base.Map;
 import base.MyWorld;
 import java.awt.image.BufferedImage;
@@ -74,10 +75,11 @@ public class MapSaver {
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                System.err.println("thumbnail couldn't be saved : " + ex);
+                MessageDisplayer.showMessage("thumbnail couldn't be saved : " + ex);
             }
             
         } catch (Exception ex) {
+            MessageDisplayer.showMessage("The Map could'nt be saved : " + ex);
             JOptionPane.showMessageDialog(null, "the Map could not be saved : " + ex);
         }
     

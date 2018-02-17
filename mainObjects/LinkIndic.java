@@ -3,6 +3,7 @@ package mainObjects;
 //un objet de cette classe indique l'existance d'un Link entre plusieur Territory
 //par sa couleur
 
+import appearance.MessageDisplayer;
 import base.Button;
 import base.Hexagon;
 import base.MyWorld;
@@ -12,7 +13,7 @@ import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
 public class LinkIndic extends Button{
-    private Links links;
+    public Links links;
     private Territory terr;
     private TerritoryHex terrHex;
     private int xPos;
@@ -84,7 +85,7 @@ public class LinkIndic extends Button{
         try{
         terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
         } catch(IndexOutOfBoundsException e){
-            System.err.println("new LinkIndic didn't find a terrHex at this position");
+            MessageDisplayer.showMessage("the new LinkIndic didn't find a terrHex at this position.");
             this.destroy();
         }
         
