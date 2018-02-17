@@ -79,7 +79,7 @@ public class BlankHex extends Button implements Selectable{
                     }
                     
                 } catch(Exception e){
-                    MessageDisplayer.showMessage(e.getMessage());
+                    MessageDisplayer.showException(e);
 
                 }
                 world().stateManager.escape(); break;

@@ -60,7 +60,6 @@ public class Turn {
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
-            System.out.println("yo, i'm no zombie");
             Mode.setMode(Mode.CLEARING_HAND);
             player.getArmies();
             ArmiesInHandDisplayer.show(player);

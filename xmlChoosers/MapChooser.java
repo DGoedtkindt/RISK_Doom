@@ -41,7 +41,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
             }
             
         }catch(IOException | ParserConfigurationException | DOMException | SAXException e){
-            MessageDisplayer.showMessage(e.getMessage());
+            MessageDisplayer.showException(e);
             System.err.println(e.getMessage());
         }
         

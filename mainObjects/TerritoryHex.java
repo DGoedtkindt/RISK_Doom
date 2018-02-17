@@ -110,7 +110,7 @@ public class TerritoryHex extends Button
                         try{
                             Territory.actionSource.invade(territory);
                         }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
+                            MessageDisplayer.showException(e);
                         }
                         Territory.actionSource = null;
                         Selector.setValidator(Selector.NOTHING);
@@ -132,7 +132,7 @@ public class TerritoryHex extends Button
                             try{
                                 Territory.actionSource.moveTo(territory);
                             }catch(Exception e){
-                                MessageDisplayer.showMessage(e.getMessage());
+                                MessageDisplayer.showException(e);
                             }
                             Territory.actionSource = null;
                             Selector.setValidator(Selector.NOTHING);
@@ -186,7 +186,7 @@ public class TerritoryHex extends Button
                 default: break;
             }
         } catch (Exception ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
+            MessageDisplayer.showException(ex);
             System.err.println(ex.getMessage());
             world().stateManager.escape();
         }

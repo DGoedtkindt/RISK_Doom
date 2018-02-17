@@ -60,7 +60,7 @@ public class XMLBuilder {
             
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
+            MessageDisplayer.showException(ex);
             throw ex;
         
         }

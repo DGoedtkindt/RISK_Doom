@@ -199,7 +199,7 @@ public class Selector
                             }
                             
                         }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
+                            MessageDisplayer.showException(e);
                             System.err.println(e.getMessage());
                             return false;
                         }
@@ -228,7 +228,7 @@ public class Selector
                             }
                             
                         }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
+                            MessageDisplayer.showException(e);
                             System.err.println(e.getMessage());
                             return false;
                         }

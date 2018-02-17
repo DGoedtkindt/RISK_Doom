@@ -38,7 +38,7 @@ public class XMLBuilder {
             
             return doc;
         } catch (Exception ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
+            MessageDisplayer.showException(ex);
             throw ex;
         }
     }
@@ -56,7 +56,7 @@ public class XMLBuilder {
             
             return doc;
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
+            MessageDisplayer.showException(ex);
             throw ex;
         }
 

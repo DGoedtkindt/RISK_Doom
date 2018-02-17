@@ -61,6 +61,14 @@ public class MessageDisplayer extends Button{
     }
     
     /**
+     * Show a MessageDisplayer with the string representation of an Exception
+     * @param ex Displayed Exception 
+     */
+    public static void showException(Exception ex) {
+        showMessage(ex.toString());
+    }
+    
+    /**
      * Modifies the message by adding lines to it.
      * @param message Transformed message
      */
