@@ -23,7 +23,8 @@ public enum Mode
             + "Finally, choose the number of armies you want to use."),
     MOVE("Move your armies from one of your territories to another."),
     //Other modes
-    SHOWING_ERROR("");
+    SHOWING_ERROR(""),
+    CLEARING_HAND("Place your new armies on your territories.");
     
     Mode(String text){
         message = text;

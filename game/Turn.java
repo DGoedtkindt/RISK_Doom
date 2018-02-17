@@ -13,17 +13,20 @@ import mainObjects.Zombie;
 
 public class Turn {
     
+    public boolean hasGainedCombo = false;
+    
+    public Player player;
+    protected int turnNumber;
+    
     public static Turn currentTurn;
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     private static List<Player> players() {return game().players;}
-        
-    public Player player;
-    protected int turnNumber;
     
     protected Turn(int turnNumber) {
         this.turnNumber = turnNumber;
         int playerNumber = turnNumber % (players().size());
         player = players().get(playerNumber);
+        hasGainedCombo = false;
         
     }
     
@@ -49,13 +52,12 @@ public class Turn {
     }
     
     public void start(){
-        
+    
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
 
-        }else{;
+        }else{
             //do stuff
-
         }           
         
     }
@@ -167,3 +169,4 @@ class NextTurnPanel extends Button{
     }
 
 }
+

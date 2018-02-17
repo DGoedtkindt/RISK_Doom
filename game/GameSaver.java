@@ -81,7 +81,6 @@ public class GameSaver {
             
         } catch (Exception ex) {
             MessageDisplayer.showMessage("the Game could not be saved : " + ex);
-            ex.printStackTrace();
             
         }
     

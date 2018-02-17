@@ -1,8 +1,11 @@
 package mainObjects;
 
 import base.GColor;
+import base.MyWorld;
 import game.Difficulty;
 import game.Turn;
+import greenfoot.Greenfoot;
+import java.util.List;
 
 
 public class Zombie extends Player{
@@ -17,7 +20,7 @@ public class Zombie extends Player{
         super("H1N1XX",ZOMBIE_COLOR);
         this.difficulty = difficulty;
         reset();
-        
+
     }
     
     public int zombiesNextWave() {
@@ -29,17 +32,62 @@ public class Zombie extends Player{
     }
     
     public void takeTurn() {
-        //actions the zombie takes
-        turnsBeforeNextWave --;
-        if(turnsBeforeNextWave <= 0) {
+        
+        if(territories().isEmpty()){
+            propagate();
+        }
+        attackRandomly();
+        countdown();
+        incrementNextWave();
+        Turn.endCurrentTurn();
+        Turn.startNewTurn();
+        
+    }
+    
+    private void propagate(){
+        
+        int terrs = 0;
+        
+        Territory t;
+        
+        List<Territory> territories = MyWorld.theWorld.stateManager.map().territories;
+        
+        while(terrs < zombiesNextWave){
+            
+            t = territories.get(Greenfoot.getRandomNumber(territories.size()));
+            
+            if(t.owner() != null && t.owner() != this){
+                
+                t.setOwner(this);
+                terrs++;
+                
+            }
+            
+        }
+        
+    }
+    
+    private void attackRandomly(){
+        
+        for(Territory t : territories()){
+            
+            if(Math.random() < difficulty.ATTACK_CHANCE){
+                t.attackRandomly();
+
+            }
+            
+        }
+        
+    }
+    
+    public void countdown(){
+        turnsBeforeNextWave--;
+        if(turnsBeforeNextWave == 0) {
             propagate();
             turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
             zombiesNextWave += difficulty.INCREMENT;
-        
         }
-        
-        Turn.endCurrentTurn();
-        Turn.startNewTurn();
+            
     }
 
     private void reset(){
@@ -54,8 +102,8 @@ public class Zombie extends Player{
     
     }
 
-    private void propagate() {
-        System.out.println("Method propagate() in class Zombie is not supported yet");
+    private void incrementNextWave() {
+        System.out.println("Method incrementNextWave() in class Zombie is not supported yet");
     }
     
 

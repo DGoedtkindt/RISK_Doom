@@ -1,5 +1,7 @@
 package mainObjects;
 
+import greenfoot.Greenfoot;
+
 public class Combo {
     
     private int a = 0;
@@ -16,6 +18,23 @@ public class Combo {
     
     public void addC(){
         c++;
+    }
+    
+    public void addRandomCombo(){
+        switch(Greenfoot.getRandomNumber(3)){
+            
+            case 0 : addA();
+                break;
+            case 1 : addB();
+                break;
+            case 2 : addC();
+                break;
+            
+        }
+    }
+    
+    public int comboPiecesNumber(){
+        return a + b + c;
     }
     
 }

@@ -5,6 +5,9 @@ import base.MyWorld;
 import greenfoot.GreenfootImage;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import mode.Mode;
 
 /**
@@ -12,6 +15,10 @@ import mode.Mode;
  * 
  */
 public class MessageDisplayer extends Button{
+
+    private static Mode lastMode;
+    
+    private static final int TOTAL_WIDTH = 400;
     
     private static final java.awt.Font awtFont = new java.awt.Font("Monospaced", Font.BOLD, 50);
     private static final greenfoot.Font greenfootFont = new greenfoot.Font("Monospaced", true, false, 50);
@@ -32,7 +39,8 @@ public class MessageDisplayer extends Button{
         fm = img.getAwtImage().getGraphics().getFontMetrics(awtFont);
         
         width = fm.stringWidth(message);
-        if(width > Appearance.WORLD_WIDTH){width = Appearance.WORLD_WIDTH;}
+
+        if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         height = fm.getMaxAscent() + fm.getMaxDescent();
         
         message = wrapText(message);
@@ -41,6 +49,7 @@ public class MessageDisplayer extends Button{
         img.setColor(Theme.used.backgroundColor.brighter());
         img.fill();
         img.setColor(Theme.used.textColor);
+        img.drawRect(1, 1, width - 3, height * linesNumber - 3);
         img.setFont(greenfootFont);
         img.drawString(message, 0, fm.getMaxAscent());
         setImage(img);
@@ -54,8 +63,10 @@ public class MessageDisplayer extends Button{
     public static void showMessage(String message){
         
         MessageDisplayer displayer = new MessageDisplayer(message);
-        MyWorld.theWorld.addObject(displayer, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
+        lastMode = Mode.mode();
         Mode.setMode(Mode.SHOWING_ERROR);
+        displayer.createTimer();
         
     }
     
@@ -70,7 +81,7 @@ public class MessageDisplayer extends Button{
         
         String currentLine = "";
         for(String currentWord : words){
-            if(fm.stringWidth(currentLine + " " + currentWord) > Appearance.WORLD_WIDTH){
+            if(fm.stringWidth(currentLine + " " + currentWord) > TOTAL_WIDTH){
                 finalString += currentLine + "\n";
                 currentLine = "";
                 linesNumber ++;
@@ -90,10 +101,29 @@ public class MessageDisplayer extends Button{
 
     }
     
+
+    private void createTimer(){
+        
+        Timer timer = new Timer(40, (ActionEvent ae) -> {
+            this.getImage().setTransparency(this.getImage().getTransparency() - 5);
+            
+            if(this.getImage().getTransparency() == 0){
+                MyWorld.theWorld.removeObject(this);
+                ((Timer)ae.getSource()).stop();
+                Mode.setMode(lastMode);
+            }
+            
+        });
+        
+        timer.setInitialDelay(2000);
+        timer.setRepeats(true);
+        timer.start();
+        
+    }
+    
     @Override
     public void clicked() {
         world().removeObject(this);
-        world().stateManager.escape();
     }
     
 }

@@ -5,7 +5,7 @@ import base.Game;
 import game.TurnStat;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
@@ -101,7 +101,7 @@ public class XMLBuilder {
             playerNode.setAttribute("points", player.points() + "");
             
             //player's territories
-            ArrayList<Territory> ctrlTerrs = player.territories();
+            List<Territory> ctrlTerrs = player.territories();
             for(Territory terr : ctrlTerrs) {
                 Element terrNode = doc.createElement("Territory");
                 playerNode.appendChild(terrNode);

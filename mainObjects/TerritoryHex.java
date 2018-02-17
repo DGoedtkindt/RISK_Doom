@@ -1,5 +1,6 @@
 package mainObjects;
 
+import appearance.ArmiesInHandDisplayer;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;
@@ -12,6 +13,7 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class TerritoryHex extends Button
 {
@@ -139,6 +141,34 @@ public class TerritoryHex extends Button
                             Selector.setValidator(Selector.NOTHING);
                             world().repaint(); //pour forcer l'actualisation des images
                             world().stateManager.escape();
+                        }
+                        
+                    }
+                    
+                    break;
+                    
+                case CLEARING_HAND :
+                    if(territory.owner() == Turn.currentTurn.player){
+                        
+                        String newArmiesString = JOptionPane.showInputDialog("The number of armies you want to put on this territory");
+                        
+                        if(newArmiesString.matches("\\d+")){
+                            
+                            int newArmies = Integer.parseInt(newArmiesString);
+                            
+                            if(newArmies < 0){
+                                MessageDisplayer.showMessage("This is a negative number.");
+                            }else if(newArmies > territory.owner().armiesInHand){
+                                MessageDisplayer.showMessage("You don't have enough armies.");
+                            }else{
+                                territory.armies += newArmies;
+                                territory.owner().armiesInHand -= newArmies;
+                                territory.drawTerritory();
+                                ArmiesInHandDisplayer.update();
+                            }
+                            
+                        }else{
+                            MessageDisplayer.showMessage("Invalid entry.");
                         }
                         
                     }

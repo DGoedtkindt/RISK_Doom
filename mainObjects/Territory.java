@@ -7,6 +7,8 @@ import base.GColor;
 import base.Hexagon;
 import base.Map;
 import base.MyWorld;
+import game.Turn;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    private int armies = 100;
+    public int armies = 1;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -184,6 +186,9 @@ public class Territory implements Selectable
         }else if(armies < 0){
             armies = - armies;
             owner = invader;
+            if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
+                owner.gainComboPiece();
+            }
         }
         
         drawTerritory();
@@ -214,8 +219,13 @@ public class Territory implements Selectable
     }
     
     public boolean canAttack(Territory target){
+        return neighbours().contains(target);
         
-        HashSet<Territory> targetableList = new HashSet<Territory>();
+    }
+    
+    public HashSet<Territory> neighbours(){
+
+        HashSet<Territory> targetableList = new HashSet<>();
         
         for(TerritoryHex hex : terrHexList){
             
@@ -233,8 +243,23 @@ public class Territory implements Selectable
         }
         
         targetableList.remove(this);
+        return targetableList;
         
-        return targetableList.contains(target);
+    }
+    
+    public void attackRandomly(){
+        
+        if(armies > 2 && !neighbours().isEmpty()){
+            
+            Territory target = (Territory)(neighbours().toArray()[Greenfoot.getRandomNumber(neighbours().size())]);
+            
+            int attackingArmies = Greenfoot.getRandomNumber(armies - 1) + 2;
+            
+            armies -= attackingArmies;
+            
+            target.attacked(attackingArmies, owner);
+            
+        }
         
     }
     
