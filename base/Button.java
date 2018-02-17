@@ -19,6 +19,6 @@ public abstract class Button extends Actor {
     
     }
     
-    protected MyWorld world() {return MyWorld.theWorld;}
+    protected static MyWorld world() {return MyWorld.theWorld;}
     
 }
