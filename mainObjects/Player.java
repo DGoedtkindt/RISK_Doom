@@ -23,12 +23,6 @@ public class Player {
         
     }
     
-    public void startTurn(){
-        getArmies();
-        Combo.display(this);
-    }
-    
-
     public int armyGainPerTurn() {
         int terrNumber = 0;
         int terrBonus = 0;
@@ -54,7 +48,7 @@ public class Player {
         return total;
     }
     
-    private void getArmies(){
+    public void getArmies(){
         armiesInHand += armyGainPerTurn();
 
     }

@@ -60,10 +60,12 @@ public class Turn {
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
-          Mode.setMode(Mode.CLEARING_HAND);
-          Selector.setValidator(Selector.IS_OWNED_TERRITORY);
-          ArmiesInHandDisplayer.show(player);
-          ComboDisplayer.displayCombos(player);
+            System.out.println("yo, i'm no zombie");
+            Mode.setMode(Mode.CLEARING_HAND);
+            player.getArmies();
+            ArmiesInHandDisplayer.show(player);
+            Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+            ComboDisplayer.displayCombos(player);
         }
       
     }
@@ -170,7 +172,7 @@ class NextTurnPanel extends Button{
     @Override
       public void clicked() {
           MyWorld.theWorld.removeObject(this);
-          Turn.currentTurn.player.startTurn();
+          TURN.start();
           
       }
 

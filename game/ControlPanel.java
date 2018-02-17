@@ -1,5 +1,6 @@
 package game;
 
+import appearance.MessageDisplayer;
 import base.Button;
 import base.MyWorld;
 import base.NButton;
@@ -20,6 +21,13 @@ public class ControlPanel {
             , new GreenfootImage("backToHome.png"));
     private ModeButton attackButton = new ModeButton("backToHome.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
     private ModeButton moveButton = new ModeButton("backToHome.png", Mode.MOVE, Selector.IS_OWNED_TERRITORY);
+    private NButton showAMessage = new NButton( 
+            () -> {
+                MessageDisplayer.showMessage("HELLO THERE! HELLO THERE!"
+                        + " HELLO THERE! HELLO THERE! HELLO THERE! HELLO THERE! ");
+                System.out.println("hello there!");
+                }
+            , "Hi!");
     
     
     //to easlily modify all buttons
@@ -32,6 +40,7 @@ public class ControlPanel {
         allButtons.add(nextTurnButton);
         allButtons.add(attackButton);
         allButtons.add(moveButton);
+        allButtons.add(showAMessage);
     
     }
     

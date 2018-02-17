@@ -21,7 +21,7 @@ public class Appearance {
     public static final int CONTINENT_BONUS_Y_POSITION = ROW_NUMBER - CONTINENT_BONUS_ZONE_HEIGHT;
     
     //Font
-    public static final java.awt.Font AWT_FONT = new java.awt.Font("Monospaced", java.awt.Font.BOLD, 50);
-    public static final greenfoot.Font GREENFOOT_FONT = new greenfoot.Font("Monospaced", true, false, 50);
+    public static final java.awt.Font AWT_FONT = new java.awt.Font("Monospaced", java.awt.Font.BOLD, 25);
+    public static final greenfoot.Font GREENFOOT_FONT = new greenfoot.Font("Monospaced", true, false, 25);
     
 }

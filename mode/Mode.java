@@ -25,7 +25,7 @@ public enum Mode
     //Combo modes
     SAP("Click on an ennemy territory to clear all the troops on it."),
     //Other modes
-    SHOWING_ERROR("That was an error."),
+    SHOWING_ERROR("that was an error..."),
     CLEARING_HAND("Place your new armies on your territories.");
     
     Mode(String text){

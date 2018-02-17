@@ -6,17 +6,14 @@ import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
-import mode.Mode;
 
 /**
  * An Actor that displays error messages.
  * 
  */
 public class MessageDisplayer extends Button{
-
-    private static Mode lastMode;
     
-    private static final int TOTAL_WIDTH = 400;
+    private static final int TOTAL_WIDTH = 700;
     
     private static FontMetrics fm;
     
@@ -59,8 +56,6 @@ public class MessageDisplayer extends Button{
         
         MessageDisplayer displayer = new MessageDisplayer("" + message);
         MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
-        lastMode = Mode.mode();
-        Mode.setMode(Mode.SHOWING_ERROR);
         displayer.createTimer();
         
     }
@@ -105,7 +100,6 @@ public class MessageDisplayer extends Button{
             if(this.getImage().getTransparency() == 0){
                 MyWorld.theWorld.removeObject(this);
                 ((Timer)ae.getSource()).stop();
-                Mode.setMode(lastMode);
             }
             
         });
