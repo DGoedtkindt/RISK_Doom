@@ -146,9 +146,17 @@ public class Territory implements Selectable
     }
     
     public void setOwner(Player newOwner){
-        owner = newOwner;
+        setOwnerWithoutDrawing(newOwner);
         drawTerritory();
         
+    }
+    
+    /**
+     * changes the owner of this Territory without drawing this. 
+     * @param newOwner
+     */
+    public void setOwnerWithoutDrawing(Player newOwner) {
+        owner = newOwner;
     }
     
     public void invade(Territory target) throws Exception{

@@ -149,14 +149,14 @@ public class XMLBuilder {
                 Player p = entry.getKey();
                 int playerNumber = game.players.indexOf(p);
                 int continents = entry.getValue();
-                Element pairNode = doc.createElement("PlayerContinents");
+                Element pairNode = doc.createElement("PlayerContinentsPair");
                 statNode.appendChild(pairNode);
                 pairNode.setAttribute("playerNumber", playerNumber + "");
                 pairNode.setAttribute("continents", continents + "");
             
             }
             
-            //number of armies
+            //number of pints
             Set<Map.Entry<Player, Integer>> numPoints = stat.numberOfPoints.entrySet();
             for(Map.Entry<Player, Integer> entry : numPoints) {
                 Player p = entry.getKey();
@@ -169,7 +169,7 @@ public class XMLBuilder {
             
             }
             
-            //number of armies
+            //number of territories
             Set<Map.Entry<Player, Integer>> numTerritories = stat.numberOfTerritories.entrySet();
             for(Map.Entry<Player, Integer> entry : numTerritories) {
                 Player p = entry.getKey();
