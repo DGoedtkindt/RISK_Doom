@@ -5,7 +5,6 @@ import base.Map;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOError;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -28,7 +27,7 @@ public class MapXML {
     static{
         DIR = new File("Maps");
         if(!DIR.exists()) {
-            throw new IOError(new FileNotFoundException("The Maps directory does not seem to exist." +
+            MessageDisplayer.showException(new FileNotFoundException("The Maps directory does not seem to exist." +
                     "Please make sure " + DIR.getAbsolutePath() + " exists"));
         }
         

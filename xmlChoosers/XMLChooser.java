@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
 import greenfoot.Font;
+import java.io.FileNotFoundException;
 
 /**
  * A XMLChooser is a Group of Actors that enables the user to choose between
@@ -62,8 +63,10 @@ public abstract class XMLChooser implements Arrowable {
             }
             
         } else {
-            System.err.println("The " + directoryName + " directory was not found. please make sure it is placed there: " + directory.getAbsolutePath());
-            System.exit(0);
+            MessageDisplayer.showException(new FileNotFoundException("The " 
+                    + directoryName + " directory was not found."
+                    + " please make sure it is placed there: " 
+                    + directory.getAbsolutePath()));
             
         }
         
