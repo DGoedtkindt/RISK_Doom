@@ -7,6 +7,7 @@ import base.GColor;
 import base.Hexagon;
 import base.Map;
 import base.MyWorld;
+import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
@@ -29,7 +30,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    public int armies = 10;
+    public int armies = 1;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -184,8 +185,27 @@ public class Territory implements Selectable
             owner = null;
         }else if(armies < 0){
             armies = - armies;
+            Player formerOwner = owner();
             owner = invader;
             
+            if(formerOwner.capital == this && !(formerOwner instanceof Zombie)){
+                formerOwner.getnewCapital();
+            }
+            
+            if(formerOwner instanceof Zombie){
+                owner.points++;
+            }
+            
+            if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
+                owner.gainComboPiece();
+                Turn.currentTurn.hasGainedCombo = true;
+            }
+        }
+        
+        if(Turn.aPlayerIsDead() != null){
+            ((game.Manager)(world().stateManager)).endByDeath(Turn.aPlayerIsDead());
+        }else if(Turn.aPlayerWon() != null){
+            ((game.Manager)(world().stateManager)).endByVictory(Turn.aPlayerWon());
         }
         
         drawTerritory();
@@ -216,13 +236,14 @@ public class Territory implements Selectable
     }
     
     public boolean canAttack(Territory target){
+        
         return neighbours().contains(target);
         
     }
     
     public HashSet<Territory> neighbours(){
-
-        HashSet<Territory> targetableList = new HashSet<>();
+        
+        HashSet<Territory> targetableList = new HashSet<Territory>();
         
         for(TerritoryHex hex : terrHexList){
             
@@ -240,6 +261,7 @@ public class Territory implements Selectable
         }
         
         targetableList.remove(this);
+        
         return targetableList;
         
     }
