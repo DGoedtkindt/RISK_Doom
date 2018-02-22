@@ -3,10 +3,19 @@ package base;
 import appearance.Theme;
 import greenfoot.GreenfootImage;
  
-public class Hexagon  {
+/**
+ * The class we use to produce hexagonal images.
+ * 
+ */
+public class Hexagon {
     
     public static final int RADIUS = 32;
     
+    /**
+     * Creates a hexagonal image with borders.
+     * @param hexColor The color of this hexagon.
+     * @return The image.
+     */
     public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
         GreenfootImage img = createImage(Theme.used.blankHexBorderColor);
@@ -15,7 +24,13 @@ public class Hexagon  {
         return img;
         
     }
-
+    
+    /**
+     * Creates a hexagonal image with borders.
+     * @param color The color of this hexagon.
+     * @param sizeInPercent The size, in percent, of this hexagon.
+     * @return The image.
+     */
     public static GreenfootImage createImage(GColor color, double sizeInPercent){
         //crée l'image d'un hexagone simple avec un multiplicateur de taille
         //l'image de retour reste 2*RADIUSx2*RADIUS
@@ -29,12 +44,22 @@ public class Hexagon  {
         return img;
     }
     
+    /**
+     * Creates a hexagonal image without borders.
+     * @param color The color of this hexagon.
+     * @return The image.
+     */
     public static GreenfootImage createImage(GColor color){
         //crée l'image d'un hexagone simple sans multiplicateur
         return createImage(color, 1);
         
     }
     
+    /**
+     * Converts coordinates in our hexagonal grid to coordinates in Greenfoot's square grid.
+     * @param hexCoord The Hexagonal coordinates.
+     * @return The square coordinates.
+     */
     public static int[] hexToRectCoord(int[] hexCoord){
         int[] converted = new int[2];  //Tableau de retour
         
@@ -51,8 +76,13 @@ public class Hexagon  {
         
     }
     
+    /**
+     * Creates the coordinates of the points of a Hexagon.
+     * @param sizeMultiplier The relative size of this Hexagon.
+     * @return The coordinates.
+     */
     private static int[][] getHexagonCoord(double sizeMultiplier)
-    //crée les coordinées des points d'un hexagone 
+    //crée les coordonées des points d'un hexagone 
     {
         double rad = RADIUS * sizeMultiplier;
         

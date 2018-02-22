@@ -1,7 +1,6 @@
 package base;
 
 import java.util.ArrayList;
-import java.util.List;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
@@ -11,9 +10,8 @@ import mainObjects.Territory;
  */
 public class Map {
     public String name;
-    public List<Territory> territories = new ArrayList<>();
-    public List<Continent> continents = new ArrayList<>();
-    public List<Links> links = new ArrayList<>();
-    
+    public ArrayList<Territory> territories = new ArrayList<>();
+    public ArrayList<Continent> continents = new ArrayList<>();
+    public ArrayList<Links> links = new ArrayList<>();
     
 }

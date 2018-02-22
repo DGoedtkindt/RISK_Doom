@@ -1,28 +1,29 @@
 package base;
 
 import game.Difficulty;
-import game.TurnStat;
 import java.util.ArrayList;
-import java.util.List;
 import mainObjects.Player;
 
+/**
+ * An object representing the current state of the Game.
+ * 
+ */
 public class Game {
     
     /**
-     * in case we need this
+     * The states of a Game.
      */
     public enum State {
-        INITIALISATION("stuff still needs to be done for the game to truly start"),
-        INGAME("normal state of the game. players take turns"),
-        FINISHED("the game is finished");
+        INITIALISATION("The game is being created."),
+        INGAME("Normal state of the game. Players take turns."),
+        FINISHED("The game is finished.");
         
         State(String description) {}
         
     }
     
-    public List<TurnStat> stats = new ArrayList<>();
     public State gameState = State.INITIALISATION;
-    public List<Player> players = new ArrayList<>();
+    public ArrayList<Player> players = new ArrayList<>();
     public Map map = new Map();
     public Difficulty difficulty;
     
