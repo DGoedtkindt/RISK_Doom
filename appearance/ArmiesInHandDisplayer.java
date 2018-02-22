@@ -8,6 +8,10 @@ import mainObjects.Player;
 import mode.Mode;
 import selector.Selector;
 
+/**
+ * Displays the number of armies a Player can place.
+ * 
+ */
 public class ArmiesInHandDisplayer extends Actor{
     
     private static ArmiesInHandDisplayer current;
@@ -15,7 +19,11 @@ public class ArmiesInHandDisplayer extends Actor{
     public int armies = 0;
     public final Player PLAYER;
     
-    public ArmiesInHandDisplayer(Player p){
+    /**
+     * Creates a displayer.
+     * @param p The Player placing its armies.
+     */
+    private ArmiesInHandDisplayer(Player p){
         
         PLAYER = p;
         armies = p.armiesInHand;
@@ -23,6 +31,9 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Creates an image for the displayer.
+     */
     private void createImage(String armiesString){
         
         GreenfootImage img = new GreenfootImage(1, 1);
@@ -38,6 +49,10 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Shows a new ArmiesInHandDisplayer.
+     * @param p The Player placing its armies.
+     */
     public static void show(Player p){
         
         if(p.armiesInHand > 0){
@@ -47,6 +62,9 @@ public class ArmiesInHandDisplayer extends Actor{
         
     }
     
+    /**
+     * Updates the displayer's image after the Player placed armies.
+     */
     public static void update(){
         
         current.armies = current.PLAYER.armiesInHand;

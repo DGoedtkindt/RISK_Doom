@@ -4,6 +4,10 @@ package appearance;
 
 import base.GColor;
 
+/**
+ * The Themes that the user can use.
+ * 
+ */
 public enum Theme {
     DARK ("DARKNESS", 
          new GColor(0, 0, 0),
@@ -49,6 +53,16 @@ public enum Theme {
     public GColor territoryColor;
     public GColor selectionColor;
     
+    /**
+     * Creates a Theme.
+     * @param themeName The name of this Theme.
+     * @param bhC The color of the Blank Hexes.
+     * @param bhBC The color of the border of the Blank Hexes.
+     * @param bC The color of the background.
+     * @param tC The color of the text.
+     * @param terrC The color of the Territories whithout Continent.
+     * @param sC The color of the selected Selectables.
+     */
     Theme(String themeName, GColor bhC, GColor bhBC, GColor bC, GColor tC, GColor terrC, GColor sC){
         
         if(themeName.equals("")){
