@@ -5,19 +5,32 @@ import base.GColor;
 import game.Difficulty;
 import greenfoot.GreenfootImage;
 
+/**
+ * The object used to select the Difficulty.
+ * 
+ */
 public class DifficultyChooser extends BasicChooser {
     
-    
+    /**
+     * Creates a DifficultyChooser.
+     */
     public DifficultyChooser() {
         super(new DifficultyChoices());
     }
     
+    /**
+     * Returns the chosen Difficulty.
+     * @return The chosen Difficulty.
+     */
     public Difficulty selectedDifficulty() {
         return ((DifficultyChoices)choices).selectedDifficulty();
     }
     
 }
 
+/**
+ * The Difficulty list.
+ */
 class DifficultyChoices extends ChoiceList{
     
     private int currentDifficulty = 0;
@@ -44,7 +57,11 @@ class DifficultyChoices extends ChoiceList{
     protected String choiceValue() {
         return selectedDifficulty().NAME; 
     }
-
+    
+    /**
+     * Returns the chosen Difficulty.
+     * @return The chosen Difficulty.
+     */
     protected Difficulty selectedDifficulty(){
         return Difficulty.values()[currentDifficulty];
     }
