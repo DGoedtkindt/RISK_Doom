@@ -49,7 +49,7 @@ public class Manager extends StateManager {
             world().load(newManager);
 
         } catch(Exception ex) {
-            MessageDisplayer.showException(ex);
+            MessageDisplayer.showMessage(ex.getMessage());
 
         }
 
