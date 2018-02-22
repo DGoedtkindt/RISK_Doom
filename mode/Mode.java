@@ -22,8 +22,11 @@ public enum Mode
     ATTACK("Click on one of your territories, then on an adjacent ennemy territory. "
             + "Finally, choose the number of armies you want to use."),
     MOVE("Move your armies from one of your territories to another."),
+    //Combo modes
+    SELECTING_COMBO("Choose the combo you want to use."),
+    SAP("Click on an ennemy territory to clear all the troops on it."),
     //Other modes
-    SHOWING_ERROR("that was an error..."),
+    SHOWING_ERROR("That was an error."),
     CLEARING_HAND("Place your new armies on your territories.");
     
     Mode(String text){
