@@ -8,6 +8,10 @@ import basicChoosers.ThemeChooser;
 import javax.swing.JOptionPane;
 import mainObjects.BlankHex;
 
+/**
+ * StateManager that shows the Theme options.
+ * 
+ */
 public class Manager extends StateManager{
     
     private ThemeChooser themeChooser = new ThemeChooser();
@@ -15,6 +19,11 @@ public class Manager extends StateManager{
             "Apply Changes");
     private StateManager previous;
     
+    /**
+     * Creates a Manager
+     * @param previousManager The last manager. We want to come back to this manager when the user quits the options. 
+     *                        For example, we want the user to return to the game if he entered the options from the game.
+     */
     public Manager(StateManager previousManager) {
         previous = previousManager;
     }
@@ -28,6 +37,9 @@ public class Manager extends StateManager{
     
     }
     
+    /**
+     * Method used to apply the chosen settings.
+     */
     private void applySettingsAndBack() {
         int themeNum = Integer.parseInt(themeChooser.currentChoice());
         Theme.used = Theme.values()[themeNum];
@@ -46,7 +58,7 @@ public class Manager extends StateManager{
         world().removeObject(saveSettings);
 
     }
-
+    
     @Override
     public void escape() {
         int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to what you were doing before", 
