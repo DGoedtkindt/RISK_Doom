@@ -46,14 +46,14 @@ public class Manager extends StateManager{
     private void getSettingsAndPlay() {
         try {
             Game game = new Game();
+            game.players = playersPanel.getPlayers();
+            game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
             game.players.add(new Zombie(game.difficulty));
-            game.players.addAll(playersPanel.getPlayers());
-            game.map = mapChooser.getSelectedMap();
             world().load(new game.Manager(game));
             
         } catch (Exception ex) {
-            MessageDisplayer.showException(ex);
+            MessageDisplayer.showMessage(ex.getMessage());
             ex.printStackTrace(System.err);
         }
         
