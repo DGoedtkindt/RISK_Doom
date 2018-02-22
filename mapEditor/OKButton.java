@@ -73,7 +73,7 @@ public class OKButton extends Button
             new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception e){
-           MessageDisplayer.showException(e);
+           MessageDisplayer.showMessage(e.getMessage());
            world().stateManager.escape();
            
            }
@@ -96,7 +96,7 @@ public class OKButton extends Button
             }
             
            } catch(Exception e){
-            MessageDisplayer.showException(e);
+            MessageDisplayer.showMessage(e.getMessage());
             world().stateManager.escape();
            
            }
@@ -109,7 +109,7 @@ public class OKButton extends Button
             continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
            } catch(Exception e){
-            MessageDisplayer.showException(e);
+            MessageDisplayer.showMessage(e.getMessage());
             world().stateManager.escape();
              
            }
