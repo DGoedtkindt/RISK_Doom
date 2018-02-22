@@ -4,10 +4,18 @@ import base.Button;
 import greenfoot.Color;
 import greenfoot.GreenfootImage;
 
+/**
+ * An Arrow linked to an Arrowable. Calls its next() method.
+ * 
+ */
 public class RightArrow extends Button {
     private Arrowable linked;
     private int size = 40;
     
+    /**
+     * Creates a RightArrow.
+     * @param linkedObject The Arrowable linked to this Arrow.
+     */
     public RightArrow(Arrowable linkedObject) {
         linked = linkedObject;
         setImage();
@@ -15,6 +23,9 @@ public class RightArrow extends Button {
         
     }
     
+    /**
+     * Creates an image for the object.
+     */
     private void setImage() {
         this.setImage(new GreenfootImage(size,size));
         this.getImage().setColor(new Color(40,200,40));
@@ -22,6 +33,10 @@ public class RightArrow extends Button {
     
     }
     
+    /**
+     * Scales the Arrow.
+     * @param newSize The length of the side of the new image.
+     */
     public void scale(int newSize) {
         size = newSize;
         setImage();

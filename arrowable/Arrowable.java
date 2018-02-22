@@ -1,7 +1,7 @@
 package arrowable;
 
-/** being an Arrowable means that you can be called next() or previous() by an
- * arrow.
+/** 
+ * Being an Arrowable means that an Arrow can call your next() or previous() methods.
  */
 public interface Arrowable {
     public void next(); 
