@@ -1,5 +1,7 @@
 package mainObjects;
 
+import game.Zombie;
+import game.Player;
 import appearance.MessageDisplayer;
 import selector.Selectable;
 import appearance.Theme;

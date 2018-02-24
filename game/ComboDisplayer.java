@@ -1,11 +1,11 @@
-package appearance;
+package game;
 
+import appearance.Appearance;
+import appearance.Theme;
 import base.Button;
 import base.NButton;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
-import mainObjects.Combo;
-import mainObjects.Player;
 import mode.Mode;
 
 /**

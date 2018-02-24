@@ -1,10 +1,11 @@
-package appearance;
+package game;
 
+import appearance.Appearance;
+import appearance.Theme;
 import base.MyWorld;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
-import mainObjects.Player;
 import mode.Mode;
 import selector.Selector;
 

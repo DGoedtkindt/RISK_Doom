@@ -1,11 +1,10 @@
-package mainObjects;
+package game;
 
 import base.GColor;
 import base.MyWorld;
-import game.Difficulty;
-import game.Turn;
 import greenfoot.Greenfoot;
 import java.util.ArrayList;
+import mainObjects.Territory;
 
 
 public class Zombie extends Player{

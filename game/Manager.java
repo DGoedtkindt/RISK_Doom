@@ -1,7 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.ComboDisplayer;
 import appearance.Theme;
 import base.Action;
 import base.Button;
@@ -17,7 +16,6 @@ import java.awt.FontMetrics;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
-import mainObjects.Player;
 import mainObjects.Territory;
 import mode.Mode;
 import mode.ModeMessageDisplay;

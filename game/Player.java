@@ -1,10 +1,10 @@
-package mainObjects;
+package game;
 
-import appearance.ComboDisplayer;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
-import java.util.HashSet;
+import mainObjects.Continent;
+import mainObjects.Territory;
 
 public class Player {
     
@@ -33,7 +33,7 @@ public class Player {
         Combo.display(this);
     }
     
-    private void getArmies(){
+    public int armyGainPerTurn(){
         
         int terrNumber = 0;
         int terrBonus = 0;
@@ -69,8 +69,13 @@ public class Player {
             
         }
         
-        armiesInHand += Math.floor(terrNumber / 3) + terrBonus + continentBonus;
+        return (int)Math.floor(terrNumber / 3) + terrBonus + continentBonus;
         
+    }
+    
+    private void getArmies() {
+        armiesInHand += armyGainPerTurn();
+    
     }
     
     public void gainComboPiece(){
@@ -79,7 +84,7 @@ public class Player {
     }
     
     public ArrayList<Territory> territories() {
-        ArrayList<Territory> ownedterritories = new ArrayList<Territory>();
+        ArrayList<Territory> ownedterritories = new ArrayList<>();
         
         for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
             

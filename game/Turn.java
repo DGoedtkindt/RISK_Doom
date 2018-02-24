@@ -1,8 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.ArmiesInHandDisplayer;
-import appearance.ComboDisplayer;
 import base.Button;
 import base.Game;
 import base.MyWorld;
@@ -11,8 +9,6 @@ import greenfoot.Font;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.util.ArrayList;
-import mainObjects.Player;
-import mainObjects.Zombie;
 import mode.Mode;
 import selector.Selector;
 

@@ -10,7 +10,7 @@ import base.StateManager;
 import greenfoot.GreenfootImage;
 import basicChoosers.DifficultyChooser;
 import javax.swing.JOptionPane;
-import mainObjects.Zombie;
+import game.Zombie;
 
 public class Manager extends StateManager{
     

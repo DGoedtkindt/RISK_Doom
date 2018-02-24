@@ -1,6 +1,7 @@
 package mainObjects;
 
-import appearance.ArmiesInHandDisplayer;
+import game.Player;
+import game.ArmiesInHandDisplayer;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;

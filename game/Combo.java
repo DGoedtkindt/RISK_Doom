@@ -1,10 +1,8 @@
-package mainObjects;
+package game;
 
 import appearance.Appearance;
-import appearance.ComboDisplayer;
 import base.MyWorld;
 import base.NButton;
-import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import mode.Mode;

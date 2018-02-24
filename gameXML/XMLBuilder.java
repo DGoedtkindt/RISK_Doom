@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import mainObjects.Player;
+import game.Player;
 import mainObjects.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

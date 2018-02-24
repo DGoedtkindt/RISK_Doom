@@ -2,7 +2,7 @@ package base;
 
 import game.Difficulty;
 import java.util.ArrayList;
-import mainObjects.Player;
+import game.Player;
 
 /**
  * An object representing the current state of the Game.
