@@ -66,7 +66,7 @@ public class Combo {
         ComboDisplayer.displayCombos(p);
     }
     
-    private ModeButton sapButton = new ModeButton("backToHome.png", Mode.SAP, Selector.IS_NOT_OWNED_CLOSE_TO_OWNED_TERRITORY);
+    private ModeButton sapButton = new ModeButton("backToHome.png", Mode.SAP, Selector.IS_ATTACKABLE);
     private NButton fortressButton = new NButton(() -> {
                                             Turn.currentTurn.player.fortressProtection = true;
                                             Mode.setMode(Mode.GAME_DEFAULT);

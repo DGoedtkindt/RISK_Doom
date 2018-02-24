@@ -102,8 +102,7 @@ public class TerritoryHex extends Button
                         
                         Territory.actionSource = territory;
                         Selector.select(territory);
-                        Selector.setValidator(Selector.IS_NOT_OWNED_CLOSE_TERRITORY);
-                        world().repaint(); //pour forcer l'actualisation des images
+                        Selector.setValidator(Selector.IS_ATTACKABLE);
                         
                     }else if(territory.owner() != Turn.currentTurn.player){
                         
@@ -115,7 +114,6 @@ public class TerritoryHex extends Button
                         }
                         Territory.actionSource = null;
                         Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
                         world().stateManager.escape();
                     }
                     
@@ -127,7 +125,6 @@ public class TerritoryHex extends Button
                         if(Territory.actionSource == null){
                             Territory.actionSource = territory;
                             Selector.select(territory);
-                            world().repaint(); //pour forcer l'actualisation des images
                         }else{
                             Selector.select(territory);
                             try{
@@ -137,7 +134,6 @@ public class TerritoryHex extends Button
                             }
                             Territory.actionSource = null;
                             Selector.setValidator(Selector.NOTHING);
-                            world().repaint(); //pour forcer l'actualisation des images
                             world().stateManager.escape();
                         }
                         
