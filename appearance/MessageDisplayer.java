@@ -6,6 +6,7 @@ import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
+import mode.Mode;
 
 /**
  * An Actor that displays error messages.
@@ -13,7 +14,9 @@ import javax.swing.Timer;
  */
 public class MessageDisplayer extends Button{
     
-    private static final int TOTAL_WIDTH = 700;
+    private static Mode lastMode;
+    
+    private static final int TOTAL_WIDTH = 400;
     
     private static FontMetrics fm;
     
@@ -31,7 +34,6 @@ public class MessageDisplayer extends Button{
         fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
         width = fm.stringWidth(message);
-
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         height = fm.getMaxAscent() + fm.getMaxDescent();
         
@@ -54,18 +56,12 @@ public class MessageDisplayer extends Button{
      */
     public static void showMessage(String message){
         
-        MessageDisplayer displayer = new MessageDisplayer("" + message);
+        MessageDisplayer displayer = new MessageDisplayer(message);
         MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
+        lastMode = Mode.mode();
+        Mode.setMode(Mode.SHOWING_ERROR);
         displayer.createTimer();
         
-    }
-    
-    /**
-     * Show a MessageDisplayer with the string representation of an Exception
-     * @param ex Displayed Exception 
-     */
-    public static void showException(Exception ex) {
-        showMessage(ex.toString());
     }
     
     /**
@@ -99,7 +95,9 @@ public class MessageDisplayer extends Button{
 
     }
     
-
+    /**
+     * Creates a Timer that destroys the MessageDisplayer
+     */
     private void createTimer(){
         
         Timer timer = new Timer(40, (ActionEvent ae) -> {
@@ -108,11 +106,12 @@ public class MessageDisplayer extends Button{
             if(this.getImage().getTransparency() == 0){
                 MyWorld.theWorld.removeObject(this);
                 ((Timer)ae.getSource()).stop();
+                Mode.setMode(lastMode);
             }
             
         });
         
-        timer.setInitialDelay(2000);
+        timer.setInitialDelay(1200);
         timer.setRepeats(true);
         timer.start();
         

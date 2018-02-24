@@ -33,7 +33,7 @@ public class XMLReader {
             
             return map;
         } catch (Exception ex) {
-            MessageDisplayer.showException(ex);
+            MessageDisplayer.showMessage(ex.getMessage());
             ex.printStackTrace(System.err);
             throw ex;
         }

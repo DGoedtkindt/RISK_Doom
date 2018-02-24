@@ -8,7 +8,7 @@ import appearance.Theme;
 import greenfoot.World;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import mainObjects.Player;
+import game.Player;
 
 
 /**

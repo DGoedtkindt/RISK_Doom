@@ -1,6 +1,6 @@
 package base;
 
-/** Code pris de https://docs.oracle.com/javase/tutorial/
+/** Code obtenu sur le site https://docs.oracle.com/javase/tutorial/
         displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing   
         /examples/components/ColorChooserDemoProject/src
         /components/ColorChooserDemo.java

@@ -3,7 +3,6 @@ package game;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import mainObjects.Player;
 import mainObjects.Territory;
 
 

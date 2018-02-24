@@ -1,16 +1,21 @@
 package game;
 
+import appearance.Appearance;
+import appearance.Theme;
 import base.Action;
+import base.Button;
 import base.Game;
 import base.Map;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
+import java.awt.FontMetrics;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
-import mainObjects.Player;
 import mainObjects.Territory;
 import mode.Mode;
 import mode.ModeMessageDisplay;
@@ -26,11 +31,13 @@ public class Manager extends StateManager{
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
     private NButton options;
+    private ComboDisplayer comboDisplayer;
     
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
         this.options = new NButton(loadOptionsMenu, "Options");
+        this.comboDisplayer = ComboDisplayer.current();
         this.gameToLoad = loadGame;
         
     }
@@ -49,6 +56,7 @@ public class Manager extends StateManager{
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 120, 50);
+        world().addObject(comboDisplayer, world().getWidth() - 90, 900);
         loadGame();
         for(Territory t : loadedGame.map.territories){
             t.drawTerritory();
@@ -112,7 +120,7 @@ public class Manager extends StateManager{
             
             int terrNumber = 0;
             Territory terrToAttribute;
-
+            
             while(terrNumber < STARTING_TERRITORIES){
 
                 terrToAttribute = loadedGame.map.territories.get(Greenfoot.getRandomNumber(loadedGame.map.territories.size()));
@@ -124,15 +132,24 @@ public class Manager extends StateManager{
 
             }
             
+            p.getnewCapital();
+            
         }
         
     }
     
     public void start(){
-        
         giveTerritoriesRandomly();
         Turn.startNewTurn();
         
+    }
+    
+    public void endByVictory(Player p){
+        EndTurnPanel.showVictory(p);
+    }
+    
+    public void endByDeath(Player p){
+        EndTurnPanel.showDeath(p);
     }
     
     protected Action saveGame = () -> {
@@ -145,5 +162,33 @@ public class Manager extends StateManager{
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
+    
+}
+
+class EndTurnPanel extends Button{
+    
+    private EndTurnPanel(String message){
+        GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
+        img.setColor(Theme.used.backgroundColor.brighter());
+        img.fill();
+        img.setColor(Theme.used.textColor);
+        img.setFont(Appearance.GREENFOOT_FONT);
+        FontMetrics fm = img.getAwtImage().getGraphics().getFontMetrics();
+        img.drawString(message, (Appearance.WORLD_WIDTH - fm.stringWidth(message)) / 2, (Appearance.WORLD_HEIGHT + fm.getMaxAscent() + fm.getMaxDescent()) / 2);
+        setImage(img);
+    }
+    
+    public static void showVictory(Player p){
+        MyWorld.theWorld.addObject(new EndTurnPanel("Player " + p.name() + " has won"), Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    }
+    
+    public static void showDeath(Player p){
+        MyWorld.theWorld.addObject(new EndTurnPanel("Player " + p.name() + " has lost"), Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    }
+    
+    @Override
+    public void clicked() {
+        world().load(new menu.Manager());
+    }
     
 }
