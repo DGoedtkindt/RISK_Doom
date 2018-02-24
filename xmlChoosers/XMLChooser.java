@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
 import greenfoot.Font;
+import java.io.FileNotFoundException;
 
 /**
  * A XMLChooser is a Group of Actors that enables the user to choose between
@@ -35,13 +36,14 @@ public abstract class XMLChooser implements Arrowable {
     protected MyWorld world() {return MyWorld.theWorld;}
     
     /**
-     * @param directoryName le nom du folder où le XMLChooser va chercher
-     * les XML
-     * @param spectialFile le XML qui sera selectionné par défaut ou caché. 
-     * null pour pas de défaut/caché.
-     * @param defaultOrHide true: spectialFile et par défaut, false: special file est caché
+     * @param directoryName the name of the directory where the XMLChooser fetches
+     * the .XML files
+     * @param specialFile the name of the .XML file which will either be shown 
+     * by default or hidden. null for no special .XML file.
+     * @param defaultOrHide true: specialFile is shown by default
+     * false: special file is hidden
      */
-    public XMLChooser(String directoryName, String spectialFile, boolean defaultOrHide){
+    public XMLChooser(String directoryName, String specialFile, boolean defaultOrHide){
         directory = new File(directoryName);
         if(directory.isDirectory()) {
             fileArray = directory.list((File file, String name) -> {
@@ -50,20 +52,22 @@ public abstract class XMLChooser implements Arrowable {
             
             fileList.addAll(Arrays.asList(fileArray));
             
-            if(spectialFile != null && 
-                    fileList.contains(spectialFile + ".xml")) {
+            if(specialFile == null) {}
+            else if(fileList.contains(specialFile + ".xml")) {
                 
-                fileList.remove(spectialFile + ".xml");
-                if(defaultOrHide) fileList.add(0,spectialFile + ".xml");
+                fileList.remove(specialFile + ".xml");
+                if(defaultOrHide) fileList.add(0,specialFile + ".xml");
                 
             } else {
-                System.err.println(spectialFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
+                System.err.println(specialFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
             
             }
             
         } else {
-            System.err.println("The " + directoryName + " directory was not found. please make sure it is placed there: " + directory.getAbsolutePath());
-            System.exit(0);
+            MessageDisplayer.showException(new FileNotFoundException("The " 
+                    + directoryName + " directory was not found."
+                    + " please make sure it is placed there: " 
+                    + directory.getAbsolutePath()));
             
         }
         
@@ -73,6 +77,15 @@ public abstract class XMLChooser implements Arrowable {
         leftArrow = new LeftArrow(this);
         updateImage();
         
+    }
+    
+    /**
+     * @param directoryName the name of the directory where the XMLChooser fetches
+     * the .XML files
+     */
+    public XMLChooser(String directoryName) {
+        this(directoryName, null, true);
+    
     }
     
     private class Thumbnail extends Actor {}

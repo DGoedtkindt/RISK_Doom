@@ -98,7 +98,7 @@ public class Player {
         
     }
     
-    private void getArmies() {
+    void getArmies() {
         armiesInHand += armyGainPerTurn();
     
     }

@@ -14,9 +14,7 @@ import mode.Mode;
  */
 public class MessageDisplayer extends Button{
     
-    private static Mode lastMode;
-    
-    private static final int TOTAL_WIDTH = 400;
+    private static final int TOTAL_WIDTH = 700;
     
     private static FontMetrics fm;
     
@@ -29,7 +27,7 @@ public class MessageDisplayer extends Button{
      * @param message Displayed message
      */
     private MessageDisplayer(String message){
-        
+        message += "";
         GreenfootImage img = new GreenfootImage(1, 1);
         fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
@@ -58,10 +56,17 @@ public class MessageDisplayer extends Button{
         
         MessageDisplayer displayer = new MessageDisplayer(message);
         MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
-        lastMode = Mode.mode();
-        Mode.setMode(Mode.SHOWING_ERROR);
         displayer.createTimer();
         
+    }
+    
+    /**
+     * Show a MessageDisplayer with the string representation of an Exception
+     * @param ex Displayed Exception 
+     */
+    public static void showException(Exception ex) {
+        showMessage(ex.toString());
+        ex.printStackTrace();
     }
     
     /**
@@ -106,7 +111,6 @@ public class MessageDisplayer extends Button{
             if(this.getImage().getTransparency() == 0){
                 MyWorld.theWorld.removeObject(this);
                 ((Timer)ae.getSource()).stop();
-                Mode.setMode(lastMode);
             }
             
         });

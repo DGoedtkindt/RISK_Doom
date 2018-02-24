@@ -1,34 +1,34 @@
-package mapEditorMenu;
+package loadGameMenu;
 
 import appearance.MessageDisplayer;
 import base.Action;
-import base.Map;
+import base.Game;
 import base.NButton;
 import base.StateManager;
 import javax.swing.JOptionPane;
-import xmlChoosers.MapChooser;
+import xmlChoosers.GameChooser;
 
 public class Manager extends StateManager {
     
-    private MapChooser mapC;
-    private NButton editMapB;
+    private GameChooser gameC;
+    private NButton playGameB;
 
     public Manager() {
-        this.editMapB = new NButton(editSelectedMap, "Edit Map");
-        this.mapC = new MapChooser(true);
+        this.playGameB = new NButton(playSelectedGame, "Play Game");
+        this.gameC = new GameChooser();
     }
 
     @Override
     public void setupScene() {
-        mapC.addToWorld(world().getWidth() / 2, world().getHeight() / 2 );
-        world().addObject(editMapB, world().getWidth()/2, 3 * world().getHeight() / 4);
+        gameC.addToWorld(world().getWidth() / 2, world().getHeight() / 2 );
+        world().addObject(playGameB, world().getWidth()/2, 3 * world().getHeight() / 4);
         
     }
 
     @Override
     public void clearScene() {
-        mapC.destroy();
-        world().removeObject(editMapB);
+        gameC.destroy();
+        world().removeObject(playGameB);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class Manager extends StateManager {
             }
     }
 
-    private Action editSelectedMap = () -> {
+    private Action playSelectedGame = () -> {
         try{
-            Map map = mapC.getSelectedMap();
-            mapEditor.Manager newManager = new mapEditor.Manager(map);
+            Game game = gameC.getSelectedGame();
+            game.Manager newManager = new game.Manager(game);
             world().load(newManager);
 
         } catch(Exception ex) {
-            String message = "Cannot edit selected Map";
+            String message = "Cannot play selected Game";
             MessageDisplayer.showException(new Exception(message, ex));
 
         }

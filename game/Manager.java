@@ -33,6 +33,11 @@ public class Manager extends StateManager{
     private NButton options;
     private ComboDisplayer comboDisplayer;
     
+    /** Creates a new Manager that will allow to play a certain Game when 
+     * setupScene() is called.
+     * 
+     * @param loadGame the game that will be loaded.
+     */
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
@@ -50,7 +55,6 @@ public class Manager extends StateManager{
     @Override
     public void setupScene() {
         Mode.setMode(Mode.GAME_DEFAULT);
-        world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
@@ -58,9 +62,6 @@ public class Manager extends StateManager{
         world().addObject(options, world().getWidth() - 120, 50);
         world().addObject(comboDisplayer, world().getWidth() - 90, 900);
         loadGame();
-        for(Territory t : loadedGame.map.territories){
-            t.drawTerritory();
-        }
     }
     
     private void loadGame(){
@@ -68,7 +69,7 @@ public class Manager extends StateManager{
         loadedGame = gameToLoad;
         
         if(loadedGame.gameState == Game.State.INITIALISATION){
-            start();
+            initGame();
             loadedGame.gameState = Game.State.INGAME;
         }
         
@@ -137,10 +138,10 @@ public class Manager extends StateManager{
         }
         
     }
-    
-    public void start(){
+
+    public void initGame(){
         giveTerritoriesRandomly();
-        Turn.startNewTurn();
+        Turn.startNewTurn(1);
         
     }
     

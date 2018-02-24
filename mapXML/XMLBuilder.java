@@ -5,6 +5,8 @@ import base.Map;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,7 +30,7 @@ public class XMLBuilder {
      * @param fromMap
      * @throws java.lang.Exception
      */
-    protected Document build(Map fromMap) throws Exception {
+    protected Document build(Map fromMap) throws Exception{
         try {
             map = fromMap;
             createNewDocument();
@@ -38,8 +40,8 @@ public class XMLBuilder {
             
             return doc;
         } catch (Exception ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
-            throw ex;
+            String message = "Couldn't create Document from Map";
+            throw new Exception(message, ex);
         }
     }
     
@@ -56,8 +58,8 @@ public class XMLBuilder {
             
             return doc;
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
-            throw ex;
+            String message = "Document couln't be created from File";
+            throw new Exception(message, ex);
         }
 
     }

@@ -71,4 +71,13 @@ public class GColor extends Color{
     
     }
     
+    /**
+     * @return the luminosity of this GColor as perceived by a human eye
+     */
+    public int luminosity() {
+        return (int)(0.21 * getRed() + 0.72 * getGreen() + 0.07 * getBlue());
+    
+    }
+
+    
 }

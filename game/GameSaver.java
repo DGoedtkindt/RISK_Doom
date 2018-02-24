@@ -20,7 +20,6 @@ public class GameSaver {
     
     public GameSaver(Game gameToSave) {
         game = gameToSave;
-        System.out.println(game.difficulty.toString());
         
     
     }
