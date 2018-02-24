@@ -80,45 +80,36 @@ public class XMLReader {
             turnStat.turnNumber = Integer.parseInt(turnStatNode.getAttribute("turnNumber"));
             
             //number of armies
-            NodeList playerArmiesPairs = doc.getElementsByTagName("PlayerArmyPair");
-            HashMap<Player, Integer> numberOfArmies  = new HashMap<>();
-            for(int pap = 0; pap < playerArmiesPairs.getLength(); pap++) {
-                Element playerArmiesPairNode = (Element) playerArmiesPairs.item(pap);
-                int playerNumber = Integer.parseInt(playerArmiesPairNode.getAttribute("playerNumber"));
-                int armies = Integer.parseInt(playerArmiesPairNode.getAttribute("armies"));
-                Player player = game.players.get(playerNumber);
-                numberOfArmies.put(player, armies);
-                
-            }
+            storePlayerStatMap(turnStat.numberOfArmies, "PlayerArmyPair", "armies");
             
             //number of armies per turn
-            NodeList playerArmyPerTurnPairs = doc.getElementsByTagName("PlayerArmyPerTurnPair");
-            HashMap<Player, Integer> numberOfArmiesPerTurn = new HashMap<>();
-            for(int pap = 0; pap < playerArmyPerTurnPairs.getLength(); pap++) {
-                Element playerArmyPerTurnPairNode = (Element) playerArmyPerTurnPairs.item(pap);
-                int playerNumber = Integer.parseInt(playerArmyPerTurnPairNode.getAttribute("playerNumber"));
-                int armiesPerTurn = Integer.parseInt(playerArmyPerTurnPairNode.getAttribute("armiesPerTurn"));
-                Player player = game.players.get(playerNumber);
-                numberOfArmiesPerTurn.put(player, armiesPerTurn);
-                
-            }
+            storePlayerStatMap(turnStat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn");
             
             //number of continents
-            NodeList playerContinentPairs = doc.getElementsByTagName("PlayerContinentsPair");
-            HashMap<Player, Integer> numberOfContinents = new HashMap<>();
-            for(int pap = 0; pap < playerContinentPairs.getLength(); pap++) {
-                Element playerContinentPairNode = (Element) playerContinentPairs.item(pap);
-                int playerNumber = Integer.parseInt(playerContinentPairNode.getAttribute("playerNumber"));
-                int continents = Integer.parseInt(playerContinentPairNode.getAttribute("continents"));
-                Player player = game.players.get(playerNumber);
-                numberOfContinents.put(player, continents);
-                
-            }
+            storePlayerStatMap(turnStat.numberOfContinents, "PlayerContinentsPair", "continents");
             
+            //number of points
+            storePlayerStatMap(turnStat.numberOfPoints, "PlayerPointsPair", "points");
+            
+            //number of Territories
+            storePlayerStatMap(turnStat.numberOfTerritories, "PlayerTerritoriesPair", "territories");
+            
+            game.stats.add(turnStat);
         }
-
-        System.out.println("Method getStats() in class XMLReader is not supported yet");
         
+    }
+    
+    private void storePlayerStatMap(java.util.Map<Player,Integer> storeIn, String elementName, String valueName) {
+        NodeList playerValuePairs = doc.getElementsByTagName(elementName);
+        for(int pvp = 0; pvp < playerValuePairs.getLength(); pvp++) {
+            Element playerValuePairNode = (Element) playerValuePairs.item(pvp);
+            int playerNumber = Integer.parseInt(playerValuePairNode.getAttribute("playerNumber"));
+            int value = Integer.parseInt(playerValuePairNode.getAttribute(valueName));
+            Player player = game.players.get(playerNumber);
+            storeIn.put(player, value);
+
+        }
+    
     }
     
     

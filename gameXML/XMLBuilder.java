@@ -34,7 +34,6 @@ public class XMLBuilder {
             createNewDocument();
             addMapName();
             addDifficulty();
-            addMapName();
             createPlayerNodes();
             if(game.stats != null) {
                 createStatsNode();
@@ -118,71 +117,37 @@ public class XMLBuilder {
             statNode.setAttribute("turnNumber", stat.turnNumber + "");
             
             //number of armies
-            Set<Map.Entry<Player, Integer>> numArmies = stat.numberOfArmies.entrySet();
-            for(Map.Entry<Player, Integer> entry : numArmies) {
-                Player p = entry.getKey();
-                int playerNumber = game.players.indexOf(p);
-                int armies = entry.getValue();
-                Element pairNode = doc.createElement("PlayerArmyPair");
-                statNode.appendChild(pairNode);
-                pairNode.setAttribute("playerNumber", playerNumber + "");
-                pairNode.setAttribute("armies", armies + "");
+            createPlayerStatElement(stat.numberOfArmies, "PlayerArmyPair", "armies", statNode);
             
-            }
             
             //number of armies per turn
-            Set<Map.Entry<Player, Integer>> numArmiesPerTurn = stat.numberOfArmiesPerTurn.entrySet();
-            for(Map.Entry<Player, Integer> entry : numArmiesPerTurn) {
-                Player p = entry.getKey();
-                int playerNumber = game.players.indexOf(p);
-                int armiesPerTurn = entry.getValue();
-                Element pairNode = doc.createElement("PlayerArmyPerTurnPair");
-                statNode.appendChild(pairNode);
-                pairNode.setAttribute("playerNumber", playerNumber + "");
-                pairNode.setAttribute("armiesPerTurn", armiesPerTurn + "");
-            
-            }
+            createPlayerStatElement(stat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn", statNode);
             
             //number of Continents
-            Set<Map.Entry<Player, Integer>> numContinents = stat.numberOfContinents.entrySet();
-            for(Map.Entry<Player, Integer> entry : numContinents) {
-                Player p = entry.getKey();
-                int playerNumber = game.players.indexOf(p);
-                int continents = entry.getValue();
-                Element pairNode = doc.createElement("PlayerContinentsPair");
-                statNode.appendChild(pairNode);
-                pairNode.setAttribute("playerNumber", playerNumber + "");
-                pairNode.setAttribute("continents", continents + "");
+            createPlayerStatElement(stat.numberOfContinents, "PlayerContinentsPair", "continents", statNode);
             
-            }
-            
-            //number of pints
-            Set<Map.Entry<Player, Integer>> numPoints = stat.numberOfPoints.entrySet();
-            for(Map.Entry<Player, Integer> entry : numPoints) {
-                Player p = entry.getKey();
-                int playerNumber = game.players.indexOf(p);
-                int points = entry.getValue();
-                Element pairNode = doc.createElement("PlayerPointsPair");
-                statNode.appendChild(pairNode);
-                pairNode.setAttribute("playerNumber", playerNumber + "");
-                pairNode.setAttribute("points", points + "");
-            
-            }
+            //number of points
+            createPlayerStatElement(stat.numberOfPoints, "PlayerPointsPair", "points", statNode);
             
             //number of territories
-            Set<Map.Entry<Player, Integer>> numTerritories = stat.numberOfTerritories.entrySet();
-            for(Map.Entry<Player, Integer> entry : numTerritories) {
-                Player p = entry.getKey();
-                int playerNumber = game.players.indexOf(p);
-                int territories = entry.getValue();
-                Element pairNode = doc.createElement("PlayerTerritoriesPair");
-                statNode.appendChild(pairNode);
-                pairNode.setAttribute("playerNumber", playerNumber + "");
-                pairNode.setAttribute("territories", territories + "");
+            createPlayerStatElement(stat.numberOfTerritories, "PlayerTerritoriesPair", "territories", statNode);
             
-            }
-        
         }
+    }
+    
+    private void createPlayerStatElement(Map<Player,Integer> createFrom, String elementName, String valueName, Element statNode) { 
+        Set<Map.Entry<Player, Integer>> playerValuePairSet = createFrom.entrySet();
+        for(Map.Entry<Player, Integer> playerValuePair : playerValuePairSet) {
+            Player player = playerValuePair.getKey();
+            int playerNumber = game.players.indexOf(player);
+            Integer value = playerValuePair.getValue();
+            Element pairNode = doc.createElement(elementName);
+            statNode.appendChild(pairNode);
+            pairNode.setAttribute("playerNumber", playerNumber + "");
+            pairNode.setAttribute(valueName, value + "");
+            
+        }
+    
     }
     
 }
