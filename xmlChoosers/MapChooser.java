@@ -14,10 +14,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+
+/** XMLChooser for Maps
+ */
 public class MapChooser extends XMLChooser implements Arrowable{
     
+    private static final String DIRECTORY_NAME = "Maps";
+    
     public MapChooser(boolean isNewMapAChoice){
-            super("Maps", "New Map",isNewMapAChoice);
+            super(DIRECTORY_NAME, "New Map",isNewMapAChoice);
     }
 
     @Override
@@ -40,9 +45,10 @@ public class MapChooser extends XMLChooser implements Arrowable{
                 
             }
             
-        }catch(IOException | ParserConfigurationException | DOMException | SAXException e){
-            MessageDisplayer.showException(e);
-            System.err.println(e.getMessage());
+        }catch(IOException | ParserConfigurationException | DOMException | SAXException ex){
+            String message = "couldn't get the Map's description";
+            MessageDisplayer.showException(new Exception(message, ex));
+            return null;
         }
         
         if(!mapDescription.equals("")){
@@ -54,15 +60,15 @@ public class MapChooser extends XMLChooser implements Arrowable{
     
     public Map getSelectedMap() throws Exception {
         try{
-                File mapFile = getCurrentFile();
-                MapXML mapXML = new MapXML(mapFile);
-                Map map = mapXML.getMap();
-                return map;
+            File mapFile = getCurrentFile();
+            MapXML mapXML = new MapXML(mapFile);
+            Map map = mapXML.getMap();
+            return map;
                  
-            } catch(Exception ex) {
-                throw new Exception("Couldn't create MapXML from File");
+        } catch(Exception ex) {
+             throw new Exception("Couldn't create MapXML from File");
                 
-            }
+        }
         
     }
     

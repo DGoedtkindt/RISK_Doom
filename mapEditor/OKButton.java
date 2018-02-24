@@ -72,9 +72,10 @@ public class OKButton extends Button
             }
             new Continent(selectedTerritories).addToWorld();
             
-        } catch(Exception e){
-           MessageDisplayer.showException(e);
-           world().stateManager.escape();
+        } catch(Exception ex){
+            String message = "Continent couldn't be created";
+            MessageDisplayer.showException(new Exception(message, ex));
+            world().stateManager.escape();
            
            }
         
@@ -95,9 +96,10 @@ public class OKButton extends Button
                  
             }
             
-           } catch(Exception e){
-            MessageDisplayer.showException(e);
-            world().stateManager.escape();
+           } catch(Exception ex){
+                String message = "Territories couldn't be destroyed";
+                MessageDisplayer.showException(new Exception(message, ex));
+                world().stateManager.escape();
            
            }
         
@@ -108,8 +110,9 @@ public class OKButton extends Button
             ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
             continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
-           } catch(Exception e){
-            MessageDisplayer.showException(e);
+           } catch(Exception ex){
+            String message = "Continents couldn't be deleted";
+            MessageDisplayer.showException(new Exception(message, ex));
             world().stateManager.escape();
              
            }

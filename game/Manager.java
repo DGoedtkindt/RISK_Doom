@@ -27,6 +27,11 @@ public class Manager extends StateManager{
     private ModeMessageDisplay modeDisp;
     private NButton options;
     
+    /** Creates a new Manager that will allow to play a certain Game when 
+     * setupScene() is called.
+     * 
+     * @param loadGame the game that will be loaded.
+     */
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();

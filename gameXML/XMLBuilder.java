@@ -1,6 +1,5 @@
 package gameXML;
 
-import appearance.MessageDisplayer;
 import base.Game;
 import game.TurnStat;
 import java.io.File;
@@ -40,8 +39,8 @@ public class XMLBuilder {
             }
             return doc;
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("Couldn't create Document from Game");
-            throw ex;
+            String message = "Couldn't create Document from Game";
+            throw new Exception(message, ex);
         }
 
     }
@@ -60,8 +59,8 @@ public class XMLBuilder {
             
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
-            MessageDisplayer.showException(ex);
-            throw ex;
+            String message = "Couldn't create Document from File : \n";
+            throw new Exception(message, ex);
         
         }
     }

@@ -176,7 +176,7 @@ public class TerritoryHex extends Button
             }
         } catch (Exception ex) {
             MessageDisplayer.showException(ex);
-            System.err.println(ex.getMessage());
+            System.err.println(ex);
             world().stateManager.escape();
         }
         

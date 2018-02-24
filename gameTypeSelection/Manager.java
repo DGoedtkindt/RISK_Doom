@@ -18,7 +18,7 @@ public class Manager extends StateManager{
     
     private void loadGameMenu() {
         clearScene();
-        throw new UnsupportedOperationException("There is no loadGameMenu Manager yet");
+        world().load(new loadGameMenu.Manager());
     
     }
     

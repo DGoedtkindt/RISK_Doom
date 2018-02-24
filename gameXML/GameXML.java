@@ -63,8 +63,8 @@ public class GameXML {
             System.out.println("Game was succesfully saved");
             
         } catch (UnsupportedOperationException | TransformerException ex) {
-            ex.printStackTrace();
-            MessageDisplayer.showMessage("Map couldn't be saved   : " + ex);
+            String message = "Map couldn't be saved";
+            MessageDisplayer.showException(new Exception(message, ex));
             
         }
         

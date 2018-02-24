@@ -97,8 +97,9 @@ public class MapXML {
             
             System.out.println("Map was succesfully saved");
             
-        } catch(HeadlessException | TransformerException e) {
-            MessageDisplayer.showMessage("Map couldn't be saved   : " + e);
+        } catch(HeadlessException | TransformerException ex) {
+            String message = "Map Couldn't be saved";
+            MessageDisplayer.showException(new Exception(message, ex));
 
         }
     
