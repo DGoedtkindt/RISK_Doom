@@ -1,7 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.ArmiesInHandDisplayer;
 import base.Button;
 import base.Game;
 import base.MyWorld;
@@ -9,24 +8,26 @@ import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
 import java.util.List;
-import mainObjects.Player;
-import mainObjects.Zombie;
 import mode.Mode;
 import selector.Selector;
 
 public class Turn {
-    
-    public Player player;
-    protected int turnNumber;
-    
     public static Turn currentTurn;
+        
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     private static List<Player> players() {return game().players;}
+    
+    
+    public boolean hasGainedCombo = false;
+    public Player player;
+    
+    protected int turnNumber;
     
     protected Turn(int turnNumber) {
         this.turnNumber = turnNumber;
         int playerNumber = turnNumber % (players().size());
         player = players().get(playerNumber);
+        hasGainedCombo = false;
         
     }
     
@@ -55,10 +56,11 @@ public class Turn {
     private void showNextTurnPanel() {
         new NextTurnPanel(this).show();
         
+
     }
     
     public void start(){
-    
+        
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
@@ -67,37 +69,41 @@ public class Turn {
             ArmiesInHandDisplayer.show(player);
             Selector.setValidator(Selector.IS_OWNED_TERRITORY);
         }
-      
+            
+        
     }
     
-    private void end() {
-        saveStats();
-        autoSave();
-        
+    public void end() {
+        Zombie.ZOMBIE.countdown();
+    
     }
-        
-    private boolean aPlayerIsDead(){
+    
+    public static Player aPlayerIsDead(){
         for(Player p : players()) {
-            if(p.hasLostQ()) {
-                return true;
+            if(p.hasLost()) {
+                return p;
             
             }
         
         }
         
-        return false;
-    }
-
-    private void saveStats() {
-        TurnStat stats = new TurnStat(players(),turnNumber);
-        game().stats.add(stats);
-    }
-
-    private void autoSave() {
-        System.out.println("Method autoSave() in class Turn is not supported yet");
+        return null;
         
     }
-
+    
+    public static Player aPlayerWon(){
+        for(Player p : players()) {
+            if(p.hasWon()) {
+                return p;
+            
+            }
+        
+        }
+        
+        return null;
+        
+    }
+    
 }
 
 class NextTurnPanel extends Button{
@@ -176,5 +182,5 @@ class NextTurnPanel extends Button{
           
       }
 
+        
 }
-

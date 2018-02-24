@@ -5,6 +5,9 @@ import appearance.MessageDisplayer;
 import greenfoot.GreenfootImage;
 import greenfoot.Color;
 
+/**
+ * The class of the Buttons that aren't ModeButtons.
+ */
 public class NButton extends Button{
     
     private Action action;

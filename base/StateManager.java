@@ -1,8 +1,9 @@
 package base;
 
-/** a StateManager manages the setup and proper destruction of a scene in a 
- * certain program state (menu, game, options,...). it also manages the modes,
- * and Map/Game objects, if it's program state requires it
+/** 
+ * A StateManager manages the setup and proper destruction of a scene in a 
+ * certain program state (menu, game, options,...). It also manages the modes,
+ * and Map/Game objects, if its program state requires it.
  */
 public abstract class StateManager {
     

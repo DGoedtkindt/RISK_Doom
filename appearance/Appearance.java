@@ -1,5 +1,9 @@
 package appearance;
 
+/**
+ * Contains constant values.
+ * 
+ */
 public class Appearance {
     //Taille du monde
     public static final int WORLD_WIDTH = 1920;

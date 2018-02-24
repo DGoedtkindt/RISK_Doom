@@ -10,7 +10,10 @@ import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.util.List;
 
-
+/**
+ * The World class of this scenario.
+ * 
+ */
 public class MyWorld extends World {
     
     //pour accéder au monde depuis un non-acteur
@@ -27,6 +30,10 @@ public class MyWorld extends World {
             new NButton(() -> {stateManager.escape();}, 
                     new GreenfootImage("backToHome.png"),30,30);
     
+    /**
+     * Creates the World.
+     * Fun fact : if you call this constructor, you're demiurge.
+     */
     public MyWorld() {    
         super(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT, 1);
         theWorld = this;
@@ -35,6 +42,10 @@ public class MyWorld extends World {
         
     }
     
+    /**
+     * Loads a StateManager.
+     * @param sm The StateManager to load.
+     */
     public void load(StateManager sm) {
         makeSureSceneIsClear();
         stateManager = sm;
@@ -42,6 +53,9 @@ public class MyWorld extends World {
     
     }
     
+    /**
+     * Destroys all Actors and resets the background.
+     */
     public void makeSureSceneIsClear() {
         List<Actor> allActors = this.getObjects(null);
         allActors.forEach((actor) -> this.removeObject(actor));
@@ -51,6 +65,9 @@ public class MyWorld extends World {
     
     }
     
+    /**
+     * Creates the final Blank Hex grid.
+     */
     public void placeBlankHexs() {
         //créer les blankHexs
         placeHexagonInCollumnRow(Appearance.COLLUMN_NUMBER, Appearance.ROW_NUMBER);
@@ -60,6 +77,11 @@ public class MyWorld extends World {
     
     }
     
+    /**
+     * Creates a full Blank Hex grid.
+     * @param collumn The number of collumns.
+     * @param row The number of rows.
+     */
     private void placeHexagonInCollumnRow(int collumn, int row) {
         for(int x = 0; x < collumn; x++) {
             
@@ -73,7 +95,10 @@ public class MyWorld extends World {
         }
         
     }
-
+    
+    /**
+     * Destroys Blank Hexes to clear a zone for the Continent bonuses displayer.
+     */
     private void drawContinentBonusZone(){
         
         for(BlankHex bh : getObjects(BlankHex.class)){
@@ -90,6 +115,10 @@ public class MyWorld extends World {
         
     }
     
+    /**
+     * Returns the Button the user pressed.
+     * @return The Button, or null, if the user didn't press a Button.
+     */
     private Button getPressedButton(){
         if(mouse.getActor() instanceof Button){
             return (Button)(mouse.getActor());
@@ -123,9 +152,15 @@ public class MyWorld extends World {
     
 }
 
+/**
+ * Class that checks if Escape has been released.
+ */
 class CheckEscape{
     static boolean escapeWasClicked = false;
     
+    /**
+     * Checks if Escape has been released.
+     */
     public static void testForEscape(){ 
         if(escapeReleased()){
             MyWorld.theWorld.stateManager.escape();
@@ -136,7 +171,10 @@ class CheckEscape{
         }
         
     }
-
+    
+    /**
+     * Checks if Escape has been released.
+     */
     private static boolean escapeReleased(){
         return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);
     }

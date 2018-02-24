@@ -1,14 +1,15 @@
-package mainObjects;
+package game;
 
 import base.GColor;
 import base.MyWorld;
-import game.Difficulty;
-import game.Turn;
 import greenfoot.Greenfoot;
-import java.util.List;
+import java.util.ArrayList;
+import mainObjects.Territory;
 
 
 public class Zombie extends Player{
+    
+    public static Zombie ZOMBIE = null;
     
     public static final GColor ZOMBIE_COLOR = new GColor(0,0,0);
     
@@ -19,38 +20,38 @@ public class Zombie extends Player{
     public Zombie(Difficulty difficulty) {
         super("H1N1XX",ZOMBIE_COLOR);
         this.difficulty = difficulty;
-        reset();
-
+        zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
+        turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
+        ZOMBIE = this;
     }
     
-    public int zombiesNextWave() {
+    public int ZombiesNextWave() {
         return zombiesNextWave;
     }
 
-    public int turnsBeforeNextWave() {
+    public int TurnsBeforeNextWave() {
         return turnsBeforeNextWave;
     }
     
     public void takeTurn() {
         
         if(territories().isEmpty()){
-            propagate();
+            takeTerritoriesRandomly();
         }
         attackRandomly();
-        countdown();
         incrementNextWave();
         Turn.endCurrentTurn();
         Turn.startNewTurn();
         
     }
     
-    private void propagate(){
+    private void takeTerritoriesRandomly(){
         
         int terrs = 0;
         
         Territory t;
         
-        List<Territory> territories = MyWorld.theWorld.stateManager.map().territories;
+        ArrayList<Territory> territories = MyWorld.theWorld.stateManager.map().territories;
         
         while(terrs < zombiesNextWave){
             
@@ -81,29 +82,24 @@ public class Zombie extends Player{
     }
     
     public void countdown(){
-        turnsBeforeNextWave--;
-        if(turnsBeforeNextWave == 0) {
-            propagate();
+        turnsBeforeNextWave --;
+        if(turnsBeforeNextWave == -1){
             turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
-            zombiesNextWave += difficulty.INCREMENT;
+            takeTurn();
         }
-            
-    }
-
-    private void reset(){
-        zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
-        turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
-        
     }
     
-    @Override
-    public boolean hasLostQ() {
+    public void incrementNextWave(){
+        zombiesNextWave += difficulty.INCREMENT;
+    }
+
+    public void reset(){
+        zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
+    }
+    
+    public boolean hasLost() {
         return false; //zombies always come back!
     
-    }
-
-    private void incrementNextWave() {
-        System.out.println("Method incrementNextWave() in class Zombie is not supported yet");
     }
     
 

@@ -20,7 +20,6 @@ public class GameSaver {
     
     public GameSaver(Game gameToSave) {
         game = gameToSave;
-        System.out.println(game.difficulty.toString());
         
     
     }
@@ -42,7 +41,6 @@ public class GameSaver {
         if(nameEntered == JOptionPane.OK_OPTION) {
             name = namePanel.name();
             description = namePanel.description();
-
         }
     
     }

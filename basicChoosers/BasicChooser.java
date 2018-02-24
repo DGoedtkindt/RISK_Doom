@@ -9,7 +9,7 @@ import greenfoot.Actor;
 
 /**
  * A BasicChooser is a group of actors that allows to choose between the choices
- * of a ChoiceList. It being a group of actor means that it should not be
+ * of a ChoiceList. Being a group of actor means that it should not be
  * added/removed from a World using World.addObject()/removeObject(), but rather
  * with addToWorld()/destroy().
  */
@@ -27,7 +27,7 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     
     
     /**
-     * @param choiceList the choices this chooser will allow to choose from.
+     * @param choiceList The choices this chooser will allow to choose from.
      */
     public BasicChooser(ChoiceList choiceList) {
         choices = choiceList;
@@ -39,6 +39,11 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     
     }
     
+    /**
+     * Adds the objects to the world.
+     * @param xPos The x position.
+     * @param yPos The y position.
+     */
     public void addToWorld(int xPos, int yPos) {
         x = xPos; y = yPos;
         world().addObject(this,x,y);
@@ -47,6 +52,11 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     
     }
     
+    /**
+     * Change the location of the objects.
+     * @param newX The new x position.
+     * @param newY The new y position.
+     */
     public void changeLocation(int newX, int newY) {
         this.setLocation(newX, newY); x = newX; y = newY;
         rightArrow.setLocation(x+halfGapSize,y);
@@ -54,6 +64,11 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     
     }
     
+    /**
+     * Gives the chooser Arrows.
+     * @param gapSize The size of the gaps between the Arrows and the Arrowable.
+     * @param arrowSize The size of the Arrows.
+     */
     public void setArrows(int gapSize,int arrowSize) {
         halfGapSize = gapSize/2;
         arrSize = arrowSize;
@@ -64,6 +79,9 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     
     }
     
+    /**
+     * Removes the objects this chooser represents.
+     */
     public void destroy() {
         getWorld().removeObject(rightArrow);
         getWorld().removeObject(leftArrow);
@@ -86,13 +104,19 @@ public abstract class BasicChooser extends Actor implements Arrowable{
         
     }
     
+    /**
+     * Returns the choosed value.
+     * @return The choosed value.
+     */
     public String currentChoice() {
         return choices.choiceValue();
     
     }
     
+    /**
+     * Updates the image of this chooser.
+     */
     private void updateImage() {
-        //for the moment it's basic, but it may be more complex in the future
         this.setImage(choices.choiceImage());
     
     }

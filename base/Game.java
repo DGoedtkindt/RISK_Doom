@@ -1,10 +1,10 @@
 package base;
 
 import game.Difficulty;
+import game.Player;
 import game.TurnStat;
 import java.util.ArrayList;
 import java.util.List;
-import mainObjects.Player;
 
 public class Game {
     

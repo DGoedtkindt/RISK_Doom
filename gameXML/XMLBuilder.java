@@ -1,16 +1,16 @@
 package gameXML;
 
 import base.Game;
-import game.TurnStat;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import mainObjects.Player;
+import game.Player;
+import game.TurnStat;
+import java.util.Map;
+import java.util.Set;
 import mainObjects.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -96,7 +96,7 @@ public class XMLBuilder {
             playerNode.setAttribute("points", player.points() + "");
             
             //player's territories
-            List<Territory> ctrlTerrs = player.territories();
+            ArrayList<Territory> ctrlTerrs = player.territories();
             for(Territory terr : ctrlTerrs) {
                 Element terrNode = doc.createElement("Territory");
                 playerNode.appendChild(terrNode);
