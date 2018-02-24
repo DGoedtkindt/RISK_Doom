@@ -48,16 +48,12 @@ public class Manager extends StateManager{
     @Override
     public void setupScene() {
         Mode.setMode(Mode.GAME_DEFAULT);
-        world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 120, 50);
         loadGame();
-        for(Territory t : loadedGame.map.territories){
-            t.drawTerritory();
-        }
     }
     
     private void loadGame(){

@@ -2,10 +2,8 @@ package gameXML;
 
 import base.GColor;
 import base.Game;
-import base.Map;
 import game.Difficulty;
 import game.TurnStat;
-import java.util.HashMap;
 import mainObjects.Player;
 import mapXML.MapXML;
 import org.w3c.dom.Document;
@@ -14,7 +12,6 @@ import org.w3c.dom.NodeList;
 
 public class XMLReader {
     private Game game = new Game();
-    private Map map;
     private Document doc;
     private Element rootElement;
 
@@ -26,6 +23,7 @@ public class XMLReader {
     protected Game getGame(Document fromDoc) throws Exception {
             doc = fromDoc;
             getMap();
+            getGameState();
             getDifficulty();
             getPlayerAndArmies();
             getStats();
@@ -37,8 +35,8 @@ public class XMLReader {
     private void getMap() throws Exception {
         rootElement = doc.getDocumentElement();
         String mapName = rootElement.getAttribute("mapName");
-        MapXML mapXML = new MapXML(mapName + ".xml");
-        map = mapXML.getMap();
+        MapXML mapXML = new MapXML(mapName);
+        game.map = mapXML.getMap();
     }
 
     private void getDifficulty() {
@@ -110,6 +108,12 @@ public class XMLReader {
 
         }
     
+    }
+
+    private void getGameState() {
+        String gameStateName = rootElement.getAttribute("gameState");
+        Game.State gameState = Game.State.valueOf(gameStateName);
+        game.gameState = gameState;
     }
     
     

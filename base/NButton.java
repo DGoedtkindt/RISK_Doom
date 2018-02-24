@@ -67,7 +67,7 @@ public class NButton extends Button{
     @Override
     public void clicked() {
         if(action != null) action.act();
-        else System.out.println("this action is null");;
+        else MessageDisplayer.showMessage("This button does nothing");
         
     }
     

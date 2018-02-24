@@ -34,6 +34,7 @@ public class XMLBuilder {
             addMapName();
             addDifficulty();
             createPlayerNodes();
+            addGameState();
             if(game.stats != null) {
                 createStatsNode();
             }
@@ -147,6 +148,11 @@ public class XMLBuilder {
             
         }
     
+    }
+
+    private void addGameState() {
+        rootElement.setAttribute("gameState", game.gameState.name());
+        
     }
     
 }

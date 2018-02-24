@@ -46,7 +46,7 @@ public class MapXML {
     }
     
     /** Gets the Map file with this name and creates a new MapXML from it
-     * @param mapName the name of file containing the Map's XML.
+     * @param mapName the name of file containing the Map's XML. (without the ".xml" suffix)
     */
     public MapXML(String mapName) throws Exception{
         name = mapName;
@@ -54,7 +54,7 @@ public class MapXML {
         if(mapFile.exists() && mapFile.isFile()) {
             xml = builder.build(mapFile);
             name = mapFile.getName().replace(".xml", "");
-        } else throw new FileNotFoundException();
+        } else throw new FileNotFoundException("file " + mapFile.getName() + " was not found");
         
     }
     

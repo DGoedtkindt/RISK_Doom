@@ -66,7 +66,7 @@ public class MessageDisplayer extends Button{
      */
     public static void showException(Exception ex) {
         showMessage(ex.toString());
-        System.err.println(ex);
+        ex.printStackTrace();
     }
     
     /**

@@ -46,7 +46,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
             }
             
         }catch(IOException | ParserConfigurationException | DOMException | SAXException ex){
-            String message = "couldn't get the Map's description";
+            String message = "Couldn't get the Map's description";
             MessageDisplayer.showException(new Exception(message, ex));
             return null;
         }
@@ -66,7 +66,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
             return map;
                  
         } catch(Exception ex) {
-             throw new Exception("Couldn't create MapXML from File");
+             throw new Exception("Couldn't create MapXML from File", ex);
                 
         }
         
