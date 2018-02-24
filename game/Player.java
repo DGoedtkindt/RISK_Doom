@@ -3,6 +3,7 @@ package game;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
+import java.util.List;
 import mainObjects.Continent;
 import mainObjects.Territory;
 
@@ -33,10 +34,10 @@ public class Player {
         Combo.display(this);
     }
     
-    public int armyGainPerTurn(){
-        
+    public int armyGainPerTurn() {
         int terrNumber = 0;
         int terrBonus = 0;
+        int continentBonus = 0;
         
         for(Territory t : territories()){
             
@@ -47,43 +48,42 @@ public class Player {
             
         }
         
-        int continentBonus = 0;
+        for(Continent c : continents()) {
+            continentBonus += c.bonus();
+        
+        }
+        
+        int fromTerritories = (int)Math.floor(terrNumber / 3);
+        int total = fromTerritories + terrBonus + continentBonus; // possibly +other things
+         
+        return total;
+    }
+    
+    /**
+     * @return the continents from theWorld.stateManager.map().continents that
+     * This Player controls
+     */
+    public List<Continent> continents(){
+        List<Continent> continentList = new ArrayList<>();
         
         for(Continent c : MyWorld.theWorld.stateManager.map().continents){
-            
-            int ownedTerrsInContinent = 0;
-            
-            for(Territory terrInContinent : c.containedTerritories()){
+            List<Territory> uncontroledTerrInCont;
+            uncontroledTerrInCont = c.containedTerritories();
+            uncontroledTerrInCont.removeAll(territories());
+            if(uncontroledTerrInCont.isEmpty()) {
+                continentList.add(c);
                 
-                if(terrInContinent.owner() == this){
-                    
-                    ownedTerrsInContinent ++;
-                    
-                }
-                
-            }
-            
-            if(ownedTerrsInContinent == c.containedTerritories().size()){
-                continentBonus += c.bonus();
             }
             
         }
-        
-        return (int)Math.floor(terrNumber / 3) + terrBonus + continentBonus;
-        
+        return continentList;
     }
     
-    private void getArmies() {
-        armiesInHand += armyGainPerTurn();
-    
-    }
-    
-    public void gainComboPiece(){
-        combos.addRandomCombo();
-        ComboDisplayer.updateDisplay(this);
-    }
-    
-    public ArrayList<Territory> territories() {
+    /**
+     * @return a List of all the Territories in the loaded Map's territories list
+     * that are owned by this Player.
+     */
+    public List<Territory> territories() {
         ArrayList<Territory> ownedterritories = new ArrayList<>();
         
         for(Territory t : MyWorld.theWorld.stateManager.game().map.territories){
@@ -96,6 +96,16 @@ public class Player {
         
         return ownedterritories;
         
+    }
+    
+    private void getArmies() {
+        armiesInHand += armyGainPerTurn();
+    
+    }
+    
+    public void gainComboPiece(){
+        combos.addRandomCombo();
+        ComboDisplayer.updateDisplay(this);
     }
     
     public boolean hasLost() {
