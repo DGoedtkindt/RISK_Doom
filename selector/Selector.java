@@ -56,7 +56,7 @@ public class Selector
                 hex = (BlankHex)select;
                 blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
-                throw new Exception("Selectable of the wrong type selected\n" + cce);}
+                throw new ClassCastException("Selectable of the wrong type selected");}
         }
         
         return blankhexSelectedList;
@@ -73,7 +73,7 @@ public class Selector
                 terr = (Territory)select;
                 territorySelectedList.add(terr);
             }  catch(ClassCastException cce) {
-                throw new Exception("Selectable of the wrong type selected\n" + cce);}
+                throw new ClassCastException("Selectable of the wrong type selected\n" + cce);}
         }
         return territorySelectedList;
 
@@ -111,7 +111,7 @@ public class Selector
                 cont = (Continent)select;
                 continentSelectedList.add(cont);
             }  catch(ClassCastException cce) {
-                throw new Exception("Selectable of the wrong type selected\n" + cce);}
+                throw new ClassCastException("Selectable of the wrong type selected\n" + cce);}
         }
         
         return continentSelectedList;
@@ -199,8 +199,7 @@ public class Selector
                             }
                             
                         }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
-                            System.err.println(e.getMessage());
+                            MessageDisplayer.showException(e);
                             return false;
                         }
                     }else{
@@ -228,8 +227,7 @@ public class Selector
                             }
                             
                         }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
-                            System.err.println(e.getMessage());
+                            MessageDisplayer.showException(e);
                             return false;
                         }
                     }else{

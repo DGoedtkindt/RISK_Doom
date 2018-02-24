@@ -53,8 +53,9 @@ public class Manager extends StateManager{
             world().load(new game.Manager(game));
             
         } catch (Exception ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
-            ex.printStackTrace(System.err);
+            String message = "Cannot launch new Game";
+            MessageDisplayer.showException(new Exception(message, ex));
+            
         }
         
     }

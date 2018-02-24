@@ -1,6 +1,7 @@
 package base;
 
 import appearance.Appearance;
+import appearance.MessageDisplayer;
 import greenfoot.GreenfootImage;
 import greenfoot.Color;
 
@@ -69,6 +70,7 @@ public class NButton extends Button{
     @Override
     public void clicked() {
         if(action != null) action.act();
+        else MessageDisplayer.showMessage("This button does nothing");
         
     }
     

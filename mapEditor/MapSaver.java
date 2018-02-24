@@ -75,12 +75,13 @@ public class MapSaver {
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                MessageDisplayer.showMessage("thumbnail couldn't be saved : " + ex);
+                String message = "thumbnail couldn't be saved";
+                MessageDisplayer.showException(new Exception(message,ex));
             }
             
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("The Map could'nt be saved : " + ex);
-            JOptionPane.showMessageDialog(null, "the Map could not be saved : " + ex);
+            String message = "The Map could'nt be saved";
+            MessageDisplayer.showException(new Exception(message , ex));
         }
     
     }

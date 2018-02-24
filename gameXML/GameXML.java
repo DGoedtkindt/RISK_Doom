@@ -1,9 +1,15 @@
 package gameXML;
 
+import appearance.MessageDisplayer;
 import org.w3c.dom.Document;
 import java.io.FileNotFoundException;
 import java.io.File;
 import base.Game;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /** Stores the XML Document representing a Game
  */
@@ -38,8 +44,29 @@ public class GameXML {
     
     }
     
-    public void write(String mapName, String description) { 
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void write(String gameName, String description) {
+        //add The description
+        xml.getDocumentElement().setAttribute("description", description);
+            
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(xml);
+            
+            File dir = new File("Games");
+                if(!dir.exists()) System.err.println("The Games directory does not seem to exist." +
+                        "Please make sure " + dir.getAbsolutePath() + " exists");
+            
+            StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + gameName + ".xml"));
+            transformer.transform(source, result);
+            
+            System.out.println("Game was succesfully saved");
+            
+        } catch (UnsupportedOperationException | TransformerException ex) {
+            String message = "Map couldn't be saved";
+            MessageDisplayer.showException(new Exception(message, ex));
+            
+        }
         
     }
     

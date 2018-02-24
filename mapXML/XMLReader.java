@@ -1,6 +1,5 @@
 package mapXML;
 
-import appearance.MessageDisplayer;
 import base.GColor;
 import base.Map;
 import java.util.ArrayList;
@@ -33,9 +32,8 @@ public class XMLReader {
             
             return map;
         } catch (Exception ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
-            ex.printStackTrace(System.err);
-            throw ex;
+            String message = "couldn't get Map from Document";
+            throw new Exception(message, ex);
         }
 
     }

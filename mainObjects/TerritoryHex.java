@@ -187,8 +187,8 @@ public class TerritoryHex extends Button
                 default: break;
             }
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("" + ex.getMessage());
-            System.err.println(ex.getMessage());
+            MessageDisplayer.showException(ex);
+            System.err.println(ex);
             world().stateManager.escape();
         }
         

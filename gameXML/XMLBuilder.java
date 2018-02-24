@@ -1,6 +1,5 @@
 package gameXML;
 
-import appearance.MessageDisplayer;
 import base.Game;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +8,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import game.Player;
+import game.TurnStat;
+import java.util.Map;
+import java.util.Set;
 import mainObjects.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,20 +25,23 @@ public class XMLBuilder {
     /**builds a XML Document from a Game Object
      *
      * @param fromGame
+     * @return a xml Document representing fromGame
      */
     protected Document build(Game fromGame) throws Exception {
         try {
             game = fromGame;
             createNewDocument();
             addMapName();
-            addActivePlayer();
             addDifficulty();
-            addMapName();
             createPlayerNodes();
+            addGameState();
+            if(game.stats != null) {
+                createStatsNode();
+            }
             return doc;
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("Couldn't create Document from Game");
-            throw ex;
+            String message = "Couldn't create Document from Game";
+            throw new Exception(message, ex);
         }
 
     }
@@ -44,6 +49,7 @@ public class XMLBuilder {
     /** Builds the Document from a XML File
      * 
      * @param gameFile
+     * @return the xml Document saved in gameFile
      */
     protected Document build(File gameFile) throws Exception {
         try {
@@ -54,8 +60,8 @@ public class XMLBuilder {
             
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
-            MessageDisplayer.showMessage(ex.getMessage());
-            throw ex;
+            String message = "Couldn't create Document from File : \n";
+            throw new Exception(message, ex);
         
         }
     }
@@ -72,11 +78,6 @@ public class XMLBuilder {
     private void addMapName() {
         rootElement.setAttribute("mapName", game.map.name);
     
-    }
-    
-    private void addActivePlayer() {
-        System.err.println("Active player can't be saved yet");
-        
     }
     
     private void addDifficulty() {
@@ -100,6 +101,7 @@ public class XMLBuilder {
                 Element terrNode = doc.createElement("Territory");
                 playerNode.appendChild(terrNode);
                 terrNode.setAttribute("armies", terr.armies() + "");
+                terrNode.setAttribute("terrID", terr.id() + "");
             
             }
         
@@ -107,9 +109,50 @@ public class XMLBuilder {
         
     
     }
+
+    private void createStatsNode() {
+        for(TurnStat stat : game.stats) {
+            Element statNode = doc.createElement("TurnStat");
+            rootElement.appendChild(statNode);
+            statNode.setAttribute("turnNumber", stat.turnNumber + "");
+            
+            //number of armies
+            createPlayerStatElement(stat.numberOfArmies, "PlayerArmyPair", "armies", statNode);
+            
+            
+            //number of armies per turn
+            createPlayerStatElement(stat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn", statNode);
+            
+            //number of Continents
+            createPlayerStatElement(stat.numberOfContinents, "PlayerContinentsPair", "continents", statNode);
+            
+            //number of points
+            createPlayerStatElement(stat.numberOfPoints, "PlayerPointsPair", "points", statNode);
+            
+            //number of territories
+            createPlayerStatElement(stat.numberOfTerritories, "PlayerTerritoriesPair", "territories", statNode);
+            
+        }
+    }
     
-    private void addStats() {
-        throw new UnsupportedOperationException("not supported yet");
+    private void createPlayerStatElement(Map<Player,Integer> createFrom, String elementName, String valueName, Element statNode) { 
+        Set<Map.Entry<Player, Integer>> playerValuePairSet = createFrom.entrySet();
+        for(Map.Entry<Player, Integer> playerValuePair : playerValuePairSet) {
+            Player player = playerValuePair.getKey();
+            int playerNumber = game.players.indexOf(player);
+            Integer value = playerValuePair.getValue();
+            Element pairNode = doc.createElement(elementName);
+            statNode.appendChild(pairNode);
+            pairNode.setAttribute("playerNumber", playerNumber + "");
+            pairNode.setAttribute(valueName, value + "");
+            
+        }
+    
+    }
+
+    private void addGameState() {
+        rootElement.setAttribute("gameState", game.gameState.name());
+        
     }
     
 }
