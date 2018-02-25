@@ -17,29 +17,17 @@ public class Combo {
     private int b = 0;
     private int c = 0;
     
-    public void addA(){
-        a++;
-    }
-    
-    public void addB(){
-        b++;
-    }
-    
-    public void addC(){
-        c++;
-    }
-    
     public void addRandomCombo(){
         
         int randomCombo = Greenfoot.getRandomNumber(3);
         
         switch(randomCombo){
             
-            case 0 : addA();
+            case 0 : a++;
                 break;
-            case 1 : addB();
+            case 1 : b++;
                 break;
-            case 2 : addC();
+            case 2 : c++;
                 break;
             
         }
@@ -92,20 +80,17 @@ public class Combo {
             
         }else{
             
+            Mode.setMode(Mode.SELECTING_COMBO);
             if(a >= 3){
-                Mode.setMode(Mode.SELECTING_COMBO);
                 MyWorld.theWorld.addObject(sapButton, Appearance.WORLD_WIDTH - 270, 990);
                 comboShown = true;
             }if(b >= 3){
-                Mode.setMode(Mode.SELECTING_COMBO);
                 MyWorld.theWorld.addObject(fortressButton, Appearance.WORLD_WIDTH - 360, 990);
                 comboShown = true;
             }if(c >= 3){
-                Mode.setMode(Mode.SELECTING_COMBO);
                 MyWorld.theWorld.addObject(battlecryButton, Appearance.WORLD_WIDTH - 450, 990);
                 comboShown = true;
             }if(a > 0 && b > 0 && c > 0){
-                Mode.setMode(Mode.SELECTING_COMBO);
                 MyWorld.theWorld.addObject(recruitButton, Appearance.WORLD_WIDTH - 540, 990);
                 comboShown = true;
             }

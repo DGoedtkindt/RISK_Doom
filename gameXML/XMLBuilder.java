@@ -93,7 +93,7 @@ public class XMLBuilder {
             //player's attributes
             playerNode.setAttribute("name", player.name());
             playerNode.setAttribute("color", player.color().toRGB());
-            playerNode.setAttribute("points", player.points() + "");
+            playerNode.setAttribute("points", player.points + "");
             
             //player's territories
             List<Territory> ctrlTerrs = player.territories();

@@ -197,18 +197,10 @@ public class Territory implements Selectable
             armies = - armies;
             Player formerOwner = owner();
             owner = invader;
-            
-            if(formerOwner.capital == this && !(formerOwner instanceof Zombie)){
-                formerOwner.getnewCapital();
-            }
+            invader.conqueredThisTurn = true;
             
             if(formerOwner instanceof Zombie){
                 owner.points++;
-            }
-            
-            if(!Turn.currentTurn.hasGainedCombo && owner.comboPiecesNumber() < 5){
-                owner.gainComboPiece();
-                Turn.currentTurn.hasGainedCombo = true;
             }
         }
         

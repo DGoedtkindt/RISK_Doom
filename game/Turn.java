@@ -2,6 +2,7 @@ package game;
 
 import appearance.Appearance;
 import base.Button;
+import base.GColor;
 import base.Game;
 import base.MyWorld;
 import greenfoot.Color;
@@ -16,9 +17,6 @@ public class Turn {
         
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     private static List<Player> players() {return game().players;}
-    
-    
-    public boolean hasGainedCombo = false;
     public Player player;
     
     protected int turnNumber;
@@ -27,7 +25,6 @@ public class Turn {
         this.turnNumber = turnNumber;
         int playerNumber = turnNumber % (players().size());
         player = players().get(playerNumber);
-        hasGainedCombo = false;
         
     }
     
@@ -65,6 +62,7 @@ public class Turn {
             ((Zombie)player).takeTurn();
         }else{
             Mode.setMode(Mode.CLEARING_HAND);
+            player.updateCapital();
             player.getArmies();
             ArmiesInHandDisplayer.show(player);
             Selector.setValidator(Selector.IS_OWNED_TERRITORY);
@@ -74,8 +72,11 @@ public class Turn {
     }
     
     public void end() {
-        Zombie.ZOMBIE.countdown();
-    
+        if(player.conqueredThisTurn) {
+            player.gainComboPiece();
+        }
+        player.conqueredThisTurn = false;
+        
     }
     
     public static Player aPlayerIsDead(){
@@ -131,7 +132,9 @@ class NextTurnPanel extends Button{
     }
     
     private void colorBackground() {
-        getImage().setColor(OWNER.color());
+        GColor color = OWNER.color();
+        GColor transparentColor = new GColor(color.getRed(),color.getGreen(),color.getBlue(),220);
+        getImage().setColor(transparentColor);
         getImage().fill();
     
     }
