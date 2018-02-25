@@ -22,7 +22,7 @@ public class Territory implements Selectable
     
     public static Territory actionSource = null;
     
-    private ArrayList<TerritoryHex> terrHexList;
+    private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
@@ -32,7 +32,7 @@ public class Territory implements Selectable
     private BlankHex infoHex;
     private TerrInfo trInfo;
     private ArrayList<BlankHex> blankHexList;
-    public int armies = 1;
+    private int armies = 1;
     private Player owner = null;
     
     public ArrayList<LinkIndic> links = new ArrayList<>();
@@ -144,6 +144,11 @@ public class Territory implements Selectable
         return armies;
     }
     
+    public void setArmies(int newNumber) {
+        armies = newNumber;
+        drawPlayerColor();
+    }
+    
     public Player owner(){
         return owner;
     }
@@ -151,6 +156,7 @@ public class Territory implements Selectable
     public void setOwner(Player newOwner){
         setOwnerWithoutDrawing(newOwner);
         drawTerritory();
+        if(newOwner == null) setArmies(1);
         
     }
     
@@ -189,12 +195,12 @@ public class Territory implements Selectable
     
     public void attacked(int invadingArmies, Player invader){
         
-        armies -= invadingArmies;
+        setArmies(armies() - invadingArmies);
         
-        if(armies == 0){
+        if(armies() == 0){
             owner = null;
-        }else if(armies < 0){
-            armies = - armies;
+        }else if(armies() < 0){
+            setArmies(-armies);
             Player formerOwner = owner();
             owner = invader;
             invader.conqueredThisTurn = true;
@@ -225,8 +231,8 @@ public class Territory implements Selectable
             if(movingArmies > armies - 1){
                 throw new Exception("You don't have enough armies.");
             }else{
-                armies -= movingArmies;
-                destination.armies += movingArmies;
+                setArmies(armies() - movingArmies);
+                destination.setArmies(armies() + movingArmies);
             }
             
             drawTerritory();
@@ -245,38 +251,38 @@ public class Territory implements Selectable
     
     public HashSet<Territory> neighbours(){
         
-        HashSet<Territory> targetableList = new HashSet<Territory>();
+        HashSet<Territory> neighboursList = new HashSet<>();
         
         for(TerritoryHex hex : terrHexList){
             
             for(TerritoryHex neighbour : hex.getBorderingHex()){
                 
-                targetableList.add(neighbour.territory());
+                neighboursList.add(neighbour.territory());
                 
             }
             
         }
         
         for(LinkIndic linkindic : links){
-            targetableList.addAll(linkindic.links.linkedTerrs);
+            neighboursList.addAll(linkindic.links.linkedTerrs);
             
         }
         
-        targetableList.remove(this);
+        neighboursList.remove(this);
         
-        return targetableList;
+        return neighboursList;
         
     }
     
     public void attackRandomly(){
         
-        if(armies > 2 && !neighbours().isEmpty()){
+        if(armies() > 2 && !neighbours().isEmpty()){
             
             Territory target = (Territory)(neighbours().toArray()[Greenfoot.getRandomNumber(neighbours().size())]);
             
-            int attackingArmies = Greenfoot.getRandomNumber(armies - 1) + 2;
+            int attackingArmies = Greenfoot.getRandomNumber(armies() - 1) + 2;
             
-            armies -= attackingArmies;
+            setArmies(armies() - attackingArmies);
             
             target.attacked(attackingArmies, owner);
             

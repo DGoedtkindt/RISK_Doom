@@ -57,7 +57,6 @@ public class XMLBuilder {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(gameFile);
             doc.getDocumentElement().normalize();
-            
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
             String message = "Couldn't create Document from File : \n";
@@ -88,6 +87,7 @@ public class XMLBuilder {
     private void createPlayerNodes() {
         for(Player player : game.players) {
             Element playerNode = doc.createElement("Player");
+            playerNode.setAttribute("armiesInHand", player.armiesInHand + "");
             rootElement.appendChild(playerNode);
             
             //player's attributes

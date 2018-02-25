@@ -155,7 +155,7 @@ public class TerritoryHex extends Button
                             }else if(newArmies > territory.owner().armiesInHand){
                                 MessageDisplayer.showMessage("You don't have enough armies.");
                             }else{
-                                territory.armies += newArmies;
+                                territory.setArmies(territory.armies() + newArmies);
                                 territory.owner().armiesInHand -= newArmies;
                                 territory.drawTerritory();
                                 ArmiesInHandDisplayer.update();
@@ -172,11 +172,8 @@ public class TerritoryHex extends Button
                 case SAP : 
                     if(territory.owner() != Turn.currentTurn.player){
                         territory.owner().armiesInHand += territory.armies();
-                        territory.armies = 1;
-                        territory.setOwner(Turn.currentTurn.player);
+                        territory.setOwner(null);
                         Turn.currentTurn.player.combos().useSap();
-                        Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
                         world().stateManager.escape();
                     }
                     
@@ -221,11 +218,11 @@ public class TerritoryHex extends Button
         
     }
     
-    public void drawPlayerColor(Player p){
+    protected void drawPlayerColor(Player p){
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-            getImage().drawString("" + territory.armies, 20, 40);
+            getImage().drawString("" + territory.armies(), 20, 40);
         }
         
     }

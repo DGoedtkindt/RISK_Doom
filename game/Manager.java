@@ -1,7 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.Theme;
 import base.Action;
 import base.Button;
 import base.Game;
@@ -14,7 +13,6 @@ import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import java.awt.FontMetrics;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -70,10 +68,21 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(loadedGame.gameState == Game.State.INITIALISATION){
-            initGame();
-            loadedGame.gameState = Game.State.INGAME;
-        }
+        if(null != loadedGame.gameState)switch (loadedGame.gameState) {
+            case INITIALISATION:
+                giveTerritoriesRandomly();
+                startNewTurn();
+                loadedGame.gameState = Game.State.INGAME;
+                break;
+            case INGAME:
+                startNewTurn();
+                break;
+            case FINISHED:
+                //do nothing yet. should maybe show the stats and the EndGamePanel
+                break;
+            default:
+                break;
+        } 
         
     }
     
@@ -83,6 +92,12 @@ public class Manager extends StateManager{
         gameToLoad.map.continents.forEach(Continent::addToWorld);
         gameToLoad.map.links.forEach(Links::addToWorld);
         
+    }
+    
+    private void startNewTurn() {
+        int turnNumber = 1 + loadedGame.stats.size();
+        Turn.startNewTurn(turnNumber);
+    
     }
     
     @Override
@@ -139,12 +154,6 @@ public class Manager extends StateManager{
             p.updateCapital();
             
         }
-        
-    }
-
-    public void initGame(){
-        giveTerritoriesRandomly();
-        Turn.startNewTurn(1);
         
     }
     

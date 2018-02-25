@@ -1,6 +1,6 @@
 package mode;
 
-import java.awt.event.ActionListener;
+import base.Action;
 import java.util.ArrayList;
 
 public enum Mode
@@ -34,7 +34,7 @@ public enum Mode
     }
     
     private static Mode currentMode;
-    private static final ArrayList<ActionListener> actionsWhenModeChanges = new ArrayList<>();
+    private static final ArrayList<Action> actionsWhenModeChanges = new ArrayList<>();
     protected final String message;
     
     public static Mode mode() {
@@ -44,17 +44,17 @@ public enum Mode
     
     public static void setMode(Mode newMode) {
         currentMode = newMode;
-        actionsWhenModeChanges.forEach((ActionListener al)->(al.actionPerformed(null)));
+        actionsWhenModeChanges.forEach((Action action)->(action.act()));
         
     }
     
-    public static void addModeChangeListener(ActionListener al) {
-        actionsWhenModeChanges.add(al);
+    public static void addModeChangeListener(Action action) {
+        actionsWhenModeChanges.add(action);
     
     }
     
-    public static void removeModeChangeListener(ActionListener al) {
-        actionsWhenModeChanges.remove(al);
+    public static void removeModeChangeListener(Action action) {
+        actionsWhenModeChanges.remove(action);
     
     }
     
