@@ -1,12 +1,9 @@
 package mapXML;
 
-import appearance.MessageDisplayer;
 import base.Map;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -87,7 +84,7 @@ public class XMLBuilder {
             infoHexNode.setAttribute("hexY", "" + infoHex.hexCoord()[1]);
             
             //rajouter tous les hexs
-            ArrayList<TerritoryHex> hexList = terr.composingHex();
+            List<TerritoryHex> hexList = terr.composingHex();
             for(TerritoryHex hex: hexList) {
                 Element HexNode = doc.createElement("Hex");
                 terrNode.appendChild(HexNode);
@@ -108,7 +105,7 @@ public class XMLBuilder {
             Element contNode = doc.createElement("Continent");
             rootElement.appendChild(contNode);
             
-            ArrayList<Territory> terrContained = cont.containedTerritories();
+            List<Territory> terrContained = cont.containedTerritories();
             for(Territory terr : terrContained) {
                 Element terrInCont = doc.createElement("TerrInCont");
                 terrInCont.setAttribute("id", "" + terr.id());
@@ -127,7 +124,7 @@ public class XMLBuilder {
         for(Links links : map.links) {
             Element linksNode = doc.createElement("Links");
             rootElement.appendChild(linksNode);
-            ArrayList<LinkIndic> linksContained = links.LinkIndicsList();
+            List<LinkIndic> linksContained = links.LinkIndicsList();
             String linksColor = links.color().toRGB();
             linksNode.setAttribute("color", linksColor);
             for(LinkIndic link : linksContained) {

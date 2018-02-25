@@ -1,13 +1,7 @@
 package game;
 
-import appearance.Appearance;
-import base.Button;
-import base.GColor;
 import base.Game;
 import base.MyWorld;
-import greenfoot.Color;
-import greenfoot.Font;
-import greenfoot.GreenfootImage;
 import java.util.List;
 import mode.Mode;
 import selector.Selector;
@@ -77,6 +71,9 @@ public class Turn {
         }
         player.conqueredThisTurn = false;
         
+        addTurnStats();
+        autoSave();
+        
     }
     
     public static Player aPlayerIsDead(){
@@ -105,85 +102,14 @@ public class Turn {
         
     }
     
-}
-
-class NextTurnPanel extends Button{
-    private static Game game(){return MyWorld.theWorld.stateManager.game();}
-    private static List<Player> players() {return game().players;}
+    private void addTurnStats() {
+        TurnStat turnStat = new TurnStat(players(), turnNumber);
+        MyWorld.theWorld.stateManager.game().stats.add(turnStat);
+    }
+    
+    private void autoSave() {
+        new GameSaver(MyWorld.theWorld.stateManager.game()).autoSave();
         
-    private final Player OWNER;
-    private final Turn TURN;
-    
-    private TurnStat stats;
-
-    public NextTurnPanel(Turn turn){
-        TURN = turn;
-        OWNER = TURN.player;
-        stats = new TurnStat(players(),TURN.turnNumber);
-        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
-    }
-
-    public void show(){
-        colorBackground();
-        writeName();
-        writeStats();
-        addToWorld();
-
     }
     
-    private void colorBackground() {
-        GColor color = OWNER.color();
-        GColor transparentColor = new GColor(color.getRed(),color.getGreen(),color.getBlue(),220);
-        getImage().setColor(transparentColor);
-        getImage().fill();
-    
-    }
-    
-    private void writeName() {
-        if(OWNER.color().luminosity() > 128) {
-            getImage().setColor(Color.BLACK);
-        } else {
-            getImage().setColor(Color.WHITE);
-        }
-        getImage().setFont(new Font("monospaced", true, false, 50));
-        getImage().drawString(OWNER.name(), 700, 500);
-    
-    }
-    
-    private void writeStats() {
-        if(OWNER.color().luminosity() > 128) {
-            getImage().setColor(Color.BLACK);
-        } else {
-            getImage().setColor(Color.WHITE);
-        }
-        
-        String infos = "";
-        String armies = "Total number of armies : " 
-                + stats.numberOfArmies.get(OWNER);
-        String territories = "Number of territories owned : " 
-                + stats.numberOfTerritories.get(OWNER);
-        String armiesPerTurn = "Armies in reinforcement this turn : "
-                + stats.numberOfArmiesPerTurn.get(OWNER);
-        
-        infos += armies + "\n";
-        infos += territories + "\n";
-        infos += armiesPerTurn + "\n";
-        
-        getImage().setFont(new Font("monospaced", true, false, 25));
-        getImage().drawString(infos, 600, 600);
-    }
-    
-    public void addToWorld() {
-        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-    
-    }
-
-    @Override
-      public void clicked() {
-          MyWorld.theWorld.removeObject(this);
-          TURN.start();
-          
-      }
-
-        
 }

@@ -165,11 +165,6 @@ public class Manager extends StateManager{
         new EndGamePanel().showDeath(p);
     }
     
-    protected Action saveGame = () -> {
-        (new GameSaver(game())).saveGame();
-    
-    };
-    
     private Action loadOptionsMenu = () -> {
                 if(Mode.mode() == Mode.GAME_DEFAULT){
                     clearScene();

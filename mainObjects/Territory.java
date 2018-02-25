@@ -15,6 +15,7 @@ import greenfoot.GreenfootImage;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Territory implements Selectable
@@ -22,7 +23,7 @@ public class Territory implements Selectable
     
     public static Territory actionSource = null;
     
-    private ArrayList<TerritoryHex> terrHexList = new ArrayList<>();
+    private List<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
@@ -31,7 +32,7 @@ public class Territory implements Selectable
     private int bonusPoints = 0;
     private BlankHex infoHex;
     private TerrInfo trInfo;
-    private ArrayList<BlankHex> blankHexList;
+    private List<BlankHex> blankHexList;
     private int armies = 1;
     private Player owner = null;
     
@@ -112,7 +113,7 @@ public class Territory implements Selectable
         
     }
     
-    public ArrayList<TerritoryHex> composingHex() {
+    public List<TerritoryHex> composingHex() {
         return terrHexList;
         
     }

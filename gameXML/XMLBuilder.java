@@ -119,7 +119,6 @@ public class XMLBuilder {
             //number of armies
             createPlayerStatElement(stat.numberOfArmies, "PlayerArmyPair", "armies", statNode);
             
-            
             //number of armies per turn
             createPlayerStatElement(stat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn", statNode);
             
