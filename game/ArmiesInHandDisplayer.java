@@ -51,6 +51,7 @@ public class ArmiesInHandDisplayer {
     private static void hide() {
         MyWorld.theWorld.removeObject(displayer);
         Selector.setValidator(Selector.EVERYTHING);
+        Mode.setMode(Mode.DEFAULT);
     
     }
     
@@ -63,7 +64,9 @@ public class ArmiesInHandDisplayer {
                     & Turn.currentTurn.player.armiesInHand() > 0) {
                 show();
                 updateImage(Turn.currentTurn.player.armiesInHand());
-            } else hide();
+            } else if(Mode.mode() == Mode.CLEARING_HAND) {
+                hide();
+            };
         }
         
     }
