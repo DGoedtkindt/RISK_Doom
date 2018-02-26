@@ -57,17 +57,18 @@ public class Combo {
     private ModeButton sapButton = new ModeButton("backToHome.png", Mode.SAP, Selector.IS_ATTACKABLE);
     private NButton fortressButton = new NButton(() -> {
                                             Turn.currentTurn.player.fortressProtection = true;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useFortress();
                                         }, new GreenfootImage("backToHome.png"));
     private NButton battlecryButton = new NButton(() -> {
                                             Turn.currentTurn.player.battlecryBonus = 2;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useBattlecry();
                                         }, new GreenfootImage("backToHome.png"));
     private NButton recruitButton = new NButton(() -> {
-                                            Turn.currentTurn.player.armiesInHand += 5;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Player p = Turn.currentTurn.player;
+                                            p.addArmiesToHand(5);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useRecruit();
                                         }, new GreenfootImage("backToHome.png"));
     

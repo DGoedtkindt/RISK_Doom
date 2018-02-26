@@ -1,7 +1,6 @@
 package mainObjects;
 
 import game.Player;
-import game.ArmiesInHandDisplayer;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;
@@ -152,13 +151,12 @@ public class TerritoryHex extends Button
                             
                             if(newArmies < 0){
                                 MessageDisplayer.showMessage("This is a negative number.");
-                            }else if(newArmies > territory.owner().armiesInHand){
+                            }else if(newArmies > territory.owner().armiesInHand()){
                                 MessageDisplayer.showMessage("You don't have enough armies.");
                             }else{
-                                territory.setArmies(territory.armies() + newArmies);
-                                territory.owner().armiesInHand -= newArmies;
+                                territory.addArmies(newArmies);
+                                territory.owner().addArmiesToHand(-newArmies);
                                 territory.drawTerritory();
-                                ArmiesInHandDisplayer.update();
                             }
                             
                         }else{
@@ -171,7 +169,7 @@ public class TerritoryHex extends Button
                     
                 case SAP : 
                     if(territory.owner() != Turn.currentTurn.player){
-                        territory.owner().armiesInHand += territory.armies();
+                        territory.owner().addArmiesToHand(territory.armies());
                         territory.setOwner(null);
                         Turn.currentTurn.player.combos().useSap();
                         world().stateManager.escape();

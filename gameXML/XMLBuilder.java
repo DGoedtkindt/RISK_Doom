@@ -87,7 +87,7 @@ public class XMLBuilder {
     private void createPlayerNodes() {
         for(Player player : game.players) {
             Element playerNode = doc.createElement("Player");
-            playerNode.setAttribute("armiesInHand", player.armiesInHand + "");
+            playerNode.setAttribute("armiesInHand", player.armiesInHand() + "");
             rootElement.appendChild(playerNode);
             
             //player's attributes

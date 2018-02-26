@@ -57,7 +57,7 @@ public class XMLReader {
             Player player;
             if(color == Zombie.ZOMBIE_COLOR) player = new Zombie(game.difficulty);
             else player = new Player(name,color);
-            player.armiesInHand = Integer.parseInt(playerNode.getAttribute("armiesInHand"));
+            player.setArmiesInHand(Integer.parseInt(playerNode.getAttribute("armiesInHand")));
             game.players.add(player);
             
             NodeList territories = playerNode.getElementsByTagName("Territory");

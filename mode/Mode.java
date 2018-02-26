@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public enum Mode
 {
     //Map Editor modes
-    MAP_EDITOR_DEFAULT(""),
+    DEFAULT(""),
     CREATE_TERRITORY("Create a territory by selecting at least two blank hexes."),
     CREATE_CONTINENT("Create a continent by selecting at least one territory that is not already part of a continent."),
     EDIT_TERRITORY_BONUS("Select a territory to change its bonus."),
@@ -18,7 +18,6 @@ public enum Mode
     DELETE_CONTINENT("Select a continent to delete it (without destroying its composing territories)."),
     SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory."),
     //Game modes
-    GAME_DEFAULT(""),
     ATTACK("Click on one of your territories, then on an adjacent ennemy territory. "
             + "Finally, choose the number of armies you want to use."),
     MOVE("Move your armies from one of your territories to another."),
@@ -33,7 +32,7 @@ public enum Mode
         
     }
     
-    private static Mode currentMode;
+    private static Mode currentMode = DEFAULT;
     private static final ArrayList<Action> actionsWhenModeChanges = new ArrayList<>();
     protected final String message;
     

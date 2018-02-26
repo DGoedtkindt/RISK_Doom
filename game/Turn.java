@@ -1,10 +1,10 @@
 package game;
 
+import base.Action;
 import base.Game;
 import base.MyWorld;
 import java.util.List;
 import mode.Mode;
-import selector.Selector;
 
 public class Turn {
     public static Turn currentTurn;
@@ -51,15 +51,15 @@ public class Turn {
     }
     
     public void start(){
+        lockModeToClearHand();
         
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
         }else{
-            Mode.setMode(Mode.CLEARING_HAND);
             player.updateCapital();
             player.getArmies();
-            ArmiesInHandDisplayer.show(player);
-            Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+            Mode.setMode(Mode.CLEARING_HAND);
+            
         }
             
         
@@ -110,6 +110,16 @@ public class Turn {
     private void autoSave() {
         new GameSaver(MyWorld.theWorld.stateManager.game()).autoSave();
         
+    }
+    
+    private Action lockModeToClearingHand = () -> {
+        if(player.armiesInHand() > 0 & Mode.mode() != Mode.CLEARING_HAND) 
+            Mode.setMode(Mode.CLEARING_HAND);
+        
+    };
+
+    private void lockModeToClearHand() {
+        Mode.addModeChangeListener(lockModeToClearingHand);
     }
     
 }

@@ -145,6 +145,13 @@ public class Territory implements Selectable
         return armies;
     }
     
+    public void addArmies(int howMany) {
+        armies += howMany;
+        drawPlayerColor();
+        
+        
+    }
+    
     public void setArmies(int newNumber) {
         armies = newNumber;
         drawPlayerColor();

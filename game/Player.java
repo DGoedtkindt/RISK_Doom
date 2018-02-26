@@ -13,7 +13,7 @@ public class Player {
     
     private final String name;
     private final GColor color;
-    public int armiesInHand = 0;
+    private int armiesInHand = 0;
     public int points = 0;
     public boolean fortressProtection = false;
     public int battlecryBonus = 0;
@@ -100,7 +100,7 @@ public class Player {
     }
     
     void getArmies() {
-        armiesInHand += armyGainPerTurn();
+        this.addArmiesToHand(armyGainPerTurn());
     
     }
     
@@ -128,6 +128,21 @@ public class Player {
     
     public Combo combos(){
         return combos;
+    }
+    
+    public int armiesInHand(){
+        return armiesInHand;
+    }
+    
+    public void setArmiesInHand(int howMany) {
+        armiesInHand = howMany;
+        ArmiesInHandDisplayer.update();
+    }
+    
+    public void addArmiesToHand(int howMany) {
+        armiesInHand+= howMany;
+        ArmiesInHandDisplayer.update();
+    
     }
     
     public void updateCapital(){

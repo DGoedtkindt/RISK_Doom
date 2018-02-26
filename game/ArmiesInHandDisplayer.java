@@ -13,71 +13,63 @@ import selector.Selector;
  * Displays the number of armies a Player can place.
  * 
  */
-public class ArmiesInHandDisplayer extends Actor{
+public class ArmiesInHandDisplayer {
     
-    private static ArmiesInHandDisplayer current;
+    private static Actor displayer;
     
-    public int armies = 0;
-    public final Player PLAYER;
-    
-    /**
-     * Creates a displayer.
-     * @param p The Player placing its armies.
-     */
-    private ArmiesInHandDisplayer(Player p){
-        
-        PLAYER = p;
-        armies = p.armiesInHand;
-        createImage("" + armies);
+    static {
+        displayer = new Display();
+        Mode.addModeChangeListener(() -> {
+            update();
+            System.out.println("update");
+        });
         
     }
     
     /**
      * Creates an image for the displayer.
      */
-    private void createImage(String armiesString){
+    private static void updateImage(int numArmies){
         
         GreenfootImage img = new GreenfootImage(1, 1);
         img.setFont(Appearance.GREENFOOT_FONT);
         FontMetrics fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
-        img.scale(fm.stringWidth(armiesString), fm.getMaxAscent() + fm.getMaxDescent());
+        img.scale(fm.stringWidth(numArmies+""), fm.getMaxAscent() + fm.getMaxDescent());
         img.setColor(Theme.used.backgroundColor.brighter());
         img.fill();
         img.setColor(Theme.used.textColor);
         img.drawRect(1, 1, img.getWidth() - 3, img.getHeight() - 3);
-        img.drawString(armiesString, 0, fm.getMaxAscent());
-        setImage(img);
+        img.drawString(numArmies + "", 0, fm.getMaxAscent());
+        displayer.setImage(img);
         
     }
     
-    /**
-     * Shows a new ArmiesInHandDisplayer.
-     * @param p The Player placing its armies.
-     */
-    public static void show(Player p){
-        
-        if(p.armiesInHand > 0){
-            current = new ArmiesInHandDisplayer(p);
-            MyWorld.theWorld.addObject(current, current.getImage().getWidth() / 2, current.getImage().getHeight() / 2);
-        }
-        
+    private static void show() {
+        MyWorld.theWorld.addObject(displayer, 30, 30);
+        Selector.setValidator(Selector.IS_OWNED_TERRITORY);
+    }
+    
+    private static void hide() {
+        MyWorld.theWorld.removeObject(displayer);
+        Selector.setValidator(Selector.EVERYTHING);
+    
     }
     
     /**
      * Updates the displayer's image after the Player placed armies.
      */
     public static void update(){
-        
-        current.armies = current.PLAYER.armiesInHand;
-        
-        if(current.armies == 0){
-            MyWorld.theWorld.removeObject(current);
-            Mode.setMode(Mode.GAME_DEFAULT);
-            Selector.clear();
-        }else{
-            current.createImage("" + current.armies);
+        if(Turn.currentTurn != null) {
+            System.out.println("notNull");
+            if(Mode.mode() == Mode.CLEARING_HAND
+                    & Turn.currentTurn.player.armiesInHand() > 0) {
+                show();
+                updateImage(Turn.currentTurn.player.armiesInHand());
+            } else hide();
         }
         
     }
     
 }
+
+class Display extends Actor {}
