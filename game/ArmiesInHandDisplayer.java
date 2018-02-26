@@ -21,7 +21,6 @@ public class ArmiesInHandDisplayer {
         displayer = new Display();
         Mode.addModeChangeListener(() -> {
             update();
-            System.out.println("update");
         });
         
     }
@@ -60,7 +59,6 @@ public class ArmiesInHandDisplayer {
      */
     public static void update(){
         if(Turn.currentTurn != null) {
-            System.out.println("notNull");
             if(Mode.mode() == Mode.CLEARING_HAND
                     & Turn.currentTurn.player.armiesInHand() > 0) {
                 show();
