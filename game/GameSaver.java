@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,11 +22,20 @@ public class GameSaver {
     public GameSaver(Game gameToSave) {
         game = gameToSave;
         
+    }
     
+    public void autoSave() {
+        name = game.name;
+        description = game.description;
+        if(name != null & game.autoSave) {
+            if(!nameIsValid()) {
+                showNameError();
+            } else save();
+        }
     }
     
     public void saveGame() {
-        askForNameAndDescription();
+        askForSaveInfo();
         if(name != null) {
             if(!nameIsValid()) {
                 showNameError();
@@ -35,12 +45,17 @@ public class GameSaver {
         }
     };
     
-    private void askForNameAndDescription() {
+    private void askForSaveInfo() {
         NamePanel namePanel = new NamePanel();
         int nameEntered = JOptionPane.showConfirmDialog(null, namePanel, "Give your game a name and a description", JOptionPane.OK_CANCEL_OPTION);
         if(nameEntered == JOptionPane.OK_OPTION) {
             name = namePanel.name();
             description = namePanel.description();
+            if(namePanel.autoSaveChecked()) {
+                game.name = name;
+                game.description = description;
+                game.autoSave = true;
+            }
         }
     
     }
@@ -102,6 +117,7 @@ public class GameSaver {
     private static class NamePanel extends JPanel {
         JTextField nameField = new JTextField(15);
         JTextField descriptionField = new JTextField(65);
+        JCheckBox autoSave = new JCheckBox("Auto save ?");
         
         NamePanel() {
             this.add(new JLabel("Name : "));
@@ -109,7 +125,7 @@ public class GameSaver {
             this.add(Box.createHorizontalStrut(20));
             this.add(new JLabel("Description : "));
             this.add(descriptionField);
-        
+            this.add(autoSave);
         }
         
         String name() {
@@ -120,6 +136,11 @@ public class GameSaver {
         String description() {
             return descriptionField.getText();
         
+        }
+        
+        boolean autoSaveChecked() {
+            return autoSave.isSelected();
+            
         }
     
     }

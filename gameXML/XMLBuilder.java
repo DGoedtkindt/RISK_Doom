@@ -57,7 +57,6 @@ public class XMLBuilder {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(gameFile);
             doc.getDocumentElement().normalize();
-            
             return doc;
         } catch(IOException | ParserConfigurationException | SAXException ex) {
             String message = "Couldn't create Document from File : \n";
@@ -88,12 +87,13 @@ public class XMLBuilder {
     private void createPlayerNodes() {
         for(Player player : game.players) {
             Element playerNode = doc.createElement("Player");
+            playerNode.setAttribute("armiesInHand", player.armiesInHand() + "");
             rootElement.appendChild(playerNode);
             
             //player's attributes
             playerNode.setAttribute("name", player.name());
             playerNode.setAttribute("color", player.color().toRGB());
-            playerNode.setAttribute("points", player.points() + "");
+            playerNode.setAttribute("points", player.points + "");
             
             //player's territories
             List<Territory> ctrlTerrs = player.territories();
@@ -118,7 +118,6 @@ public class XMLBuilder {
             
             //number of armies
             createPlayerStatElement(stat.numberOfArmies, "PlayerArmyPair", "armies", statNode);
-            
             
             //number of armies per turn
             createPlayerStatElement(stat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn", statNode);

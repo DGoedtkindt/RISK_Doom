@@ -1,9 +1,8 @@
 package mode;
 
 import appearance.Theme;
+import base.Action;
 import base.MyWorld;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import greenfoot.Actor;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
@@ -15,7 +14,7 @@ public class ModeMessageDisplay extends Actor{
     
     private MyWorld world() {return MyWorld.theWorld;}
     
-    private ActionListener updateThis = (ActionEvent ae)-> {display(Mode.mode().message);};
+    private Action updateThis = () -> {display(Mode.mode().message);};
     
     public ModeMessageDisplay() {
         display("");

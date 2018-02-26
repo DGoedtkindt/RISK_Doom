@@ -1,12 +1,11 @@
 package mapEditor;
 
+import base.Action;
 import base.Button;
 import base.MyWorld;
 import base.NButton;
 import mode.Mode;
 import mode.ModeButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import greenfoot.GreenfootImage;
 import selector.Selector;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class ControlPanel {
     private MyWorld world() {return MyWorld.theWorld;}
     private Manager manager;
     
-    private ActionListener updateThis = (ActionEvent ae)-> {
+    private Action updateThis = () -> {
                 modeChanged(Mode.mode());
             };
     
@@ -83,7 +82,7 @@ public class ControlPanel {
     private void makeValidButtonsOpaque(Mode mode){
         
         switch (Mode.mode()) {
-            case MAP_EDITOR_DEFAULT:
+            case DEFAULT:
                 Collection<Territory> allTerritories = manager.map().territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){

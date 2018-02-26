@@ -1,7 +1,6 @@
 package mainObjects;
 
 import game.Player;
-import game.ArmiesInHandDisplayer;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;
@@ -102,8 +101,7 @@ public class TerritoryHex extends Button
                         
                         Territory.actionSource = territory;
                         Selector.select(territory);
-                        Selector.setValidator(Selector.IS_NOT_OWNED_CLOSE_TERRITORY);
-                        world().repaint(); //pour forcer l'actualisation des images
+                        Selector.setValidator(Selector.IS_ATTACKABLE);
                         
                     }else if(territory.owner() != Turn.currentTurn.player){
                         
@@ -115,7 +113,6 @@ public class TerritoryHex extends Button
                         }
                         Territory.actionSource = null;
                         Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
                         world().stateManager.escape();
                     }
                     
@@ -127,7 +124,6 @@ public class TerritoryHex extends Button
                         if(Territory.actionSource == null){
                             Territory.actionSource = territory;
                             Selector.select(territory);
-                            world().repaint(); //pour forcer l'actualisation des images
                         }else{
                             Selector.select(territory);
                             try{
@@ -137,7 +133,6 @@ public class TerritoryHex extends Button
                             }
                             Territory.actionSource = null;
                             Selector.setValidator(Selector.NOTHING);
-                            world().repaint(); //pour forcer l'actualisation des images
                             world().stateManager.escape();
                         }
                         
@@ -156,13 +151,12 @@ public class TerritoryHex extends Button
                             
                             if(newArmies < 0){
                                 MessageDisplayer.showMessage("This is a negative number.");
-                            }else if(newArmies > territory.owner().armiesInHand){
+                            }else if(newArmies > territory.owner().armiesInHand()){
                                 MessageDisplayer.showMessage("You don't have enough armies.");
                             }else{
-                                territory.armies += newArmies;
-                                territory.owner().armiesInHand -= newArmies;
+                                territory.addArmies(newArmies);
+                                territory.owner().addArmiesToHand(-newArmies);
                                 territory.drawTerritory();
-                                ArmiesInHandDisplayer.update();
                             }
                             
                         }else{
@@ -175,12 +169,9 @@ public class TerritoryHex extends Button
                     
                 case SAP : 
                     if(territory.owner() != Turn.currentTurn.player){
-                        territory.owner().armiesInHand += territory.armies();
-                        territory.armies = 1;
-                        territory.setOwner(Turn.currentTurn.player);
+                        territory.owner().addArmiesToHand(territory.armies());
+                        territory.setOwner(null);
                         Turn.currentTurn.player.combos().useSap();
-                        Selector.setValidator(Selector.NOTHING);
-                        world().repaint(); //pour forcer l'actualisation des images
                         world().stateManager.escape();
                     }
                     
@@ -225,11 +216,11 @@ public class TerritoryHex extends Button
         
     }
     
-    public void drawPlayerColor(Player p){
+    protected void drawPlayerColor(Player p){
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-            getImage().drawString("" + territory.armies, 20, 40);
+            getImage().drawString("" + territory.armies(), 20, 40);
         }
         
     }

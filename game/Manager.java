@@ -1,7 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.Theme;
 import base.Action;
 import base.Button;
 import base.Game;
@@ -10,9 +9,10 @@ import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Actor;
+import greenfoot.Color;
+import greenfoot.Font;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import java.awt.FontMetrics;
 import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -54,7 +54,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.GAME_DEFAULT);
+        Mode.setMode(Mode.DEFAULT);
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
@@ -68,10 +68,21 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(loadedGame.gameState == Game.State.INITIALISATION){
-            initGame();
-            loadedGame.gameState = Game.State.INGAME;
-        }
+        if(null != loadedGame.gameState)switch (loadedGame.gameState) {
+            case INITIALISATION:
+                giveTerritoriesRandomly();
+                startNewTurn();
+                loadedGame.gameState = Game.State.INGAME;
+                break;
+            case INGAME:
+                startNewTurn();
+                break;
+            case FINISHED:
+                //do nothing yet. should maybe show the stats and the EndGamePanel
+                break;
+            default:
+                break;
+        } 
         
     }
     
@@ -83,8 +94,15 @@ public class Manager extends StateManager{
         
     }
     
+    private void startNewTurn() {
+        int turnNumber = 1 + loadedGame.stats.size();
+        Turn.startNewTurn(turnNumber);
+    
+    }
+    
     @Override
     public void clearScene() {
+        Turn.endCurrentTurn();
         
         gameToLoad = loadedGame;
         loadedGame = new Game();
@@ -98,7 +116,7 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.GAME_DEFAULT) {
+        if(Mode.mode() == Mode.DEFAULT) {
 
             int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -110,7 +128,7 @@ public class Manager extends StateManager{
         
         } else {
             Selector.clear();
-            Mode.setMode(Mode.GAME_DEFAULT);
+            Mode.setMode(Mode.DEFAULT);
             
         }
     }
@@ -133,58 +151,74 @@ public class Manager extends StateManager{
 
             }
             
-            p.getnewCapital();
+            p.updateCapital();
             
         }
         
     }
-
-    public void initGame(){
-        giveTerritoriesRandomly();
-        Turn.startNewTurn(1);
-        
-    }
     
     public void endByVictory(Player p){
-        EndTurnPanel.showVictory(p);
+        new EndGamePanel().showVictory(p);
     }
     
     public void endByDeath(Player p){
-        EndTurnPanel.showDeath(p);
+        new EndGamePanel().showDeath(p);
     }
     
-    protected Action saveGame = () -> {
-        (new GameSaver(game())).saveGame();
-    
-    };
-    
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.GAME_DEFAULT){
+                if(Mode.mode() == Mode.DEFAULT){
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
     
 }
 
-class EndTurnPanel extends Button{
+/* Temporarily a button. Should then show buttons to see the stats of the game
+ * and a button to go to the menu.
+ */
+class EndGamePanel extends Button{
+    private Player p;
+    private String message;
     
-    private EndTurnPanel(String message){
-        GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT);
-        img.setColor(Theme.used.backgroundColor.brighter());
-        img.fill();
-        img.setColor(Theme.used.textColor);
-        img.setFont(Appearance.GREENFOOT_FONT);
-        FontMetrics fm = img.getAwtImage().getGraphics().getFontMetrics();
-        img.drawString(message, (Appearance.WORLD_WIDTH - fm.stringWidth(message)) / 2, (Appearance.WORLD_HEIGHT + fm.getMaxAscent() + fm.getMaxDescent()) / 2);
-        setImage(img);
+    private void colorBackground() {
+        Color color = p.color();
+        Color transparentColor = new Color(color.getRed(),color.getGreen(),color.getBlue(),150);
+        getImage().setColor(transparentColor);
+        getImage().fill();
+    
     }
     
-    public static void showVictory(Player p){
-        MyWorld.theWorld.addObject(new EndTurnPanel("Player " + p.name() + " has won"), Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    public void showVictory(Player player){
+        p = player;
+        message = "Player " + p.name() + " has won";
+        show();
     }
     
-    public static void showDeath(Player p){
-        MyWorld.theWorld.addObject(new EndTurnPanel("Player " + p.name() + " has lost"), Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+    public void showDeath(Player p){
+        message = "Player " + p.name() + " has lost";
+        show();
+    }
+    
+    private void show() {
+        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
+        colorBackground();
+        writeMessage();
+        addToWorld();
+        
+    }
+    
+    private void writeMessage() {
+        if(p.color().luminosity() > 128) {
+            getImage().setColor(Color.BLACK);
+        } else {
+            getImage().setColor(Color.WHITE);
+        }
+        getImage().setFont(new Font("monospaced", true, false, 50));
+        getImage().drawString(message, 400, 500);
+    }
+    
+    void addToWorld() {
+        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
     }
     
     @Override

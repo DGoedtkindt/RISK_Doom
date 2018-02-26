@@ -42,7 +42,7 @@ public class LinkIndic extends Button{
     @Override
     public void clicked() {
         
-        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
+        if(Mode.mode() == Mode.DEFAULT){
             
             String[] actions = new String[]{"Delete the entire link", "Delete this particular link", "Extend this link", "Oh, I just wanted to greet it"};
             

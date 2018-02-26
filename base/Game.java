@@ -9,7 +9,7 @@ import java.util.List;
 public class Game {
     
     /**
-     * in case we need this
+     * different states the game can be in.
      */
     public enum State {
         INITIALISATION("stuff still needs to be done for the game to truly start"),
@@ -25,5 +25,10 @@ public class Game {
     public List<Player> players = new ArrayList<>();
     public Map map = new Map();
     public Difficulty difficulty;
+    
+    //for autosave
+    public boolean autoSave = false;
+    public String name = "";
+    public String description = "";
     
 }

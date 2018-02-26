@@ -2,6 +2,7 @@ package base;
 
 import appearance.Appearance;
 import appearance.Theme;
+import game.ArmiesInHandDisplayer;
 import mainObjects.BlankHex;
 import greenfoot.World;
 import greenfoot.Greenfoot;
@@ -31,7 +32,7 @@ public class MyWorld extends World {
                     new GreenfootImage("backToHome.png"),30,30);
     
     /**
-     * Creates the World.
+     * Creates the World. And initialises anything needed
      * Fun fact : if you call this constructor, you're demiurge.
      */
     public MyWorld() {    
@@ -39,6 +40,9 @@ public class MyWorld extends World {
         theWorld = this;
         load(new menu.Manager());
         Greenfoot.start();
+        
+        //to run static block
+        ArmiesInHandDisplayer.update();
         
     }
     

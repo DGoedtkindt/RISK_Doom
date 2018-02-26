@@ -143,7 +143,7 @@ public class ComboDisplayer extends Button{
     
     @Override
     public void clicked() {
-        if(Mode.mode() == Mode.GAME_DEFAULT){
+        if(Mode.mode() == Mode.DEFAULT){
             toggleImage();
         }
     }

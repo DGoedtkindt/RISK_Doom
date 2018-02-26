@@ -13,11 +13,12 @@ public class Player {
     
     private final String name;
     private final GColor color;
-    public int armiesInHand = 1;
+    private int armiesInHand = 0;
     public int points = 0;
     public boolean fortressProtection = false;
     public int battlecryBonus = 0;
     public Territory capital;
+    public boolean conqueredThisTurn = false;
     
     private Combo combos = new Combo();
     
@@ -99,12 +100,12 @@ public class Player {
     }
     
     void getArmies() {
-        armiesInHand += armyGainPerTurn();
+        this.addArmiesToHand(armyGainPerTurn());
     
     }
     
     public void gainComboPiece(){
-        combos.addRandomCombo();
+        if(combos.comboPiecesNumber()<5) combos.addRandomCombo();
         ComboDisplayer.updateDisplay(this);
     }
     
@@ -124,29 +125,32 @@ public class Player {
     public String name(){
         return name;
     }
-
-    public int points() {
-        return points;
-    }
-    
-    public int comboPiecesNumber(){
-        return combos.comboPiecesNumber();
-    }
     
     public Combo combos(){
         return combos;
     }
     
-    public void getnewCapital(){
+    public int armiesInHand(){
+        return armiesInHand;
+    }
+    
+    public void setArmiesInHand(int howMany) {
+        armiesInHand = howMany;
+        ArmiesInHandDisplayer.update();
+    }
+    
+    public void addArmiesToHand(int howMany) {
+        armiesInHand+= howMany;
+        ArmiesInHandDisplayer.update();
+    
+    }
+    
+    public void updateCapital(){
+        capital = territories().get(0);
         
         for(Territory t : territories()){
-            
-            Territory capitalTerritory = null;
-            int capitalBonus = 0;
-            
-            if(t.bonus() >= capitalBonus){
-                capitalTerritory = t;
-                capitalBonus = capitalTerritory.bonus();
+            if(t.bonus() > capital.bonus()){
+                capital = t;
             }
             
         }
