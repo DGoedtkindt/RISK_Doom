@@ -41,7 +41,8 @@ public class Manager extends StateManager{
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
-        this.options = new NButton(loadOptionsMenu, "Options");
+        GreenfootImage settings = new GreenfootImage("settings.png");
+        this.options = new NButton(loadOptionsMenu, settings, 30,30);
         this.comboDisplayer = ComboDisplayer.current();
         this.gameToLoad = loadGame;
         
@@ -59,7 +60,7 @@ public class Manager extends StateManager{
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth() - 120, 50);
+        world().addObject(options, world().getWidth() - 60, 30);
         world().addObject(comboDisplayer, world().getWidth() - 90, 900);
         loadGame();
     }
