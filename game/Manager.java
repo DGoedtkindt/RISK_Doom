@@ -31,7 +31,6 @@ public class Manager extends StateManager{
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
     private NButton options;
-    private ComboDisplayer comboDisplayer;
     
     /** Creates a new Manager that will allow to play a certain Game when 
      * setupScene() is called.
@@ -43,7 +42,6 @@ public class Manager extends StateManager{
         this.modeDisp = new ModeMessageDisplay();
         GreenfootImage settings = new GreenfootImage("settings.png");
         this.options = new NButton(loadOptionsMenu, settings, 30,30);
-        this.comboDisplayer = ComboDisplayer.current();
         this.gameToLoad = loadGame;
         
     }
@@ -61,7 +59,6 @@ public class Manager extends StateManager{
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 60, 30);
-        world().addObject(comboDisplayer, world().getWidth() - 90, 900);
         loadGame();
     }
     

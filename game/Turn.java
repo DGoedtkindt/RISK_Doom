@@ -58,6 +58,7 @@ public class Turn {
     
     public void start(){
         lockModeToClearHand();
+        ComboDisplayer.display();
         
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();

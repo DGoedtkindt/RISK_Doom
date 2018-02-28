@@ -32,7 +32,7 @@ public class Player {
         fortressProtection = false;
         battlecryBonus = 0;
         getArmies();
-        Combo.display(this);
+        ComboDisplayer.display();
     }
     
     public int armyGainPerTurn() {
@@ -105,8 +105,7 @@ public class Player {
     }
     
     public void gainComboPiece(){
-        if(combos.comboPiecesNumber()<5) combos.addRandomCombo();
-        ComboDisplayer.updateDisplay(this);
+        combos.addRandomCombo();
     }
     
     public boolean hasLost() {
