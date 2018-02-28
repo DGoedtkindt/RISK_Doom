@@ -6,7 +6,6 @@ import base.Button;
 import base.NButton;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
-import mode.Mode;
 
 /**
  * Displays the combo pieces a player has.
@@ -88,8 +87,9 @@ public class ComboDisplayer extends Button{
         img.scale(width, bandHeight * 3 + bandSeparation * 2);
         img.setColor(Theme.used.backgroundColor.darker());
         img.fill();
-        img.setColor(Theme.used.textColor);
+        img.setColor(Turn.currentTurn.player.color());
         img.drawRect(1, 1, img.getWidth() - 3, img.getHeight() - 3);
+        img.setColor(Theme.used.textColor);
         img.drawString("COMBOS", (img.getWidth() - fm.stringWidth("COMBOS")) / 2, 
                                  (img.getHeight() + bandHeight) / 2);
         
@@ -116,7 +116,8 @@ public class ComboDisplayer extends Button{
     private void updateImage(){
         if(shown){
             createComboImage();
-        }
+        } else 
+            createHiddenImage();
     }
     
     /**
