@@ -18,25 +18,23 @@ public class Combo {
     private int c = 0;
     
     public void addRandomCombo(){
-        if(comboPiecesNumber()<5) {
-            int randomCombo = Greenfoot.getRandomNumber(3);
-
-            switch(randomCombo){
-
-                case 0 : a++;
-                    break;
-                case 1 : b++;
-                    break;
-                case 2 : c++;
-                    break;
-
-            }
+        
+        int randomCombo = Greenfoot.getRandomNumber(3);
+        
+        switch(randomCombo){
             
-            ComboDisplayer.display();
+            case 0 : a++;
+                break;
+            case 1 : b++;
+                break;
+            case 2 : c++;
+                break;
+            
         }
+        
     }
     
-    private int comboPiecesNumber(){
+    public int comboPiecesNumber(){
         return a + b + c;
     }
     
@@ -50,6 +48,10 @@ public class Combo {
     
     public int c(){
         return c;
+    }
+    
+    static public void display(Player p){
+        ComboDisplayer.displayCombos(p);
     }
     
     private ModeButton sapButton = new ModeButton("backToHome.png", Mode.SAP, Selector.IS_ATTACKABLE);
@@ -95,7 +97,6 @@ public class Combo {
             }
             
         }
-        ComboDisplayer.display();
         
     }
     

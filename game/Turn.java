@@ -27,12 +27,6 @@ public class Turn {
         
     }
     
-    public static void interruptCurrentTurn() {
-        currentTurn.unlockMode();
-        currentTurn = null;
-    
-    }
-    
     public static void startNewTurn() {
         if(currentTurn != null) {
             int newTurnNumber = currentTurn.turnNumber + 1;
@@ -58,7 +52,6 @@ public class Turn {
     
     public void start(){
         lockModeToClearHand();
-        ComboDisplayer.display();
         
         if(player instanceof Zombie){
             ((Zombie)player).takeTurn();
@@ -73,7 +66,6 @@ public class Turn {
     }
     
     public void end() {
-        unlockMode();
         if(player.conqueredThisTurn) {
             player.gainComboPiece();
         }
@@ -128,11 +120,6 @@ public class Turn {
 
     private void lockModeToClearHand() {
         Mode.addModeChangeListener(lockModeToClearingHand);
-    }
-    
-    private void unlockMode() {
-        Mode.removeModeChangeListener(lockModeToClearingHand);
-    
     }
     
 }

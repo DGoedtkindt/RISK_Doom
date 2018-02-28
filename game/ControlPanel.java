@@ -5,6 +5,7 @@ import base.Button;
 import base.MyWorld;
 import base.NButton;
 import java.util.ArrayList;
+import greenfoot.GreenfootImage;
 import mode.Mode;
 import mode.ModeButton;
 import selector.Selector;
@@ -15,9 +16,10 @@ public class ControlPanel {
     private Manager manager;
     private NButton nextTurnButton = new NButton(() -> {
         Turn.endCurrentTurn();
-        Turn.startNewTurn();}, "End Turn");
-    private ModeButton attackButton = new ModeButton("attack.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
-    private ModeButton moveButton = new ModeButton("moveArmies.png", Mode.MOVE, Selector.IS_OWNED_TERRITORY);
+        Turn.startNewTurn();}
+            , new GreenfootImage("backToHome.png"));
+    private ModeButton attackButton = new ModeButton("backToHome.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
+    private ModeButton moveButton = new ModeButton("backToHome.png", Mode.MOVE, Selector.IS_OWNED_TERRITORY);
     
     private Action updateThis = () -> {};
     
@@ -35,9 +37,9 @@ public class ControlPanel {
     
     protected void addToWorld(int xPos, int yPos) {
         Mode.addModeChangeListener(updateThis);
-        world().addObject(nextTurnButton, xPos, yPos + 300);
+        world().addObject(nextTurnButton, xPos, yPos + 100);
         world().addObject(attackButton, xPos, yPos + 200);
-        world().addObject(moveButton, xPos, yPos + 100);
+        world().addObject(moveButton, xPos, yPos + 300);
         
     }
     
