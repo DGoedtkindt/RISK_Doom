@@ -96,14 +96,21 @@ public class Manager extends StateManager{
     }
     
     private void startNewTurn() {
-        int turnNumber = 1 + loadedGame.stats.size();
+        int turnNumber = loadedGame.stats.size();
         Turn.startNewTurn(turnNumber);
     
     }
     
     @Override
     public void clearScene() {
-        Turn.endCurrentTurn();
+        //Put the active player's armiesInHand to negative. little hack to prevent
+        //the player to get the armies multiple times by going to the options and 
+        //back
+        Player currentPlayer = Turn.currentTurn.player;
+        currentPlayer.addArmiesToHand(-currentPlayer.armyGainPerTurn());
+        //
+        
+        Turn.interruptCurrentTurn();
         
         gameToLoad = loadedGame;
         loadedGame = new Game();
@@ -167,10 +174,15 @@ public class Manager extends StateManager{
     }
     
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.DEFAULT){
-                    clearScene();
-                    world().load(new userPreferences.Manager(this));
-                }};
+        if(Mode.mode() == Mode.DEFAULT){
+            clearScene();
+            world().load(new userPreferences.Manager(this));
+        } else {
+            escape();
+            
+        }
+        
+    };
     
 }
 
