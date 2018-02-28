@@ -26,17 +26,17 @@ public class Hexagon {
     }
     
     /**
-     * Creates a hexagonal image without borders. scaled by a factor
+     * Creates a hexagonal image with borders.
      * @param color The color of this hexagon.
-     * @param sizeFactor the factor the hexagon will be scaled by.
+     * @param sizeInPercent The size, in percent, of this hexagon.
      * @return The image.
      */
-    public static GreenfootImage createImage(GColor color, double sizeFactor){
+    public static GreenfootImage createImage(GColor color, double sizeInPercent){
         //crée l'image d'un hexagone simple avec un multiplicateur de taille
         //l'image de retour reste 2*RADIUSx2*RADIUS
         GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
         
-        int[][] array  = getHexagonCoord(sizeFactor);
+        int[][] array  = getHexagonCoord(sizeInPercent);
         
         img.setColor(color);
         img.fillPolygon(array[0], array[1], 6);
