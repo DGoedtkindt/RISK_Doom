@@ -220,7 +220,7 @@ public class TerritoryHex extends Button
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-            getImage().drawString("" + territory.armies(), 20, 40);
+            getImage().drawString("" + territory.armies() + territory.owner().battlecryBonus, 20, 40);
         }
         
     }
