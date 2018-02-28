@@ -31,18 +31,17 @@ public class Manager extends StateManager{
     private ControlPanel ctrlPanel;
     private ModeMessageDisplay modeDisp;
     private NButton options;
-    private ComboDisplayer comboDisplayer;
     
     /** Creates a new Manager that will allow to play a certain Game when 
      * setupScene() is called.
      * 
-     * @param loadGame The game that will be loaded.
+     * @param loadGame the game that will be loaded.
      */
     public Manager(Game loadGame) {
         this.ctrlPanel = new ControlPanel(this);
         this.modeDisp = new ModeMessageDisplay();
-        this.options = new NButton(loadOptionsMenu, "Options");
-        this.comboDisplayer = ComboDisplayer.current();
+        GreenfootImage settings = new GreenfootImage("settings.png");
+        this.options = new NButton(loadOptionsMenu, settings, 30,30);
         this.gameToLoad = loadGame;
         
     }
@@ -59,8 +58,7 @@ public class Manager extends StateManager{
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
         world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth() - 120, 50);
-        world().addObject(comboDisplayer, world().getWidth() - 90, 900);
+        world().addObject(options, world().getWidth() - 60, 30);
         loadGame();
     }
     
@@ -68,7 +66,7 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(loadedGame.gameState != null)switch (loadedGame.gameState) {
+        if(null != loadedGame.gameState)switch (loadedGame.gameState) {
             case INITIALISATION:
                 giveTerritoriesRandomly();
                 startNewTurn();
@@ -102,7 +100,14 @@ public class Manager extends StateManager{
     
     @Override
     public void clearScene() {
-        Turn.endCurrentTurn();
+        //Put the active player's armiesInHand to negative. little hack to prevent
+        //the player to get the armies multiple times by going to the options and 
+        //back
+        Player currentPlayer = Turn.currentTurn.player;
+        currentPlayer.addArmiesToHand(-currentPlayer.armyGainPerTurn());
+        //
+        
+        Turn.interruptCurrentTurn();
         
         gameToLoad = loadedGame;
         loadedGame = new Game();
@@ -166,10 +171,15 @@ public class Manager extends StateManager{
     }
     
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.DEFAULT){
-                    clearScene();
-                    world().load(new userPreferences.Manager(this));
-                }};
+        if(Mode.mode() == Mode.DEFAULT){
+            clearScene();
+            world().load(new userPreferences.Manager(this));
+        } else {
+            escape();
+            
+        }
+        
+    };
     
 }
 

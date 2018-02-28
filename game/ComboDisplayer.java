@@ -6,7 +6,6 @@ import base.Button;
 import base.NButton;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
-import mode.Mode;
 
 /**
  * Displays the combo pieces a player has.
@@ -14,8 +13,8 @@ import mode.Mode;
  */
 public class ComboDisplayer extends Button{
     
-    private static ComboDisplayer current = new ComboDisplayer(new Combo());
-    private static NButton useCombos = new NButton(() -> {current.combo.use();}, "Use combo");
+    private final static ComboDisplayer displayer = new ComboDisplayer(new Combo());
+    private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use combo");
     
     private boolean shown = false;
     
@@ -88,8 +87,9 @@ public class ComboDisplayer extends Button{
         img.scale(width, bandHeight * 3 + bandSeparation * 2);
         img.setColor(Theme.used.backgroundColor.darker());
         img.fill();
-        img.setColor(Theme.used.textColor);
+        img.setColor(Turn.currentTurn.player.color());
         img.drawRect(1, 1, img.getWidth() - 3, img.getHeight() - 3);
+        img.setColor(Theme.used.textColor);
         img.drawString("COMBOS", (img.getWidth() - fm.stringWidth("COMBOS")) / 2, 
                                  (img.getHeight() + bandHeight) / 2);
         
@@ -111,49 +111,31 @@ public class ComboDisplayer extends Button{
     }
     
     /**
-     * Update the displayer's image after a combo is played.
+     * Update the displayer's image.
      */
     private void updateImage(){
         if(shown){
             createComboImage();
-        }
-    }
-    
-    /**
-     * Creates a ComboDisplayer and adds it to the world.
-     * @param p The Player playing this turn.
-     */
-    public static void displayCombos(Player p){
-        world().removeObject(current);
-        current = new ComboDisplayer(p.combos());
-        world().addObject(current, Appearance.WORLD_WIDTH - 90, 900);
-        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 990);
-        
+        } else 
+            createHiddenImage();
     }
     
     /**
      * Updates the displayer for the current Player.
-     * @param p The Player playing this turn.
      */
-    public static void updateDisplay(Player p){
-        current.combo = p.combos();
-        current.updateImage();
+    public static void display() {
+        Player currentPlayer = Turn.currentTurn.player;
+        displayer.combo = currentPlayer.combos();
+        displayer.updateImage();
+        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 900);
         world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 990);
+        
     }
     
     @Override
     public void clicked() {
-        if(Mode.mode() == Mode.DEFAULT){
-            toggleImage();
-        }
-    }
-    
-    /**
-     * Returns the ComboDisplayer currently used
-     * @return The ComboDisplayer currently used.
-     */
-    public static ComboDisplayer current(){
-        return current;
+        toggleImage();
+        
     }
     
 }

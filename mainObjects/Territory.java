@@ -186,7 +186,7 @@ public class Territory implements Selectable
             
             if(invadingArmies < 2){
                 throw new Exception("You can't attack a territory without at least two armies.");
-            }else if(invadingArmies > armies - 1 + owner().battlecryBonus){
+            }else if(invadingArmies > armies - 1){
                 throw new Exception("You don't have enough armies.");
             }else{
                 armies -= invadingArmies;
@@ -253,7 +253,7 @@ public class Territory implements Selectable
     
     public boolean canAttack(Territory target){
         
-        return neighbours().contains(target) && !target.owner.fortressProtection;
+        return neighbours().contains(target);
         
     }
     
