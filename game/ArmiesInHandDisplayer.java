@@ -51,7 +51,7 @@ public class ArmiesInHandDisplayer {
     private static void hide() {
         MyWorld.theWorld.removeObject(displayer);
         Selector.setValidator(Selector.EVERYTHING);
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.GAME_DEFAULT);
     
     }
     

@@ -37,14 +37,12 @@ public class Player {
     
     public int armyGainPerTurn() {
         int terrNumber = 0;
-        int terrBonus = 0;
         int continentBonus = 0;
         
         for(Territory t : territories()){
             
             if(t.owner() == this){
                 terrNumber++;
-                terrBonus += t.bonus();
             }
             
         }
@@ -55,7 +53,7 @@ public class Player {
         }
         
         int fromTerritories = (int)Math.floor(terrNumber / 3);
-        int total = fromTerritories + terrBonus + continentBonus; // possibly +other things
+        int total = fromTerritories + capital.bonus() + continentBonus; // possibly +other things
          
         return total;
     }

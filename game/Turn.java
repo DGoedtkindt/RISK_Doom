@@ -4,6 +4,7 @@ import base.Action;
 import base.Game;
 import base.MyWorld;
 import java.util.List;
+import mainObjects.TerrInfo;
 import mode.Mode;
 
 public class Turn {
@@ -11,7 +12,7 @@ public class Turn {
         
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     private static List<Player> players() {return game().players;}
-    public Player player;
+    public Player player = null;
     
     protected int turnNumber;
     
@@ -38,7 +39,7 @@ public class Turn {
             int newTurnNumber = currentTurn.turnNumber + 1;
             startNewTurn(newTurnNumber);
         } else {
-            startNewTurn(1);
+            startNewTurn(0);
             System.err.println("Turn.currentTurn was not initialized by the manager"
                     + " before calling Turn.startNewTurn. This should not happen");
         }
@@ -133,6 +134,10 @@ public class Turn {
     private void unlockMode() {
         Mode.removeModeChangeListener(lockModeToClearingHand);
     
+    }
+    
+    public boolean hasAplayer(){
+        return player != null;
     }
     
 }

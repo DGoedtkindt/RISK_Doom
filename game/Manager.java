@@ -53,7 +53,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.GAME_DEFAULT);
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
@@ -66,7 +66,7 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(null != loadedGame.gameState)switch (loadedGame.gameState) {
+        if(loadedGame.gameState != null)switch (loadedGame.gameState) {
             case INITIALISATION:
                 giveTerritoriesRandomly();
                 startNewTurn();
@@ -121,7 +121,7 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.DEFAULT) {
+        if(Mode.mode() == Mode.GAME_DEFAULT) {
 
             int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -133,7 +133,7 @@ public class Manager extends StateManager{
         
         } else {
             Selector.clear();
-            Mode.setMode(Mode.DEFAULT);
+            Mode.setMode(Mode.GAME_DEFAULT);
             
         }
     }
@@ -171,7 +171,7 @@ public class Manager extends StateManager{
     }
     
     private Action loadOptionsMenu = () -> {
-        if(Mode.mode() == Mode.DEFAULT){
+        if(Mode.mode() == Mode.GAME_DEFAULT){
             clearScene();
             world().load(new userPreferences.Manager(this));
         } else {
