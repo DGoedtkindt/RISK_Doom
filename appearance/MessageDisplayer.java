@@ -6,7 +6,6 @@ import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
-import mode.Mode;
 
 /**
  * An Actor that displays error messages.
