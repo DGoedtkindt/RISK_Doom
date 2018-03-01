@@ -168,6 +168,10 @@ public class Territory implements Selectable
         
     }
     
+    public TerrInfo terrInfo(){
+        return trInfo;
+    }
+    
     /**
      * changes the owner of this Territory without drawing this. 
      * @param newOwner
@@ -345,7 +349,7 @@ public class Territory implements Selectable
         drawHexs();
         drawAllHexsLinks();
         drawPlayerColor();
-        trInfo.setDisplayedBonus(bonusPoints);
+        trInfo.updateImage();
     }
     
     private void drawHexs(){

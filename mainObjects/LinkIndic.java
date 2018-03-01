@@ -7,7 +7,6 @@ import appearance.MessageDisplayer;
 import base.Button;
 import base.Hexagon;
 import base.MyWorld;
-import base.StateManager;
 import mode.Mode;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
@@ -18,8 +17,6 @@ public class LinkIndic extends Button{
     private TerritoryHex terrHex;
     private int xPos;
     private int yPos; 
-    
-    private StateManager manager() {return world().stateManager;}
     
     public LinkIndic(Territory territory, int xPos, int yPos) {
         //le lier au Links actif et a son territoire
@@ -42,7 +39,7 @@ public class LinkIndic extends Button{
     @Override
     public void clicked() {
         
-        if(Mode.mode() == Mode.DEFAULT){
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
             
             String[] actions = new String[]{"Delete the entire link", "Delete this particular link", "Extend this link", "Oh, I just wanted to greet it"};
             
