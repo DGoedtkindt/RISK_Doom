@@ -1,7 +1,6 @@
 package rules;
 
 import appearance.Appearance;
-import appearance.MessageDisplayer;
 import appearance.Theme;
 import arrowable.Arrowable;
 import arrowable.LeftArrow;
