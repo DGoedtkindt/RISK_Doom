@@ -34,7 +34,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
@@ -70,7 +70,7 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.DEFAULT) {
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT) {
 
             int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
                                                              "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -88,7 +88,7 @@ public class Manager extends StateManager{
                 Links.newLinks = null;
             }
 
-            Mode.setMode(Mode.DEFAULT);
+            Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
             
         }
         
@@ -103,7 +103,7 @@ public class Manager extends StateManager{
     /////Private Methods///////////////////////
     
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.DEFAULT){
+                if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};

@@ -81,8 +81,8 @@ public class ControlPanel {
     
     private void makeValidButtonsOpaque(Mode mode){
         
-        switch (Mode.mode()) {
-            case DEFAULT:
+        switch (mode) {
+            case MAP_EDITOR_DEFAULT:
                 Collection<Territory> allTerritories = manager.map().territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
