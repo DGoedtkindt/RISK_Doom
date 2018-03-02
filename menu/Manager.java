@@ -1,16 +1,19 @@
 package menu;
 
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
 public class Manager extends StateManager {
     
     //Buttons in the main menu
-    private NButton playGameButton           = new NButton(() -> {world().load(new gameTypeSelection.Manager());}     , "Play");
-    private NButton mapEditorButton          = new NButton(() -> {mapEditorMenu();}, "Map Editor");
-    private NButton optionsButton            = new NButton(() -> {optionsMenu();}  , "Options");
+    private NButton playGameButton          = new NButton(() -> {world().load(new gameTypeSelection.Manager());}     , "Play");
+    private NButton mapEditorButton         = new NButton(() -> {mapEditorMenu();}, "Map Editor");
+    private NButton optionsButton           = new NButton(() -> {optionsMenu();}  , "Options");
+    private NButton rulesButton             = new NButton(() -> {rulesMenu();}, "Rules");
     
     @Override
     public void setupScene() {
@@ -19,13 +22,12 @@ public class Manager extends StateManager {
         world().addObject(playGameButton, world().getWidth() / 2, world().getHeight() / 2);
         world().addObject(mapEditorButton, world().getWidth() / 4, world().getHeight() / 2);
         world().addObject(optionsButton, 3 * world().getWidth() / 4, world().getHeight() / 2);
+        world().addObject(rulesButton, world().getWidth() / 2, 2*world().getHeight()/3);
     }
 
     @Override
     public void clearScene() {
-        world().removeObject(playGameButton);
-        world().removeObject(mapEditorButton);
-        world().removeObject(optionsButton);
+        world().makeSureSceneIsClear();
         
     }
     
@@ -56,6 +58,11 @@ public class Manager extends StateManager {
             System.exit(0);
         }
         
+    }
+
+    private void rulesMenu() {
+        clearScene();
+        world().load(new rules.Manager());
     }
 
 }
