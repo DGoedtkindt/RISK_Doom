@@ -15,7 +15,7 @@ import selector.Selector;
  */
 public class ArmiesInHandDisplayer {
     
-    private static Actor displayer;
+    private static Display displayer;
     
     static {
         displayer = new Display();
@@ -43,15 +43,21 @@ public class ArmiesInHandDisplayer {
         
     }
     
+    /**
+     * Shows the Displayer.
+     */
     private static void show() {
         MyWorld.theWorld.addObject(displayer, 30, 30);
         Selector.setValidator(Selector.IS_OWNED_TERRITORY);
     }
     
+    /**
+     * Hides the Displayer.
+     */
     private static void hide() {
         MyWorld.theWorld.removeObject(displayer);
         Selector.setValidator(Selector.EVERYTHING);
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.GAME_DEFAULT);
     
     }
     
@@ -66,7 +72,7 @@ public class ArmiesInHandDisplayer {
                 updateImage(Turn.currentTurn.player.armiesInHand());
             } else if(Mode.mode() == Mode.CLEARING_HAND) {
                 hide();
-            };
+            }
         }
         
     }

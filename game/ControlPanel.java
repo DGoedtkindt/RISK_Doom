@@ -4,11 +4,16 @@ import base.Action;
 import base.Button;
 import base.MyWorld;
 import base.NButton;
+import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import mode.Mode;
 import mode.ModeButton;
 import selector.Selector;
 
+/**
+ * The ControlPanel containing the Buttons used to play the Game.
+ * 
+ */
 public class ControlPanel {
     
     private MyWorld world() {return MyWorld.theWorld;}
@@ -16,8 +21,8 @@ public class ControlPanel {
     private NButton nextTurnButton = new NButton(() -> {
         Turn.endCurrentTurn();
         Turn.startNewTurn();}, "End Turn");
-    private ModeButton attackButton = new ModeButton("attack.png", Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
-    private ModeButton moveButton = new ModeButton("moveArmies.png", Mode.MOVE, Selector.IS_OWNED_TERRITORY);
+    private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
+    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.IS_OWNED_TERRITORY);
     
     private Action updateThis = () -> {};
     
@@ -25,6 +30,10 @@ public class ControlPanel {
     //to easlily modify all buttons
     private ArrayList<Button> allButtons = new ArrayList<>();
     
+    /**
+     * Creates a ControlPanel from a specific game.Manager.
+     * @param manager The game.Manager of this ControlPanel.
+     */
     protected ControlPanel(Manager manager) {
         this.manager = manager;
         allButtons.add(nextTurnButton);
@@ -33,6 +42,11 @@ public class ControlPanel {
     
     }
     
+    /**
+     * Adds the ControlPanel in a specific position in the World.
+     * @param xPos The x coordinate of the ControlPanel.
+     * @param yPos The y coordinate of the ControlPanel.
+     */
     protected void addToWorld(int xPos, int yPos) {
         Mode.addModeChangeListener(updateThis);
         world().addObject(nextTurnButton, xPos, yPos + 300);
@@ -41,6 +55,9 @@ public class ControlPanel {
         
     }
     
+    /**
+     * Removes the ControlPanel from the World.
+     */
     protected void removeFromWorld() {
         Mode.removeModeChangeListener(updateThis);
         allButtons.forEach(world()::removeObject);

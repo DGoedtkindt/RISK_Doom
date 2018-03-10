@@ -1,19 +1,18 @@
 package game;
 
 import appearance.Appearance;
+import appearance.InputPanel;
+import appearance.MessageDisplayer;
 import base.Action;
-import base.Button;
 import base.Game;
 import base.Map;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Actor;
-import greenfoot.Color;
-import greenfoot.Font;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
@@ -21,6 +20,10 @@ import mode.Mode;
 import mode.ModeMessageDisplay;
 import selector.Selector;
 
+/**
+ * The Manager that manages the Game.
+ * 
+ */
 public class Manager extends StateManager{
     
     private static final int STARTING_TERRITORIES = 4;
@@ -32,7 +35,8 @@ public class Manager extends StateManager{
     private ModeMessageDisplay modeDisp;
     private NButton options;
     
-    /** Creates a new Manager that will allow to play a certain Game when 
+    /** 
+     * Creates a new Manager that will allow to play a certain Game when 
      * setupScene() is called.
      * 
      * @param loadGame the game that will be loaded.
@@ -53,7 +57,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.GAME_DEFAULT);
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
@@ -62,15 +66,23 @@ public class Manager extends StateManager{
         loadGame();
     }
     
+    /** 
+     * Generates a Map and initiates a Game.
+     */
     private void loadGame(){
         loadMap();
         loadedGame = gameToLoad;
         
-        if(null != loadedGame.gameState)switch (loadedGame.gameState) {
+        if(loadedGame.gameState != null)switch (loadedGame.gameState) {
             case INITIALISATION:
-                giveTerritoriesRandomly();
-                startNewTurn();
-                loadedGame.gameState = Game.State.INGAME;
+                try{
+                    giveTerritoriesRandomly();
+                    startNewTurn();
+                    loadedGame.gameState = Game.State.INGAME;
+                }catch(Exception e){
+                    world().load(new menu.Manager());
+                    MessageDisplayer.showException(e);
+                }
                 break;
             case INGAME:
                 startNewTurn();
@@ -84,6 +96,9 @@ public class Manager extends StateManager{
         
     }
     
+    /** 
+     * Generates a Map.
+     */
     private void loadMap(){
         
         gameToLoad.map.territories.forEach(Territory::addToWorld);
@@ -92,6 +107,9 @@ public class Manager extends StateManager{
         
     }
     
+    /** 
+     * Starts the first Turn of the Game.
+     */
     private void startNewTurn() {
         int turnNumber = loadedGame.stats.size();
         Turn.startNewTurn(turnNumber);
@@ -121,57 +139,80 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.DEFAULT) {
-
-            int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
-
-            } 
+        if(Mode.mode() == Mode.GAME_DEFAULT) {
+            InputPanel.showConfirmPanel("Do you want to return to the main menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
         } else {
             Selector.clear();
-            Mode.setMode(Mode.DEFAULT);
+            Mode.setMode(Mode.GAME_DEFAULT);
             
         }
     }
     
-    private void giveTerritoriesRandomly(){
+    /** 
+     * Gives random Territories to the Players.
+     */
+    private void giveTerritoriesRandomly() throws Exception{
         
-        for(Player p : loadedGame.players){
+        ArrayList<Territory> capitals = new ArrayList<Territory>();
+        ArrayList<Territory> nonCapitals = new ArrayList<Territory>();
+        
+        for(Territory t : map().territories){
             
-            int terrNumber = 0;
-            Territory terrToAttribute;
-            
-            while(terrNumber < STARTING_TERRITORIES){
-
-                terrToAttribute = loadedGame.map.territories.get(Greenfoot.getRandomNumber(loadedGame.map.territories.size()));
-
-                if(terrToAttribute.owner() == null){
-                    terrToAttribute.setOwner(p);
-                    terrNumber++;
-                }
-
+            if(t.bonus() == 0){
+                nonCapitals.add(t);
+            }else{
+                capitals.add(t);
             }
             
-            p.updateCapital();
+        }
+        
+        if(capitals.size() < game().players.size()){
+            throw new Exception("The Map doesn't have enough capitals for " + (game().players.size() - 1) + " Players.");
+        }
+        
+        if(nonCapitals.size() < (STARTING_TERRITORIES - 1) * game().players.size()){
+            throw new Exception("The Map doesn't have enough Territories for " + (game().players.size() - 1) + " Players.");
+        }
+        
+        
+        for(Player playerToGiveTerrs : game().players){
+            
+            int randomCapital = Greenfoot.getRandomNumber(capitals.size());
+            Territory givenCapital = capitals.get(randomCapital);
+            
+            givenCapital.setOwner(playerToGiveTerrs);
+            capitals.remove(givenCapital);
+            
+            int terrNumber = 1;
+            
+            while(terrNumber < STARTING_TERRITORIES){
+                
+                int randomTerritory = Greenfoot.getRandomNumber(nonCapitals.size());
+                Territory givenTerritory = nonCapitals.get(randomTerritory);
+                
+                givenTerritory.setOwner(playerToGiveTerrs);
+                nonCapitals.remove(givenTerritory);
+                
+                terrNumber++;
+                
+            }
+            
+            playerToGiveTerrs.updateCapital();
             
         }
         
     }
     
-    public void endByVictory(Player p){
-        new EndGamePanel().showVictory(p);
+    /**
+     * Ends the Game.
+     */
+    public void end(){
+        new EndGamePanel().show();
     }
-    
-    public void endByDeath(Player p){
-        new EndGamePanel().showDeath(p);
-    }
-    
+
     private Action loadOptionsMenu = () -> {
-        if(Mode.mode() == Mode.DEFAULT){
+        if(Mode.mode() == Mode.GAME_DEFAULT){
             clearScene();
             world().load(new userPreferences.Manager(this));
         } else {
@@ -180,60 +221,19 @@ public class Manager extends StateManager{
         }
         
     };
-    
-}
 
-/* Temporarily a button. Should then show buttons to see the stats of the game
- * and a button to go to the menu.
- */
-class EndGamePanel extends Button{
-    private Player p;
-    private String message;
-    
-    private void colorBackground() {
-        Color color = p.color();
-        Color transparentColor = new Color(color.getRed(),color.getGreen(),color.getBlue(),150);
-        getImage().setColor(transparentColor);
-        getImage().fill();
-    
-    }
-    
-    public void showVictory(Player player){
-        p = player;
-        message = "Player " + p.name() + " has won";
-        show();
-    }
-    
-    public void showDeath(Player p){
-        message = "Player " + p.name() + " has lost";
-        show();
-    }
-    
-    private void show() {
-        setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
-        colorBackground();
-        writeMessage();
-        addToWorld();
-        
-    }
-    
-    private void writeMessage() {
-        if(p.color().luminosity() > 128) {
-            getImage().setColor(Color.BLACK);
-        } else {
-            getImage().setColor(Color.WHITE);
-        }
-        getImage().setFont(new Font("monospaced", true, false, 50));
-        getImage().drawString(message, 400, 500);
-    }
-    
-    void addToWorld() {
-        MyWorld.theWorld.addObject(this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-    }
-    
     @Override
-    public void clicked() {
-        world().load(new menu.Manager());
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
+        }
+        
     }
     
 }

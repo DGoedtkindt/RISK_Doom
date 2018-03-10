@@ -6,7 +6,10 @@ import greenfoot.Greenfoot;
 import java.util.ArrayList;
 import mainObjects.Territory;
 
-
+/**
+ * The Class of the Zombie Player.
+ * 
+ */
 public class Zombie extends Player{
     public static final GColor ZOMBIE_COLOR = new GColor(0,0,0);
     
@@ -14,6 +17,10 @@ public class Zombie extends Player{
     private int zombiesNextWave;
     private int turnsBeforeNextWave;
 
+    /**
+     * Creates the Zombie of a given Difficulty.
+     * @param difficulty The Difficulty of this Zombie.
+     */
     public Zombie(Difficulty difficulty) {
         super("H1N1XX",ZOMBIE_COLOR);
         this.difficulty = difficulty;
@@ -21,14 +28,25 @@ public class Zombie extends Player{
         turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
     }
     
+    /**
+     * Gets the number of Zombie Territories that appear during the next wave.
+     * @return The number of Zombies of the next wave.
+     */
     public int ZombiesNextWave() {
         return zombiesNextWave;
     }
-
+    
+    /**
+     * Gets the number of Turns before the next wave.
+     * @return The number of Turns before the next wave.
+     */
     public int TurnsBeforeNextWave() {
         return turnsBeforeNextWave;
     }
     
+    /**
+     * The Zombie plays his Turn.
+     */
     public void takeTurn() {
         
         if(territories().isEmpty()){
@@ -41,6 +59,9 @@ public class Zombie extends Player{
         
     }
     
+    /**
+     * Invades random Territories.
+     */
     private void takeTerritoriesRandomly(){
         
         int terrs = 0;
@@ -64,6 +85,9 @@ public class Zombie extends Player{
         
     }
     
+    /**
+     * Attacks random Territories.
+     */
     private void attackRandomly(){
         
         for(Territory t : territories()){
@@ -77,6 +101,9 @@ public class Zombie extends Player{
         
     }
     
+    /**
+     * Lowers the number of Turns before the next wave.
+     */
     public void countdown(){
         turnsBeforeNextWave --;
         if(turnsBeforeNextWave == -1){
@@ -85,14 +112,21 @@ public class Zombie extends Player{
         }
     }
     
+    /**
+     * Increments the number of Zombies of the next wave.
+     */
     public void incrementNextWave(){
         zombiesNextWave += difficulty.INCREMENT;
     }
 
+    /**
+     * Resets the number of Zombies of the next wave.
+     */
     public void reset(){
         zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
     }
     
+    @Override
     public boolean hasLost() {
         return false; //zombies always come back!
     

@@ -2,13 +2,12 @@ package game;
 
 public enum Difficulty {
 
-    ZOMBIELESS("Zombieless", 0, 0, 0, 999, 0),
-    ZOMBIENESS("Zombieness", 0, 0, 0, 999, 1);
+    ZOMBIELESS("Zombieless", 0, 0, 999, 0),
+    ZOMBIENESS("Zombieness", 0, 1, 10, 1);
 
     public final String NAME;
     public final int ZOMBIES_SPAWNING;
     public final int INCREMENT;
-    public final int TURNS_BEFORE_ZOMBIES;
     public final int ZOMBIES_TURN_LIMIT;
     public final double ATTACK_CHANCE;
 
@@ -24,11 +23,10 @@ public enum Difficulty {
     *                      at the start of the zombie turn.
     * @param attackChance The probability that any zombie territory will attack a random adjacent territory.
     */
-    Difficulty(String name, int zombiesSpawning, int increment, int turnsBeforeZombies, int constantSpawn, double attackChance){
+    Difficulty(String name, int zombiesSpawning, int increment, int constantSpawn, double attackChance){
         NAME = name;
         ZOMBIES_SPAWNING = zombiesSpawning;
         INCREMENT = increment;
-        TURNS_BEFORE_ZOMBIES = turnsBeforeZombies;
         ZOMBIES_TURN_LIMIT = constantSpawn;
         ATTACK_CHANCE = attackChance;
         
