@@ -1,7 +1,7 @@
 package rules;
 
 import appearance.Appearance;
-import appearance.MessageDisplayer;
+import appearance.InputPanel;
 import appearance.Theme;
 import arrowable.Arrowable;
 import arrowable.LeftArrow;
@@ -42,11 +42,22 @@ public class Manager extends StateManager{
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?",
-                                                   "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-        if(choice == JOptionPane.YES_OPTION){
-            world().load(new menu.Manager());
+        InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
         }
+        
     }
     
 }
@@ -127,7 +138,9 @@ class RulesDisplayer extends Actor implements Arrowable{
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         int height = fm.getMaxAscent() + fm.getMaxDescent();
         
-        rule = wrapText(rule);
+        rule = Appearance.standardTextWrapping(rule, TOTAL_WIDTH);
+        
+        linesNumber = rule.split("\n").length;
         
         img.scale(width, height * linesNumber);
         img.setColor(Theme.used.backgroundColor.brighter());
@@ -138,52 +151,6 @@ class RulesDisplayer extends Actor implements Arrowable{
         
         leftArrow.setLocation(x - this.getImage().getWidth() / 2 - 30, y);
         rightArrow.setLocation(x + this.getImage().getWidth() / 2 + 30, y);
-        
-    }
-    
-    /**
-     * Modifies the message by adding lines to it.
-     * @param message Transformed message.
-     */
-    private String wrapText(String input){
-        
-        linesNumber = 1;
-        
-        String[] words = input.split(" ");
-        String finalString = "";
-        
-        String currentLine = "";
-        
-        for(String currentWord : words){
-            
-            int backslashNAt = currentWord.indexOf("\n");
-            
-            if(backslashNAt == 0){
-                finalString += currentLine + "\n";
-                linesNumber ++;
-                currentLine = currentWord.substring(1, currentWord.length());
-            }else {
-                
-                if(fm.stringWidth(currentLine + " " + currentWord) > TOTAL_WIDTH){
-                    finalString += currentLine + "\n";
-                    currentLine = "";
-                    linesNumber ++;
-                
-                }
-                
-                if(!currentLine.isEmpty()){
-                    currentLine += " ";
-                }
-
-                currentLine += currentWord;
-                
-            }
-            
-        }
-        
-        finalString += currentLine;
-        
-        return finalString;
         
     }
     
@@ -202,7 +169,7 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "THE GAME \n2. Starting a new Game \nOh, you want to start a Game? Go to the \"New Game\" Menu, then choose a Map with the first selector, and a Difficulty "
             + "with the second. After that, you can change the Players settings, add Players, remove them, change their names and colors. "
-            + "\nUnderstood? Perfect! you're ready to start a new Game! "
+            + "\nUnderstood? Perfect! You're ready to start a new Game! "
             + "\nP.S. You should continue reading, if you want to learn how to actually play.",
             
             "THE GAME \n3. Loading a saved game \nIf you have a loaded game that you want to continue, just go to the \"Load Game\" Menu. There, you will find a "
@@ -211,6 +178,9 @@ class RulesDisplayer extends Actor implements Arrowable{
             "THE GAME \n4. The Map \nIf you start a game, you're gonna see a Map, or, at least, a bunch of colored hexagons with some weird "
             + "buttons next to those. Well, believe it or not, this is a Map. There are Continents (Represented by the background color of each hexagon), "
             + "and each Continent has Territories (Delimited by lines). \nThe flashy color on top of some of those is the color of a Player. "
+            + "\nThe weird hexagon on each Territory is an indicator. It gives informations about the number of armies on the Territory (white), "
+            + "the bonus given by it (yellow) and the attack and defense bonus of each Territory (green for you, red for your opponents). "
+            + "\nNote that in the Map Editor, this indicator only shows the bonus given by the Territory, in white. "
             + "\nA map can contain Territories that belong to no Continent. They're, like, anywhere on the map, and their color is generally drab "
             + "(We'll be talking about colors and Themes later).",
             
@@ -225,13 +195,13 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "THE GAME \n7. Armies \nIt's a conquest Game, you have armies. You gain those at the start of your turn, and you must place them then. You gain an army "
             + "for each three Territories you have, plus the bonus of every Continent you control (Down), plus the bonus of your capital "
-            + "(The Territory with the highest bonus that you have).",
+            + "(The Territory with the highest bonus that you have). You can place the armies you have at the start of each Turn.",
             
             "THE GAME \n8. Combos \nEvery time you invade a Territory, you gain a Combo Piece (If you have less than five pieces already). "
             + "With three of those, you can play a Combo. Different pieces means different Combos. Got it? \nThere are four different Combos : "
-            + "\nSap : Choose an ennemy Territory that you can attack. All the troops on it go in your ennemy's hand, and you get a free Army on this Territory. "
+            + "\nSap : Choose an ennemy Territory that you can attack. All the troops on it go in your ennemy's hand, and the Territory stays with one army and no owner. "
             + "\nFortress : You can't be attacked until your next turn. "
-            + "\nBattlecry : You have an attack and defense bonus of two troops until your next turn. "
+            + "\nBattlecry : You have an attack and defense bonus of two armies until your next turn. "
             + "\nRecruit : You add five armies to your hand.",
             
             "THE MAP EDITOR \n1. Launching the Map Editor \nClick the \"Map Editor\" Button, select a Map and edit it. Pretty straight forward, right?",
