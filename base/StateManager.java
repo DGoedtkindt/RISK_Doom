@@ -5,7 +5,7 @@ package base;
  * certain program state (menu, game, options,...). It also manages the modes,
  * and Map/Game objects, if its program state requires it.
  */
-public abstract class StateManager {
+public abstract class StateManager implements InputPanelUser{
     
     public abstract void setupScene();
     public abstract void clearScene();

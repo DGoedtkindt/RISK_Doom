@@ -6,10 +6,14 @@ import game.TurnStat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An Object representing the current state of the Game.
+ * 
+ */
 public class Game {
     
     /**
-     * different states the game can be in.
+     * Different states in wich the Game can be.
      */
     public enum State {
         INITIALISATION("stuff still needs to be done for the game to truly start"),

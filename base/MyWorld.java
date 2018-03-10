@@ -1,6 +1,7 @@
 package base;
 
 import appearance.Appearance;
+import appearance.InputPanel;
 import appearance.Theme;
 import game.ArmiesInHandDisplayer;
 import mainObjects.BlankHex;
@@ -73,9 +74,7 @@ public class MyWorld extends World {
      * Creates the final Blank Hex grid.
      */
     public void placeBlankHexs() {
-        //créer les blankHexs
         placeHexagonInCollumnRow(Appearance.COLLUMN_NUMBER, Appearance.ROW_NUMBER);
-        //trou pour les bonus de continent
         drawContinentBonusZone();
     
     
@@ -147,8 +146,10 @@ public class MyWorld extends World {
             
         }
         
-        /*String pressedKey = Greenfoot.getKey();
-        if(pressedKey != null){InputPanel.usedPanel.type(pressedKey);}*/
+        String keyPressed = Greenfoot.getKey();
+        if(keyPressed != null){
+            InputPanel.typeOnUsedPanel(keyPressed);
+        }
         
         CheckEscape.testForEscape();
         
@@ -160,6 +161,7 @@ public class MyWorld extends World {
  * Class that checks if Escape has been released.
  */
 class CheckEscape{
+    
     static boolean escapeWasClicked = false;
     
     /**
@@ -177,7 +179,8 @@ class CheckEscape{
     }
     
     /**
-     * Checks if Escape has been released.
+     * Verifies if Escape has been released.
+     * @return A boolean that represents the fact that Escape has just been released.
      */
     private static boolean escapeReleased(){
         return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);
