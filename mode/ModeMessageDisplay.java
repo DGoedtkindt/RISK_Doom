@@ -7,7 +7,10 @@ import greenfoot.Actor;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
 
-
+/**
+ * An Actor that displays the messages given by the different Modes.
+ * 
+ */
 public class ModeMessageDisplay extends Actor{
     final int WIDTH = 182;
     final int HEIGHT = 330;
@@ -16,23 +19,38 @@ public class ModeMessageDisplay extends Actor{
     
     private Action updateThis = () -> {display(Mode.mode().message);};
     
+    /**
+     * Creates a ModeMessageDisplay.
+     */
     public ModeMessageDisplay() {
         display("");
         
     }
     
+    /**
+     * Adds this Actor to the World.
+     * @param xPos The x coordinate of this Actor.
+     * @param yPos The y coordinate of this Actor.
+     */
     public void addToWorld(int xPos, int yPos) {
         world().addObject(this, xPos, yPos);
         Mode.addModeChangeListener(updateThis);
         
     }
     
+    /**
+     * Removes this Actor ftom the World.
+     */
     public void removeFromWorld() {
         world().removeObject(this);
         Mode.removeModeChangeListener(updateThis);
         
     }
-
+    
+    /**
+     * Changes the text displayed on this ModeMessageDisplay.
+     * @param message The message that should be displayed.
+     */
     private void display(String message){
         setImage(new GreenfootImage(WIDTH, HEIGHT));
         Font font = new Font("Monospaced", 17);
@@ -42,7 +60,12 @@ public class ModeMessageDisplay extends Actor{
         getImage().drawString(textToDisplay, 0, 0);
 
     }
-
+    
+    /**
+     * Adds new lines to the displayed text until it fits in the image.
+     * @param strToWrap The text that must be transformed by adding '\n's to it.
+     * @param maxLineLength The maximal number of characters in a line.
+     */
     private String wrapText(String strToWrap, int maxLineLength) {
 
         String[] words = strToWrap.split(" ");
