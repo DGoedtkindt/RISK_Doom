@@ -10,9 +10,16 @@ import mainObjects.Territory;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 
-public class OKButton extends Button
-{
+/**
+ * This Button acts like a validator in the Map Editor. The User clicks on this
+ * when he wants to validate his action.
+ * 
+ */
+public class OKButton extends Button{
     
+    /**
+     * Creates an OKButton.
+     */
     public OKButton(){
         
         GreenfootImage image = new GreenfootImage("OKButton.png");
@@ -58,6 +65,10 @@ public class OKButton extends Button
         
     }
     
+    /**
+     * Creates a Continent from the selection of Territories that the User 
+     * just validated.
+     */
     private void createContinentFromSelection(){
         try{
             ArrayList<Territory> selectedTerritories;
@@ -81,12 +92,19 @@ public class OKButton extends Button
         
     }
     
+    /**
+     * Lets the User choose a BlankHex to place the TerrInfo of a Territory, 
+     * when creating a Territory.
+     */
     private void switchToSelectInfoHex(){
         Selector.setValidator(Selector.NOTHING);
         Mode.setMode(Mode.SELECT_INFO_HEX);
         
     }
     
+    /**
+     * Deletes the validated selection of Territories.
+     */
     private void deleteTerritorySelection(){
         try{
             ArrayList<Territory> territoriesToDelete;
@@ -105,6 +123,9 @@ public class OKButton extends Button
         
     }
     
+    /**
+     * Deletes the validated selection of Continents.
+     */
     private void deleteContinentSelection(){
         try{
             ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();

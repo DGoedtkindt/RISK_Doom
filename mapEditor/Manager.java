@@ -1,20 +1,26 @@
 package mapEditor;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
+import appearance.Appearance;
+import appearance.InputPanel;
 import base.Action;
 import base.Map;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
-import javax.swing.JOptionPane;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
 import selector.Selector;
 //</editor-fold>
 
+/**
+ * This Manager manages the Map Editor.
+ * 
+ */
 public class Manager extends StateManager{
     
     private Map loadedMap = new Map();
@@ -24,6 +30,10 @@ public class Manager extends StateManager{
     private ModeMessageDisplay modeDisp;
     private NButton options;
     
+    /**
+     * Creates a Map Editor.
+     * @param loadMap The edited map.
+     */
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
         ctrlPanel = new ControlPanel(this);
@@ -34,7 +44,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.DEFAULT);
+        Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
@@ -45,6 +55,9 @@ public class Manager extends StateManager{
 
     }
     
+    /**
+     * Loads the Map and adds its elements to the World.
+     */
     public void loadMap() {
         mapToLoad.territories.forEach(Territory::addToWorld);
         mapToLoad.continents.forEach(Continent::addToWorld);
@@ -70,15 +83,8 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.DEFAULT) {
-
-            int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
-
-            } 
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT) {
+            InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
         } else {
             Selector.clear();
@@ -88,7 +94,7 @@ public class Manager extends StateManager{
                 Links.newLinks = null;
             }
 
-            Mode.setMode(Mode.DEFAULT);
+            Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
             
         }
         
@@ -97,15 +103,30 @@ public class Manager extends StateManager{
     //Action pour sauver le monde
     
     protected Action saveMap = () -> {
-        ( new MapSaver(map())).saveMap();
+        MapSaver ms = new MapSaver(map());
+        ms.askForNameAndDescription();
     };
     
     /////Private Methods///////////////////////
     
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.DEFAULT){
+                if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
+        }
+        
+    }
     
 }

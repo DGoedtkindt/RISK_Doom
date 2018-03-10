@@ -1,74 +1,96 @@
 package mapEditor;
 
-
+import appearance.Appearance;
+import appearance.InputPanel;
 import appearance.MessageDisplayer;
+import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import mapXML.MapXML;
 
-public class MapSaver {
+/**
+ * This Class contains method that are used to save the map in a File.
+ * 
+ */
+public class MapSaver implements InputPanelUser{
     
     private Map map;
     private String name;
     private String description;
     
+    private boolean descriptionEntered = false;
+    
+    /**
+     * Creates a MapSaver.
+     * @param mapToSave The Map that must be saved.
+     */
     public MapSaver(Map mapToSave) {
         map = mapToSave;
     
     }
     
-    public void saveMap() {
-        askForNameAndDescription();
-        if(name != null) {
+    /**
+     * Saves a Map with a name and a description.
+     */
+    private void saveMap() {
+        if(name != null){
             if(!nameIsValid()) {
                 showNameError();
             } else if(nameAlreadyExists()) {
-                if(confirm()) save();
+                confirm();
             } else save();
         }
-    };
+    }
     
-    private void askForNameAndDescription() {
-        NamePanel namePanel = new NamePanel();
-        int nameEntered = JOptionPane.showConfirmDialog(null, namePanel, "Give your map a name and a description", JOptionPane.OK_CANCEL_OPTION);
-        if(nameEntered == JOptionPane.OK_OPTION) {
-            name = namePanel.name();
-            description = namePanel.description();
-        };
+    /**
+     * Asks the User to enter a name and a description for this Map.
+     */
+    public void askForNameAndDescription() {
+        InputPanel.showInsertionPanel("Give your Map a name.", 500, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 3);
+        InputPanel.showInsertionPanel("Give your Map a description.", 1000, "description", this, Appearance.WORLD_WIDTH / 2, 2 * Appearance.WORLD_HEIGHT / 3);
     
     }
     
+    /**
+     * Checks if the name is valid, that is, if it isn't null, empty, full of whitespace characters or 'New Map'.
+     */
     private boolean nameIsValid() {
-        return !(name == null || name.isEmpty() || name == "New Map");
+        return !(name == null || name.isEmpty() || name.equals("New Map") || name.matches("\\s+"));
     
     }
     
+    /**
+     * Shows an Error if the Name of this Map is not a valid one.
+     */
     private void showNameError() {
-        JOptionPane.showMessageDialog(null, "You can't save a map if it has no name or if its name is 'New Map'");
+        MessageDisplayer.showMessage("You can't save a map if it has no name or if its name is 'New Map'");
         
     }
     
+    /**
+     * Checks if the name of this Map already exists.
+     * @return A boolean representation of the existence of a File with the same name.
+     */
     private boolean nameAlreadyExists() {
         return new File("Maps/"+name+".xml").exists();
     
     }
     
-    private boolean confirm() {
-        int answer = JOptionPane.showConfirmDialog(
-                        null, "Do you want to replace the existing map '" + name + "' with this one?", 
-                        "Replacing an existing map", JOptionPane.YES_NO_OPTION);
-        return answer == JOptionPane.YES_OPTION;
+    /**
+     * Asks the User if he wants to replace an existing Map with a new one.
+     */
+    private void confirm() {
+        InputPanel.showConfirmPanel("Do you want to replace the existing Map '" + name + "' with this new one?", 
+                                    1000, "replacement", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
     
     }
     
+    /**
+     * Tries to save the Map.
+     */
     private void save() {
         try {
             saveXML();
@@ -80,49 +102,65 @@ public class MapSaver {
             }
             
         } catch (Exception ex) {
-            String message = "The Map could'nt be saved";
+            String message = "The Map could'nt be saved.";
             MessageDisplayer.showException(new Exception(message , ex));
         }
     
     }
     
+    /**
+     * Saves the Map.
+     */
     private void saveXML() throws Exception{
         MapXML xml = new MapXML(map);
         xml.write(name, description);
     
     }
     
+    /**
+     * Saves the thumbnail of the Map.
+     * @throws Exception If the thumbnail couldn't be saved.
+     */
     private void saveThumbnail() throws Exception {
         BufferedImage mapImage = MyWorld.theWorld.getBackground().getAwtImage();
         File out = new File(new File("Maps").getAbsolutePath() + "/" + name + ".png");
 
         ImageIO.write(mapImage, "PNG", out);
-        System.out.println("thumbnail saved");
     
     }
-    
-    private static class NamePanel extends JPanel {
-        JTextField nameField = new JTextField(15);
-        JTextField descriptionField = new JTextField(65);
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
         
-        NamePanel() {
-            this.add(new JLabel("Name : "));
-            this.add(nameField);
-            this.add(Box.createHorizontalStrut(20));
-            this.add(new JLabel("Description : "));
-            this.add(descriptionField);
-        
+        switch(type){
+            
+            case "name" : 
+                ((MapSaver)this).name = information;
+                
+                if(((MapSaver)this).descriptionEntered){
+                    ((MapSaver)this).saveMap();
+                }
+                
+                break;
+            
+            case "description" : 
+                ((MapSaver)this).description = information;
+                descriptionEntered = true;
+                
+                if(((MapSaver)this).nameIsValid()){
+                    ((MapSaver)this).saveMap();
+                }
+                
+                break;
+                
+            case "replacement" : 
+                if(information.equals(InputPanel.YES_OPTION)){
+                    ((MapSaver)this).save();
+                }
+                break;
+                
         }
         
-        String name() {
-            return nameField.getText();
-        
-        }
-        
-        String description() {
-            return descriptionField.getText();
-        
-        }
-    
     }
+    
 }
