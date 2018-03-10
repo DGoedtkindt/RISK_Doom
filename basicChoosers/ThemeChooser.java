@@ -6,15 +6,25 @@ import greenfoot.GreenfootImage;
 import appearance.Theme;
 import base.Hexagon;
 
+/**
+ * A Chooser designed to let the user select a Theme.
+ * 
+ */
 public class ThemeChooser extends BasicChooser {
     
+    /**
+     * Creates a ThemeChooser.
+     */
     public ThemeChooser() {
         super(new ThemeChoices());
     }
     
-
 }
 
+/**
+ * The list of Themes that can be used.
+ * 
+ */
 class ThemeChoices extends ChoiceList {
     private int  themeNumber = 0;
 
@@ -53,7 +63,7 @@ class ThemeChoices extends ChoiceList {
 
     /**
      *
-     * @return the position of the selected Theme in the Theme.values() Array
+     * @return The position of the selected Theme in the Theme.values() Array
      */
     @Override
     public String choiceValue() {
