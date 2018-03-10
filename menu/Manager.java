@@ -1,19 +1,21 @@
 package menu;
 
-import base.MyWorld;
+import appearance.Appearance;
+import appearance.InputPanel;
 import base.NButton;
 import base.StateManager;
-import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-import javax.swing.JOptionPane;
 
+/**
+ * This Manager creates the Main Menu.
+ * 
+ */
 public class Manager extends StateManager {
     
-    //Buttons in the main menu
-    private NButton playGameButton          = new NButton(() -> {world().load(new gameTypeSelection.Manager());}     , "Play");
-    private NButton mapEditorButton         = new NButton(() -> {mapEditorMenu();}, "Map Editor");
-    private NButton optionsButton           = new NButton(() -> {optionsMenu();}  , "Options");
-    private NButton rulesButton             = new NButton(() -> {rulesMenu();}, "Rules");
+    private NButton playGameButton           = new NButton(() -> {world().load(new gameTypeSelection.Manager());}, "Play");
+    private NButton mapEditorButton          = new NButton(() -> {mapEditorMenu();}, "Map Editor");
+    private NButton optionsButton            = new NButton(() -> {optionsMenu();}, "Options");
+    private NButton rulesButton              = new NButton(() -> {rulesMenu();}, "Rules");
     
     @Override
     public void setupScene() {
@@ -31,6 +33,9 @@ public class Manager extends StateManager {
         
     }
     
+    /**
+     * Draws the Mighty Pineapple of Justice on the Background.
+     */
     private void drawPineapple() {
         GreenfootImage pineapple = new GreenfootImage("TheMightyPineappleOfJustice.png");
         pineapple.scale(400, 150);
@@ -38,31 +43,51 @@ public class Manager extends StateManager {
     
     }
     
+    /**
+     * Launches the Menu of the Map editor.
+     */
     private void mapEditorMenu() {
         clearScene();
         world().load(new mapEditorMenu.Manager());
     
     }
     
+    /**
+     * Launches the Options.
+     */
     private void optionsMenu() {
         clearScene();
         world().load(new userPreferences.Manager(this));
     
     }
     
-    @Override
-    public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you really want to quit the game?",
-                                                   "Quit game", JOptionPane.YES_NO_CANCEL_OPTION);
-        if(choice == JOptionPane.YES_OPTION){
-            System.exit(0);
-        }
-        
-    }
-
+    /**
+     * Launches the Rules.
+     */
     private void rulesMenu() {
         clearScene();
         world().load(new rules.Manager());
+    
+    }
+    
+    @Override
+    public void escape() {
+        InputPanel.showConfirmPanel("Do you want to quit the Game?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                System.exit(0);
+
+            }
+            
+        }
+        
     }
 
 }
