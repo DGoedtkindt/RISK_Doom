@@ -6,7 +6,6 @@ import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
-import mode.Mode;
 
 /**
  * An Actor that displays error messages.
@@ -65,8 +64,8 @@ public class MessageDisplayer extends Button{
      * @param ex Displayed Exception 
      */
     public static void showException(Exception ex) {
-        showMessage(ex.toString());
-        ex.printStackTrace();
+        showMessage(ex.getMessage());
+        System.err.println(ex);
     }
     
     /**
