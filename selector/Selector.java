@@ -11,12 +11,21 @@ import mainObjects.BlankHex;
 import mainObjects.Continent;
 import mainObjects.Territory;
 
-public class Selector
-{
+/**
+ * The Selector is the Class that selects and manages the selection of the Selectable
+ * Objects.
+ * 
+ */
+public class Selector{
+    
     private static MyWorld world() {
         return MyWorld.theWorld;
     }
     
+    /**
+     * Obtains a list of every Selectable in the World.
+     * @return The list of all Selectables in teh World.
+     */
     public static HashSet<Selectable> selectables() {
         Map map = world().stateManager.map();
         
@@ -31,6 +40,11 @@ public class Selector
     private static HashSet<Selectable> selection = new HashSet<>();
     public static Predicate validator = (Object o) -> {return true;};
     
+    /**
+     * Adds a Selectable to the current selection if it's currently allowed 
+     * to be selected.
+     * @param selectedObject The selected Object.
+     */
     public static void select(Selectable selectedObject) {
         if(validator.test(selectedObject)) {
             if(!selection.contains(selectedObject)) {
@@ -46,7 +60,13 @@ public class Selector
     }
     
     //Getters for BlankHex///////////////////////////////////////////////////
-    
+
+    /**
+     * Obtains a list of the Selected BlankHexes.
+     * @return The list of the selected BlankHexes.
+     * @throws Exception If the selection is empty or if a Selectable that is 
+     *         not a BlankHex has been added to the selection.
+     */
     public static ArrayList<BlankHex> getSelectedHexes() throws Exception{
         if(selection.isEmpty()) throw new Exception("No hex selected.");
         
@@ -56,14 +76,20 @@ public class Selector
                 hex = (BlankHex)select;
                 blankhexSelectedList.add(hex);
             }  catch(ClassCastException cce) {
-                throw new ClassCastException("Selectable of the wrong type selected");}
+                throw new ClassCastException("Selectable of the wrong type selected.");}
         }
         
         return blankhexSelectedList;
     }
     
     //Getters for Territory///////////////////////////////////////////////////
-    
+
+    /**
+     * Obtains a list of the Selected Territories.
+     * @return The list of the selected Territories..
+     * @throws Exception If the selection is empty or if a Selectable that is 
+     *         not a Territory has been added to the selection.
+     */
     public static ArrayList<Territory> getSelectedTerritories() throws Exception {
         if(selection.isEmpty()) throw new Exception("No Territory selected.");
         
@@ -79,6 +105,11 @@ public class Selector
 
     }
     
+    /**
+     * Obtains a single selected Territory.
+     * @return The selected Territory.
+     * @throws Exception If more than one Territory has benn selected.
+     */
     public static Territory getSelectedTerritory() throws Exception {
         ArrayList<Territory> territorySelectedList = getSelectedTerritories();
         
@@ -87,6 +118,10 @@ public class Selector
         return territorySelectedList.get(0);
     }
     
+    /**
+     * Gets the number of selected Territories.
+     * @return The number of selected Territories.
+     */
     public static int territoriesNumber(){
         
         ArrayList<Territory> territorySelectedList = new ArrayList<>();
@@ -102,6 +137,12 @@ public class Selector
     
     //Getters for Continent///////////////////////////////////////////////////
     
+    /**
+     * Obtains a list of the Selected Continents.
+     * @return The list of the selected Continents.
+     * @throws Exception If the selection is empty or if a Selectable that is 
+     *         not a Continent has been added to the selection.
+     */
     public static ArrayList<Continent> continentSelectedList() throws Exception {
         if(selection.size() < 1) throw new Exception("No Continent selected.");
         
@@ -119,7 +160,10 @@ public class Selector
     }
     
     ///////////////////////////////////////////////////////////
-    
+
+    /**
+     * Clears the Selection.
+     */
     public static void clear(){
         selection.clear();
         validator = (Object o) -> {return true;};
@@ -127,12 +171,20 @@ public class Selector
         
     }
     
+    /**
+     * Updates the image of the selected Selectables.
+     */
     public static void updateAppearance() {    
         makeAllTransparent();
         makeValidOpaque();
         makeSelectedGreen();
     }
     
+    /**
+     * Changes the test that allows only a certain type of Selectables to 
+     * be selected.
+     * @param newValidator A Predicate that represents a new test.
+     */
     public static void setValidator(Predicate newValidator) {
         validator = newValidator;
         updateAppearance();
@@ -140,12 +192,19 @@ public class Selector
     
     /////////////////////////////////////////////////////////
     
+    /**
+     * Sets the transparency of each Selectable to a transparent value.
+     */
     private static void makeAllTransparent() {
      for(Selectable select : selectables()) {
          select.makeTransparent();
      }
     }
-     
+    
+    /**
+     * Sets the transparency of all Selectables that can be selected to an 
+     * opaque one.
+     */
     private static void makeValidOpaque() {
      for(Selectable select : selectables()) {
          if(validator.test(select)) {
@@ -153,7 +212,10 @@ public class Selector
          }
      }
     }
-
+    
+    /**
+     * Updates the image of the selected Selectables to the current selection Color.
+     */
     private static void makeSelectedGreen() {
         for(Selectable select : selection) {
             select.makeGreen();
