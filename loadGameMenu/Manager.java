@@ -1,18 +1,27 @@
 package loadGameMenu;
 
+import appearance.Appearance;
+import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Game;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import javax.swing.JOptionPane;
 import xmlChoosers.GameChooser;
 
+/**
+ * This StateManager manages the Game loading Menu.
+ * 
+ */
 public class Manager extends StateManager {
     
     private GameChooser gameC;
     private NButton playGameB;
 
+    /**
+     * Creates a Manager.
+     */
     public Manager() {
         this.playGameB = new NButton(playSelectedGame, "Play Game");
         this.gameC = new GameChooser();
@@ -33,13 +42,8 @@ public class Manager extends StateManager {
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
-
-            }
+        InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
     }
 
     private Action playSelectedGame = () -> {
@@ -55,5 +59,19 @@ public class Manager extends StateManager {
         }
 
     };
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
+        }
+        
+    }
 
 }
