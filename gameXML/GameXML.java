@@ -44,6 +44,11 @@ public class GameXML {
     
     }
     
+    /**
+     * Saves a Game.
+     * @param gameName The name of the Game.
+     * @param description The description of the Game.
+     */
     public void write(String gameName, String description) {
         //add The description
         xml.getDocumentElement().setAttribute("description", description);
