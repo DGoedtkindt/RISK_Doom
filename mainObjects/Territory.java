@@ -1,5 +1,7 @@
 package mainObjects;
 
+import appearance.Appearance;
+import appearance.InputPanel;
 import game.Zombie;
 import game.Player;
 import appearance.MessageDisplayer;
@@ -7,8 +9,10 @@ import selector.Selectable;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
+import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
+import game.EndGamePanel;
 import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
@@ -16,12 +20,15 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import javax.swing.JOptionPane;
 
-public class Territory implements Selectable
-{
+/**
+ * The Class that represents the Territories, the main Objects of this Game.
+ * 
+ */
+public class Territory implements Selectable, InputPanelUser{
     
     public static Territory actionSource = null;
+    public static Territory actionTarget = null;
     
     private List<TerritoryHex> terrHexList = new ArrayList<>();
     private GreenfootImage getBackground() {return MyWorld.theWorld.getBackground();}
@@ -39,32 +46,47 @@ public class Territory implements Selectable
     public ArrayList<LinkIndic> links = new ArrayList<>();
     
     //Public methods///////////////////////////////////////////////////////////////////////////////////////
-    
+
+    /**
+     * Creates a Territory.
+     * @param hexs The BlankHexes on which this Territory will appear.
+     * @param infoHex The BlankHex on which the TerrInfo of this Territory will be placed.
+     * @param bonus The bonus of this Territory.
+     * @throws Exception If the number of BlankHexes of this Territory is lesser than two.
+     */
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex, int bonus)  throws Exception {
-        if(hexs.size() < 2) throw new Exception("At least 2 hexes must be selected.");
+        if(hexs.size() < 2) throw new Exception("At least 2 BlankHexes must be selected.");
         blankHexList = hexs;
         bonusPoints = bonus;
         this.infoHex = infoHex;
         
     }
     
+    /**
+     * Creates a Territory with a bonus of zero.
+     * @param hexs The BlankHexes on which this Territory will appear.
+     * @param infoHex The BlankHex on which the TerrInfo of this Territory will be placed.
+     * @throws Exception If the number of BlankHexes of this Territory is lesser than two.
+     */
     public Territory(ArrayList<BlankHex> hexs, BlankHex infoHex)  throws Exception {
         new Territory(hexs, infoHex, 0);
 
     }
     
+    /**
+     * Adds this Territory to the World.
+     */
     public void addToWorld() {
-        //pas fool proof, devrais éviter de rajouter 2 fois au monde
-            placeTerrHexs();
-            trInfo.setDisplayedBonus(bonusPoints);
-            removeBlankHexs();
-            drawTerritory();
-            map().territories.add(this);
+        placeTerrHexs();
+        trInfo.setDisplayedBonus(bonusPoints);
+        removeBlankHexs();
+        drawTerritory();
+        map().territories.add(this);
         
     }
   
-    /** Removes this from the world, containing continent, Links, etc...
-     * Should not be used if territory is outside of the world
+    /** 
+     * Removes this Territory from the World, and everyinformation about it in the World.
      */
     public void destroy(){   
         continentColor = Theme.used.backgroundColor;
@@ -87,6 +109,10 @@ public class Territory implements Selectable
         
     }
     
+    /**
+     * Gives a new Continent to this Territory.
+     * @param newContinent The new Continent of this Territory.
+     */
     public void setContinent(Continent newContinent) {
         continent = newContinent;
         if(newContinent != null){
@@ -98,53 +124,77 @@ public class Territory implements Selectable
             
         }
         for(TerritoryHex hex : terrHexList){
-                hex.drawTerrHex(continentColor);
+            hex.drawTerrHex(continentColor);
                 
         }
     }
     
+    /**
+     * Gets the id of this Territory, which is its position in the list.
+     * @return The id of this Territory.
+     */
     public int id() {
         return map().territories.indexOf(this);
         
     }
     
+    /**
+     * Gets the Continent of this Territory.
+     * @return This Territory's Continent.
+     */
     public Continent continent() {
         return continent;
         
     }
     
+    /**
+     * Gets the list of TerritoryHexes that this Territory contains.
+     * @return The TerritoryHexes contained by this Territory.
+     */
     public List<TerritoryHex> composingHex() {
         return terrHexList;
         
     }
     
+    /**
+     * Lets the User edit this Territory's bonus.
+     */
     public void editBonus() {
-        String bonusString = JOptionPane.showInputDialog("Enter the new bonus for this Territory");
         
-        if(bonusString.matches("\\d+")){
-            int newBonus = Integer.parseInt(bonusString);
-            bonusPoints = newBonus;
-            
-        }else{
-            MessageDisplayer.showMessage("Invalid entry.");
-        }
+        InputPanel.showInsertionPanel("Enter the new bonus for this Territory.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
     
+    /**
+     * Gets the bonus given by this Territory.
+     * @return The bonus given by this Territory.
+     */
     public int bonus() {
         return bonusPoints;
         
     }
     
+    /**
+     * Gets the TerritoryHex on which this Territory's TerrInfo is placed.
+     * @return The TerritoryHex on which this Territory's TerrInfo is placed.
+     */
     public TerritoryHex infoHex() {
         return trInfo.linkedTerrHex();
     
     }
     
+    /**
+     * Gets the number of armies on this Territory.
+     * @return The number of armies on this Territory.
+     */
     public int armies(){
         return armies;
     }
     
+    /**
+     * Adds armies to this Territory.
+     * @param howMany The number of added armies.
+     */
     public void addArmies(int howMany) {
         armies += howMany;
         drawPlayerColor();
@@ -152,15 +202,27 @@ public class Territory implements Selectable
         
     }
     
+    /**
+     * Sets the number of armies of this Territory to a given number.
+     * @param newNumber The number of armies on this Territory.
+     */
     public void setArmies(int newNumber) {
         armies = newNumber;
         drawPlayerColor();
     }
     
+    /**
+     * Gets the owner of this Territory.
+     * @return The Player owning this Territory.
+     */
     public Player owner(){
         return owner;
     }
     
+    /**
+     * Sets this Territory's owner.
+     * @param newOwner The new Player who owns this Territory.
+     */
     public void setOwner(Player newOwner){
         setOwnerWithoutDrawing(newOwner);
         drawTerritory();
@@ -169,47 +231,49 @@ public class Territory implements Selectable
     }
     
     /**
-     * changes the owner of this Territory without drawing this. 
-     * @param newOwner
+     * Gets the TerrInfo of this Territory.
+     * @return This territory's TerrInfo.
+     */
+    public TerrInfo terrInfo(){
+        return trInfo;
+    }
+    
+    /**
+     * Changes the owner of this Territory without drawing it. 
+     * @param newOwner This territory's new owner.
      */
     public void setOwnerWithoutDrawing(Player newOwner) {
         owner = newOwner;
     }
     
+    /**
+     * Invades a Territory.
+     * @param target The invaded Territory.
+     * @throws Exception If the User enters an invalid number of armies.
+     */
     public void invade(Territory target) throws Exception{
-        
-        String invadingArmiesString = JOptionPane.showInputDialog("The number of armies you're using");
-        
-        if(invadingArmiesString.matches("\\d+")){
-            
-            int invadingArmies = Integer.parseInt(invadingArmiesString);
-            
-            if(invadingArmies < 2){
-                throw new Exception("You can't attack a territory without at least two armies.");
-            }else if(invadingArmies > armies + owner().battlecryBonus + 1){
-                throw new Exception("You don't have enough armies.");
-            }else{
-                armies -= invadingArmies;
-                target.attacked(invadingArmies, owner);
-            }
-
-            drawTerritory();
-            
-        }else{
-            throw new Exception("Invalid entry.");
-        }
+        InputPanel.showInsertionPanel("The number of armies you're using.", 100, "invade", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
     
+    /**
+     * Whitstands an attack.
+     * @param invadingArmies The number of armies that invade this Territory.
+     * @param invader The Player who invades this Territory.
+     */
     public void attacked(int invadingArmies, Player invader){
+        
+        if(owner != null){invadingArmies -= owner().battlecryBonus;}
+        if(invadingArmies < 0){invadingArmies = 0;}
         
         setArmies(armies() - invadingArmies);
         
         if(armies() == 0){
             owner = null;
+            armies = 1;
         }else if(armies() < 0){
             setArmies(-armies);
-            Player formerOwner = owner();
+            Player formerOwner = owner;
             owner = invader;
             invader.conqueredThisTurn = true;
             
@@ -218,45 +282,41 @@ public class Territory implements Selectable
             }
         }
         
-        if(Turn.aPlayerIsDead() != null){
-            ((game.Manager)(world().stateManager)).endByDeath(Turn.aPlayerIsDead());
-        }else if(Turn.aPlayerWon() != null){
-            ((game.Manager)(world().stateManager)).endByVictory(Turn.aPlayerWon());
-        }
-        
         drawTerritory();
         
     }
     
+    /**
+     * Moves armies from this Territory to another.
+     * @param destination The destination of the moving armies.
+     * @throws Exception If the User enters an invalid number of armies.
+     */
     public void moveTo(Territory destination) throws Exception{
-        
-        String movingArmiesString = JOptionPane.showInputDialog("The number of armies you're moving");
-        
-        if(movingArmiesString.matches("\\d+")){
-            
-            int movingArmies = Integer.parseInt(movingArmiesString);
-            
-            if(movingArmies > armies - 1){
-                throw new Exception("You don't have enough armies.");
-            }else{
-                setArmies(armies() - movingArmies);
-                destination.setArmies(armies() + movingArmies);
-            }
-            
-            drawTerritory();
-            
-        }else{
-            throw new Exception("Invalid entry.");
-        }
+        InputPanel.showInsertionPanel("The number of armies you're moving.", 100, "move", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
     
+    /**
+     * Checks if this Territory can attack another.
+     * @param target The tested Territory.
+     * @return a boolean representation of the fact that this Territory can or can't attack its target.
+     */
     public boolean canAttack(Territory target){
         
-        return neighbours().contains(target)  && !target.owner.fortressProtection;
+        boolean fortress = false;
+        
+        if(target.owner != null){
+            fortress = target.owner().fortressProtection;
+        }
+        
+        return neighbours().contains(target)  && !fortress;
         
     }
     
+    /**
+     * Obtains a list of the neighbouring Territories of this one.
+     * @return The neighbours of this Territory.
+     */
     public HashSet<Territory> neighbours(){
         
         HashSet<Territory> neighboursList = new HashSet<>();
@@ -282,6 +342,9 @@ public class Territory implements Selectable
         
     }
     
+    /**
+     * Attacks a random Territory with a random number of armies.
+     */
     public void attackRandomly(){
         
         if(armies() > 2 && !neighbours().isEmpty()){
@@ -338,16 +401,20 @@ public class Territory implements Selectable
     }
 
     ///////////////////////////////////////////////////
-    
-    public void drawTerritory()
-    //dessine le territoire sur le monde
-    {
+
+    /**
+     * Draws this Territory on the World.
+     */
+    public void drawTerritory(){
         drawHexs();
         drawAllHexsLinks();
         drawPlayerColor();
-        trInfo.setDisplayedBonus(bonusPoints);
+        trInfo.updateImage();
     }
     
+    /**
+     * Draws the hexagonal parts of this Territory on the background.
+     */
     private void drawHexs(){
         GreenfootImage img = Hexagon.createImageWBorder(continentColor);
         for(TerritoryHex hex : terrHexList){
@@ -357,7 +424,10 @@ public class Territory implements Selectable
 
         }
     }
-
+    
+    /**
+     * Ends the drawing by erasing some useless lines in the image of the Territory.
+     */
     private void drawAllHexsLinks(){
         for(TerritoryHex hex : terrHexList){
                 drawHexLinks(hex);
@@ -365,6 +435,9 @@ public class Territory implements Selectable
         }
     }
     
+    /**
+     * Draws the owner's Color on the hexagons.
+     */
     private void drawPlayerColor(){
         for(TerritoryHex hex : terrHexList){
                 hex.drawPlayerColor(owner);
@@ -372,6 +445,9 @@ public class Territory implements Selectable
         }
     }
     
+    /**
+     * Draws links between TerritoryHexes to erase useless lines between them.
+     */
     private void drawHexLinks(TerritoryHex hex){
         ArrayList<Polygon> links = getLinkingDiamonds(hex);
         getBackground().setColor(continentColor);
@@ -382,10 +458,12 @@ public class Territory implements Selectable
         
     }
     
-    private ArrayList<Polygon> getLinkingDiamonds(TerritoryHex thisHex)
-    //retourne des losanges qui couvrent certains bords noirs de l'Hexagone
-    //dirty code incoming!
-    {
+    /**
+     * Returns a list of Polygons used to erase some useless lines in the 
+     * Territory's image in the neighbourhood of a given TerritoryHex.
+     * @param thisHex The TerritoryHex around which useless lines will be erased.
+     */
+    private ArrayList<Polygon> getLinkingDiamonds(TerritoryHex thisHex){
         ArrayList<Polygon> LinkingDiamonds = new ArrayList<>();
         
         int N_DIMENSION = 2;
@@ -431,9 +509,10 @@ public class Territory implements Selectable
         
     }
     
-    private void placeTerrHexs()
-    //crée et place tous les territoryHex de ce territoire
-    {
+    /**
+     * Places this Territory's TerritoryHexes in the World.
+     */
+    private void placeTerrHexs(){
         this.terrHexList = new ArrayList<>();
         for(BlankHex bh : blankHexList) {
             TerritoryHex trHex = new TerritoryHex(this, continentColor, bh.hexCoord()[0], bh.hexCoord()[1]);
@@ -447,12 +526,97 @@ public class Territory implements Selectable
         }
         
     }
-            
+    
+    /**
+     * Removes the BlankHexes on which the Territory is being created.
+     */
     private void removeBlankHexs(){
         for(BlankHex hexToDel : blankHexList){
             world().removeObject(hexToDel);
 
         }
+    }
+    
+    //InputPanelUser////////////////////////////////////////////////////////////
+    
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        switch(type){
+            
+            case "bonus" : 
+                
+                if(information.matches("\\d+")){
+
+                    int newBonus = Integer.parseInt(information);
+                    ((Territory)this).bonusPoints = newBonus;
+                    ((Territory)this).drawTerritory();
+
+                }else{
+                    MessageDisplayer.showMessage("Invalid entry.");
+                }
+                
+                break;
+                
+            case "invade" :
+                
+                if(information.matches("\\d+")){
+                    
+                    Territory invader = Territory.actionSource;
+                    Territory target = Territory.actionTarget;
+                    
+                    Territory.actionSource = null;
+                    Territory.actionTarget = null;
+                    
+                    int invadingArmies = Integer.parseInt(information);
+
+                    if(invadingArmies < 2){
+                        throw new Exception("You can't attack a territory without at least two armies.");
+                    }else if(invadingArmies > invader.armies + invader.owner().battlecryBonus + 1){
+                        throw new Exception("You don't have enough armies.");
+                    }else{
+                        invader.armies -= invadingArmies;
+                        target.attacked(invadingArmies, invader.owner);
+                    }
+
+                    ((Territory)this).drawTerritory();
+
+                }else{
+                    throw new Exception("Invalid entry.");
+                }
+                
+                break;
+                
+            case "move" : 
+                
+                if(information.matches("\\d+")){
+
+                    Territory source = Territory.actionSource;
+                    Territory destination = Territory.actionTarget;
+                    
+                    Territory.actionSource = null;
+                    Territory.actionTarget = null;
+                    
+                    int movingArmies = Integer.parseInt(information);
+
+                    if(movingArmies > source.armies - 1){
+                        throw new Exception("You don't have enough armies.");
+                    }else{
+                        source.setArmies(source.armies() - movingArmies);
+                        destination.setArmies(destination.armies() + movingArmies);
+                    }
+
+                    source.drawTerritory();
+                    destination.drawTerritory();
+
+                }else{
+                    throw new Exception("Invalid entry.");
+                }
+
+                break;
+            
+        }
+        
     }
     
 }

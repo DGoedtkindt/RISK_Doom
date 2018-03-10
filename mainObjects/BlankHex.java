@@ -11,6 +11,11 @@ import base.Hexagon;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Blank Hexes are the basic Hexagins of a Map. 
+ * They represent a spot where a part of a Territory can be.
+ * 
+ */
 public class BlankHex extends Button implements Selectable{
     public static final int maxNColumn = 40;
     public static final int maxNRow = 40;
@@ -20,6 +25,11 @@ public class BlankHex extends Button implements Selectable{
     
     private int[] hexCoord = new int[2];
     
+    /**
+     * Creates a BlankHex Object at given coordinates.
+     * @param xHCoord The x hexagonal coordinate.
+     * @param yHCoord The y hexagonal coordinate.
+     */
     private BlankHex(int xHCoord, int yHCoord) {
         hexCoord = new int[]{xHCoord,yHCoord};
         setImage();
@@ -27,20 +37,29 @@ public class BlankHex extends Button implements Selectable{
         BLANK_HEX_ARRAY[hexCoord[0]][hexCoord[1]] = this;
     }
     
+    /**
+     * Gives an image to a BlankHex.
+     */
     private void setImage() {
         this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
-        
     }
     
-    public static BlankHex blankHexAt(int hexX, int hexY) 
-    //this method makes sure we only create new BlankHex when necessary  
-    {
+    /**
+     * Gets the BlankHex at given coordinates.
+     * @param hexX The x hexagonal coordinate.
+     * @param hexY The y hexagonal coordinate.
+     * @return The BlankHex at the given coordinates.
+     */
+    public static BlankHex blankHexAt(int hexX, int hexY){
         BlankHex returnHex;
         if(BLANK_HEX_ARRAY[hexX][hexY] != null) returnHex = BLANK_HEX_ARRAY[hexX][hexY];
             else returnHex = new BlankHex(hexX,hexY);
         return returnHex;
     }
     
+    /**
+     * Updates the image of each BlankHex.
+     */
     public static void updateAllImages() {
         for(int x = 0; x < maxNColumn; x++) {
             for(int y = 0; y < maxNRow; y++) {
@@ -52,10 +71,18 @@ public class BlankHex extends Button implements Selectable{
     
     }
     
+    /**
+     * Gets the hexagonal coordinates of a BlankHex.
+     * @return The hexagonal coordinates of this BlankHex.
+     */
     public int[] hexCoord() {
         return hexCoord;
     }
     
+    /**
+     * Gets the rectangular, normal coordinates of a BlankHex.
+     * @return The rectangular, normal coordinates of this BlankHex.
+     */
     public int[] rectCoord() {
         return Hexagon.hexToRectCoord(hexCoord);
     }
@@ -70,19 +97,19 @@ public class BlankHex extends Button implements Selectable{
             case SELECT_INFO_HEX :
                 try{
                     if(Selector.getSelectedHexes().contains(this)) {
-                        //créer un territoire
+                        //Creates a Territory
                         ArrayList<BlankHex> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
                         Territory newTerr = new Territory(selectedHexes, this,0);   
                         newTerr.addToWorld();
-                        
+                        world().stateManager.escape();
                     }
                     
                 } catch(Exception e){
                     MessageDisplayer.showMessage(e.getMessage());
 
                 }
-                world().stateManager.escape(); break;
+                break;
                 
             default: break;
                 

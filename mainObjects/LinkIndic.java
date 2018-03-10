@@ -1,17 +1,17 @@
 package mainObjects;
 
-//un objet de cette classe indique l'existance d'un Link entre plusieur Territory
-//par sa couleur
-
 import appearance.MessageDisplayer;
 import base.Button;
 import base.Hexagon;
 import base.MyWorld;
-import base.StateManager;
 import mode.Mode;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 
+/**
+ * This Class is an Object that represents a Link between Territories.
+ * 
+ */
 public class LinkIndic extends Button{
     public Links links;
     private Territory terr;
@@ -19,8 +19,12 @@ public class LinkIndic extends Button{
     private int xPos;
     private int yPos; 
     
-    private StateManager manager() {return world().stateManager;}
-    
+    /**
+     * Creates a LinkIndic.
+     * @param territory The Territory owning this LinkIndic.
+     * @param xPos The x coordinate of this Actor.
+     * @param yPos The y coordinate of this Actor.
+     */
     public LinkIndic(Territory territory, int xPos, int yPos) {
         //le lier au Links actif et a son territoire
         links = Links.newLinks;
@@ -42,7 +46,7 @@ public class LinkIndic extends Button{
     @Override
     public void clicked() {
         
-        if(Mode.mode() == Mode.DEFAULT){
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
             
             String[] actions = new String[]{"Delete the entire link", "Delete this particular link", "Extend this link", "Oh, I just wanted to greet it"};
             
@@ -77,20 +81,24 @@ public class LinkIndic extends Button{
     
     }
     
+    /**
+     * Adds this LinkIndic to the World and verifies the existence of a TerritoryHex below it.
+     */
     public void addToWorld() {
         world().addObject(this, xPos, yPos);
         
-        //pour que quand on clique dessus hors du mode DEFAULT il fasse l'action
-        //du TerritoryHex en dessous de lui
         try{
-        terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
+            terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
         } catch(IndexOutOfBoundsException e){
-            MessageDisplayer.showMessage("the new LinkIndic didn't find a terrHex at this position.");
+            MessageDisplayer.showMessage("The new LinkIndic didn't find a TerritoryHex at this position.");
             this.destroy();
         }
         
     }
     
+    /**
+     * Destroys this LinkIndic.
+     */
     public void destroy() {
         terr.links.remove(this);
         links.removelink(this);
@@ -98,6 +106,10 @@ public class LinkIndic extends Button{
     
     }
     
+    /**
+     * Gets the Territory that owns this LinkIndic.
+     * @return The Territory that owns it.
+     */
     public Territory linkedTerr() {
         return terr;
     

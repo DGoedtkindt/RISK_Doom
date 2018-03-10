@@ -1,18 +1,24 @@
 package mainObjects;
 
+import appearance.Appearance;
+import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.ColorChooser;
 import base.GColor;
+import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
 import selector.Selectable;
 import greenfoot.Actor;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import greenfoot.GreenfootImage;
 
-public class Continent implements Selectable
-{
+/**
+ * The Class that represents the Continents.
+ * 
+ */
+public class Continent implements Selectable, InputPanelUser{
+    
     public static final BonusDisplay display = new BonusDisplay();
     
     //private variable
@@ -22,8 +28,11 @@ public class Continent implements Selectable
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus;
     
-    //public methods
-    public Continent(ArrayList<Territory> territories) throws Exception{
+    /**
+     * Creates a Continent.
+     * @param territories The Territories contained in this Continent.
+     */
+    public Continent(ArrayList<Territory> territories){
         editColor();
         editBonus();
         
@@ -31,7 +40,13 @@ public class Continent implements Selectable
         
     }
     
-    public Continent(ArrayList<Territory> territories, GColor color, int points) throws Exception{
+    /**
+     * Creates a Continent.
+     * @param territories The Territories contained in this Continent.
+     * @param color The Color of this Continent.
+     * @param points The bonus given by this Continent.
+     */
+    public Continent(ArrayList<Territory> territories, GColor color, int points){
         
         continentColor = color;
         bonus = points;
@@ -40,8 +55,10 @@ public class Continent implements Selectable
         
     }
     
-    public void addToWorld() {
-        //to Update the territories continent and color
+    /**
+     * Adds the Continent to the World and updates its Territories.
+     */
+    public void addToWorld(){
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         map().continents.add(this);
         
@@ -49,7 +66,10 @@ public class Continent implements Selectable
     
     }
     
-    public void editColor() throws Exception {
+    /**
+     * Lets the User edit the Color of this Continent.
+     */
+    public void editColor(){
         continentColor = ColorChooser.getColor();
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
 
@@ -57,25 +77,36 @@ public class Continent implements Selectable
         
     }
     
+    /**
+     * Gets the Color of this Continent.
+     * @return The Color of this Continent.
+     */
     public GColor color(){
         return continentColor;
         
     }
     
+    /**
+     * Gets the Territories contained in this Continent.
+     * @return The Territories contained in this Continent.
+     */
     public ArrayList<Territory> containedTerritories(){
         return (ArrayList<Territory>)territoriesContained.clone();
         
     }
     
+    /**
+     * Removes a Territory from this Continent.
+     * @param territoryToRemove The Territory to remove.
+     */
     public void removeTerritory(Territory territoryToRemove){
-        //is only used through Territory.destroy()
         territoriesContained.remove(territoryToRemove);
         if(territoriesContained.isEmpty()) this.destroy();
         
     }
     
-    /** removes it from the world and from all contained territories
-     * should not be used if it is outside the world.
+    /** 
+     * Removes it from the World and updates its Territories.
      */
     public void destroy() {
         map().continents.remove(this);
@@ -86,23 +117,20 @@ public class Continent implements Selectable
                
     }
     
+    /**
+     * Lets the User edit the Bonus given by this Continent.
+     */
     public void editBonus(){
-        String bonusString = JOptionPane.showInputDialog("Entrez le nouveau bonus pour le continent");
-        
-        if(bonusString.matches("\\d+")){
-            int newBonus = Integer.parseInt(bonusString);
-            
-            bonus = newBonus;
-            display.update();
-        }else{
-            MessageDisplayer.showMessage("Invalid entry.");
-        }
+        InputPanel.showInsertionPanel("Enter a new bonus for this Continent.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
     
+    /**
+     * Gets the bonus given by this Continent.
+     * @return The bonus given by this Continent.
+     */
     public int bonus() {
         return bonus;
-    
     }
     
     //Selectable methods/////////////////////////////////
@@ -130,9 +158,34 @@ public class Continent implements Selectable
         
         }
     }
+
+    //InputPanelUser////////////////////////////////////////7
+    
+    @Override
+    public void useInformations(String information, String type) {
+        
+        if(type.equals("bonus")){
+            
+            if(information.matches("\\d+")){
+                
+                int newBonus = Integer.parseInt(information);
+
+                ((Continent)this).bonus = newBonus;
+                Continent.display.update();
+                
+            }else{
+                MessageDisplayer.showMessage("Invalid entry.");
+            }
+            
+        }
+        
+    }
             
 }
 
+/**
+ * This Class represents the Actor that displays the Continents' bonuses.
+ */
 class BonusDisplay extends Actor {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 200;
@@ -140,11 +193,17 @@ class BonusDisplay extends Actor {
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
     
+    /**
+     * Creates a BonusDisplay.
+     */
     BonusDisplay() {
         this.setImage(new GreenfootImage(WIDTH, HEIGHT));
     
     }
     
+    /**
+     * Updates the image of a BonusDisplay.
+     */
     void update() {
         this.setImage(new GreenfootImage(WIDTH, HEIGHT));
         
@@ -187,7 +246,12 @@ class BonusDisplay extends Actor {
         }
         
     }
-
+    
+    /**
+     * Creates a small image in which the bonus of a Continent is written.
+     * @param c The said Continent.
+     * @return The said image.
+     */
     private GreenfootImage bonusImage(Continent c) {
         GreenfootImage img = new GreenfootImage(60, 30);
         img.setColor(c.color());

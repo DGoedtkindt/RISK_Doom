@@ -1,11 +1,14 @@
 package mainObjects;
 
+import appearance.Appearance;
+import appearance.InputPanel;
 import game.Player;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.ColorChooser;
 import base.GColor;
 import base.Hexagon;
+import base.InputPanelUser;
 import game.Turn;
 import mode.Mode;
 import selector.Selector;
@@ -13,13 +16,22 @@ import greenfoot.Greenfoot;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
-public class TerritoryHex extends Button
-{
+/**
+ * The Class that represents the hexagons contained in a Territory.
+ * 
+ */
+public class TerritoryHex extends Button implements InputPanelUser{
     private Territory territory;
     private int[] hexCoord = new int[2];
     
+    /**
+     * Creates a TerritoryHex.
+     * @param territory The Territory in which it is contained.
+     * @param color The Color of this TerritoryHex.
+     * @param x The x hexagonal coordinate of this TerritoryHex.
+     * @param y The y hexagonal coordinate of this TerritoryHex.
+     */
     public TerritoryHex(Territory territory, GColor color, int x, int y){
         this.territory = territory;
         drawTerrHex(color);
@@ -27,10 +39,18 @@ public class TerritoryHex extends Button
         hexCoord[1] = y;
     }
     
+    /**
+     * Gets the hexagonal coordinates of this TerritoryHex
+     * @return Its hexagonal coordinates.
+     */
     public int[] hexCoord() {
         return hexCoord;
     }
     
+    /**
+     * Gets the rectangular, normal of this TerritoryHex
+     * @return Its rectangular, normal coordinates.
+     */
     public int[] rectCoord() {
         return Hexagon.hexToRectCoord(hexCoord);
     }
@@ -106,12 +126,12 @@ public class TerritoryHex extends Button
                     }else if(territory.owner() != Turn.currentTurn.player){
                         
                         Selector.select(territory);
+                        Territory.actionTarget = territory;
                         try{
-                            Territory.actionSource.invade(territory);
+                            Territory.actionSource.invade(Territory.actionTarget);
                         }catch(Exception e){
                             MessageDisplayer.showMessage(e.getMessage());
                         }
-                        Territory.actionSource = null;
                         Selector.setValidator(Selector.NOTHING);
                         world().stateManager.escape();
                     }
@@ -126,12 +146,12 @@ public class TerritoryHex extends Button
                             Selector.select(territory);
                         }else{
                             Selector.select(territory);
+                            Territory.actionTarget = territory;
                             try{
-                                Territory.actionSource.moveTo(territory);
+                                Territory.actionSource.moveTo(Territory.actionTarget);
                             }catch(Exception e){
                                 MessageDisplayer.showMessage(e.getMessage());
                             }
-                            Territory.actionSource = null;
                             Selector.setValidator(Selector.NOTHING);
                             world().stateManager.escape();
                         }
@@ -143,25 +163,12 @@ public class TerritoryHex extends Button
                 case CLEARING_HAND :
                     if(territory.owner() == Turn.currentTurn.player){
                         
-                        String newArmiesString = JOptionPane.showInputDialog("The number of armies you want to put on this territory");
-                        
-                        if(newArmiesString.matches("\\d+")){
-                            
-                            int newArmies = Integer.parseInt(newArmiesString);
-                            
-                            if(newArmies < 0){
-                                MessageDisplayer.showMessage("This is a negative number.");
-                            }else if(newArmies > territory.owner().armiesInHand()){
-                                MessageDisplayer.showMessage("You don't have enough armies.");
-                            }else{
-                                territory.addArmies(newArmies);
-                                territory.owner().addArmiesToHand(-newArmies);
-                                territory.drawTerritory();
-                            }
-                            
-                        }else{
-                            MessageDisplayer.showMessage("Invalid entry.");
-                        }
+                        InputPanel.showInsertionPanel("The number of armies you want to put on this territory.", 
+                                                      100, 
+                                                      "added_armies", 
+                                                      this, 
+                                                      Appearance.WORLD_WIDTH / 2, 
+                                                      Appearance.WORLD_HEIGHT / 2);
                         
                     }
                     
@@ -174,6 +181,7 @@ public class TerritoryHex extends Button
                         Turn.currentTurn.player.combos().useSap();
                         world().stateManager.escape();
                     }
+                    break;
                     
                 default: break;
             }
@@ -185,6 +193,10 @@ public class TerritoryHex extends Button
         
     }
     
+    /**
+     * Obtains a list of the TerritoryHexes that surrounds this one.
+     * @return The list pf the neighbouring TerritoryHexes.
+     */
     public ArrayList<TerritoryHex> getBorderingHex() {
         List<TerritoryHex> allOtherTerritoryHex;
         ArrayList<TerritoryHex> borderingHexList = new ArrayList<>();
@@ -201,26 +213,70 @@ public class TerritoryHex extends Button
         return borderingHexList;
     }
     
+    /**
+     * Draws the image of this TerritoryHex.
+     * @param color The Color of this TerritoryHex.
+     */
     public void drawTerrHex(GColor color){   
-        this.setImage(Hexagon.createImage(color, 0.95));
-        this.getImage().setTransparency(150);
+        setImage(Hexagon.createImage(color, 0.95));
+        getImage().setTransparency(150);
     }
     
+    /**
+     * Gets the Territory that contains this TerritoryHex.
+     * @return Its Territory.
+     */
     public Territory territory(){
        return territory;
         
     }
-
+    
+    /**
+     * Calculates the distance between this and another TerritoryHex.
+     * @param otherHex The other TerritoryHex.
+     * @return The distance between those two TerritoryHexes, in the unit of the 
+     *         Greenfoot coordinate grid.
+     */
     public double distance(TerritoryHex otherHex) {
         return Math.sqrt(   (Math.pow(this.getX()  -  otherHex.getX(), 2))    +     (Math.pow(this.getY()  -  otherHex.getY(), 2))  );
         
     }
     
+    /**
+     * Draws the Color of the owner of this TerritoryHex's Territory.
+     * @param p The owner of this TerritoryHex's Territory.
+     */
     protected void drawPlayerColor(Player p){
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-            getImage().drawString("" + (territory.armies()  + territory.owner().battlecryBonus), 20, 40);
+        }
+        
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("added_armies")){
+            
+            if(information.matches("\\d+")){
+                            
+                int newArmies = Integer.parseInt(information);
+
+                if(newArmies < 0){
+                    MessageDisplayer.showMessage("This is a negative number.");
+                }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
+                    MessageDisplayer.showMessage("You don't have enough armies.");
+                }else{
+                    ((TerritoryHex)this).territory.addArmies(newArmies);
+                    ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
+                    ((TerritoryHex)this).territory.drawTerritory();
+                }
+
+            }else{
+                MessageDisplayer.showMessage("Invalid entry.");
+            }
+            
         }
         
     }
