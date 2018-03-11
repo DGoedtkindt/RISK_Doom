@@ -39,4 +39,15 @@ public abstract class Button extends Actor {
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
     
+    /**
+     * Checks if this ModeButton can be used in the current situation. If the Button 
+     * is opaque, then it can be used.
+     * @return A boolean representation of the fact that this ModeButton
+     *         can be used in the current situation.
+     */
+    protected boolean isUsable(){
+        return this.getImage().getTransparency() == Appearance.OPAQUE;
+        
+    }
+    
 }

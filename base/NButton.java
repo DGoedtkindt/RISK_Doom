@@ -71,7 +71,7 @@ public class NButton extends Button{
     public void clicked() {
         if(action != null && isUsable()){
             action.act();
-        }else MessageDisplayer.showMessage("This button does nothing");
+        }
         
     }
     
@@ -85,17 +85,6 @@ public class NButton extends Button{
     public void makeOpaque() {
         getImage().setTransparency(Appearance.OPAQUE);
     
-    }
-    
-    /**
-     * Checks if this ModeButton can be used in the current situation. If the Button 
-     * is opaque, then it can be used.
-     * @return A boolean representation of the fact that this ModeButton
-     *         can be used in the current situation.
-     */
-    private boolean isUsable(){
-        return this.getImage().getTransparency() == Appearance.OPAQUE;
-        
     }
     
 }
