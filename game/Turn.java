@@ -91,8 +91,7 @@ public class Turn {
             Mode.setMode(Mode.CLEARING_HAND);
             
         }
-            
-        
+         
     }
     
     /**
@@ -104,6 +103,8 @@ public class Turn {
             player.gainComboPiece();
         }
         player.conqueredThisTurn = false;
+        
+        Zombie.zombie.countdown();
         
         addTurnStats();
         autoSave();
