@@ -11,8 +11,7 @@ import java.awt.FontMetrics;
  * Displays the combo pieces a player has.
  * 
  */
-public class ComboDisplayer extends Button {
-    //pour teste si git se rend compte qu'il y a une différence entre les fichiers...
+public class ComboDisplayer extends Button{
     
     private final static ComboDisplayer displayer = new ComboDisplayer(new Combo());
     private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use combo");
@@ -125,11 +124,12 @@ public class ComboDisplayer extends Button {
      * Updates the displayer for the current Player.
      */
     public static void display() {
+        displayer.shown = false;
         Player currentPlayer = Turn.currentTurn.player;
         displayer.combo = currentPlayer.combos();
         displayer.updateImage();
-        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 900);
-        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 990);
+        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 950);
+        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 1040);
         
     }
     
