@@ -85,7 +85,11 @@ public class Manager extends StateManager{
     @Override
     public void escape() {
         if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT) {
-            InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+            if(InputPanel.usedPanel == null){
+                InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+            }else{
+                InputPanel.usedPanel.destroy();
+            }
         
         } else {
             Selector.clear();
