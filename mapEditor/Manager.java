@@ -45,7 +45,6 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
@@ -53,6 +52,7 @@ public class Manager extends StateManager{
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 60, 30);
         loadMap();
+        Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
 
     }
     

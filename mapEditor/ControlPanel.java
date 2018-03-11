@@ -48,7 +48,7 @@ public class ControlPanel {
      */
     protected ControlPanel(Manager manager) {
         this.manager = manager;
-        this.makeXMLButton = new NButton( ((Manager)manager).saveMap, new GreenfootImage("MakeXML.png"));
+        this.makeXMLButton = new NButton(((Manager)manager).saveMap, new GreenfootImage("MakeXML.png"));
         allButtons.add(createTerritory);
         allButtons.add(createLink);
         allButtons.add(editTerritoryBonus);
