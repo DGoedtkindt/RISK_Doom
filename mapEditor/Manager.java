@@ -101,13 +101,6 @@ public class Manager extends StateManager{
         
     }
     
-    //Action pour sauver le monde
-    
-    protected Action saveMap = () -> {
-        MapSaver ms = new MapSaver(map());
-        ms.askForNameAndDescription();
-    };
-    
     /////Private Methods///////////////////////
     
     private Action loadOptionsMenu = () -> {
