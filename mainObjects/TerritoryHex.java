@@ -7,7 +7,6 @@ import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.Button;
 import base.ColorChooser;
-import base.Game;
 import base.GColor;
 import base.Hexagon;
 import base.InputPanelUser;
@@ -129,14 +128,18 @@ public class TerritoryHex extends Button implements InputPanelUser{
                     }else if(territory.owner() != Turn.currentTurn.player){
                         
                         Selector.select(territory);
-                        Territory.actionTarget = territory;
-                        try{
-                            Territory.actionSource.invade(Territory.actionTarget);
-                        }catch(Exception e){
-                            MessageDisplayer.showMessage(e.getMessage());
+                        
+                        if(Selector.territoriesNumber() == 2){
+                            Territory.actionTarget = territory;
+                            try{
+                                Territory.actionSource.invade(Territory.actionTarget);
+                            }catch(Exception e){
+                                MessageDisplayer.showMessage(e.getMessage());
+                            }
+                            Selector.setValidator(Selector.NOTHING);
+                            world().stateManager.escape();
                         }
-                        Selector.setValidator(Selector.NOTHING);
-                        world().stateManager.escape();
+                        
                     }
                     
                     break;
