@@ -155,7 +155,7 @@ class RulesDisplayer extends Actor implements Arrowable{
     
     private static final String[] RULES = 
             {"Hi! We're the Developpers! If you're here, you probably want to know how this Game can be played. "
-            + "The good news is we can help you. That's why we wrote these Rules, I guess.", 
+            + "The good news is we can help you. That's why we wrote these Rules anyway.", 
                 
             "The Map \nA Map is the bunch of Hexagons that you see if you launch either the Map Editor or the Game. "
             + "It can contain Territories and/or Continents, which are the main Objects in the Game (Especially the "
@@ -176,20 +176,20 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "Territory informations \nA weird Hexagon can appear on your Territories. It displays informations about them. In the Map Editor, it shows "
             + "the bonus given by a Territory. In the Game, it displays the number of armies on a Territory (White), the bonus given by it "
-            + "(Yellow), the army bonus of this Territory (Green during your Turn, Orange during your opponent's) and Tree(3) (Purple-green-rainbow-ish) sometimes.",
+            + "(Yellow) and the army bonus of this Territory (Green during your Turn, Orange during your opponent's).",
             
             "Armies \nYou knew this was a conquest Game, right? \nYou gain armies at the start of your Turn (One army for each three "
             + "Territories you own, plus the bonus of your capital (Your Territory with "
             + "the highest bonus), plus the bonus of each Continent you own), or when you use a certain Combo (We'll talk about Combos later), "
             + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you. ",
             
-            "The Continents \nThe Continents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
+            "The Continents \nContinents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
             + "which is a good thing to know when you play the Game. When you use the Map Editor, you are able to create them, destroy them, "
             + "change their color and bonus. You can even add cheat codes if you- \nI shouldn't have said that.",
             
             "The Combos \nIf you invade an ennemy Territory, you will gain a Combo piece at the end of the Turn (Unless you already have five pieces). "
             + "They're called A, B and C, and they're, like, super powerful sci-fi stuff, you know. A is kinda explosive, B is "
-            + "more or less rock and C is Propaganda. That gives those funny Combos \nThree A - Sap : \nYou remove the armies from an adjacent ennemy Territory. "
+            + "more or less rock and C is propaganda. That gives those funny Combos. \nThree A - Sap : \nYou remove the armies from an adjacent ennemy Territory. "
             + "Your opponent will be able to replace them at the start of his Turn. \nThree B - Fortress : \nYou will build a wall, a huge wall, around your "
             + "Territories, and your opponents won't be able to attack you until your next Turn. \nThree C - Battlecry : \nYou gain an attack and defense "
             + "bonus of two armies on each of your Territories until your next Turn. \nOne of each - Recruit : \nYou can place five new armies on your Territories.",
