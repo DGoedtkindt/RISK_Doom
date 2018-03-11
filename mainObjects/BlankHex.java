@@ -100,7 +100,7 @@ public class BlankHex extends Button implements Selectable{
                         //Creates a Territory
                         ArrayList<BlankHex> selectedHexes;
                         selectedHexes = Selector.getSelectedHexes();
-                        Territory newTerr = new Territory(selectedHexes, this,0);   
+                        Territory newTerr = new Territory(selectedHexes, this,0);
                         newTerr.addToWorld();
                         world().stateManager.escape();
                     }
