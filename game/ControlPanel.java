@@ -19,8 +19,11 @@ public class ControlPanel {
     private MyWorld world() {return MyWorld.theWorld;}
     private Manager manager;
     private NButton nextTurnButton = new NButton(() -> {
-        Turn.endCurrentTurn();
-        Turn.startNewTurn();}, "End Turn");
+        if(Mode.mode() == Mode.GAME_DEFAULT){
+            Turn.endCurrentTurn();
+            Turn.startNewTurn();
+        }}
+            , "End Turn");
     private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
     private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.IS_OWNED_TERRITORY);
     
