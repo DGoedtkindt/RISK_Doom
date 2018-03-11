@@ -9,8 +9,8 @@ public abstract class StateManager implements InputPanelUser{
     
     public abstract void setupScene();
     public abstract void clearScene();
-    public Map map() {throw new UnsupportedOperationException("There are no maps in this program state");}
-    public Game game() {throw new UnsupportedOperationException("There are no games in this program state");}
+    public Map map() {return null;}
+    public Game game() {return null;}
     public abstract void escape();
     protected MyWorld world() {return MyWorld.theWorld;}
     
