@@ -98,7 +98,7 @@ public class NextTurnPanel {
         String territories = "Number of territories owned : " 
                 + stats.numberOfTerritories.get(OWNER);
         String armiesPerTurn = "Armies in reinforcement this turn : "
-                + (stats.numberOfArmiesPerTurn.get(OWNER) + OWNER.armiesInHand);
+                + (stats.numberOfArmiesPerTurn.get(OWNER) + OWNER.armiesInHand());
         
         infos += armies + "\n";
         infos += territories + "\n";

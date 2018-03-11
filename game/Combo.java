@@ -16,6 +16,24 @@ public class Combo {
     
     private static boolean comboShown = false;
     
+    private ModeButton sapButton = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
+    private NButton fortressButton = new NButton(() -> {
+                                            Turn.currentTurn.player.fortressProtection = true;
+                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            useFortress();
+                                        }, "Fortress");
+    private NButton battlecryButton = new NButton(() -> {
+                                            Turn.currentTurn.player.battlecryBonus = 2;
+                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            useBattlecry();
+                                        }, "Battlecry");
+    private NButton recruitButton = new NButton(() -> {
+                                            Player p = Turn.currentTurn.player;
+                                            p.addArmiesToHand(5);
+                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            useRecruit();
+                                        }, "Recruit");
+    
     private int a = 0;
     private int b = 0;
     private int c = 0;
@@ -73,24 +91,6 @@ public class Combo {
         return c;
     }
     
-    private ModeButton sapButton = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
-    private NButton fortressButton = new NButton(() -> {
-                                            Turn.currentTurn.player.fortressProtection = true;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
-                                            useFortress();
-                                        }, "Fortress");
-    private NButton battlecryButton = new NButton(() -> {
-                                            Turn.currentTurn.player.battlecryBonus = 2;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
-                                            useBattlecry();
-                                        }, "Battlecry");
-    private NButton recruitButton = new NButton(() -> {
-                                            Player p = Turn.currentTurn.player;
-                                            p.addArmiesToHand(5);
-                                            Mode.setMode(Mode.GAME_DEFAULT);
-                                            useRecruit();
-                                        }, "Recruit");
-    
     /**
      * Gives the Player his current Combo options.
      */
@@ -100,28 +100,38 @@ public class Combo {
             
             removeComboButtons();
             comboShown = false;
+            Mode.setMode(Mode.GAME_DEFAULT);
             
         }else{
             
-            if(a >= 3){
-                MyWorld.theWorld.addObject(sapButton, Appearance.WORLD_WIDTH - 300, 990);
-                comboShown = true;
-            }if(b >= 3){
-                MyWorld.theWorld.addObject(fortressButton, Appearance.WORLD_WIDTH - 480, 990);
-                comboShown = true;
-            }if(c >= 3){
-                MyWorld.theWorld.addObject(battlecryButton, Appearance.WORLD_WIDTH - 640, 990);
-                comboShown = true;
-            }if(a > 0 && b > 0 && c > 0){
-                MyWorld.theWorld.addObject(recruitButton, Appearance.WORLD_WIDTH - 820, 990);
-                comboShown = true;
-            }
+            sapButton.makeTransparent();
+            fortressButton.makeTransparent();
+            battlecryButton.makeTransparent();
+            recruitButton.makeTransparent();
             
-            if(comboShown){
+            MyWorld.theWorld.addObject(sapButton, Appearance.WORLD_WIDTH - 300, 990);
+            MyWorld.theWorld.addObject(fortressButton, Appearance.WORLD_WIDTH - 480, 990);
+            MyWorld.theWorld.addObject(battlecryButton, Appearance.WORLD_WIDTH - 660, 990);
+            MyWorld.theWorld.addObject(recruitButton, Appearance.WORLD_WIDTH - 840, 990);
+            
+            if(a >= 3){
+                sapButton.makeOpaque();
+                Mode.setMode(Mode.SELECTING_COMBO);
+            }if(b >= 3){
+                fortressButton.makeOpaque();
+                Mode.setMode(Mode.SELECTING_COMBO);
+            }if(c >= 3){
+                battlecryButton.makeOpaque();
+                Mode.setMode(Mode.SELECTING_COMBO);
+            }if(a > 0 && b > 0 && c > 0){
+                recruitButton.makeOpaque();
                 Mode.setMode(Mode.SELECTING_COMBO);
             }
             
+            comboShown = true;
+            
         }
+        
         ComboDisplayer.display();
         
     }
