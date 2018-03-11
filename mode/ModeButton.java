@@ -1,7 +1,6 @@
 package mode;
 
 import selector.Selector;
-import appearance.Appearance;
 import base.Button;
 import greenfoot.Color;
 import greenfoot.GreenfootImage;
@@ -58,17 +57,6 @@ public class ModeButton extends Button {
             Selector.setValidator(validator);
             makeOpaque();
         }
-    }
-    
-    /**
-     * Checks if this ModeButton can be used in the current situation. If the Button 
-     * is opaque, then it can be used.
-     * @return A boolean representation of the fact that this ModeButton
-     *         can be used in the current situation.
-     */
-    private boolean isUsable(){
-        return this.getImage().getTransparency() == Appearance.OPAQUE;
-        
     }
     
 }
