@@ -4,7 +4,6 @@ import appearance.Appearance;
 import appearance.InputPanel;
 import game.Zombie;
 import game.Player;
-import appearance.MessageDisplayer;
 import selector.Selectable;
 import appearance.Theme;
 import base.GColor;
