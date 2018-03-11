@@ -103,6 +103,8 @@ public class Manager extends StateManager{
             
         }
         
+        Territory.resetSourceAndTarget();
+        
     }
     
     /////Private Methods///////////////////////
