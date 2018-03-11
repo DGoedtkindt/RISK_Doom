@@ -71,7 +71,7 @@ public class NButton extends Button{
     public void clicked() {
         if(action != null && isUsable()){
             action.act();
-        }else MessageDisplayer.showMessage("This button does nothing");
+        }
         
     }
     
