@@ -244,17 +244,19 @@ public class Selector{
                     };
     public static final Predicate IS_ATTACKABLE = (Object o) -> {
                     if(o instanceof Territory){
-                        try{
-                            if(getSelectedTerritory().canAttack((Territory)o)){
-                                return true;
-                            }else{
-                                return false;
+                        
+                        if(Territory.actionSource != null){
+                            return Territory.actionSource.neighbours().contains((Territory)o) && ((Territory)o).owner() != Territory.actionSource.owner();
+                        }else{
+                            for(Territory t : Turn.currentTurn.player.territories()){
+                                if(t.neighbours().contains((Territory)o) && ((Territory)o).owner() != t.owner() && ((Territory)o).owner() != null){
+                                    return true;
+                                }
+                                
                             }
-                            
-                        }catch(Exception e){
-                            MessageDisplayer.showException(e);
                             return false;
                         }
+                        
                     }else{
                         return false;
                     }
