@@ -30,7 +30,7 @@ public class MessageDisplayer extends Button{
         GreenfootImage img = new GreenfootImage(1, 1);
         fm = img.getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
-        width = fm.stringWidth(message);
+        width = fm.stringWidth(message) + 4;
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         height = fm.getMaxAscent() + fm.getMaxDescent();
         
@@ -42,7 +42,7 @@ public class MessageDisplayer extends Button{
         img.setColor(Theme.used.textColor);
         img.drawRect(1, 1, width - 3, height * linesNumber - 3);
         img.setFont(Appearance.GREENFOOT_FONT);
-        img.drawString(message, 0, fm.getMaxAscent());
+        img.drawString(message, 2, fm.getMaxAscent());
         setImage(img);
         
     }
