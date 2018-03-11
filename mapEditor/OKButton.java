@@ -31,35 +31,45 @@ public class OKButton extends Button{
     @Override
     public void clicked(){
         
-        //at this level the ifs that must not end with escape()
-        if(Mode.mode() == Mode.CREATE_TERRITORY){
-            switchToSelectInfoHex();
+        if(isUsable()){
             
-        }else {
-            //at this level, the ifs end with escape()
-            switch (Mode.mode()) {
-                case CREATE_CONTINENT:
-                    createContinentFromSelection();
-                    break;
-                case DELETE_TERRITORY:
-                    deleteTerritorySelection();
-                    break;
-                case DELETE_CONTINENT:
-                    deleteContinentSelection();
-                    break;
-                case SET_LINK:
-                    if(!Links.newLinks.isLargeEnough()) {
-                        Links.newLinks.destroy();
-                        MessageDisplayer.showMessage("You cannot create Links with fewer"
-                                                   + " than 2 linked Territories.");
-                    
-                    }
-                    Links.newLinks = null;
-                    break;
-                default:
-                    break;
-            }
+            //At this level the ifs that must not end with escape()
+            if(Mode.mode() == Mode.CREATE_TERRITORY){
+                switchToSelectInfoHex();
+
+            }else {
+                //At this level, the ifs end with escape()
+                switch (Mode.mode()) {
+                    case CREATE_CONTINENT:
+                        createContinentFromSelection();
+                        break;
+                        
+                    case DELETE_TERRITORY:
+                        deleteTerritorySelection();
+                        break;
+                        
+                    case DELETE_CONTINENT:
+                        deleteContinentSelection();
+                        break;
+                        
+                    case SET_LINK:
+                        if(!Links.newLinks.isLargeEnough()) {
+                            Links.newLinks.destroy();
+                            MessageDisplayer.showMessage("You cannot create Links with fewer"
+                                                       + " than 2 linked Territories.");
+
+                        }
+                        Links.newLinks = null;
+                        break;
+                        
+                    default:
+                        break;
+                        
+                }
+                
                 world().stateManager.escape();
+
+            }
             
         }
         

@@ -128,6 +128,10 @@ public class ControlPanel {
                 }   
                 makeXMLButton.makeOpaque();
                 break;
+            
+            case ACTION_ON_LINK : 
+                break;
+            
             default:
                 okButton.makeOpaque();
                 break;

@@ -13,6 +13,7 @@ import mode.ModeMessageDisplay;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import mainObjects.Continent;
+import mainObjects.LinkIndic;
 import mainObjects.Links;
 import mainObjects.Territory;
 import selector.Selector;
@@ -84,22 +85,34 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT) {
-            if(InputPanel.usedPanel == null){
-                InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-            }else{
-                InputPanel.usedPanel.destroy();
-            }
         
-        } else {
-            Selector.clear();
+        switch(Mode.mode()){
+            
+            case MAP_EDITOR_DEFAULT : 
+                if(InputPanel.usedPanel == null){
+                    InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+                }else{
+                    InputPanel.usedPanel.destroy();
+                }
+                break;
+                
+            case ACTION_ON_LINK :
+                world().removeObject(LinkIndic.destroyLink);
+                world().removeObject(LinkIndic.destroySpot);
+                world().removeObject(LinkIndic.extendLink);
+                world().removeObject(LinkIndic.nothing);
+                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+                break;
+                
+            default : 
+                Selector.clear();
 
-            if(Links.newLinks != null){
-                Links.newLinks.destroy();
-                Links.newLinks = null;
-            }
+                if(Links.newLinks != null){
+                    Links.newLinks.destroy();
+                    Links.newLinks = null;
+                }
 
-            Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
             
         }
         
