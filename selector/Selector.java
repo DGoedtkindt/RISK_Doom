@@ -1,6 +1,5 @@
 package selector;
 
-import appearance.MessageDisplayer;
 import base.Map;
 import base.MyWorld;
 import game.Turn;
