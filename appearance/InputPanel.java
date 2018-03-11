@@ -159,15 +159,22 @@ public class InputPanel extends Button {
      * Removes this from the World and gives its informations to the source.
      */
     private void close(){
-        MyWorld.theWorld.removeObject(this);
-        MyWorld.theWorld.removeObject(yes);
-        MyWorld.theWorld.removeObject(no);
-        usedPanel = null;
+        destroy();
         try {
             source.useInformations(displayedString, type);
         } catch (Exception ex) {
             MessageDisplayer.showException(ex);
         }
+    }
+    
+    /**
+     * Removes this from the World.
+     */
+    public void destroy(){
+        MyWorld.theWorld.removeObject(this);
+        MyWorld.theWorld.removeObject(yes);
+        MyWorld.theWorld.removeObject(no);
+        usedPanel = null;
     }
     
     /**
