@@ -11,7 +11,8 @@ import java.awt.FontMetrics;
  * Displays the combo pieces a player has.
  * 
  */
-public class ComboDisplayer extends Button{
+public class ComboDisplayer extends Button {
+    //pour teste si git se rend compte qu'il y a une différence entre les fichiers...
     
     private final static ComboDisplayer displayer = new ComboDisplayer(new Combo());
     private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use combo");
