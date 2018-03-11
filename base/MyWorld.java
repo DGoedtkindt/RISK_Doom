@@ -18,16 +18,16 @@ import java.util.List;
  */
 public class MyWorld extends World {
     
-    //pour accéder au monde depuis un non-acteur
+    //The real World.
     public static MyWorld theWorld;
     
-    //Détection de la souris
+    //The Mouse.
     private MouseInfo mouse;
     
-    //Le manager actuel du programme
+    //The current Manager.
     public StateManager stateManager;
     
-    //Bouton retour
+    //The 'back' Button.
     public final NButton backButton = 
             new NButton(() -> {stateManager.escape();}, 
                     new GreenfootImage("backToHome.png"),30,30);
@@ -40,6 +40,7 @@ public class MyWorld extends World {
         super(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT, 1);
         theWorld = this;
         load(new menu.Manager());
+        Greenfoot.setSpeed(50);
         Greenfoot.start();
         
         //to run static block
@@ -165,7 +166,8 @@ class CheckEscape{
     static boolean escapeWasClicked = false;
     
     /**
-     * Checks if Escape has been released.
+     * Checks if Escape has been released and uses the escape() method of the 
+     * current StateManager if it's the case.
      */
     public static void testForEscape(){ 
         if(escapeReleased()){
