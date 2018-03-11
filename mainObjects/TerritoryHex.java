@@ -15,6 +15,7 @@ import game.Turn;
 import mode.Mode;
 import selector.Selector;
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -251,23 +252,21 @@ public class TerritoryHex extends Button implements InputPanelUser{
      */
     protected void drawPlayerColor(Player p){
         
+        GreenfootImage img;
+        
         if(p != null){
-            getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
-        }else if(world().stateManager.game().gameState == Game.State.INGAME){
+            img = Hexagon.createImage(p.color(), 0.5);
+        }else{
             
-            if(territory != null){
-                
-                if(territory.continent() != null){
-                   getImage().drawImage(Hexagon.createImage(territory.continentColor, 0.5), 0, 0); 
-                }else{
-                    getImage().drawImage(Hexagon.createImage(Theme.used.territoryColor, 0.5), 0, 0);
-                }
-                
-            }else{
-                getImage().drawImage(Hexagon.createImage(Theme.used.territoryColor, 0.5), 0, 0);
+            try{
+                img = Hexagon.createImage(territory.continentColor, 0.5);
+            }catch(Exception e){
+                img = Hexagon.createImage(Theme.used.territoryColor, 0.5);
             }
             
         }
+        
+        getImage().drawImage(img, 0, 0);
         
     }
 
