@@ -4,8 +4,10 @@ import appearance.Appearance;
 import appearance.InputPanel;
 import game.Player;
 import appearance.MessageDisplayer;
+import appearance.Theme;
 import base.Button;
 import base.ColorChooser;
+import base.Game;
 import base.GColor;
 import base.Hexagon;
 import base.InputPanelUser;
@@ -178,6 +180,7 @@ public class TerritoryHex extends Button implements InputPanelUser{
                     if(territory.owner() != Turn.currentTurn.player){
                         territory.owner().addArmiesToHand(territory.armies());
                         territory.setOwner(null);
+                        territory.drawTerritory();
                         Turn.currentTurn.player.combos().useSap();
                         world().stateManager.escape();
                     }
@@ -250,6 +253,20 @@ public class TerritoryHex extends Button implements InputPanelUser{
         
         if(p != null){
             getImage().drawImage(Hexagon.createImage(p.color(), 0.5), 0, 0);
+        }else if(world().stateManager.game().gameState == Game.State.INGAME){
+            
+            if(territory != null){
+                
+                if(territory.continent() != null){
+                   getImage().drawImage(Hexagon.createImage(territory.continentColor, 0.5), 0, 0); 
+                }else{
+                    getImage().drawImage(Hexagon.createImage(Theme.used.territoryColor, 0.5), 0, 0);
+                }
+                
+            }else{
+                getImage().drawImage(Hexagon.createImage(Theme.used.territoryColor, 0.5), 0, 0);
+            }
+            
         }
         
     }
