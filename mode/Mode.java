@@ -25,8 +25,8 @@ public enum Mode{
     SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory."),
     //Game modes
     GAME_DEFAULT(""),
-    ATTACK("Click on one of your territories, then on an adjacent ennemy territory. "
-            + "Finally, choose the number of armies you want to use."),
+    ATTACK("Click on one of your territories, then on an adjacent ennemy one. "
+            + "Finally, choose the number of armies you're using."),
     MOVE("Move your armies from one of your territories to another."),
     SELECTING_COMBO("Choose the combo you want to use."),
     SAP("Click on an ennemy territory to clear all the troops on it."),
