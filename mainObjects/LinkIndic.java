@@ -1,26 +1,37 @@
 package mainObjects;
 
-//un objet de cette classe indique l'existance d'un Link entre plusieur Territory
-//par sa couleur
-
+import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Button;
 import base.Hexagon;
 import base.MyWorld;
-import base.StateManager;
+import base.NButton;
 import mode.Mode;
 import greenfoot.GreenfootImage;
-import javax.swing.JOptionPane;
 
+/**
+ * This Class is an Object that represents a Link between Territories.
+ * 
+ */
 public class LinkIndic extends Button{
+    
+    public static NButton destroyLink = new NButton(() -> {});
+    public static NButton destroySpot = new NButton(() -> {});
+    public static NButton extendLink = new NButton(() -> {});
+    public static NButton nothing = new NButton(() -> {});
+    
     public Links links;
     private Territory terr;
     private TerritoryHex terrHex;
     private int xPos;
     private int yPos; 
     
-    private StateManager manager() {return world().stateManager;}
-    
+    /**
+     * Creates a LinkIndic.
+     * @param territory The Territory owning this LinkIndic.
+     * @param xPos The x coordinate of this Actor.
+     * @param yPos The y coordinate of this Actor.
+     */
     public LinkIndic(Territory territory, int xPos, int yPos) {
         //le lier au Links actif et a son territoire
         links = Links.newLinks;
@@ -42,34 +53,76 @@ public class LinkIndic extends Button{
     @Override
     public void clicked() {
         
-        if(Mode.mode() == Mode.DEFAULT){
-            
+        if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
+            /*
             String[] actions = new String[]{"Delete the entire link", "Delete this particular link", "Extend this link", "Oh, I just wanted to greet it"};
             
-            int response = JOptionPane.showOptionDialog(null, 
-                                                        "What do you want to do with this link?", 
-                                                        "Performing an action on a link", 
-                                                        JOptionPane.DEFAULT_OPTION, 
-                                                        JOptionPane.PLAIN_MESSAGE, 
-                                                        null, 
-                                                        actions, 
-                                                        actions[0]);
+            int response = JOptionPane.showOptionDialog(null,
+            "What do you want to do with this link?",
+            "Performing an action on a link",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            actions,
+            actions[0]);
             
             switch(response){
-                
-                case 0 : this.links.destroy();
-                         break;
-                    
-                case 1 : this.destroy();
-                         break;
-                    
-                case 2 : Mode.setMode(Mode.SET_LINK);
-                         Links.newLinks = this.links;
-                         break;
-                
-                default : break;
-                
+            
+            case 0 : this.links.destroy();
+            break;
+            
+            case 1 : this.destroy();
+            break;
+            
+            case 2 : Mode.setMode(Mode.SET_LINK);
+            Links.newLinks = this.links;
+            break;
+            
+            default : break;
+            
             }
+            */
+            destroyLink = new NButton(() -> {
+                world().removeObject(nothing);
+                world().removeObject(destroyLink);
+                world().removeObject(destroySpot);
+                world().removeObject(extendLink);
+                links.destroy();
+                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+            }, "Destroy the Link");
+            
+            destroySpot = new NButton(() -> {
+                world().removeObject(nothing);
+                world().removeObject(destroyLink);
+                world().removeObject(destroySpot);
+                world().removeObject(extendLink);
+                destroy();
+                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+            }, "Destroy this spot");
+            
+            extendLink = new NButton(() -> {
+                world().removeObject(nothing);
+                world().removeObject(destroyLink);
+                world().removeObject(destroySpot);
+                world().removeObject(extendLink);
+                Mode.setMode(Mode.SET_LINK);
+                Links.newLinks = this.links;
+            }, "Extend the Link");
+            
+            nothing = new NButton(() -> {
+                world().removeObject(nothing);
+                world().removeObject(destroyLink);
+                world().removeObject(destroySpot);
+                world().removeObject(extendLink);
+                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+            }, "Nothing");
+            
+            world().addObject(destroyLink, Appearance.WORLD_WIDTH / 2, 80);
+            world().addObject(destroySpot, Appearance.WORLD_WIDTH / 2, 160);
+            world().addObject(extendLink, Appearance.WORLD_WIDTH / 2, 240);
+            world().addObject(nothing, Appearance.WORLD_WIDTH / 2, 320);
+            
+            Mode.setMode(Mode.ACTION_ON_LINK);
             
         }else{
             terrHex.clicked();
@@ -77,20 +130,24 @@ public class LinkIndic extends Button{
     
     }
     
+    /**
+     * Adds this LinkIndic to the World and verifies the existence of a TerritoryHex below it.
+     */
     public void addToWorld() {
         world().addObject(this, xPos, yPos);
         
-        //pour que quand on clique dessus hors du mode DEFAULT il fasse l'action
-        //du TerritoryHex en dessous de lui
         try{
-        terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
+            terrHex = MyWorld.theWorld.getObjectsAt(xPos, yPos, TerritoryHex.class).get(0);
         } catch(IndexOutOfBoundsException e){
-            MessageDisplayer.showMessage("the new LinkIndic didn't find a terrHex at this position.");
+            MessageDisplayer.showMessage("The new LinkIndic didn't find a TerritoryHex at this position.");
             this.destroy();
         }
         
     }
     
+    /**
+     * Destroys this LinkIndic.
+     */
     public void destroy() {
         terr.links.remove(this);
         links.removelink(this);
@@ -98,6 +155,10 @@ public class LinkIndic extends Button{
     
     }
     
+    /**
+     * Gets the Territory that owns this LinkIndic.
+     * @return The Territory that owns it.
+     */
     public Territory linkedTerr() {
         return terr;
     
