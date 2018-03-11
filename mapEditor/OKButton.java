@@ -10,9 +10,16 @@ import mainObjects.Territory;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 
-public class OKButton extends Button
-{
+/**
+ * This Button acts like a validator in the Map Editor. The User clicks on this
+ * when he wants to validate his action.
+ * 
+ */
+public class OKButton extends Button{
     
+    /**
+     * Creates an OKButton.
+     */
     public OKButton(){
         
         GreenfootImage image = new GreenfootImage("OKButton.png");
@@ -24,40 +31,54 @@ public class OKButton extends Button
     @Override
     public void clicked(){
         
-        //at this level the ifs that must not end with escape()
-        if(Mode.mode() == Mode.CREATE_TERRITORY){
-            switchToSelectInfoHex();
+        if(isUsable()){
             
-        }else {
-            //at this level, the ifs end with escape()
-            switch (Mode.mode()) {
-                case CREATE_CONTINENT:
-                    createContinentFromSelection();
-                    break;
-                case DELETE_TERRITORY:
-                    deleteTerritorySelection();
-                    break;
-                case DELETE_CONTINENT:
-                    deleteContinentSelection();
-                    break;
-                case SET_LINK:
-                    if(!Links.newLinks.isLargeEnough()) {
-                        Links.newLinks.destroy();
-                        MessageDisplayer.showMessage("You cannot create Links with fewer"
-                                                   + " than 2 linked Territories.");
-                    
-                    }
-                    Links.newLinks = null;
-                    break;
-                default:
-                    break;
-            }
+            //At this level the ifs that must not end with escape()
+            if(Mode.mode() == Mode.CREATE_TERRITORY){
+                switchToSelectInfoHex();
+
+            }else {
+                //At this level, the ifs end with escape()
+                switch (Mode.mode()) {
+                    case CREATE_CONTINENT:
+                        createContinentFromSelection();
+                        break;
+                        
+                    case DELETE_TERRITORY:
+                        deleteTerritorySelection();
+                        break;
+                        
+                    case DELETE_CONTINENT:
+                        deleteContinentSelection();
+                        break;
+                        
+                    case SET_LINK:
+                        if(!Links.newLinks.isLargeEnough()) {
+                            Links.newLinks.destroy();
+                            MessageDisplayer.showMessage("You cannot create Links with fewer"
+                                                       + " than 2 linked Territories.");
+
+                        }
+                        Links.newLinks = null;
+                        break;
+                        
+                    default:
+                        break;
+                        
+                }
+                
                 world().stateManager.escape();
+
+            }
             
         }
         
     }
     
+    /**
+     * Creates a Continent from the selection of Territories that the User 
+     * just validated.
+     */
     private void createContinentFromSelection(){
         try{
             ArrayList<Territory> selectedTerritories;
@@ -81,12 +102,19 @@ public class OKButton extends Button
         
     }
     
+    /**
+     * Lets the User choose a BlankHex to place the TerrInfo of a Territory, 
+     * when creating a Territory.
+     */
     private void switchToSelectInfoHex(){
         Selector.setValidator(Selector.NOTHING);
         Mode.setMode(Mode.SELECT_INFO_HEX);
         
     }
     
+    /**
+     * Deletes the validated selection of Territories.
+     */
     private void deleteTerritorySelection(){
         try{
             ArrayList<Territory> territoriesToDelete;
@@ -105,6 +133,9 @@ public class OKButton extends Button
         
     }
     
+    /**
+     * Deletes the validated selection of Continents.
+     */
     private void deleteContinentSelection(){
         try{
             ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();

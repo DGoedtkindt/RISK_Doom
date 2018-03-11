@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import mainObjects.Territory;
 
-/**a ControlPanel is a group of actors that allows the user to choose
+/**
+ * A ControlPanel is a group of Actors that allows the User to choose
  * between multiple action modes.
  */
 public class ControlPanel {
@@ -27,23 +28,31 @@ public class ControlPanel {
                 modeChanged(Mode.mode());
             };
     
-    private ModeButton createTerritory       = new ModeButton("createNewTerritory.png",    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
-    private ModeButton createContinent       = new ModeButton("addNewContinent.png",       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
-    private ModeButton editContinentBonus    = new ModeButton("editContinentBonus.png",    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
-    private ModeButton editContinentColor    = new ModeButton("editContinentColor.png",    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
-    private ModeButton editTerritoryBonus    = new ModeButton("editTerritoryBonus.png",    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    private ModeButton createLink            = new ModeButton("newLink.png",               Mode.SET_LINK,              Selector.IS_TERRITORY);
-    private ModeButton deleteTerritory       = new ModeButton("deleteTerritory.png",       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
-    private ModeButton deleteContinent       = new ModeButton("deleteContinent.png",       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
+    private ModeButton createTerritory       = new ModeButton(new GreenfootImage("createNewTerritory.png"),    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
+    private ModeButton createContinent       = new ModeButton(new GreenfootImage("addNewContinent.png"),       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    private ModeButton editContinentBonus    = new ModeButton(new GreenfootImage("editContinentBonus.png"),    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
+    private ModeButton editContinentColor    = new ModeButton(new GreenfootImage("editContinentColor.png"),    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
+    private ModeButton editTerritoryBonus    = new ModeButton(new GreenfootImage("editTerritoryBonus.png"),    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
+    private ModeButton createLink            = new ModeButton(new GreenfootImage("newLink.png"),               Mode.SET_LINK,              Selector.IS_TERRITORY);
+    private ModeButton deleteTerritory       = new ModeButton(new GreenfootImage("deleteTerritory.png"),       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
+    private ModeButton deleteContinent       = new ModeButton(new GreenfootImage("deleteContinent.png"),       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     private OKButton okButton                = new OKButton();
     private NButton makeXMLButton;
     
     //to easlily modify all buttons
     private ArrayList<Button> allButtons = new ArrayList<>();
     
+    /**
+     * Creates a ControlPanel.
+     * @param manager The mapEditor.Manager with which it works.
+     */
     protected ControlPanel(Manager manager) {
         this.manager = manager;
-        this.makeXMLButton = new NButton( ((Manager)manager).saveMap, new GreenfootImage("MakeXML.png"));
+        this.makeXMLButton = new NButton(() -> {
+                                                MapSaver ms = new MapSaver(manager.map());
+                                                ms.askForNameAndDescription();
+                                                makeXMLButton.makeTransparent();}, 
+                                         new GreenfootImage("MakeXML.png"));
         allButtons.add(createTerritory);
         allButtons.add(createLink);
         allButtons.add(editTerritoryBonus);
@@ -57,6 +66,11 @@ public class ControlPanel {
     
     }
     
+    /**
+     * Adds the ControlPanel to the World at given coordinates.
+     * @param xPos The x coordinate of this Panel.
+     * @param yPos The y coordinate of this Panel.
+     */
     public void addToWorld(int xPos, int yPos) {
         world().addObject(createTerritory, xPos, 100);
         world().addObject(createLink, xPos + 30, 160);
@@ -72,6 +86,9 @@ public class ControlPanel {
         
     }
     
+    /**
+     * Updates its Buttons when the Mode changes.
+     */
     private void modeChanged(Mode newMode) {
         makeAllButtonsTransparent();
         makeValidButtonsOpaque(newMode);
@@ -79,10 +96,14 @@ public class ControlPanel {
     
     }
     
+    /**
+     * Changes the opacity of the Buttons that can be used.
+     * @param mode The new Mode.
+     */
     private void makeValidButtonsOpaque(Mode mode){
         
-        switch (Mode.mode()) {
-            case DEFAULT:
+        switch (mode) {
+            case MAP_EDITOR_DEFAULT:
                 Collection<Territory> allTerritories = manager.map().territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
@@ -107,6 +128,10 @@ public class ControlPanel {
                 }   
                 makeXMLButton.makeOpaque();
                 break;
+            
+            case ACTION_ON_LINK : 
+                break;
+            
             default:
                 okButton.makeOpaque();
                 break;
@@ -114,11 +139,14 @@ public class ControlPanel {
         
     }
     
+    /**
+     * Changes the opacity of the ModeButtons that can be used.
+     */
     private void makeCurrentModesButtonOpaque() {
         Mode mode = Mode.mode();
-        this.allButtons.forEach((Button b) -> {
+        allButtons.forEach((Button b) -> {
             if(b instanceof ModeButton) 
-                if(((ModeButton)b).linkedMode==mode) 
+                if(((ModeButton)b).linkedMode == mode) 
                     b.makeOpaque();
         
         });
@@ -126,11 +154,17 @@ public class ControlPanel {
     
     }
     
+    /**
+     * Changes the opacity of every Button to transparent.
+     */
     private void makeAllButtonsTransparent() {
         allButtons.forEach(Button::makeTransparent);
         
     }
     
+    /**
+     * Removes this Panel from the World.
+     */
     public void removeFromWorld() {
         allButtons.forEach(world()::removeObject);
         Mode.removeModeChangeListener(updateThis);
