@@ -11,6 +11,7 @@ import base.StateManager;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
 import mainObjects.Continent;
 import mainObjects.Links;
 import mainObjects.Territory;
@@ -38,7 +39,7 @@ public class Manager extends StateManager{
         mapToLoad = loadMap;
         ctrlPanel = new ControlPanel(this);
         modeDisp = new ModeMessageDisplay();
-        options = new NButton(loadOptionsMenu, "Options");
+        options = new NButton(loadOptionsMenu, new GreenfootImage("settings.png"), 30, 30);
     
     }
     
@@ -50,7 +51,7 @@ public class Manager extends StateManager{
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
         modeDisp.addToWorld(world().getWidth()-90, 850);
         world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth()-120, 50);
+        world().addObject(options, world().getWidth() - 60, 30);
         loadMap();
 
     }
