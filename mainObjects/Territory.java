@@ -12,8 +12,6 @@ import base.Hexagon;
 import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
-import game.EndGamePanel;
-import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.Polygon;
@@ -160,7 +158,6 @@ public class Territory implements Selectable, InputPanelUser{
      * Lets the User edit this Territory's bonus.
      */
     public void editBonus() {
-        
         InputPanel.showInsertionPanel("Enter the new bonus for this Territory.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
@@ -542,32 +539,26 @@ public class Territory implements Selectable, InputPanelUser{
     @Override
     public void useInformations(String information, String type) throws Exception {
         
-        switch(type){
+        if(information.matches("\\d+")){
             
-            case "bonus" : 
-                
-                if(information.matches("\\d+")){
+            switch(type){
 
+                case "bonus" : 
+                    
                     int newBonus = Integer.parseInt(information);
                     ((Territory)this).bonusPoints = newBonus;
                     ((Territory)this).drawTerritory();
-
-                }else{
-                    MessageDisplayer.showMessage("Invalid entry.");
-                }
-                
-                break;
-                
-            case "invade" :
-                
-                if(information.matches("\\d+")){
                     
+                    break;
+
+                case "invade" :
+
                     Territory invader = Territory.actionSource;
                     Territory target = Territory.actionTarget;
-                    
+
                     Territory.actionSource = null;
                     Territory.actionTarget = null;
-                    
+
                     int invadingArmies = Integer.parseInt(information);
 
                     if(invadingArmies < 2){
@@ -576,27 +567,28 @@ public class Territory implements Selectable, InputPanelUser{
                         throw new Exception("You don't have enough armies.");
                     }else{
                         invader.armies -= invadingArmies;
-                        target.attacked(invadingArmies, invader.owner);
+                        target.attacked(invader.owner.battlecryBonus, invader.owner);
+                        if(target.owner == invader.owner){
+                            Territory.actionSource = invader;
+                            Territory.actionTarget = target;
+                            useInformations(information, "move");
+                        }else{
+                            target.attacked(invadingArmies, invader.owner);
+                        }
                     }
 
                     ((Territory)this).drawTerritory();
 
-                }else{
-                    throw new Exception("Invalid entry.");
-                }
-                
-                break;
-                
-            case "move" : 
-                
-                if(information.matches("\\d+")){
+                    break;
+
+                case "move" : 
 
                     Territory source = Territory.actionSource;
                     Territory destination = Territory.actionTarget;
-                    
+
                     Territory.actionSource = null;
                     Territory.actionTarget = null;
-                    
+
                     int movingArmies = Integer.parseInt(information);
 
                     if(movingArmies > source.armies - 1){
@@ -609,12 +601,12 @@ public class Territory implements Selectable, InputPanelUser{
                     source.drawTerritory();
                     destination.drawTerritory();
 
-                }else{
-                    throw new Exception("Invalid entry.");
-                }
+                    break;
 
-                break;
+            }
             
+        }else{
+            throw new Exception("Invalid Entry.");
         }
         
     }
