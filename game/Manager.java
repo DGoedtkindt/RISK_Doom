@@ -151,6 +151,9 @@ public class Manager extends StateManager{
             Mode.setMode(Mode.GAME_DEFAULT);
             
         }
+        
+        Territory.resetSourceAndTarget();
+        
     }
     
     /** 

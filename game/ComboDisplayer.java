@@ -124,6 +124,7 @@ public class ComboDisplayer extends Button{
      * Updates the displayer for the current Player.
      */
     public static void display() {
+        displayer.shown = false;
         Player currentPlayer = Turn.currentTurn.player;
         displayer.combo = currentPlayer.combos();
         displayer.updateImage();
