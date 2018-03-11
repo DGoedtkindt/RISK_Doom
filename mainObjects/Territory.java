@@ -70,6 +70,11 @@ public class Territory implements Selectable, InputPanelUser{
 
     }
     
+    public static void resetSourceAndTarget(){
+        actionSource = null;
+        actionTarget = null;
+    }
+    
     /**
      * Adds this Territory to the World.
      */
@@ -554,10 +559,9 @@ public class Territory implements Selectable, InputPanelUser{
 
                     Territory invader = Territory.actionSource;
                     Territory target = Territory.actionTarget;
-
-                    Territory.actionSource = null;
-                    Territory.actionTarget = null;
-
+                    
+                    resetSourceAndTarget();
+                    
                     int invadingArmies = Integer.parseInt(information);
 
                     if(invadingArmies < 2){
@@ -568,8 +572,7 @@ public class Territory implements Selectable, InputPanelUser{
                         invader.armies -= invadingArmies;
                         target.attacked(invader.owner.battlecryBonus, invader.owner);
                         if(target.owner == invader.owner){
-                            Territory.actionSource = invader;
-                            Territory.actionTarget = target;
+                            resetSourceAndTarget();
                             useInformations(information, "move");
                         }else{
                             target.attacked(invadingArmies, invader.owner);
@@ -585,9 +588,8 @@ public class Territory implements Selectable, InputPanelUser{
                     Territory source = Territory.actionSource;
                     Territory destination = Territory.actionTarget;
 
-                    Territory.actionSource = null;
-                    Territory.actionTarget = null;
-
+                    resetSourceAndTarget();
+                    
                     int movingArmies = Integer.parseInt(information);
 
                     if(movingArmies > source.armies - 1){
