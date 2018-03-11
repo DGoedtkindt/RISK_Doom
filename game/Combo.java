@@ -131,6 +131,7 @@ public class Combo {
      */
     public void useSap(){
         a -= 3;
+        removeComboButtons();
     }
     
     /**
@@ -138,6 +139,7 @@ public class Combo {
      */
     public void useFortress(){
         b -= 3;
+        removeComboButtons();
     }
     
     /**
@@ -145,6 +147,7 @@ public class Combo {
      */
     public void useBattlecry(){
         c -= 3;
+        removeComboButtons();
     }
     
     /**
@@ -154,6 +157,7 @@ public class Combo {
         a--;
         b--;
         c--;
+        removeComboButtons();
     }
     
     /**

@@ -127,8 +127,8 @@ public class ComboDisplayer extends Button{
         Player currentPlayer = Turn.currentTurn.player;
         displayer.combo = currentPlayer.combos();
         displayer.updateImage();
-        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 900);
-        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 990);
+        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 950);
+        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 1040);
         
     }
     
