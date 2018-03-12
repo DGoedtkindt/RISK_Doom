@@ -245,7 +245,17 @@ public class Selector{
                     if(o instanceof Territory){
                         
                         if(Territory.actionSource != null){
-                            return Territory.actionSource.neighbours().contains((Territory)o) && ((Territory)o).owner() != Territory.actionSource.owner();
+                            
+                            boolean hasFortress = false;
+                            
+                            if(((Territory)o).owner() != null){
+                                hasFortress = ((Territory)o).owner().fortressProtection;
+                            }
+                            
+                            return Territory.actionSource.neighbours().contains((Territory)o) && 
+                                   ((Territory)o).owner() != Territory.actionSource.owner() &&
+                                   !hasFortress;
+                            
                         }else{
                             for(Territory t : Turn.currentTurn.player.territories()){
                                 if(t.neighbours().contains((Territory)o) && ((Territory)o).owner() != t.owner() && ((Territory)o).owner() != null){
