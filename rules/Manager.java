@@ -1,7 +1,6 @@
 package rules;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.Theme;
 import arrowable.Arrowable;
 import arrowable.LeftArrow;
@@ -10,6 +9,7 @@ import base.MyWorld;
 import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
+import input.InputPanel;
 import java.awt.FontMetrics;
 
 /**
