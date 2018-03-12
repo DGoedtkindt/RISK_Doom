@@ -1,10 +1,10 @@
 package gameTypeSelection;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import input.InputPanel;
 
 /**
  * The Manager that manages the Game type selection Menu.
