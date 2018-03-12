@@ -1,12 +1,12 @@
 package game;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.Game;
 import base.InputPanelUser;
 import base.MyWorld;
 import gameXML.GameXML;
+import input.InputPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;

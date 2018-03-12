@@ -1,7 +1,6 @@
 package game;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Game;
@@ -12,6 +11,7 @@ import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import input.InputPanel;
 import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
