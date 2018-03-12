@@ -1,23 +1,23 @@
 package mainObjects;
 
 import appearance.Appearance;
-import appearance.InputPanel;
-import game.Player;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.Button;
-import base.ColorChooser;
 import base.GColor;
 import base.Hexagon;
 import base.InputPanelUser;
+import game.Player;
 import game.Turn;
-import mode.Mode;
-import selector.Selector;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
+import input.ColorChooser;
+import input.InputPanel;
 import java.util.ArrayList;
 import java.util.List;
+import mode.Mode;
+import selector.Selector;
 
 /**
  * The Class that represents the hexagons contained in a Territory.

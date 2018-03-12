@@ -1,13 +1,13 @@
 package mainObjects;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
-import base.ColorChooser;
 import base.GColor;
 import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
+import input.ColorChooser;
+import input.InputPanel;
 import selector.Selectable;
 import greenfoot.Actor;
 import java.util.ArrayList;

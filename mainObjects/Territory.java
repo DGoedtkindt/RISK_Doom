@@ -1,22 +1,22 @@
 package mainObjects;
 
 import appearance.Appearance;
-import appearance.InputPanel;
-import game.Zombie;
-import game.Player;
-import selector.Selectable;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
 import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
+import game.Zombie;
+import game.Player;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import input.InputPanel;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import selector.Selectable;
 
 /**
  * The Class that represents the Territories, the main Objects of this Game.
@@ -563,7 +563,7 @@ public class Territory implements Selectable, InputPanelUser{
                     resetSourceAndTarget();
                     
                     int invadingArmies = Integer.parseInt(information);
-
+                    
                     if(invadingArmies < 2){
                         throw new Exception("You can't attack a territory without at least two armies.");
                     }else if(invadingArmies > invader.armies + invader.owner().battlecryBonus + 1){
