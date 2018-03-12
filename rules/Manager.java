@@ -176,7 +176,8 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "Territory informations \nA weird Hexagon can appear on your Territories. It displays informations about them. In the Map Editor, it shows "
             + "the bonus given by a Territory. In the Game, it displays the number of armies on a Territory (White), the bonus given by it "
-            + "(Yellow) and the army bonus of this Territory (Green during your Turn, Orange during your opponent's).",
+            + "(Yellow) and the army bonus of this Territory (Green during your Turn, Orange during your opponent's). If the Territory is the "
+            + "capital of a Player, it shows a golden star. If the owner of the Territory has an active Fortress Combo, it shows a blue shield.",
             
             "Armies \nYou knew this was a conquest Game, right? \nYou gain armies at the start of your Turn (One army for each three "
             + "Territories you own, plus the bonus of your capital (Your Territory with "
