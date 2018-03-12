@@ -1,16 +1,16 @@
 package base;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.Theme;
 import game.ArmiesInHandDisplayer;
-import mainObjects.BlankHex;
-import greenfoot.World;
-import greenfoot.Greenfoot;
-import greenfoot.MouseInfo;
 import greenfoot.Actor;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.MouseInfo;
+import greenfoot.World;
+import input.InputPanel;
 import java.util.List;
+import mainObjects.BlankHex;
 
 /**
  * The World class of this scenario.
