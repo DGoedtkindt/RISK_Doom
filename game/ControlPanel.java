@@ -42,7 +42,33 @@ public class ControlPanel {
         allButtons.add(nextTurnButton);
         allButtons.add(attackButton);
         allButtons.add(moveButton);
-    
+        
+        Mode.addModeChangeListener(() -> {
+            
+            attackButton.makeTransparent();
+            moveButton.makeTransparent();
+            nextTurnButton.makeTransparent();
+            
+            switch(Mode.mode()){
+                
+                case GAME_DEFAULT : 
+                    attackButton.makeOpaque();
+                    moveButton.makeOpaque();
+                    nextTurnButton.makeOpaque();
+                    break;
+                    
+                case MOVE : 
+                    moveButton.makeOpaque();
+                    break;
+                    
+                case ATTACK : 
+                    attackButton.makeOpaque();
+                    break;
+                    
+            }
+            
+        });
+        
     }
     
     /**
