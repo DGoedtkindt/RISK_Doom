@@ -1,18 +1,18 @@
 package newGameMenu;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
-import xmlChoosers.MapChooser;
 import appearance.Theme;
 import base.GColor;
 import base.Game;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import greenfoot.GreenfootImage;
 import basicChoosers.DifficultyChooser;
 import game.Zombie;
+import greenfoot.GreenfootImage;
+import input.InputPanel;
+import xmlChoosers.MapChooser;
 
 /**
  * This manager manages the creation of a new Game.

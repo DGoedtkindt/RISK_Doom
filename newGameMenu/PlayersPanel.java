@@ -1,16 +1,16 @@
 package newGameMenu;
 
 import appearance.Appearance;
-import appearance.InputPanel;
-import base.NButton;
-import base.GColor;
-import basicChoosers.PColorChooser;
-import greenfoot.GreenfootImage;
 import appearance.Theme;
+import base.GColor;
 import base.InputPanelUser;
-import greenfoot.World;
-import java.util.ArrayList;
+import base.NButton;
+import basicChoosers.PColorChooser;
 import game.Player;
+import greenfoot.GreenfootImage;
+import greenfoot.World;
+import input.InputPanel;
+import java.util.ArrayList;
 
 /**
  * A PlayersPanel is a group of actors that allows the user to set the 
