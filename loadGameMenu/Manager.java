@@ -1,13 +1,13 @@
 package loadGameMenu;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Game;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import input.InputPanel;
 import xmlChoosers.GameChooser;
 
 /**
