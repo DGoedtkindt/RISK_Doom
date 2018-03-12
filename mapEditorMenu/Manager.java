@@ -1,13 +1,13 @@
 package mapEditorMenu;
 
 import appearance.Appearance;
-import appearance.InputPanel;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Map;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import input.InputPanel;
 import xmlChoosers.MapChooser;
 
 /**
