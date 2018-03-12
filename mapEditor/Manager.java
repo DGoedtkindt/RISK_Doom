@@ -2,16 +2,16 @@ package mapEditor;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import appearance.Appearance;
-import appearance.InputPanel;
 import base.Action;
 import base.Map;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import mode.Mode;
-import mode.ModeMessageDisplay;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
+import input.InputPanel;
+import mode.Mode;
+import mode.ModeMessageDisplay;
 import mainObjects.Continent;
 import mainObjects.LinkIndic;
 import mainObjects.Links;
