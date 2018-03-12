@@ -3,6 +3,7 @@ package mainObjects;
 import base.Button;
 import base.GColor;
 import game.Turn;
+import greenfoot.Color;
 import greenfoot.GreenfootImage;
 import mode.Mode;
 
@@ -56,9 +57,12 @@ public class TerrInfo extends Button {
         
         GreenfootImage img = new GreenfootImage("terrInfo.png");
         img.scale(50, 60);
+        
+        //Draws the number of armies
         GreenfootImage armiesDisplay = new GreenfootImage("" + armies, 25, GColor.WHITE ,new GColor(0,0,0,0));
         img.drawImage(armiesDisplay, (img.getWidth() - armiesDisplay.getWidth()) / 2, (img.getHeight() - armiesDisplay.getHeight()) / 2);
         
+        //Draws the bonus
         int bonus = linkedTerrHex.territory().bonus();
         
         if(bonus != 0){
@@ -67,7 +71,10 @@ public class TerrInfo extends Button {
         }
         
         if(linkedTerrHex.territory().owner() != null){
+            
+            //Draws the attack and defense bonus from the Battlecry Combo
             if(Turn.currentTurn != null){
+                
                 if(Turn.currentTurn.player != null){
                     
                     int armiesBonus = linkedTerrHex.territory().owner().battlecryBonus;
@@ -88,6 +95,32 @@ public class TerrInfo extends Button {
                     }
                     
                 }
+                
+            }
+            
+            //Draws the indication of the Territory being a capital (a golden star)
+            if(linkedTerrHex.territory().owner().capital == linkedTerrHex.territory()){
+                
+                GreenfootImage capitalDisplay = new GreenfootImage(16, 16);
+                capitalDisplay.setColor(Color.YELLOW);
+                
+                capitalDisplay.drawPolygon(new int[]{8, 13, 0, 16, 3}, 
+                                           new int[]{0, 16, 5, 5,  16}, 5);
+                
+                img.drawImage(capitalDisplay, 4, img.getWidth() - capitalDisplay.getWidth());
+                
+            }
+            
+            //Draws an image if the player has a Fortress Combo activated (a shield)
+            if(linkedTerrHex.territory().owner().fortressProtection){
+                
+                GreenfootImage fortressDisplay = new GreenfootImage(16, 16);
+                fortressDisplay.setColor(new GColor(0, 191, 255));
+                
+                fortressDisplay.fillPolygon(new int[]{0, 16, 16, 8,  0}, 
+                                            new int[]{0, 0,  9,  16, 9}, 5);
+                
+                img.drawImage(fortressDisplay, img.getWidth() - fortressDisplay.getWidth(), img.getHeight() - fortressDisplay.getHeight() - 4);
                 
             }
             
