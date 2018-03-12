@@ -152,7 +152,9 @@ public class Manager extends StateManager{
             
         }
         
-        Territory.resetSourceAndTarget();
+        if(Territory.actionSource == null || Territory.actionTarget == null){
+           Territory.resetSourceAndTarget(); 
+        }
         
     }
     
