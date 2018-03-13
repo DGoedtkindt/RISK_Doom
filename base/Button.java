@@ -47,7 +47,8 @@ public abstract class Button extends Actor {
      *         can be used in the current situation.
      */
     protected boolean isUsable(){
-        return this.getImage().getTransparency() == Appearance.OPAQUE && InputPanel.usedPanel == null;
+        return this.getImage().getTransparency() == Appearance.OPAQUE && 
+               (InputPanel.usedPanel == null || (InputPanel.InputPanelButtons.contains(this) && InputPanel.usedPanel != null));
         
     }
     
