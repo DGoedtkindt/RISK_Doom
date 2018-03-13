@@ -6,7 +6,6 @@ import base.GColor;
 import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
-import input.ColorChooser;
 import input.InputPanel;
 import selector.Selectable;
 import greenfoot.Actor;
@@ -70,10 +69,7 @@ public class Continent implements Selectable, InputPanelUser{
      * Lets the User edit the Color of this Continent.
      */
     public void editColor(){
-        continentColor = ColorChooser.getColor();
-        territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
-
-        display.update();
+        InputPanel.showColorPanel("Enter a new Color for this Continent.", 100, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
     }
     
@@ -176,6 +172,12 @@ public class Continent implements Selectable, InputPanelUser{
             }else{
                 MessageDisplayer.showMessage("Invalid entry.");
             }
+            
+        }else if(type.equals("color")){
+            
+            ((Continent)this).continentColor = GColor.fromRGB(information);
+            ((Continent)this).territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+            Continent.display.update();
             
         }
         

@@ -12,7 +12,6 @@ import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
-import input.ColorChooser;
 import input.InputPanel;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,15 +99,11 @@ public class TerritoryHex extends Button implements InputPanelUser{
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        GColor newColor = ColorChooser.getColor();
-                        Links.newLinks = new Links(newColor);
-                        Links.newLinks.addToWorld();
+                        InputPanel.showColorPanel("Enter a Color for this Link.", 150, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
                         
-                    }
-                    
-                    if(!Links.newLinks.linkedTerrs.contains(territory)){
+                    }else if(!Links.newLinks.linkedTerrs.contains(territory)){
                         
-                       MouseInfo mouse = Greenfoot.getMouseInfo();
+                        MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
                         new LinkIndic(territory,xPos, yPos).addToWorld(); 
@@ -296,6 +291,14 @@ public class TerritoryHex extends Button implements InputPanelUser{
                 MessageDisplayer.showMessage("Invalid entry.");
             }
             
+        }else if(type.equals("color")){
+            
+            GColor newColor = GColor.fromRGB(information);
+            Links.newLinks = new Links(newColor);
+            Links.newLinks.addToWorld();
+            
+            new LinkIndic(territory, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld(); 
+
         }
         
     }
