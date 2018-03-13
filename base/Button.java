@@ -2,6 +2,7 @@ package base;
 
 import appearance.Appearance;
 import greenfoot.Actor;
+import input.InputPanel;
 
 /**
  * Class of every Button.
@@ -41,12 +42,12 @@ public abstract class Button extends Actor {
     
     /**
      * Checks if this ModeButton can be used in the current situation. If the Button 
-     * is opaque, then it can be used.
+     * is opaque, and if no InputPanel is currently being used, then it can be used.
      * @return A boolean representation of the fact that this ModeButton
      *         can be used in the current situation.
      */
     protected boolean isUsable(){
-        return this.getImage().getTransparency() == Appearance.OPAQUE;
+        return this.getImage().getTransparency() == Appearance.OPAQUE && InputPanel.usedPanel == null;
         
     }
     
