@@ -1,18 +1,27 @@
 package mapEditorMenu;
 
+import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Map;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import javax.swing.JOptionPane;
+import input.InputPanel;
 import xmlChoosers.MapChooser;
 
+/**
+ * This type of Manager lets the User choose a Map and start the Map Editor.
+ * 
+ */
 public class Manager extends StateManager {
     
     private MapChooser mapC;
     private NButton editMapB;
 
+    /**
+     * Creates a Manager.
+     */
     public Manager() {
         this.editMapB = new NButton(editSelectedMap, "Edit Map");
         this.mapC = new MapChooser(true);
@@ -33,13 +42,13 @@ public class Manager extends StateManager {
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
-
-            }
+        
+        if(InputPanel.usedPanel == null){
+            InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        }else{
+            InputPanel.usedPanel.destroy();
+        }
+        
     }
 
     private Action editSelectedMap = () -> {
@@ -55,5 +64,19 @@ public class Manager extends StateManager {
         }
 
     };
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
+        }
+        
+    }
 
 }
