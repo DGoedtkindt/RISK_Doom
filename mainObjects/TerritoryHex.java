@@ -79,8 +79,8 @@ public class TerritoryHex extends Button implements InputPanelUser{
                         Selector.setValidator(Selector.NOTHING);
                         world().repaint(); //pour forcer l'actualisation des images
                         territory.continent().editColor();
+                        world().stateManager.escape();
                     }
-                    world().stateManager.escape();;
                     break;
                     
                 case EDIT_CONTINENT_BONUS :
@@ -89,8 +89,8 @@ public class TerritoryHex extends Button implements InputPanelUser{
                         Selector.setValidator(Selector.NOTHING);
                         world().repaint(); //pour forcer l'actualisation des images
                         territory.continent().editBonus();
+                        world().stateManager.escape();
                     }
-                    world().stateManager.escape();;
                     break;
                     
                 case DELETE_CONTINENT :
