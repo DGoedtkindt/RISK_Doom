@@ -201,7 +201,13 @@ public class InputPanel extends Button {
                 img.fillRect(hexagonWidth + 3 * gapBetweenSliders + 2 * Slider.WIDTH, nameHeight + verticalGap + 256 - blue.value(), Slider.WIDTH, blue.value());
                 
                 //Draws the Hexagon
-                GreenfootImage hexagonImage = Hexagon.createImage(new GColor(red.value(), green.value(), blue.value()),3.);
+                GreenfootImage hexagonImage = Hexagon.createImage(new GColor(red.value(), green.value(), blue.value()));
+                
+                if(hexagonWidth - 10 < 2 * COLOR_CHOOSER_HEIGHT / 3){
+                    hexagonImage.scale(hexagonWidth - 10, hexagonWidth - 10);
+                }else{
+                    hexagonImage.scale(2 * COLOR_CHOOSER_HEIGHT / 3, 2 * COLOR_CHOOSER_HEIGHT / 3);
+                }
                 
                 img.drawImage(hexagonImage, 5, nameHeight + COLOR_CHOOSER_HEIGHT / 3 - hexagonImage.getHeight() / 2);
                 

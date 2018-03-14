@@ -47,10 +47,12 @@ class ThemeChoices extends ChoiceList {
         GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH / 5, Appearance.WORLD_HEIGHT / 5);
         img.setColor(currentTheme.backgroundColor);
         img.fill();
-        img.drawImage(Hexagon.createImage(currentTheme.blankHexBorderColor), 
+        GreenfootImage bckgrdHex = Hexagon.createImage(currentTheme.blankHexBorderColor);
+        GreenfootImage forgrdHex = Hexagon.createImage(currentTheme.blankHexColor, 0.95);
+        img.drawImage(bckgrdHex, 
                       img.getWidth() / 2 - Hexagon.RADIUS, 
                       img.getHeight() / 2 - Hexagon.RADIUS);
-        img.drawImage(Hexagon.createImage(currentTheme.blankHexColor, 0.95), 
+        img.drawImage(forgrdHex, 
                       img.getWidth() / 2 - Hexagon.RADIUS, 
                       img.getHeight() / 2 - Hexagon.RADIUS);
         img.setColor(currentTheme.textColor);

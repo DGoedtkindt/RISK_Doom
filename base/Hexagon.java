@@ -18,12 +18,10 @@ public class Hexagon {
      */
     public static GreenfootImage createImageWBorder(GColor hexColor){
         //draw un plus petit hex coloré sur un Hex noir
-        GreenfootImage outerHex = createImage(Theme.used.blankHexBorderColor);
-        GreenfootImage innerHex = createImage(hexColor, 0.95);
-        int offset = (int)0.05*RADIUS;
-        outerHex.drawImage(innerHex, offset, offset);
+        GreenfootImage img = createImage(Theme.used.blankHexBorderColor);
+        img.drawImage(createImage(hexColor, 0.95), 0, 0);
         
-        return outerHex;
+        return img;
         
     }
     
@@ -35,7 +33,8 @@ public class Hexagon {
      */
     public static GreenfootImage createImage(GColor color, double sizeFactor){
         //crée l'image d'un hexagone simple avec un multiplicateur de taille
-        GreenfootImage img = new GreenfootImage((int)(2*RADIUS*sizeFactor), (int)(2*RADIUS*sizeFactor));
+        //l'image de retour reste 2*RADIUSx2*RADIUS
+        GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
         
         int[][] array  = getHexagonCoord(sizeFactor);
         
@@ -89,19 +88,19 @@ public class Hexagon {
         double rad = RADIUS * sizeMultiplier;
         
         int[][] arr = {
-            {(int)(2*rad),
-            (int)(Math.cos(Math.PI/3) * rad + rad),
-            (int)(Math.cos(2*Math.PI/3) * rad + rad),
-            (int)0, 
-            (int)(-Math.cos(Math.PI/3) * rad + rad),
-            (int)(-Math.cos(2*Math.PI/3) * rad + rad)} , 
+            {(int)rad + RADIUS,
+            (int)(Math.cos(Math.PI/3) * rad) + RADIUS,
+            (int)(Math.cos(2*Math.PI/3) * rad) + RADIUS,
+            (int)-rad + RADIUS, 
+            (int)(-Math.cos(Math.PI/3) * rad) + RADIUS,
+            (int)(-Math.cos(2*Math.PI/3) * rad) + RADIUS} , 
             
-           {(int)rad,
-            (int)(Math.sin(Math.PI/3) * rad + rad),
-            (int)(Math.sin(2*Math.PI/3) * rad + rad),
-            (int)rad,
-            (int)(-Math.sin(Math.PI/3) * rad + rad),
-            (int)(-Math.sin(2*Math.PI/3) * rad + rad)}
+           {(int)RADIUS,
+            (int)(Math.sin(Math.PI/3) * rad) + RADIUS,
+            (int)(Math.sin(2*Math.PI/3) * rad) + RADIUS,
+            (int)RADIUS,
+            (int)(-Math.sin(Math.PI/3) * rad) + RADIUS,
+            (int)(-Math.sin(2*Math.PI/3) * rad) + RADIUS}
             };
      
         return arr;
