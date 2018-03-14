@@ -73,9 +73,9 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(loadedGame.gameState != null)switch (loadedGame.gameState) {
+        if(loadedGame.gameState != null) switch (loadedGame.gameState) {
             case INITIALISATION:
-                try{
+                try{ 
                     giveTerritoriesRandomly();
                     startNewTurn();
                     loadedGame.gameState = Game.State.INGAME;
@@ -85,6 +85,7 @@ public class Manager extends StateManager{
                 }
                 break;
             case INGAME:
+                playersUpdateCapital();
                 startNewTurn();
                 break;
             case FINISHED:
@@ -163,8 +164,8 @@ public class Manager extends StateManager{
      */
     private void giveTerritoriesRandomly() throws Exception{
         
-        ArrayList<Territory> capitals = new ArrayList<Territory>();
-        ArrayList<Territory> nonCapitals = new ArrayList<Territory>();
+        ArrayList<Territory> capitals = new ArrayList<>();
+        ArrayList<Territory> nonCapitals = new ArrayList<>();
         
         for(Territory t : map().territories){
             
@@ -211,6 +212,10 @@ public class Manager extends StateManager{
             
         }
         
+    }
+    
+    private void playersUpdateCapital() {
+        loadedGame.players.forEach(Player::updateCapital);
     }
     
     /**

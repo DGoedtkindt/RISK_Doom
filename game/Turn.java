@@ -104,8 +104,6 @@ public class Turn {
         }
         player.conqueredThisTurn = false;
         
-        Zombie.zombie.countdown();
-        
         addTurnStats();
         autoSave();
         

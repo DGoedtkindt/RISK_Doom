@@ -13,7 +13,6 @@ import mainObjects.Territory;
 public class Zombie extends Player{
     
     public static final GColor ZOMBIE_COLOR = new GColor(0,0,0);
-    public static Zombie zombie;
     
     private Difficulty difficulty; 
     private int zombiesNextWave;
@@ -28,7 +27,6 @@ public class Zombie extends Player{
         this.difficulty = difficulty;
         zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
         turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
-        zombie = this;
     }
     
     /**
