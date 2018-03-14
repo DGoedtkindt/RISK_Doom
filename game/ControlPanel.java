@@ -24,8 +24,8 @@ public class ControlPanel {
             Turn.startNewTurn();
         }}
             , "End Turn");
-    private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.IS_OWNED_TERRITORY);
-    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.IS_OWNED_TERRITORY);
+    private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.CAN_ATTACK);
+    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.CAN_ATTACK);
     
     private Action updateThis = () -> {};
     

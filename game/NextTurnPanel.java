@@ -6,7 +6,6 @@ import base.GColor;
 import base.Game;
 import base.MyWorld;
 import base.NButton;
-import greenfoot.Color;
 import greenfoot.Font;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
@@ -73,9 +72,9 @@ public class NextTurnPanel {
      */
     private void writeName() {
         if(OWNER.color().luminosity() > 128) {
-            panel.getImage().setColor(Color.BLACK);
+            panel.getImage().setColor(GColor.BLACK);
         } else {
-            panel.getImage().setColor(Color.WHITE);
+            panel.getImage().setColor(GColor.WHITE);
         }
         panel.getImage().setFont(new Font("monospaced", true, false, 50));
         panel.getImage().drawString(OWNER.name(), 700, 500);
@@ -87,9 +86,9 @@ public class NextTurnPanel {
      */
     private void writeStats() {
         if(OWNER.color().luminosity() > 128) {
-            panel.getImage().setColor(Color.BLACK);
+            panel.getImage().setColor(GColor.BLACK);
         } else {
-            panel.getImage().setColor(Color.WHITE);
+            panel.getImage().setColor(GColor.WHITE);
         }
         
         String infos = "";
@@ -143,7 +142,7 @@ public class NextTurnPanel {
         int xPos = 10;
         int lineNumber = 1;
         
-        panel.getImage().setColor(Color.WHITE);
+        panel.getImage().setColor(GColor.WHITE);
         panel.getImage().drawString("- Points -", xPos, baseY);
         
         for(Player p : MyWorld.theWorld.stateManager.game().players){
@@ -153,7 +152,7 @@ public class NextTurnPanel {
                 if(p != OWNER){
                     panel.getImage().setColor(p.color());
                 }else{
-                    panel.getImage().setColor(Color.WHITE);
+                    panel.getImage().setColor(GColor.WHITE);
                 }
                 
                 panel.getImage().drawString(p.name() + " : " + p.points, xPos, baseY + lineNumber * lineSize);
