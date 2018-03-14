@@ -65,7 +65,7 @@ public class GameXML {
             StreamResult result = new StreamResult(new File(dir.getAbsolutePath() + "/" + gameName + ".xml"));
             transformer.transform(source, result);
             
-            System.out.println("Game was succesfully saved");
+            MessageDisplayer.showMessage("Game saved.");
             
         } catch (UnsupportedOperationException | TransformerException ex) {
             String message = "Map couldn't be saved";
