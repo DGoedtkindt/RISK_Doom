@@ -1,29 +1,39 @@
 package game;
 
+import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Game;
+import base.InputPanelUser;
 import base.MyWorld;
 import gameXML.GameXML;
+import input.InputPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-public class GameSaver {
+/**
+ * This Class contains instructions to save a Game.
+ * 
+ */
+public class GameSaver implements InputPanelUser{
     private Game game;
     private String name;
     private String description;
     
+    private boolean descriptionEntered = false;
+    
+    /**
+     * Creates a GameSaver object that can save a Game.
+     * @param gameToSave The Game to save.
+     */
     public GameSaver(Game gameToSave) {
         game = gameToSave;
         
     }
     
+    /**
+     * Saves the Game automatically.
+     */
     public void autoSave() {
         name = game.name;
         description = game.description;
@@ -34,55 +44,70 @@ public class GameSaver {
         }
     }
     
-    public void saveGame() {
-        askForSaveInfo();
+    /**
+     * Saves the Game manually.
+     */
+    private void saveGame() {
         if(name != null) {
             if(!nameIsValid()) {
                 showNameError();
             } else if(nameAlreadyExists()) {
-                if(confirm()) save();
+                confirm();
             } else save();
         }
-    };
+    }
     
-    private void askForSaveInfo() {
-        NamePanel namePanel = new NamePanel();
-        int nameEntered = JOptionPane.showConfirmDialog(null, namePanel, "Give your game a name and a description", JOptionPane.OK_CANCEL_OPTION);
-        if(nameEntered == JOptionPane.OK_OPTION) {
-            name = namePanel.name();
-            description = namePanel.description();
-            if(namePanel.autoSaveChecked()) {
-                game.name = name;
-                game.description = description;
-                game.autoSave = true;
-            }
-        }
+    /**
+     * Obtains informations about the name and the description of the Game.
+     */
+    public void askForSaveInfo() {
+        
+        InputPanel.showInsertionPanel("Give your Game a name.", 500, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 4);
+        InputPanel.showInsertionPanel("Give your Game a description.", 1000, "description", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        InputPanel.showConfirmPanel("Do you want your Game to be saved automatically?", 100, "autosave", this, Appearance.WORLD_WIDTH / 2, 3 * Appearance.WORLD_HEIGHT / 4);
     
     }
     
+    /**
+     * Checks the validity of the name given to the Game. A name is invalid if it's null, an empty
+     * String or a String full of whitespace characters.
+     * @return A boolean representation of the validity of the name.
+     */
     private boolean nameIsValid() {
         return !(name == null || name.isEmpty() || name.matches("\\s+"));
     
     }
     
+    /**
+     * Shows an error if the name isn't valid.
+     */
     private void showNameError() {
-        JOptionPane.showMessageDialog(null, "You can't save a game if it has no name");
+        MessageDisplayer.showMessage("You can't save a game if it has no name");
         
     }
     
+    /**
+     * Checks if the chosen name already exists.
+     * @return A boolean representation of the existence of a File with 
+     *         the same name.
+     */
     private boolean nameAlreadyExists() {
         return new File("Games/"+name+".xml").exists();
     
     }
     
-    private boolean confirm() {
-        int answer = JOptionPane.showConfirmDialog(
-                        null, "Do you want to replace the existing game '" + name + "' with this one?", 
-                        "Replacing an existing game", JOptionPane.YES_NO_OPTION);
-        return answer == JOptionPane.YES_OPTION;
-    
+    /**
+     * Asks the User if he wants to replace an existing Game.
+     */
+    private void confirm() {
+        InputPanel.showConfirmPanel("Do you want to replace the existing game '" + name + "' with this one?", 
+                                    100, "replacement", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
     }
     
+    /**
+     * Tries to save a Game.
+     */
     private void save() {
         try {
             saveXML();
@@ -99,12 +124,20 @@ public class GameSaver {
     
     }
     
+    /**
+     * Tries to save a XML representation of the Game.
+     * @throws An Exception if the Game couldn't be saved for any reason.
+     */
     private void saveXML() throws Exception{
         GameXML xml = new GameXML(game);
         xml.write(name, description);
     
     }
     
+    /**
+     * Tries to save a thumbnail for the Game.
+     * @throws An Exception if the thumbnail couldn't be saved for any reason.
+     */
     private void saveThumbnail() throws Exception {
         BufferedImage gameImage = MyWorld.theWorld.getBackground().getAwtImage();
         File out = new File(new File("Games").getAbsolutePath() + "/" + name + ".png");
@@ -113,35 +146,49 @@ public class GameSaver {
         System.out.println("thumbnail saved");
     
     }
-    
-    private static class NamePanel extends JPanel {
-        JTextField nameField = new JTextField(15);
-        JTextField descriptionField = new JTextField(65);
-        JCheckBox autoSave = new JCheckBox("Auto save ?");
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
         
-        NamePanel() {
-            this.add(new JLabel("Name : "));
-            this.add(nameField);
-            this.add(Box.createHorizontalStrut(20));
-            this.add(new JLabel("Description : "));
-            this.add(descriptionField);
-            this.add(autoSave);
-        }
-        
-        String name() {
-            return nameField.getText();
-        
-        }
-        
-        String description() {
-            return descriptionField.getText();
-        
-        }
-        
-        boolean autoSaveChecked() {
-            return autoSave.isSelected();
+        switch(type){
             
+            case "name" : 
+                ((GameSaver)this).name = information;
+                
+                if(((GameSaver)this).descriptionEntered){
+                    ((GameSaver)this).saveGame();
+                }
+                
+                break;
+            
+            case "description" : 
+                ((GameSaver)this).description = information;
+                descriptionEntered = true;
+                
+                if(((GameSaver)this).nameIsValid()){
+                    ((GameSaver)this).saveGame();
+                }
+                
+                break;
+                
+            case "replacement" : 
+                
+                if(information.equals(InputPanel.YES_OPTION)){
+                    ((GameSaver)this).save();
+                }
+                
+                break;
+                
+            case "autosave" : 
+                
+                ((GameSaver)this).game.name = ((GameSaver)this).name;
+                ((GameSaver)this).game.description = ((GameSaver)this).description;
+                ((GameSaver)this).game.autoSave = true;
+                
+                break;
+                
         }
-    
+        
     }
+    
 }

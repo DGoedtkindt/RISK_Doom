@@ -5,7 +5,10 @@ import base.Map;
 import base.MyWorld;
 import java.util.ArrayList;
 
-
+/**
+ * This Class represents Links between Territories.
+ * 
+ */
 public class Links {
     
     private MyWorld world() {return MyWorld.theWorld;}
@@ -16,17 +19,29 @@ public class Links {
     private GColor color;
     private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
     
+    /**
+     * Creates a Links Object.
+     * @param color The Color of this Link.
+     */
     public Links(GColor color) {
         this.color = color;
         newLinks = this;
     }
     
+    /**
+     * Adds this Link to the World, and the corresponding LinkIndics.
+     */
     public void addToWorld() {
         linkIndicList.forEach(LinkIndic::addToWorld);
         map().links.add(this);
         
     }
     
+    /**
+     * Adds a LinkIndic and a Territory to the Link.
+     * @param linkIndic The addes LinkIndic.
+     * @param linkedTerr The added Territory.
+     */
     public void addlink(LinkIndic linkIndic, Territory linkedTerr ) {
         linkIndicList.add(linkIndic);
         if(linkedTerrs.contains(linkedTerr)) {
@@ -34,29 +49,34 @@ public class Links {
         }
         linkedTerrs.add(linkedTerr);
         
-        //cet ordre bizare permet efficacement d'éviter 
-        //de supprimer un terr de la liste en cas de doubles
-        
     }
     
-    //only used through LinkIndic.destroy() 
+    /**
+     * Removes a LinkIndic and its Territory from the Link.
+     * @param linkToRemove The linkIndic to remove.
+     */
     public void removelink(LinkIndic linkToRemove) { 
         linkedTerrs.remove(linkToRemove.linkedTerr());
         linkIndicList.remove(linkToRemove);
         
-        
-        //pour supprimer le link quand l'avant dernier linkIndic a été supprimé
-        if(linkIndicList.size() == 1 && newLinks != this) {
+        if(!isLargeEnough() && newLinks != this) {
             linkIndicList.get(0).destroy();
             map().links.remove(this);
         }
     }
     
+    /**
+     * Checks if the Link contains at least two Territories.
+     * @return A boolean representation of this test.
+     */
     public boolean isLargeEnough() {
-        return linkIndicList.size() >= 2;
+        return linkIndicList.size() != 1;
         
     }
     
+    /**
+     * Destroys the Link and its LinkIndics.
+     */
     public void destroy() {
         while(!linkIndicList.isEmpty()) {
             linkIndicList.get(0).destroy();
@@ -67,8 +87,16 @@ public class Links {
     
     }
 
+    /**
+     * Gets the Color of this Link.
+     * @return The Color of this Link.
+     */
     public GColor color() {return color;}
     
+    /**
+     * Gets this Link's LinkIndics list.
+     * @return The LinkIndics participating in this Link.
+     */
     public ArrayList<LinkIndic> LinkIndicsList() {
         return (ArrayList<LinkIndic>)linkIndicList.clone();
     

@@ -6,6 +6,7 @@ import base.Button;
 import base.NButton;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
+import mode.Mode;
 
 /**
  * Displays the combo pieces a player has.
@@ -25,6 +26,13 @@ public class ComboDisplayer extends Button{
      * @param p The Player currently playing.
      */
     private ComboDisplayer(Combo c){
+        Mode.addModeChangeListener(() -> {
+            if (Mode.mode() == Mode.DEFAULT){
+                ComboDisplayer.useCombos.makeOpaque();
+            }else{
+                ComboDisplayer.useCombos.makeTransparent();
+            }
+        });
         combo = c;
         createHiddenImage();
         

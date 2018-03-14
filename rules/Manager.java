@@ -1,7 +1,6 @@
 package rules;
 
 import appearance.Appearance;
-import appearance.MessageDisplayer;
 import appearance.Theme;
 import arrowable.Arrowable;
 import arrowable.LeftArrow;
@@ -10,8 +9,8 @@ import base.MyWorld;
 import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
+import input.InputPanel;
 import java.awt.FontMetrics;
-import javax.swing.JOptionPane;
 
 /**
  * A StateManager that displays the rules.
@@ -42,11 +41,22 @@ public class Manager extends StateManager{
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?",
-                                                   "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-        if(choice == JOptionPane.YES_OPTION){
-            world().load(new menu.Manager());
+        InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
         }
+        
     }
     
 }
@@ -127,7 +137,9 @@ class RulesDisplayer extends Actor implements Arrowable{
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         int height = fm.getMaxAscent() + fm.getMaxDescent();
         
-        rule = wrapText(rule);
+        rule = Appearance.standardTextWrapping(rule, TOTAL_WIDTH);
+        
+        linesNumber = rule.split("\n").length;
         
         img.scale(width, height * linesNumber);
         img.setColor(Theme.used.backgroundColor.brighter());
@@ -141,108 +153,50 @@ class RulesDisplayer extends Actor implements Arrowable{
         
     }
     
-    /**
-     * Modifies the message by adding lines to it.
-     * @param message Transformed message.
-     */
-    private String wrapText(String input){
-        
-        linesNumber = 1;
-        
-        String[] words = input.split(" ");
-        String finalString = "";
-        
-        String currentLine = "";
-        
-        for(String currentWord : words){
-            
-            int backslashNAt = currentWord.indexOf("\n");
-            
-            if(backslashNAt == 0){
-                finalString += currentLine + "\n";
-                linesNumber ++;
-                currentLine = currentWord.substring(1, currentWord.length());
-            }else {
-                
-                if(fm.stringWidth(currentLine + " " + currentWord) > TOTAL_WIDTH){
-                    finalString += currentLine + "\n";
-                    currentLine = "";
-                    linesNumber ++;
-                
-                }
-                
-                if(!currentLine.isEmpty()){
-                    currentLine += " ";
-                }
-
-                currentLine += currentWord;
-                
-            }
-            
-        }
-        
-        finalString += currentLine;
-        
-        return finalString;
-        
-    }
-    
     private static final String[] RULES = 
-            {"Hi! We're the Developpers! If you're here, you probably want to know how this game can be played. "
-            + "The good news is we can help you. That's why we wrote these Rules, anyway, I guess.", 
+            {"Hi! We're the Developpers! If you're here, you probably want to know how this Game can be played. "
+            + "The good news is we can help you. That's why we wrote these Rules anyway.", 
+                
+            "The Map \nA Map is the bunch of Hexagons that you see if you launch either the Map Editor or the Game. "
+            + "It can contain Territories and/or Continents, which are the main Objects in the Game (Especially the "
+            + "Territories) (That means you're gonna see a lot of them).",
             
-            "THE GAME \n1. Goal \nThe goal? Well, I guess you have to win in order to... win. What? This does not help you?? Hmpf. "
-            + "Ok then. \nThe first part is to survive "
-            + "(Did we mention that your opponents might want to kill you? Oh, and I almost forgot those Zombies!). "
-            + "The second part is to have more points than anyone else. If you reach 7 points, you win. If someone dies, the leading Player wins. "
-            + "You gain points by killing zombies and invading their territories (Because it's actually a conquest game, you're going to invade a lot "
-            + "of territories. If you're winning, at least). I think it's about saving the world from some kind of "
-            + "Zombie plague, wich means you're doing something good by winning this game."
-            + "\nEasy, right?",
+            "The Blank Hexes \nA Blank Hex is a Hexagon which has the special and rare property of being completely "
+            + "useless during the Game. However, they're an important part of the Map Editor, since they represent the positions "
+            + "that a Territory can fit in. In the Map Editor, you can indeed click the Button that creates a Territory, "
+            + "choose a bunch of Blank Hexes, validate your choice, select one of those to hold an information displayer (We'll "
+            + "talk about it later) and watch a Territory appear on the Map!",
             
-            "THE GAME \n2. Starting a new Game \nOh, you want to start a Game? Go to the \"New Game\" Menu, then choose a Map with the first selector, and a Difficulty "
-            + "with the second. After that, you can change the Players settings, add Players, remove them, change their names and colors. "
-            + "\nUnderstood? Perfect! you're ready to start a new Game! "
-            + "\nP.S. You should continue reading, if you want to learn how to actually play.",
+            "The Territories \nDo you remember the moment we said the Territories and the Continents were "
+            + "the core of the Game? We didn't lie to you. The Territory is the single most important Object in the Game in the eyes of a Player."
+            + "\nThe Territories are the Objects you own. During the Game, you will use them to attack adjacent Territories, move armies, use combos on your "
+            + "opponents, place armies. In the Map Editor, you can create them, change the bonus they give (Yes, they give a bonus), destroy them, use them to "
+            + "obtain every password of this neighbour you hate and steal all his money. "
+            + "\nYou understood us, Territories are cool.",
             
-            "THE GAME \n3. Loading a saved game \nIf you have a loaded game that you want to continue, just go to the \"Load Game\" Menu. There, you will find a "
-            + "Game selector. Just choose your Game and continue playing!",
+            "Territory informations \nA weird Hexagon can appear on your Territories. It displays informations about them. In the Map Editor, it shows "
+            + "the bonus given by a Territory. In the Game, it displays the number of armies on a Territory (White), the bonus given by it "
+            + "(Yellow) and the army bonus of this Territory (Green during your Turn, Orange during your opponent's). If the Territory is the "
+            + "capital of a Player, it shows a golden star. If the owner of the Territory has an active Fortress Combo, it shows a blue shield.",
             
-            "THE GAME \n4. The Map \nIf you start a game, you're gonna see a Map, or, at least, a bunch of colored hexagons with some weird "
-            + "buttons next to those. Well, believe it or not, this is a Map. There are Continents (Represented by the background color of each hexagon), "
-            + "and each Continent has Territories (Delimited by lines). \nThe flashy color on top of some of those is the color of a Player. "
-            + "\nA map can contain Territories that belong to no Continent. They're, like, anywhere on the map, and their color is generally drab "
-            + "(We'll be talking about colors and Themes later).",
+            "Armies \nYou knew this was a conquest Game, right? \nYou gain armies at the start of your Turn (One army for each three "
+            + "Territories you own, plus the bonus of your capital (Your Territory with "
+            + "the highest bonus), plus the bonus of each Continent you own), or when you use a certain Combo (We'll talk about Combos later), "
+            + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you. ",
             
-            "THE GAME \n5. The funny Buttons at your right \nI think you know that Buttons usually do something. Well, we have good news for you : "
-            + "you can click on a Button not only to use it, but also to know what it does, since it will display an informative message on the lower "
-            + "right part of your screen! Isn't that great?",
+            "The Continents \nContinents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
+            + "which is a good thing to know when you play the Game. When you use the Map Editor, you are able to create them, destroy them, "
+            + "change their color and bonus. You can even add cheat codes if you- \nI shouldn't have said that.",
             
-            "THE GAME \n6. Zombies and Difficulty \nNo, you didn't misread us, there are Zombies in this game, and you should kill them (You read the \"Goal\" part, right?). "
-            + "There are different Difficulties, and each Difficulty means a different kind of Zombie invasion. If there's no Zombie Territory left, "
-            + "the Zombies will come back and take some Territories randomly. Each Difficulty has Options, like the number of turns before the Zombies get new Territories "
-            + "by themselves, the probability that they attack another Territory randomly... Usual Zombie stuff, you know.",
+            "The Combos \nIf you invade an ennemy Territory, you will gain a Combo piece at the end of the Turn (Unless you already have five pieces). "
+            + "They're called A, B and C, and they're, like, super powerful sci-fi stuff, you know. A is kinda explosive, B is "
+            + "more or less rock and C is propaganda. That gives those funny Combos. \nThree A - Sap : \nYou remove the armies from an adjacent ennemy Territory. "
+            + "Your opponent will be able to replace them at the start of his Turn. \nThree B - Fortress : \nYou will build a wall, a huge wall, around your "
+            + "Territories, and your opponents won't be able to attack you until your next Turn. \nThree C - Battlecry : \nYou gain an attack and defense "
+            + "bonus of two armies on each of your Territories until your next Turn. \nOne of each - Recruit : \nYou can place five new armies on your Territories.",
             
-            "THE GAME \n7. Armies \nIt's a conquest Game, you have armies. You gain those at the start of your turn, and you must place them then. You gain an army "
-            + "for each three Territories you have, plus the bonus of every Continent you control (Down), plus the bonus of your capital "
-            + "(The Territory with the highest bonus that you have).",
-            
-            "THE GAME \n8. Combos \nEvery time you invade a Territory, you gain a Combo Piece (If you have less than five pieces already). "
-            + "With three of those, you can play a Combo. Different pieces means different Combos. Got it? \nThere are four different Combos : "
-            + "\nSap : Choose an ennemy Territory that you can attack. All the troops on it go in your ennemy's hand, and you get a free Army on this Territory. "
-            + "\nFortress : You can't be attacked until your next turn. "
-            + "\nBattlecry : You have an attack and defense bonus of two troops until your next turn. "
-            + "\nRecruit : You add five armies to your hand.",
-            
-            "THE MAP EDITOR \n1. Launching the Map Editor \nClick the \"Map Editor\" Button, select a Map and edit it. Pretty straight forward, right?",
-            
-            "THE MAP EDITOR \n2. Buttons \nDo you remember the cool fact that clicking on a Button during a Game displays informations? The Map Editor has the same Feature!",
-            
-            "THE OPTIONS \nIn the Options, you can modify the Theme you use and add fancy colors to your Map \nYou can also add some cheat codes by clicking on the- Oh, "
-            + "I shouldn't have said that.",
-            
-            "FUN FACT \n You can click on the \"Escape\" Button on your keyboard to stop an action or to go to the main Menu. \nUnless it was to crack every one of your "
-            + "passwords. I don't remember.",
+            "The Options \nIn the Options, you can change the Theme of the Game. \nYou will only see a finite number of Themes, but an ancient legend says "
+            + "that they're more Themes in this Game than atoms in the universe. We're totally serious. Not kidding. Believe us.",
             
             "Anyway, thank you for playing, we hope you had fun during those four games you played before even noticing the \"Rules\" Button, "
             + "and the ones you'll play after. \n \nThe Developpers"

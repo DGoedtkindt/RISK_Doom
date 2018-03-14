@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import mainObjects.Territory;
 
-
+/**
+ * The Class of the Objects that contain stats about the Turns.
+ * 
+ */
 public class TurnStat {
     public int turnNumber;
     public Map<Player, Integer> numberOfArmies  = new HashMap<>();
@@ -14,8 +17,16 @@ public class TurnStat {
     public Map<Player, Integer> numberOfPoints = new HashMap<>();
     public Map<Player, Integer> numberOfContinents = new HashMap<>();
     
+    /**
+     * Creates a TurnStat Object.
+     */
     public TurnStat() {}
     
+    /**
+     * Creates a TurnStat Object.
+     * @param players The currently playing Players.
+     * @param turnNumber The number of the current Turn.
+     */
     public TurnStat(Collection<Player> players, int turnNumber) { 
         this.turnNumber = turnNumber;
         for(Player p : players) {

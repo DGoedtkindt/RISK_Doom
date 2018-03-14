@@ -6,7 +6,7 @@ import mainObjects.Links;
 import mainObjects.Territory;
 
 /**
- * This Structured variable type stores the main objects of a map.
+ * This Structured variable type stores the main Objects of a Map.
  */
 public class Map {
     public String name;

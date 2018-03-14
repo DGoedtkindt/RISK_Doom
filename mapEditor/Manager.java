@@ -2,12 +2,12 @@ package mapEditor;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import appearance.Appearance;
-import appearance.InputPanel;
 import base.Action;
 import base.Map;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import input.InputPanel;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
@@ -53,7 +53,7 @@ public class Manager extends StateManager{
         world().addObject(Continent.display, 840, 960);
         world().addObject(options, world().getWidth() - 60, 30);
         loadMap();
-        Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+        Mode.setMode(Mode.DEFAULT);
 
     }
     
@@ -87,8 +87,7 @@ public class Manager extends StateManager{
     public void escape() {
         
         switch(Mode.mode()){
-            
-            case MAP_EDITOR_DEFAULT : 
+            case DEFAULT : 
                 if(InputPanel.usedPanel == null){
                     InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
                 }else{
@@ -101,7 +100,7 @@ public class Manager extends StateManager{
                 world().removeObject(LinkIndic.destroySpot);
                 world().removeObject(LinkIndic.extendLink);
                 world().removeObject(LinkIndic.nothing);
-                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+                Mode.setMode(Mode.DEFAULT);
                 break;
                 
             default : 
@@ -111,8 +110,7 @@ public class Manager extends StateManager{
                     Links.newLinks.destroy();
                     Links.newLinks = null;
                 }
-
-                Mode.setMode(Mode.MAP_EDITOR_DEFAULT);
+                Mode.setMode(Mode.DEFAULT);
             
         }
         
@@ -123,7 +121,7 @@ public class Manager extends StateManager{
     /////Private Methods///////////////////////
     
     private Action loadOptionsMenu = () -> {
-                if(Mode.mode() == Mode.MAP_EDITOR_DEFAULT){
+                if(Mode.mode() == Mode.DEFAULT){
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};

@@ -12,7 +12,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
-/** Stores the XML Document representing a Map
+/** 
+ * Stores the XML Document representing a Map
  */
 public class MapXML {
     
@@ -33,7 +34,8 @@ public class MapXML {
         
     }
     
-    /**  Reads a File and creates a new MapXML from it
+    /**  
+     * Reads a File and creates a new MapXML from it
      * @param mapFile the file containing the Map's XML
      * @throws java.io.FileNotFoundException
     */
@@ -45,7 +47,8 @@ public class MapXML {
         
     }
     
-    /** Gets the Map file with this name and creates a new MapXML from it
+    /** 
+     * Gets the Map file with this name and creates a new MapXML from it
      * @param mapName the name of file containing the Map's XML. (without the ".xml" suffix)
     */
     public MapXML(String mapName) throws Exception{
@@ -58,7 +61,8 @@ public class MapXML {
         
     }
     
-    /** Creates a new MapXML from a Map object
+    /** 
+     * Creates a new MapXML from a Map object
      * @throws java.lang.Exception
     */
     public MapXML(Map map) throws Exception{
@@ -66,7 +70,8 @@ public class MapXML {
         xml = builder.build(map);
     }
     
-    /** Reads the Map's XML to create a Map object.
+    /** 
+     * Reads the Map's XML to create a Map object.
      * @return the Map object representing this MapXML
      * @throws java.lang.Exception
      */

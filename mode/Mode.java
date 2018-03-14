@@ -12,7 +12,6 @@ public enum Mode{
     //Default Mode
     DEFAULT(""),
     //Map Editor modes
-    MAP_EDITOR_DEFAULT(""),
     CREATE_TERRITORY("Create a territory by selecting at least two blank hexes."),
     CREATE_CONTINENT("Create a continent by selecting at least one territory that is not already part of a continent."),
     EDIT_TERRITORY_BONUS("Select a territory to change its bonus."),
@@ -25,7 +24,6 @@ public enum Mode{
     SELECT_INFO_HEX("Select the hex wich will show the current bonus of this territory."),
     ACTION_ON_LINK("Select an action to perform on the Link you selected."),
     //Game modes
-    GAME_DEFAULT(""),
     ATTACK("Click on one of your territories, then on an adjacent ennemy one. "
             + "Finally, choose the number of armies you're using."),
     MOVE("Move your armies from one of your territories to another."),

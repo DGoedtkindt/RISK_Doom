@@ -1,18 +1,19 @@
 package newGameMenu;
 
-import base.NButton;
-import base.GColor;
-import basicChoosers.PColorChooser;
-import greenfoot.GreenfootImage;
+import appearance.Appearance;
 import appearance.Theme;
-import greenfoot.World;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import base.GColor;
+import base.InputPanelUser;
+import base.NButton;
+import basicChoosers.PColorChooser;
 import game.Player;
-
+import greenfoot.GreenfootImage;
+import greenfoot.World;
+import input.InputPanel;
+import java.util.ArrayList;
 
 /**
- * a PlayersPanel is a group of actors that allows the user to set the 
+ * A PlayersPanel is a group of actors that allows the user to set the 
  * names and colors of the played.
  * The destroy() method must be used to remove the the group of actor
  */
@@ -27,27 +28,49 @@ public class PlayersPanel {
     private int xPos;
     private int yPos;
     
+    /**
+     * Creates a PlayersPanel.
+     */
     protected PlayersPanel() {
         addPlayer();addPlayer();addPlayer();
         initNewP();
         
     }
     
+    /**
+     * Obtains the list of the Players.
+     * @return A list of Players.
+     */
     protected ArrayList<Player> getPlayers() {
         ArrayList<Player> returnList = new ArrayList<>();
-        players.forEach((PlayerOptions po) -> {returnList.add(po.getPlayer());});
+        players.forEach((PlayerOptions po) -> {
+            returnList.add(po.getPlayer());
+            po.colorChooser.clearChoices();
+        });
         return returnList;
         
     }
     
+    /**
+     * Adds the PlayersPanel to the World.
+     * 
+     * @param toWorld The World on which the Panel will be added.
+     * @param xPos The x coordinate of this Panel.
+     * @param yPos The y coordinate of this Panel.
+     */
     protected void addToWorld(World toWorld, int xPos, int yPos) {
-        world = toWorld; this.xPos = xPos; this.yPos = yPos;
+        world = toWorld;
+        this.xPos = xPos;
+        this.yPos = yPos;
         players.forEach((PlayerOptions po) -> {po.addToWorld(world,0, 0);});
         world.addObject(newP,0,0);
         updatePositions();
     
     }
     
+    /**
+     * Destroys this Panel.
+     */
     protected void destroy() {
         if(world != null) world.removeObject(newP);
         players.forEach(PlayerOptions::delete);
@@ -56,6 +79,9 @@ public class PlayersPanel {
         
     }
     
+    /**
+     * Updates the positions of each Player in the selection screen.
+     */
     private void updatePositions() {
         for(int i = 0; i < players.size(); i++) {
             players.get(i).changeLocation(objPos(i)[0], objPos(i)[1]);
@@ -65,6 +91,10 @@ public class PlayersPanel {
     
     }
     
+    /**
+     * Gets the position of a PlayerOptions.
+     * @param num The number of the PlayerOptions.
+     */
     private int[] objPos(int num) {
         int relXPos = (-1 + 2*((int)(num/3)))*HEIGHT/2;
         int relYPos = (-1 +(num % 3)) * WIDHT/2;
@@ -73,6 +103,10 @@ public class PlayersPanel {
         
     }
     
+    /**
+     * Removes a Player from the Game creation.
+     * @param toRemove The PlayerOptions to remove.
+     */
     private void removePlayer(PlayerOptions toRemove) {
         toRemove.delete();
         players.remove(toRemove);
@@ -81,6 +115,9 @@ public class PlayersPanel {
         
     }
     
+    /**
+     * Adds a PlayerOptions to the list of Players.
+     */
     private void addPlayer() {
         PlayerOptions newPlayer = new PlayerOptions(this, Player.NEW_PLAYER_NAME);
         players.add(newPlayer);
@@ -90,6 +127,9 @@ public class PlayersPanel {
     
     }
     
+    /**
+     * Instanciates the 'New Player' Button.
+     */
     private void initNewP() {
         newP = new NButton(() -> {addPlayer();});
         GreenfootImage newPimg = new GreenfootImage("+ New Player",24,Theme.used.textColor,new GColor(0,0,0,0));
@@ -102,13 +142,12 @@ public class PlayersPanel {
     
     
     
-    
     /**
-     * PlayersOption is a group of actor that allows the user to delete a player,
+     * PlayerOption is a group of actor that allows the user to delete a player,
      * change its name, its color. It also creates a Player Object from its
      * settings. 
      */
-    private class PlayerOptions {
+    private class PlayerOptions implements InputPanelUser{
         String name;
         PlayersPanel manager;
         NButton delete; 
@@ -117,14 +156,26 @@ public class PlayersPanel {
         int xPos;
         int yPos;
         
+        /**
+         * Creates a PlayerOptions.
+         * @param panel The PlayersPanel that manages this Object.
+         * @param initName The initial name of this future Player.
+         */
         PlayerOptions(PlayersPanel panel,String initName) {
             manager = panel;
             delete = new NButton(()-> {manager.removePlayer(this);}, new GreenfootImage("delete_Icon.png"),20,20);
-            editName =  new NButton(() -> {setName(askForName());});
+            editName =  new NButton(() -> {askForName();});
             setName(initName);
         
         }
         
+        /**
+         * Adds the PlayerOptions to the World.
+         * 
+         * @param toWorld The World on which the PlayerOptions will be added.
+         * @param xPos The x coordinate of this PlayerOptions.
+         * @param yPos The y coordinate of this PlayerOptions.
+         */
         void addToWorld(World toWorld, int xPos, int yPos) {
             this.xPos = xPos; this.yPos = yPos;
             world.addObject(editName, xPos,yPos-20);
@@ -132,6 +183,11 @@ public class PlayersPanel {
             
         };
         
+        /**
+         * Changes the position of this PlayerOptions.
+         * @param newX The new x coordinate.
+         * @param newY The new y coordinate.
+         */
         void changeLocation(int newX, int newY) {
             xPos = newX; yPos = newY;
             editName.setLocation(xPos, yPos-20);
@@ -140,21 +196,34 @@ public class PlayersPanel {
         
         }
         
+        /**
+         * Adds a Button that can delete this PlayerOptions.
+         */
         void makeDeletable() {
             if (world != null) world.addObject(delete, xPos+100, yPos);
             
         }
         
+        /**
+         * Removes the Button that can delete this PlayerOptions.
+         */
         void makeUndeletable() {
             if(world != null) world.removeObject(delete);
         
         }
         
+        /**
+         * Creates the Player represented by this Object.
+         * @return A new Player.
+         */
         Player getPlayer() {
             GColor colorChoice = GColor.fromRGB(colorChooser.currentChoice());
             return new Player(name, colorChoice);
         }
         
+        /**
+         * Destroys this playerOptions.
+         */
         void delete() {
             if(world != null) {
                 world.removeObject(delete);
@@ -164,15 +233,19 @@ public class PlayersPanel {
             
         }
         
-        String askForName() {
-            
-            String updatedName = JOptionPane.showInputDialog("New Name");
-            if(updatedName == null || updatedName.matches("\\s+")){updatedName = Player.NEW_PLAYER_NAME;}
-            
-            return updatedName;
+        /**
+         * Changes the name of this PlayerOptions.
+         * @return The name that the User entered.
+         */
+        void askForName() {
+            InputPanel.showInsertionPanel("Enter your name.", 600, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
             
         }
         
+        /**
+         * Changes the name of this PlayerOptions.
+         * @param initName The new name of this PlayerOptions.
+         */
         void setName(String initName) {
             name = initName;
             if(name != null) {
@@ -186,8 +259,22 @@ public class PlayersPanel {
             }
         
         }
+
+        @Override
+        public void useInformations(String information, String type) throws Exception {
+            
+            if(type.equals("name")){
+                
+                if(information.matches("\\s+")){
+                    information = Player.NEW_PLAYER_NAME;
+                }
+                
+                ((PlayerOptions)this).setName(information);
+                
+            }
+            
+        }
         
-    
     }
 
 }
