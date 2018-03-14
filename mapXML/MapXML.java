@@ -82,7 +82,9 @@ public class MapXML {
     
     }
     
-    /** writes the content of this MapXML onto a file
+    /** Writes the content of this MapXML onto a file
+     * @param mapName The name of this Map.
+     * @param description The description of this Map.
     */
     public void write(String mapName, String description) {
         try{
@@ -100,7 +102,7 @@ public class MapXML {
             StreamResult result = new StreamResult(new File(DIR.getAbsolutePath() + "/" + name + ".xml"));
             transformer.transform(source, result);
             
-            System.out.println("Map was succesfully saved");
+            MessageDisplayer.showMessage("Map saved.");
             
         } catch(HeadlessException | TransformerException ex) {
             String message = "Map Couldn't be saved";
