@@ -182,7 +182,8 @@ class RulesDisplayer extends Actor implements Arrowable{
             "Armies \nYou knew this was a conquest Game, right? \nYou gain armies at the start of your Turn (One army for each three "
             + "Territories you own, plus the bonus of your capital (Your Territory with "
             + "the highest bonus), plus the bonus of each Continent you own), or when you use a certain Combo (We'll talk about Combos later), "
-            + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you. ",
+            + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you. "
+            + "\nRemember that you must always leave an army on occupied Territories. We won't let you do that, in fact.",
             
             "The Continents \nContinents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
             + "which is a good thing to know when you play the Game. When you use the Map Editor, you are able to create them, destroy them, "
@@ -197,6 +198,9 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "The Options \nIn the Options, you can change the Theme of the Game. \nYou will only see a finite number of Themes, but an ancient legend says "
             + "that they're more Themes in this Game than atoms in the universe. We're totally serious. Not kidding. Believe us.",
+            
+            "Fun Fact \nYou can use the 'Escape' key whenever you want, something will always happen. \nIn our game, you can always escape from something."
+            + "\nYou are always trapped.",
             
             "Anyway, thank you for playing, we hope you had fun during those four games you played before even noticing the \"Rules\" Button, "
             + "and the ones you'll play after. \n \nThe Developpers"
