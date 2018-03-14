@@ -2,6 +2,7 @@ package mainObjects;
 
 import appearance.Appearance;
 import appearance.MessageDisplayer;
+import appearance.Theme;
 import base.GColor;
 import base.InputPanelUser;
 import base.Map;
@@ -23,19 +24,20 @@ public class Continent implements Selectable, InputPanelUser{
     //private variable
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
-    private GColor continentColor;
+    private GColor continentColor = Theme.used.territoryColor;
     private ArrayList<Territory> territoriesContained = new ArrayList<>();
-    private int bonus;
+    private int bonus = 0;
     
     /**
      * Creates a Continent.
      * @param territories The Territories contained in this Continent.
      */
     public Continent(ArrayList<Territory> territories){
-        editColor();
-        editBonus();
         
         territoriesContained.addAll(0,territories);
+        
+        InputPanel.showInsertionPanel("Enter a new Bonus for this Continent.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, 2 * Appearance.WORLD_HEIGHT / 3);
+        InputPanel.showColorPanel("Enter a new Color for this Continent.", 100, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 3);
         
     }
     
@@ -258,7 +260,16 @@ class BonusDisplay extends Actor {
         GreenfootImage img = new GreenfootImage(60, 30);
         img.setColor(c.color());
         img.fill();
-        GreenfootImage txt = new GreenfootImage("" + c.bonus(), 18, GColor.BLACK, c.color());
+        
+        GColor bonusTextColor;
+        
+        if(c.color().luminosity() > 128) {
+            bonusTextColor = new GColor(0, 0, 0);
+        }else{
+            bonusTextColor = new GColor(255, 255, 255);
+        }
+        
+        GreenfootImage txt = new GreenfootImage("" + c.bonus(), 18, bonusTextColor, c.color());
         img.drawImage(txt, 30 - txt.getWidth()/2, 15 - txt.getHeight()/2);
         
         return img;
