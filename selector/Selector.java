@@ -241,6 +241,13 @@ public class Selector{
                         return false;
                     }
                     };
+    public static final Predicate CAN_ATTACK = (Object o) -> {
+                    if(o instanceof Territory){
+                        return ((Territory)(o)).owner() == Turn.currentTurn.player && ((Territory)(o)).armies() > 2;
+                    }else{
+                        return false;
+                    }
+                    };
     public static final Predicate IS_ATTACKABLE = (Object o) -> {
                     if(o instanceof Territory){
                         
