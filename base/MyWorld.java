@@ -8,7 +8,6 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
 import greenfoot.World;
-import input.InputPanel;
 import java.util.List;
 import mainObjects.BlankHex;
 
@@ -153,6 +152,16 @@ public class MyWorld extends World {
         }
         
         CheckEscape.testForEscape();
+        
+    }
+
+    public void lockAllButtons() {
+        getObjects(Button.class).forEach(Button::toggleUnusable);
+        
+    }
+    
+    public void unlockAllButtons() {
+        getObjects(Button.class).forEach(Button::toggleUsable);
         
     }
     

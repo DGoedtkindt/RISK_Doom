@@ -4,7 +4,7 @@ import appearance.Appearance;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
-import base.InputPanelUser;
+import input.InputPanelUser;
 import base.Map;
 import base.MyWorld;
 import game.Zombie;

@@ -2,7 +2,7 @@ package mapEditor;
 
 import appearance.Appearance;
 import appearance.MessageDisplayer;
-import base.InputPanelUser;
+import input.InputPanelUser;
 import base.Map;
 import base.MyWorld;
 import input.InputPanel;

@@ -6,7 +6,7 @@ import appearance.Theme;
 import base.Button;
 import base.GColor;
 import base.Hexagon;
-import base.InputPanelUser;
+import input.InputPanelUser;
 import game.Player;
 import game.Turn;
 import greenfoot.Greenfoot;

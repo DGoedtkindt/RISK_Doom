@@ -3,7 +3,7 @@ package newGameMenu;
 import appearance.Appearance;
 import appearance.Theme;
 import base.GColor;
-import base.InputPanelUser;
+import input.InputPanelUser;
 import base.NButton;
 import basicChoosers.PColorChooser;
 import game.Player;

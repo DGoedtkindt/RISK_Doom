@@ -1,5 +1,7 @@
 package base;
 
+import input.InputPanelUser;
+
 /** 
  * A StateManager manages the setup and proper destruction of a scene in a 
  * certain program state (menu, game, options,...). It also manages the modes,

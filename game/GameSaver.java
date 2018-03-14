@@ -3,7 +3,7 @@ package game;
 import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Game;
-import base.InputPanelUser;
+import input.InputPanelUser;
 import base.MyWorld;
 import gameXML.GameXML;
 import input.InputPanel;

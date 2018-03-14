@@ -3,12 +3,9 @@ package input;
 import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
-import base.Button;
 import base.GColor;
 import base.Hexagon;
-import base.InputPanelUser;
 import base.MyWorld;
-import base.NButton;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
@@ -19,51 +16,9 @@ import java.util.List;
  * An InputPanel lets the User enter informations during processes that require it.
  * 
  */
-public class InputPanel extends Button {
+public abstract class Input {
     
-    /**
-     * An enum containing the two types of inputs.
-     */
-    private enum InputType{
-        INSERT,
-        CONFIRM,
-        COLOR;
-    }
-    
-    public static InputPanel usedPanel = null;
-    
-    public static String YES_OPTION = "yes";
-    public static String NO_OPTION = "no";
-    
-    private static final int COLOR_CHOOSER_HEIGHT = 300;
-    
-    private final InputPanelUser source;
-    private final InputType inputType;
-    
-    private String returnedString = "";
-    private String name = "";
-    private final String type;
-    private int width;
-    private int lineHeight;
-    
-    private static Slider red = new Slider(0, 0, new GColor(0, 0, 0));
-    private static Slider green = new Slider(0, 0, new GColor(0, 0, 0));
-    private static Slider blue = new Slider(0, 0, new GColor(0, 0, 0));
-    
-    public static final NButton YES = new NButton(() -> {
-                                                usedPanel.returnedString = YES_OPTION;
-                                                usedPanel.close();
-                                            }, "Yes");
-    
-    public static final NButton NO = new NButton(() ->  {
-                                                usedPanel.returnedString = NO_OPTION;
-                                                usedPanel.close();
-                                            }, "No");
-    
-    public static final NButton SELECT = new NButton(() -> {
-                                                usedPanel.returnedString = (new GColor(red.value(), green.value(), blue.value()).toRGB());
-                                                usedPanel.close();
-                                            }, "Select");
+    private static Input activeInput;
     
     /**
      * Creates an InputPanel.
@@ -334,6 +289,10 @@ public class InputPanel extends Button {
         for(InputPanel panel : MyWorld.theWorld.getObjects(InputPanel.class)){
             panel.resetImage();
         }
+    }
+
+    String getValue() {
+        System.out.println("Method getValue() in class Input is not supported yet");
     }
     
 }
