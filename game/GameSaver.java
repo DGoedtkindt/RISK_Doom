@@ -114,11 +114,11 @@ public class GameSaver implements InputPanelUser{
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                MessageDisplayer.showMessage("thumbnail couldn't be saved : " + ex);
+                MessageDisplayer.showMessage("The thumbnail couldn't be saved : " + ex);
             }
             
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("the Game could not be saved : " + ex);
+            MessageDisplayer.showMessage("The Game could not be saved : " + ex);
             
         }
     
@@ -143,7 +143,6 @@ public class GameSaver implements InputPanelUser{
         File out = new File(new File("Games").getAbsolutePath() + "/" + name + ".png");
 
         ImageIO.write(gameImage, "PNG", out);
-        System.out.println("thumbnail saved");
     
     }
 
