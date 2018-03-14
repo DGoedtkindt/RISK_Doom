@@ -19,18 +19,18 @@ public class Combo {
     private ModeButton sapButton = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
     private NButton fortressButton = new NButton(() -> {
                                             Turn.currentTurn.player.fortressProtection = true;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useFortress();
                                         }, "Fortress");
     private NButton battlecryButton = new NButton(() -> {
                                             Turn.currentTurn.player.battlecryBonus = 2;
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useBattlecry();
                                         }, "Battlecry");
     private NButton recruitButton = new NButton(() -> {
                                             Player p = Turn.currentTurn.player;
                                             p.addArmiesToHand(5);
-                                            Mode.setMode(Mode.GAME_DEFAULT);
+                                            Mode.setMode(Mode.DEFAULT);
                                             useRecruit();
                                         }, "Recruit");
     
@@ -100,7 +100,7 @@ public class Combo {
             
             removeComboButtons();
             comboShown = false;
-            Mode.setMode(Mode.GAME_DEFAULT);
+            Mode.setMode(Mode.DEFAULT);
             
         }else{
             

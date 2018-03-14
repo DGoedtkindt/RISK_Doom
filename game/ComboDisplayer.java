@@ -27,7 +27,7 @@ public class ComboDisplayer extends Button{
      */
     private ComboDisplayer(Combo c){
         Mode.addModeChangeListener(() -> {
-            if (Mode.mode() == Mode.GAME_DEFAULT){
+            if (Mode.mode() == Mode.DEFAULT){
                 ComboDisplayer.useCombos.makeOpaque();
             }else{
                 ComboDisplayer.useCombos.makeTransparent();

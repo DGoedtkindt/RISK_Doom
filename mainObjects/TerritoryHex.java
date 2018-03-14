@@ -263,8 +263,8 @@ public class TerritoryHex extends Button implements InputPanelUser{
             }
             
         }
-        
-        getImage().drawImage(img, 0, 0);
+        int offset = (int)(getImage().getWidth() - img.getWidth())/2;
+        getImage().drawImage(img, offset, offset);
         
     }
 
