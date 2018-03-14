@@ -13,7 +13,6 @@ import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,22 +50,20 @@ public class InputPanel extends Button {
     private static Slider green = new Slider(0, 0, new GColor(0, 0, 0));
     private static Slider blue = new Slider(0, 0, new GColor(0, 0, 0));
     
-    private static final NButton YES = new NButton(() -> {
+    public static final NButton YES = new NButton(() -> {
                                                 usedPanel.returnedString = YES_OPTION;
                                                 usedPanel.close();
                                             }, "Yes");
     
-    private static final NButton NO = new NButton(() ->  {
+    public static final NButton NO = new NButton(() ->  {
                                                 usedPanel.returnedString = NO_OPTION;
                                                 usedPanel.close();
                                             }, "No");
     
-    private static final NButton SELECT = new NButton(() -> {
+    public static final NButton SELECT = new NButton(() -> {
                                                 usedPanel.returnedString = (new GColor(red.value(), green.value(), blue.value()).toRGB());
                                                 usedPanel.close();
                                             }, "Select");
-    
-    public static List<NButton> InputPanelButtons = Arrays.asList(new NButton[]{YES, NO, SELECT});
     
     /**
      * Creates an InputPanel.
@@ -244,12 +241,28 @@ public class InputPanel extends Button {
      * Removes this from the World.
      */
     public void destroy(){
-        MyWorld.theWorld.removeObject(this);
-        MyWorld.theWorld.removeObjects(InputPanelButtons);
-        MyWorld.theWorld.removeObject(red);
-        MyWorld.theWorld.removeObject(green);
-        MyWorld.theWorld.removeObject(blue);
+        world().removeObject(this);
+        
+        if(inputType == InputType.COLOR){
+            world().removeObject(red);
+            world().removeObject(green);
+            world().removeObject(blue);
+            world().removeObject(SELECT);
+        }else if(inputType == InputType.CONFIRM){
+            world().removeObject(YES);
+            world().removeObject(NO);
+        }
+        
         usedPanel = null;
+        
+        //Change the focus
+        List<InputPanel> otherPanels = world().getObjects(InputPanel.class);
+        
+        if(!otherPanels.isEmpty()){
+            usedPanel = otherPanels.get(0);
+            updateEveryImage();
+        }
+        
     }
     
     /**
@@ -297,11 +310,11 @@ public class InputPanel extends Button {
     public static void showColorPanel(String name, int width, String type, InputPanelUser source, int x, int y){
         InputPanel panel = new InputPanel(name, width, type, source, InputType.COLOR);
         
-        red = new Slider(x - panel.getImage().getWidth() / 6 + (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(0.4 * Slider.WIDTH),
+        red = new Slider(x - panel.getImage().getWidth() / 6 + (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(0.4 * Slider.WIDTH + 2),
                          y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
         green = new Slider(x - panel.getImage().getWidth() / 6 + 2 * (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(1.4 * Slider.WIDTH),
                            y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
-        blue = new Slider(x - panel.getImage().getWidth() / 6 + 3 * (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(2.4 * Slider.WIDTH),
+        blue = new Slider(x - panel.getImage().getWidth() / 6 + 3 * (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(2.4 * Slider.WIDTH - 1),
                           y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
         
         MyWorld.theWorld.addObject(panel, x, y);
