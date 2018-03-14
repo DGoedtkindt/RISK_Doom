@@ -57,7 +57,7 @@ public class Manager extends StateManager{
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.GAME_DEFAULT);
+        Mode.setMode(Mode.DEFAULT);
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth() - 100, 300);
         modeDisp.addToWorld(world().getWidth() - 90, 850);
@@ -139,7 +139,7 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.GAME_DEFAULT) {
+        if(Mode.mode() == Mode.DEFAULT) {
             if(InputPanel.usedPanel == null){
                 InputPanel.showConfirmPanel("Do you want to return to the main menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
             }else{
@@ -148,7 +148,7 @@ public class Manager extends StateManager{
         
         } else {
             Selector.clear();
-            Mode.setMode(Mode.GAME_DEFAULT);
+            Mode.setMode(Mode.DEFAULT);
             
         }
         
@@ -221,7 +221,7 @@ public class Manager extends StateManager{
     }
 
     private Action loadOptionsMenu = () -> {
-        if(Mode.mode() == Mode.GAME_DEFAULT){
+        if(Mode.mode() == Mode.DEFAULT){
             clearScene();
             world().load(new userPreferences.Manager(this));
         } else {

@@ -19,7 +19,7 @@ public class ControlPanel {
     private MyWorld world() {return MyWorld.theWorld;}
     private Manager manager;
     private NButton nextTurnButton = new NButton(() -> {
-        if(Mode.mode() == Mode.GAME_DEFAULT){
+        if(Mode.mode() == Mode.DEFAULT){
             Turn.endCurrentTurn();
             Turn.startNewTurn();
         }}
@@ -51,7 +51,7 @@ public class ControlPanel {
             
             switch(Mode.mode()){
                 
-                case GAME_DEFAULT : 
+                case DEFAULT : 
                     attackButton.makeOpaque();
                     moveButton.makeOpaque();
                     nextTurnButton.makeOpaque();

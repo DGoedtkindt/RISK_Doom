@@ -134,32 +134,14 @@ public class TerrInfo extends Button {
      * Updates the image of this TerrInfo.
      */
     public void updateImage(){
+        if(world().stateManager instanceof mapEditor.Manager)
+            setDisplayedBonus(linkedTerrHex.territory().bonus());
         
-        switch(Mode.mode()){
-            
-            case MAP_EDITOR_DEFAULT :
-            case CREATE_TERRITORY :
-            case CREATE_CONTINENT :
-            case EDIT_TERRITORY_BONUS :
-            case SET_LINK :
-            case EDIT_CONTINENT_COLOR :
-            case EDIT_CONTINENT_BONUS :
-            case DELETE_TERRITORY :
-            case DELETE_CONTINENT :
-            case SELECT_INFO_HEX :
-                setDisplayedBonus(linkedTerrHex.territory().bonus());
-                break;
-                
-            case GAME_DEFAULT :
-            case ATTACK :
-            case MOVE :
-            case SELECTING_COMBO :
-            case SAP :
-            case CLEARING_HAND :
-                setDisplayedArmiesNumber(linkedTerrHex.territory().armies());
-                break;
-            
-        }
+        else if(world().stateManager instanceof game.Manager)
+            setDisplayedArmiesNumber(linkedTerrHex.territory().armies());
+        
+        else System.err.println("There is a TerrInfo asking for an update in a "
+                + "state that should not contain TerrInfo");
         
     }
     

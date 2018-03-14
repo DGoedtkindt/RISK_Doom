@@ -216,10 +216,10 @@ public class TerritoryHex extends Button implements InputPanelUser{
     }
     
     /**
-     * Draws the image of this TerritoryHex.
-     * @param color The Color of this TerritoryHex.
-     */
-    public void drawTerrHex(GColor color){   
+    * Draws the image of this TerritoryHex.
+    * @param color The Color of this TerritoryHex.
+    */
+    public void drawTerrHex(GColor color){
         setImage(Hexagon.createImage(color, 0.95));
         getImage().setTransparency(150);
     }
@@ -263,8 +263,8 @@ public class TerritoryHex extends Button implements InputPanelUser{
             }
             
         }
-        
-        getImage().drawImage(img, 0, 0);
+        int offset = (int)(getImage().getWidth() - img.getWidth())/2;
+        getImage().drawImage(img, offset, offset);
         
     }
 
