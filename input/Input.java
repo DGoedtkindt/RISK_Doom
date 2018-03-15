@@ -19,6 +19,12 @@ import java.util.List;
 public abstract class Input {
     
     private static Input activeInput;
+    public static final int HEIGHT = 180;
+    public static final int WIDTH = appearance.Appearance.WORLD_WIDTH;
+    
+    protected boolean ready;
+    
+    
     
     /**
      * Creates an InputPanel.
@@ -44,6 +50,9 @@ public abstract class Input {
         usedPanel = this;
         updateEveryImage();
     }
+    
+    abstract void addToWorld(int xPos, int yPos);
+    abstract void removeFromWorld();
     
     /**
      * Types the given letter on the used InputPanel, if it's not a null Panel 

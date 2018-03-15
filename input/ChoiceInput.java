@@ -1,6 +1,6 @@
 package input;
 
 
-public class ChoiceInput {
+public class ChoiceInput extends Input {
 
 }

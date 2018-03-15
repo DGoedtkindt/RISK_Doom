@@ -8,6 +8,7 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
 import greenfoot.World;
+import input.Form;
 import java.util.List;
 import mainObjects.BlankHex;
 
@@ -146,10 +147,12 @@ public class MyWorld extends World {
             
         }
         
+        /* TODO: à déplacer dans input.TextInput
+        
         String keyPressed = Greenfoot.getKey();
         if(keyPressed != null){
-            InputPanel.typeOnUsedPanel(keyPressed);
-        }
+        InputPanel.typeOnUsedPanel(keyPressed);
+        }*/
         
         CheckEscape.testForEscape();
         
@@ -180,7 +183,8 @@ class CheckEscape{
      */
     public static void testForEscape(){ 
         if(escapeReleased()){
-            MyWorld.theWorld.stateManager.escape();
+            if(Form.activeForm() != null) Form.activeForm().cancel("User pressed escape");
+            else MyWorld.theWorld.stateManager.escape();
         }
         
         if(Greenfoot.isKeyDown("Escape") != escapeWasClicked){

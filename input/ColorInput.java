@@ -1,6 +1,6 @@
 package input;
 
 
-public class ColorInput {
+public class ColorInput extends Input{
 
 }

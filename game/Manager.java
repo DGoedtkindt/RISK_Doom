@@ -11,7 +11,6 @@ import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import input.InputPanel;
 import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -140,11 +139,7 @@ public class Manager extends StateManager{
     @Override
     public void escape() {
         if(Mode.mode() == Mode.DEFAULT) {
-            if(InputPanel.usedPanel == null){
-                InputPanel.showConfirmPanel("Do you want to return to the main menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-            }else{
-                InputPanel.usedPanel.destroy();
-            }
+            InputPanel.showConfirmPanel("Do you want to return to the main menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         
         } else {
             Selector.clear();
@@ -163,8 +158,8 @@ public class Manager extends StateManager{
      */
     private void giveTerritoriesRandomly() throws Exception{
         
-        ArrayList<Territory> capitals = new ArrayList<Territory>();
-        ArrayList<Territory> nonCapitals = new ArrayList<Territory>();
+        ArrayList<Territory> capitals = new ArrayList<>();
+        ArrayList<Territory> nonCapitals = new ArrayList<>();
         
         for(Territory t : map().territories){
             

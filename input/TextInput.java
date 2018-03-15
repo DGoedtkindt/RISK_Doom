@@ -1,6 +1,6 @@
 package input;
 
 
-public class TextInput {
+public class TextInput extends Input{
 
 }
