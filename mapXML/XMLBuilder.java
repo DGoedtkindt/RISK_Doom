@@ -16,13 +16,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+/**
+ * This Class creates a XML Document to save a Map.
+ * 
+ */
 public class XMLBuilder {
     
     private Map map;
     private Document doc;
     private Element rootElement;
     
-    /**builds a XML Document from a Map Object
+    /**
+     * Builds a XML Document from a Map Object.
      *
      * @param fromMap
      * @throws java.lang.Exception
@@ -42,7 +47,8 @@ public class XMLBuilder {
         }
     }
     
-    /** Builds the Document from a XML File
+    /** 
+     * Builds the Document from a XML File.
      * 
      * @throws java.lang.Exception
      */

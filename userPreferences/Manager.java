@@ -1,11 +1,12 @@
 package userPreferences;
 
+import appearance.Appearance;
 import appearance.Theme;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
-import javax.swing.JOptionPane;
+import input.InputPanel;
 import mainObjects.BlankHex;
 
 /**
@@ -61,13 +62,22 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to what you were doing before", 
-                                                             "Yes", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(previous);
+        InputPanel.showConfirmPanel("Do you want to return to what you were doing before?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(((userPreferences.Manager)this).previous);
 
             }
+            
+        }
+        
     }
 
 }

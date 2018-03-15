@@ -16,14 +16,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+/**
+ * The Class that represents the Objects that builds XML Documents.
+ * 
+ */
 public class XMLBuilder {
     
     private Game game;
     private Document doc;
     private Element rootElement;
     
-    /**builds a XML Document from a Game Object
-     *
+    /**
+     * Builds a XML Document from a Game Object
      * @param fromGame
      * @return a xml Document representing fromGame
      */
@@ -65,6 +69,9 @@ public class XMLBuilder {
         }
     }
     
+    /**
+     * Creates a new Document for the Game.
+     */
     private void createNewDocument() throws Exception{
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -74,16 +81,25 @@ public class XMLBuilder {
         
     }
     
+    /**
+     * Saves the name of the Map.
+     */
     private void addMapName() {
         rootElement.setAttribute("mapName", game.map.name);
     
     }
     
+    /**
+     * Saves the Difficulty of the Game.
+     */
     private void addDifficulty() {
         rootElement.setAttribute("difficulty", game.difficulty.toString());
     
     }
     
+    /**
+     * Saves the Players.
+     */
     private void createPlayerNodes() {
         for(Player player : game.players) {
             Element playerNode = doc.createElement("Player");
@@ -109,7 +125,10 @@ public class XMLBuilder {
         
     
     }
-
+    
+    /**
+     * Saves the stats of the Game.
+     */
     private void createStatsNode() {
         for(TurnStat stat : game.stats) {
             Element statNode = doc.createElement("TurnStat");
@@ -134,6 +153,9 @@ public class XMLBuilder {
         }
     }
     
+    /**
+     * Creates a specific stat Element.
+     */
     private void createPlayerStatElement(Map<Player,Integer> createFrom, String elementName, String valueName, Element statNode) { 
         Set<Map.Entry<Player, Integer>> playerValuePairSet = createFrom.entrySet();
         for(Map.Entry<Player, Integer> playerValuePair : playerValuePairSet) {
@@ -148,7 +170,10 @@ public class XMLBuilder {
         }
     
     }
-
+    
+    /**
+     * Saves the State of the Game.
+     */
     private void addGameState() {
         rootElement.setAttribute("gameState", game.gameState.name());
         

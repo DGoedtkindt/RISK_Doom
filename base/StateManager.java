@@ -5,12 +5,12 @@ package base;
  * certain program state (menu, game, options,...). It also manages the 
  * Map/Game objects, if its program state requires it.
  */
-public abstract class StateManager {
+public abstract class StateManager implements InputPanelUser{
     
     public abstract void setupScene();
     public abstract void clearScene();
-    public Map map() {throw new UnsupportedOperationException("There are no maps in this program state");}
-    public Game game() {throw new UnsupportedOperationException("There are no games in this program state");}
+    public Map map() {return null;}
+    public Game game() {return null;}
     public abstract void escape();
     protected MyWorld world() {return MyWorld.theWorld;}
     

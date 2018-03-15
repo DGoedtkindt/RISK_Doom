@@ -3,13 +3,14 @@ package base;
 import appearance.Appearance;
 import appearance.Theme;
 import game.ArmiesInHandDisplayer;
-import mainObjects.BlankHex;
-import greenfoot.World;
-import greenfoot.Greenfoot;
-import greenfoot.MouseInfo;
 import greenfoot.Actor;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.MouseInfo;
+import greenfoot.World;
+import input.InputPanel;
 import java.util.List;
+import mainObjects.BlankHex;
 
 /**
  * The World class of this scenario.
@@ -17,16 +18,16 @@ import java.util.List;
  */
 public class MyWorld extends World {
     
-    //pour accéder au monde depuis un non-acteur
+    //The real World.
     public static MyWorld theWorld;
     
-    //Détection de la souris
+    //The Mouse.
     private MouseInfo mouse;
     
-    //Le manager actuel du programme
+    //The current Manager.
     public StateManager stateManager;
     
-    //Bouton retour
+    //The 'back' Button.
     public final NButton backButton = 
             new NButton(() -> {stateManager.escape();}, 
                     new GreenfootImage("backToHome.png"),30,30);
@@ -39,6 +40,7 @@ public class MyWorld extends World {
         super(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT, 1);
         theWorld = this;
         load(new menu.Manager());
+        Greenfoot.setSpeed(50);
         Greenfoot.start();
         
         //to run static block
@@ -73,9 +75,7 @@ public class MyWorld extends World {
      * Creates the final Blank Hex grid.
      */
     public void placeBlankHexs() {
-        //créer les blankHexs
         placeHexagonInCollumnRow(Appearance.COLLUMN_NUMBER, Appearance.ROW_NUMBER);
-        //trou pour les bonus de continent
         drawContinentBonusZone();
     
     
@@ -147,6 +147,11 @@ public class MyWorld extends World {
             
         }
         
+        String keyPressed = Greenfoot.getKey();
+        if(keyPressed != null){
+            InputPanel.typeOnUsedPanel(keyPressed);
+        }
+        
         CheckEscape.testForEscape();
         
     }
@@ -157,10 +162,12 @@ public class MyWorld extends World {
  * Class that checks if Escape has been released.
  */
 class CheckEscape{
+    
     static boolean escapeWasClicked = false;
     
     /**
-     * Checks if Escape has been released.
+     * Checks if Escape has been released and uses the escape() method of the 
+     * current StateManager if it's the case.
      */
     public static void testForEscape(){ 
         if(escapeReleased()){
@@ -174,7 +181,8 @@ class CheckEscape{
     }
     
     /**
-     * Checks if Escape has been released.
+     * Verifies if Escape has been released.
+     * @return A boolean that represents the fact that Escape has just been released.
      */
     private static boolean escapeReleased(){
         return (!Greenfoot.isKeyDown("Escape") && escapeWasClicked);

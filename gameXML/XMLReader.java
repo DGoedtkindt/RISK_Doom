@@ -11,6 +11,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * The Class able to read a XML File and to reproduce a Game from the informations it gets.
+ * 
+ */
 public class XMLReader {
     private Game game = new Game();
     private Document doc;
@@ -32,20 +36,29 @@ public class XMLReader {
             return game;
     
     }
-
+    
+    /**
+     * Gets the Map.
+     */
     private void getMap() throws Exception {
         rootElement = doc.getDocumentElement();
         String mapName = rootElement.getAttribute("mapName");
         MapXML mapXML = new MapXML(mapName);
         game.map = mapXML.getMap();
     }
-
+    
+    /**
+     * Gets the Difficulty.
+     */
     private void getDifficulty() {
         String difficultyName = rootElement.getAttribute("difficulty");
         game.difficulty = Difficulty.valueOf(difficultyName);
         
     }
-
+    
+    /**
+     * Gets the Players and their attributes..
+     */
     private void getPlayerAndArmies() {
         NodeList players = doc.getElementsByTagName("Player");
         
@@ -73,7 +86,10 @@ public class XMLReader {
         }
         
     }
-
+    
+    /**
+     * Gets the stats of the Game.
+     */
     private void getStats() {
         NodeList turnStats = doc.getElementsByTagName("TurnStat");
         for(int ts = 0; ts < turnStats.getLength(); ts++) {
@@ -101,6 +117,9 @@ public class XMLReader {
         
     }
     
+    /**
+     * Implements informations in a TurnStat Object.
+     */
     private void storePlayerStatMap(java.util.Map<Player,Integer> storeIn, String elementName, String valueName) {
         NodeList playerValuePairs = doc.getElementsByTagName(elementName);
         for(int pvp = 0; pvp < playerValuePairs.getLength(); pvp++) {
@@ -113,13 +132,14 @@ public class XMLReader {
         }
     
     }
-
+    
+    /**
+     * Gets the State of the Game.
+     */
     private void getGameState() {
         String gameStateName = rootElement.getAttribute("gameState");
         Game.State gameState = Game.State.valueOf(gameStateName);
         game.gameState = gameState;
     }
-    
-    
     
 }

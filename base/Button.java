@@ -2,6 +2,7 @@ package base;
 
 import appearance.Appearance;
 import greenfoot.Actor;
+import input.InputPanel;
 
 /**
  * Class of every Button.
@@ -38,5 +39,26 @@ public abstract class Button extends Actor {
      * @return The world.
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
+    
+    /**
+     * Checks if this ModeButton can be used in the current situation. If the Button 
+<<<<<<< HEAD
+     * is opaque, then it can be used.
+=======
+     * is opaque, and if no InputPanel is currently being used, then it can be used.
+>>>>>>> MassiveUpdate
+     * @return A boolean representation of the fact that this ModeButton
+     *         can be used in the current situation.
+     */
+    protected boolean isUsable(){
+        
+        boolean isOpaque = getImage().getTransparency() == Appearance.OPAQUE;
+        boolean noUsedInputPanel = InputPanel.usedPanel == null;
+        boolean inputPanelIsUsed = InputPanel.usedPanel != null;
+        boolean isButtonOnInputPanel = InputPanel.YES == this || InputPanel.NO == this || InputPanel.SELECT == this;
+        
+        return isOpaque && (noUsedInputPanel || (inputPanelIsUsed && isButtonOnInputPanel));
+        
+    }
     
 }

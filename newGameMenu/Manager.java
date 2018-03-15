@@ -1,17 +1,23 @@
 package newGameMenu;
 
+import appearance.Appearance;
 import appearance.MessageDisplayer;
-import xmlChoosers.MapChooser;
 import appearance.Theme;
 import base.GColor;
 import base.Game;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import greenfoot.GreenfootImage;
 import basicChoosers.DifficultyChooser;
-import javax.swing.JOptionPane;
 import game.Zombie;
+import greenfoot.GreenfootImage;
+import input.InputPanel;
+import xmlChoosers.MapChooser;
 
+/**
+ * This manager manages the creation of a new Game.
+ * 
+ */
 public class Manager extends StateManager{
     
     protected MapChooser mapChooser = new MapChooser(false);
@@ -43,6 +49,9 @@ public class Manager extends StateManager{
         
     }
     
+    /**
+     * Starts a Game with the informations chosen by the User.
+     */
     private void getSettingsAndPlay() {
         try {
             Game game = new Game();
@@ -62,13 +71,25 @@ public class Manager extends StateManager{
 
     @Override
     public void escape() {
-        int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
+        if(InputPanel.usedPanel == null){
+            InputPanel.showConfirmPanel("Do you want to quit the Game?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        }else{
+            InputPanel.usedPanel.destroy();
+        }
+    }
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
 
             }
+            
+        }
+        
     }
 
     

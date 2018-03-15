@@ -6,15 +6,25 @@ import greenfoot.GreenfootImage;
 import appearance.Theme;
 import base.Hexagon;
 
+/**
+ * A Chooser designed to let the user select a Theme.
+ * 
+ */
 public class ThemeChooser extends BasicChooser {
     
+    /**
+     * Creates a ThemeChooser.
+     */
     public ThemeChooser() {
         super(new ThemeChoices());
     }
     
-
 }
 
+/**
+ * The list of Themes that can be used.
+ * 
+ */
 class ThemeChoices extends ChoiceList {
     private int  themeNumber = 0;
 
@@ -37,10 +47,12 @@ class ThemeChoices extends ChoiceList {
         GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH / 5, Appearance.WORLD_HEIGHT / 5);
         img.setColor(currentTheme.backgroundColor);
         img.fill();
-        img.drawImage(Hexagon.createImage(currentTheme.blankHexBorderColor), 
+        GreenfootImage bckgrdHex = Hexagon.createImage(currentTheme.blankHexBorderColor);
+        GreenfootImage forgrdHex = Hexagon.createImage(currentTheme.blankHexColor, 0.95);
+        img.drawImage(bckgrdHex, 
                       img.getWidth() / 2 - Hexagon.RADIUS, 
                       img.getHeight() / 2 - Hexagon.RADIUS);
-        img.drawImage(Hexagon.createImage(currentTheme.blankHexColor, 0.95), 
+        img.drawImage(forgrdHex, 
                       img.getWidth() / 2 - Hexagon.RADIUS, 
                       img.getHeight() / 2 - Hexagon.RADIUS);
         img.setColor(currentTheme.textColor);
@@ -53,7 +65,7 @@ class ThemeChoices extends ChoiceList {
 
     /**
      *
-     * @return the position of the selected Theme in the Theme.values() Array
+     * @return The position of the selected Theme in the Theme.values() Array
      */
     @Override
     public String choiceValue() {

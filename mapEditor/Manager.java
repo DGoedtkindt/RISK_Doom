@@ -1,20 +1,28 @@
 package mapEditor;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
+import appearance.Appearance;
 import base.Action;
 import base.Map;
+import base.MyWorld;
 import base.NButton;
 import base.StateManager;
+import input.InputPanel;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
-import javax.swing.JOptionPane;
+import greenfoot.GreenfootImage;
 import mainObjects.Continent;
+import mainObjects.LinkIndic;
 import mainObjects.Links;
 import mainObjects.Territory;
 import selector.Selector;
 //</editor-fold>
 
+/**
+ * This Manager manages the Map Editor.
+ * 
+ */
 public class Manager extends StateManager{
     
     private Map loadedMap = new Map();
@@ -24,27 +32,34 @@ public class Manager extends StateManager{
     private ModeMessageDisplay modeDisp;
     private NButton options;
     
+    /**
+     * Creates a Map Editor.
+     * @param loadMap The edited map.
+     */
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
         ctrlPanel = new ControlPanel(this);
         modeDisp = new ModeMessageDisplay();
-        options = new NButton(loadOptionsMenu, "Options");
+        options = new NButton(loadOptionsMenu, new GreenfootImage("settings.png"), 30, 30);
     
     }
     
     @Override
     public void setupScene() {
-        Mode.setMode(Mode.DEFAULT);
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
         modeDisp.addToWorld(world().getWidth()-90, 850);
         world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth()-120, 50);
+        world().addObject(options, world().getWidth() - 60, 30);
         loadMap();
+        Mode.setMode(Mode.DEFAULT);
 
     }
     
+    /**
+     * Loads the Map and adds its elements to the World.
+     */
     public void loadMap() {
         mapToLoad.territories.forEach(Territory::addToWorld);
         mapToLoad.continents.forEach(Continent::addToWorld);
@@ -70,35 +85,38 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        if(Mode.mode() == Mode.DEFAULT) {
-
-            int choice = JOptionPane.showConfirmDialog(null, "Do you want to return to the main menu?", 
-                                                             "Returning to the menu", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
-                clearScene();
-                world().load(new menu.Manager());
-
-            } 
         
-        } else {
-            Selector.clear();
+        switch(Mode.mode()){
+            case DEFAULT : 
+                if(InputPanel.usedPanel == null){
+                    InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+                }else{
+                    InputPanel.usedPanel.destroy();
+                }
+                break;
+                
+            case ACTION_ON_LINK :
+                world().removeObject(LinkIndic.destroyLink);
+                world().removeObject(LinkIndic.destroySpot);
+                world().removeObject(LinkIndic.extendLink);
+                world().removeObject(LinkIndic.nothing);
+                Mode.setMode(Mode.DEFAULT);
+                break;
+                
+            default : 
+                Selector.clear();
 
-            if(Links.newLinks != null){
-                Links.newLinks.destroy();
-                Links.newLinks = null;
-            }
-
-            Mode.setMode(Mode.DEFAULT);
+                if(Links.newLinks != null){
+                    Links.newLinks.destroy();
+                    Links.newLinks = null;
+                }
+                Mode.setMode(Mode.DEFAULT);
             
         }
         
+        Territory.resetSourceAndTarget();
+        
     }
-    
-    //Action pour sauver le monde
-    
-    protected Action saveMap = () -> {
-        ( new MapSaver(map())).saveMap();
-    };
     
     /////Private Methods///////////////////////
     
@@ -107,5 +125,19 @@ public class Manager extends StateManager{
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
+
+    @Override
+    public void useInformations(String information, String type) throws Exception {
+        
+        if(type.equals("escape")){
+            
+            if(information.equals(InputPanel.YES_OPTION)){
+                MyWorld.theWorld.load(new menu.Manager());
+
+            }
+            
+        }
+        
+    }
     
 }
