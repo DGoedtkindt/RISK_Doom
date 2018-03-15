@@ -1,9 +1,7 @@
 package menu;
 
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import javax.swing.JOptionPane;
 

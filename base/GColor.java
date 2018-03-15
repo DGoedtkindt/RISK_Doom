@@ -38,7 +38,7 @@ public class GColor extends Color{
     }
     
     /**
-     * Returns a String representation of a GColor.
+     * Returns a String representation of this GColor.
      * @return A String representing this GColor.
      */
     public String toRGB() {

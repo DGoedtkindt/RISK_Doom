@@ -6,8 +6,8 @@ import greenfoot.Font;
 import greenfoot.GreenfootImage;
 
 public class InputPanel extends Button {
-
-    public static InputPanel usedPanel = new InputPanel("", 0);
+    //the active input panel should be stored in MyWorld 
+    //public static InputPanel usedPanel = new InputPanel("", 0);
     
     private String displayedString = "";
     private String name = "";
@@ -21,7 +21,7 @@ public class InputPanel extends Button {
     
     @Override
     public void clicked() {
-        usedPanel = this;
+        
     }
     
     public void type(String letter){
