@@ -111,8 +111,7 @@ public class Manager extends StateManager{
      * Starts the first Turn of the Game.
      */
     private void startNewTurn() {
-        int turnNumber = loadedGame.stats.size();
-        Turn.startNewTurn(turnNumber);
+        Turn.startNewTurn();
     
     }
     

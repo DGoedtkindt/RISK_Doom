@@ -34,7 +34,7 @@ public class Turn {
      * Ends the Turn being currently played.
      */
     public static void endCurrentTurn() {
-        currentTurn.end();
+        if(currentTurn != null)currentTurn.end();
         
     }
     
@@ -42,32 +42,23 @@ public class Turn {
      * Interrupts the current Turn while the User changes the Options.
      */
     public static void interruptCurrentTurn() {
-        currentTurn.unlockMode();
-        currentTurn = null;
+        if (currentTurn != null) {
+            currentTurn.unlockMode();
+            currentTurn = null;
+        }
     
     }
     
     /**
      * Starts a new Turn by creating a new Turn object for the next Turn.
+     * Must not be used if a Turn is already active
      */
     public static void startNewTurn() {
-        if(currentTurn != null) {
-            int newTurnNumber = currentTurn.turnNumber + 1;
-            startNewTurn(newTurnNumber);
-        } else {
-            startNewTurn(0);
-            System.err.println("Turn.currentTurn was not initialized by the manager"
-                    + " before calling Turn.startNewTurn. This should not happen");
+        if (currentTurn == null) {
+            game().turnNumber++;
+            currentTurn = new Turn(game().turnNumber);
+            currentTurn.showNextTurnPanel();
         }
-    }
-    
-    /**
-     * Starts a new Turn with a given Turn number.
-     * @param turnNumber The specific Turn number.
-     */
-    protected static void startNewTurn(int turnNumber) {
-        currentTurn = new Turn(turnNumber);
-        currentTurn.showNextTurnPanel();
     }
     
     /**
@@ -106,12 +97,13 @@ public class Turn {
         
         Zombie.zombie.countdown();
         
-        addTurnStats();
         autoSave();
         
         if(aPlayerIsDead() != null || aPlayerWon() != null){
             (new EndGamePanel()).show();
         }
+        
+        currentTurn = null;
         
     }
     
@@ -147,14 +139,6 @@ public class Turn {
         
         return null;
         
-    }
-    
-    /**
-     * Creates a TurnStats object for this Turn.
-     */
-    private void addTurnStats() {
-        TurnStat turnStat = new TurnStat(players(), turnNumber);
-        MyWorld.theWorld.stateManager.game().stats.add(turnStat);
     }
     
     /**
