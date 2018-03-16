@@ -6,14 +6,13 @@ import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
 import base.MyWorld;
-import greenfoot.Actor;
-import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.util.List;
 
 /**
- * An InputPanel lets the User enter informations during processes that require it.
+ * An Input is an Object that allow to enter some information. It can be 
+ * added to a Form that will display it and use it's information.
  * 
  */
 public abstract class Input {
@@ -21,8 +20,6 @@ public abstract class Input {
     private static Input activeInput;
     public static final int HEIGHT = 180;
     public static final int WIDTH = appearance.Appearance.WORLD_WIDTH;
-    
-    protected boolean ready;
     
     
     
@@ -54,39 +51,13 @@ public abstract class Input {
     abstract void addToWorld(int xPos, int yPos);
     abstract void removeFromWorld();
     
-    /**
-     * Types the given letter on the used InputPanel, if it's not a null Panel 
-     * and if it's type is IputType.INSERT.
-     * @param letter The letter to type.
+    /** gets the value this Input stores.
+     * @return the value that was inputed. Must return "" if nothing
+     *      was inputed
      */
-    public static void typeOnUsedPanel(String letter){
-        if(usedPanel != null){
-            if(usedPanel.inputType == InputType.INSERT){
-               usedPanel.type(letter); 
-            }
-        }
-        
-    }
+    public abstract String value();
     
-    /**
-     * Types the given letter on this InputPanel.
-     * @param letter The letter to type.
-     */
-    private void type(String letter){
-        
-        if(letter.equals("backspace") && returnedString.length() != 0){
-            returnedString = returnedString.substring(0, returnedString.length() - 1);
-        }else if(letter.equals("enter")){
-            close();
-        }else if(letter.equals("space")){
-            returnedString += " ";
-        }else if(letter.length() == 1){
-            returnedString += letter;
-        }
-
-        resetImage();
-        
-    }
+    
     
     /**
      * Resets the image of this InputPanel in order to update its display.
@@ -300,96 +271,8 @@ public abstract class Input {
         }
     }
 
-    String getValue() {
-        System.out.println("Method getValue() in class Input is not supported yet");
-    }
+    abstract String getValue();
     
 }
-
-/**
- * A Slider is a slider that allows the User to select a certain Color value.
- */
-class Slider extends Actor{
-    
-    public static final int WIDTH = 80;
-    private static final int HEIGHT = 40;
-    
-    private final GColor color;
-    public final int x;
-    private final int baseY;
-    public int y;
-    
-    /**
-     * Creates a Slider.
-     * @param xPos The x coordinate of this Slider.
-     * @param yPos The starting y coordinate of this Slider.
-     * @param c The Color represented by this Slider.
-     */
-    public Slider(int xPos, int yPos, GColor c){
-        x = xPos;
-        baseY = yPos;
-        y = baseY;
-        color = c;
-        createImage();
-    }
-    
-    /**
-     * Adds this Slider to the World.
-     */
-    public void show(){
-        MyWorld.theWorld.addObject(this, x, y);
-    }
-    
-    /**
-     * Removes this Slider form the World.
-     */
-    public void remove(){
-        MyWorld.theWorld.removeObject(this);
-    }
-    
-    /**
-     * Creates the image of this Slider.
-     */
-    private void createImage() {
-        
-        GreenfootImage img = new GreenfootImage(WIDTH, HEIGHT);
-        img.setColor(color);
-        img.fillPolygon(new int[]{0, 2 * WIDTH / 3, WIDTH     , 2 * WIDTH / 3, 0     }, 
-                        new int[]{0, 0            , HEIGHT / 2, HEIGHT       , HEIGHT}, 5);
-        
-        img.setColor(GColor.BLACK);
-        
-        img.drawPolygon(new int[]{0, 2 * WIDTH / 3, WIDTH     , 2 * WIDTH / 3, 0     }, 
-                        new int[]{0, 0            , HEIGHT / 2, HEIGHT       , HEIGHT}, 5);
-        
-        setImage(img);
-        
-    }
-    
-    /**
-     * Computes the Color value represented by this Slider.
-     * @return The Color value represented by this Slider, from 0 to 255.
-     */
-    public int value(){
-        return baseY - y;
-    }
-    
-    @Override
-    public void act(){
-        
-        if(Greenfoot.mouseDragged(this)){
-            
-            int newY = Greenfoot.getMouseInfo().getY();
-            
-            if(baseY - newY > 0 && baseY - newY < 256){
-                y = newY;
-                InputPanel.updateEveryImage();
-            }
-            
-        }
-        
-        setLocation(x, y);
-        
-    }
     
 }

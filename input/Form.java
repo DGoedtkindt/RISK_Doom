@@ -6,6 +6,7 @@ import base.MyWorld;
 import base.NButton;
 import greenfoot.Actor;
 import greenfoot.Color;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -178,6 +179,26 @@ public class Form {
             
         }
         
+        /**
+         * just an actor with a certain image that serves as a background.
+         */
+        private class Background extends Actor {
+
+            private Background(int width, int height) {
+                Color backgroundColor = appearance.Theme.used.backgroundColor;
+                this.setImage(new GreenfootImage(width,height));
+                this.getImage().setColor(backgroundColor);
+                this.getImage().fill();
+            }
+            
+            @Override
+            public void act() {
+                if(Greenfoot.isKeyDown("Enter")) submit();
+            
+            }
+
+
+        }
         
         
     }
@@ -187,21 +208,6 @@ public class Form {
         int basePos = (inputNumber-1)*(Input.HEIGHT/2);
         return basePos + (inputNumber - 1)*Input.HEIGHT+50;
         
-    }
-    
-    /**
-     * just an actor with a certain image that serves as a background.
-     */
-    private class Background extends Actor {
-
-        private Background(int width, int height) {
-            Color backgroundColor = appearance.Theme.used.backgroundColor;
-            this.setImage(new GreenfootImage(width,height));
-            this.getImage().setColor(backgroundColor);
-            this.getImage().fill();
-        }
-        
-    
     }
 
 }
