@@ -1,6 +1,9 @@
 package input;
 
+import appearance.Appearance;
 import base.Button;
+import base.GColor;
+import base.MyWorld;
 import greenfoot.Color;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
@@ -12,7 +15,8 @@ import greenfoot.GreenfootImage;
 public class TextInput extends Input {
     
     private final String TITLE;
-    private String returnedString = "";
+    private final InputActor inputActor;
+    private String returnString = "";
     
     /** Create a new TextInput
      * 
@@ -20,41 +24,34 @@ public class TextInput extends Input {
      */
     public TextInput(String title) {
         TITLE = title;
+        inputActor = new InputActor(WIDTH,HEIGHT);
+        inputActor.container = this;
     
-    }
-        
-    /**
-     * Types the given letter on this InputPanel.
-     * @param letter The letter to type.
-     */
-    private void type(String letter){
-        
-        if(letter.equals("backspace") && returnedString.length() != 0){
-            returnedString = returnedString.substring(0, returnedString.length() - 1);
-        }else if(letter.equals("space")){
-            returnedString += " ";
-        }else if(letter.length() == 1){
-            returnedString += letter;
-        }
-
-        resetImage();
-        
     }
 
     @Override
     void addToWorld(int xPos, int yPos) {
-        System.out.println("Method addToWorld() in class TextInput is not supported yet");
+        MyWorld.theWorld.addObject(inputActor, xPos, yPos);
+        
     }
 
     @Override
     void removeFromWorld() {
-        System.out.println("Method removeFromWorld() in class TextInput is not supported yet");
+        MyWorld.theWorld.removeObject(inputActor);
+        if(activeInput == this) activeInput = null;
+        
     }
 
     @Override
-    String getValue() {
-        System.out.println("Method getValue() in class TextInput is not supported yet");
-        return null;
+    public String value() {
+        return returnString;
+    }
+    
+    @Override
+    protected void submit() {
+        super.submit();
+        inputActor.resetImage();
+        
     }
 
     
@@ -64,31 +61,67 @@ public class TextInput extends Input {
         private class InputActor extends Button {
             final int WIDTH;
             final int HEIGHT;
+            Input container;
 
             private InputActor(int width, int height) {
                 WIDTH = width; HEIGHT = height;
                 this.setImage(new GreenfootImage(WIDTH,HEIGHT));
+                this.getImage().setFont(Appearance.GREENFOOT_FONT);
             }
             
             void resetImage() {
+                //fill the background
                 Color backgroundColor = appearance.Theme.used.backgroundColor;
                 this.getImage().setColor(backgroundColor);
                 this.getImage().fill();
-                int rsXPos = WIDTH/2 - 12*returnedString.length();
+                
+                //add border if active
+                if(container == Input.activeInput) {
+                    this.getImage().setColor(GColor.WHITE);
+                    this.getImage().drawRect(0, 0, WIDTH, HEIGHT);
+                }
+                
+                //add the texts
+                //title
+                int titleXPos = WIDTH/2 - 12*returnString.length();
+                int titleYPos = HEIGHT/4;
+                getImage().drawString(TITLE, titleXPos,titleYPos );
+                
+                //returnString
+                int rsXPos = WIDTH/2 - 12*returnString.length();
                 int rsYPos = HEIGHT/2;
-                getImage().drawString(returnedString, rsXPos,rsYPos );
+                getImage().drawString(returnString, rsXPos,rsYPos );
                 
             }
             
             @Override
             public void act() {
-                if(Greenfoot.isKeyDown("Enter")) submit();
+                if(container == Input.activeInput) {
+                    manageKeyPressed();
+                    resetImage();
+                }
+            
+            }
+            
+            private void manageKeyPressed() {
+                String keyPressed = Greenfoot.getKey();
+                if(keyPressed != null){
+                    if(keyPressed.equals("backspace") && returnString.length() != 0)
+                        returnString = returnString.substring(0, returnString.length() - 1);
+                    else if(keyPressed.equals("enter")) 
+                        submit();
+                    else if(keyPressed.equals("space"))
+                        returnString += " ";
+                    else if(keyPressed.length() == 1)
+                        returnString += keyPressed;
+                }
             
             }
 
             @Override
             public void clicked() {
-                System.out.println("Method clicked() in class Background is not supported yet");
+                Input.activeInput.submit();
+                Input.activeInput = container;
             }
 
 

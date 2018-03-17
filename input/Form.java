@@ -8,10 +8,8 @@ import greenfoot.Actor;
 import greenfoot.Color;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -23,9 +21,11 @@ public class Form {
     private static Form activeForm;
     public static Form activeForm() {return activeForm;}
     
+    public FormAction submitAction = null;
+    
     private Map<String,Input> inputs = new HashMap<>();
-    private List<FormAction> actions = new ArrayList();
-    private List<FormCancelAction> cancelActions = new ArrayList();
+    private Map<Input,Boolean> inputsReady = new HashMap<>();
+    private FormCancelAction cancelAction = null;
     private MyWorld world;
     
     private Action submit;
@@ -44,9 +44,15 @@ public class Form {
      * @param inputID what allows to identify which Input each value is from in the
      *      FormAction
      * @param input
+     * @param optional Define whether it is optional or not to complete the input
      */
-    public void addInput(String inputID, Input input) {
-        if(world == null && inputs.size() < 5) inputs.put(inputID, input);
+    public void addInput(String inputID, Input input, boolean optional) {
+        if(world == null && inputs.size() < 5) {
+            inputs.put(inputID, input);
+            manageOptional(input,optional);
+            
+        }
+        
     }
     
     /**
@@ -71,23 +77,19 @@ public class Form {
      */
     public void cancel(String cause) {
         removeFromWorld();
-        cancelActions.forEach((formCancelAction) -> {
-            formCancelAction.cancel(cause);
-        });
-        throw new UnsupportedOperationException("not supported yet");
+        cancelAction.cancel(cause);
     
     }
     
     /**
+     * If all inputs are ready: 
      * Gets all the inputs and performs all actions
      */
     public void submit() {
         if(allInputsReady()) {
             removeFromWorld();
             Map<String, String> values = getValues();
-            actions.forEach((formAction) -> {
-                formAction.useInformations(values);
-            });
+            submitAction.useInformations(values);
             MessageDisplayer.showMessage("Form submited");
         } else 
             MessageDisplayer.showMessage("One or more field still need to be entered");
@@ -106,6 +108,30 @@ public class Form {
 
     }
     
+    private void manageOptional(Input input, boolean optional) {
+        //if optional
+        if(optional) {
+            //set as ready in inputsReady
+            inputsReady.put(input, optional);
+            //on input sumbit: submit form if it is the only input
+            input.onSubmitAction = ()->{if(inputs.size()==1) submit();};
+
+        }
+        //if not optional
+        //on input sumbit: check if value was entered
+        else input.onSubmitAction = ()->{
+            //if so set as ready and submit form if it is the only input
+            if(input.value()!="") {
+                inputsReady.put(input, true);
+                if(inputs.size()==1) submit();
+            }
+            //else set as not ready 
+            else inputsReady.put(input, false);
+
+        };
+    
+    }
+    
     /**
      * Returns a map with the ID and the value entered
      */
@@ -115,7 +141,7 @@ public class Form {
         for(Map.Entry<String, Input> input : inputSet) {
             String ID = input.getKey();
             Input value = input.getValue();
-            values.put(ID, value.getValue());
+            values.put(ID, value.value());
             
         }
         return values;
@@ -147,11 +173,7 @@ public class Form {
     }
 
     private boolean allInputsReady() {
-        Collection<Input> inputCollection = inputs.values();
-        for(Input input : inputCollection) {
-            if(!input.ready) return false;
-        }
-        return true;
+        return !inputsReady.values().contains(false);
         
     }
     

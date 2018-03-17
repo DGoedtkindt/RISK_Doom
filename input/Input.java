@@ -1,14 +1,8 @@
 package input;
 
-import appearance.Appearance;
-import appearance.MessageDisplayer;
-import appearance.Theme;
+import base.Action;
 import base.GColor;
-import base.Hexagon;
 import base.MyWorld;
-import greenfoot.GreenfootImage;
-import java.awt.FontMetrics;
-import java.util.List;
 
 /**
  * An Input is an Object that allow to enter some information. It can be 
@@ -17,51 +11,39 @@ import java.util.List;
  */
 public abstract class Input {
     
-    private static Input activeInput;
     public static final int HEIGHT = 180;
     public static final int WIDTH = appearance.Appearance.WORLD_WIDTH;
-    
-    
+    protected static Input activeInput;
     
     /**
-     * Creates an InputPanel.
-     * @param infoName The name of the information that the User needs to give.
-     * @param size The width of the Panel.
-     * @param type The type of the required information.
-     * @param source The InputpanelUser that asked for an information.
-     * @param inputType The type of this input.
+     * action this Input is going to perform when submit is called
      */
-    private InputPanel(String infoName, int size, String type, InputPanelUser source, InputType inputType){
-        name = infoName;
-        width = size;
-        this.type = type;
-        this.source = source;
-        this.inputType = inputType;
-        usedPanel = this;
-        resetImage();
-        updateEveryImage();
-    }
-    
-    @Override
-    public void clicked() {
-        usedPanel = this;
-        updateEveryImage();
-    }
+    Action onSubmitAction;
     
     abstract void addToWorld(int xPos, int yPos);
     abstract void removeFromWorld();
     
-    /** gets the value this Input stores.
+    /** Gets the value this Input stores.
      * @return the value that was inputed. Must return "" if nothing
      *      was inputed
      */
     public abstract String value();
+    
+    /** Performs the on submit action attributed to this Input.
+     * 
+     */
+    protected void submit() {
+        if(onSubmitAction != null) onSubmitAction.act();
+        if(activeInput == this) activeInput = null;
+    
+    }
     
     
     
     /**
      * Resets the image of this InputPanel in order to update its display.
      */
+    /*
     private void resetImage(){
         
         GreenfootImage img = new GreenfootImage(1, 1);
@@ -158,47 +140,7 @@ public abstract class Input {
         
         setImage(img);
         
-    }
-    
-    /**
-     * Removes this from the World and gives its informations to the source.
-     */
-    private void close(){
-        destroy();
-        try {
-            source.useInformations(returnedString, type);
-        } catch (Exception ex) {
-            MessageDisplayer.showException(ex);
-        }
-    }
-    
-    /**
-     * Removes this from the World.
-     */
-    public void destroy(){
-        world().removeObject(this);
-        
-        if(inputType == InputType.COLOR){
-            world().removeObject(red);
-            world().removeObject(green);
-            world().removeObject(blue);
-            world().removeObject(SELECT);
-        }else if(inputType == InputType.CONFIRM){
-            world().removeObject(YES);
-            world().removeObject(NO);
-        }
-        
-        usedPanel = null;
-        
-        //Change the focus
-        List<InputPanel> otherPanels = world().getObjects(InputPanel.class);
-        
-        if(!otherPanels.isEmpty()){
-            usedPanel = otherPanels.get(0);
-            updateEveryImage();
-        }
-        
-    }
+    }*/
     
     /**
      * Shows an InputPanel with the INSERT InputType
@@ -270,8 +212,6 @@ public abstract class Input {
             panel.resetImage();
         }
     }
-
-    abstract String getValue();
     
 }
     

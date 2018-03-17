@@ -3,12 +3,29 @@ package input;
 import base.GColor;
 import base.MyWorld;
 import greenfoot.Actor;
+import greenfoot.Color;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 
 
 public class ColorInput extends Input{
-
+    
+    private final String TITLE;
+    private Background background;
+    private final Slider redSlider;
+    private final Slider greenSlider;
+    private final Slider blueSlider;
+    
+    public ColorInput(String title) {
+        TITLE = title;
+        background = new Background(WIDTH,HEIGHT);
+        background.container = this;
+        redSlider = new Slider(GColor.RED);
+        greenSlider = new Slider(GColor.GREEN);
+        blueSlider = new Slider(GColor.BLUE);
+        
+    }
+    
     @Override
     void addToWorld(int xPos, int yPos) {
         System.out.println("Method addToWorld() in class ColorInput is not supported yet");
@@ -20,9 +37,32 @@ public class ColorInput extends Input{
     }
 
     @Override
-    String getValue() {
+    public String value() {
         System.out.println("Method getValue() in class ColorInput is not supported yet");
         return null;
+    }
+    
+    /**
+     * just an actor with a certain image that serves as a background.
+     */
+    private class Background extends Actor {
+        Input container;
+        
+        private Background(int width, int height) {
+            Color backgroundColor = appearance.Theme.used.backgroundColor;
+            this.setImage(new GreenfootImage(width,height));
+            this.getImage().setColor(backgroundColor);
+            this.getImage().fill();
+        }
+
+        @Override
+        public void act() {
+            if(Greenfoot.isKeyDown("Enter"))
+            if(Input.activeInput == container)submit();
+
+        }
+
+
     }
     
     /**
@@ -33,29 +73,20 @@ public class ColorInput extends Input{
         public static final int WIDTH = 80;
         private static final int HEIGHT = 40;
 
-        private final GColor color;
-        public final int x;
-        private final int baseY;
+        private Color color;
+        public int x;
+        private int baseY;
         public int y;
-
-        /**
-         * Creates a Slider.
-         * @param xPos The x coordinate of this Slider.
-         * @param yPos The starting y coordinate of this Slider.
-         * @param c The Color represented by this Slider.
-         */
-        public Slider(int xPos, int yPos, GColor c){
-            x = xPos;
-            baseY = yPos;
-            y = baseY;
-            color = c;
-            createImage();
+        
+        Slider(Color c) {
+           color = c;
+            
         }
 
         /**
          * Adds this Slider to the World.
          */
-        public void show(){
+        public void addToWorld(int x,int BaseY){
             MyWorld.theWorld.addObject(this, x, y);
         }
 
@@ -102,7 +133,6 @@ public class ColorInput extends Input{
 
                 if(baseY - newY > 0 && baseY - newY < 256){
                     y = newY;
-                    InputPanel.updateEveryImage();
                 }
 
             }
