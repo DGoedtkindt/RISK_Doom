@@ -17,6 +17,7 @@ public class TextInput extends Input {
     private final String TITLE;
     private final InputActor inputActor;
     private String returnString = "";
+    private TextInput thisTextInput;
     
     /** Create a new TextInput
      * 
@@ -24,8 +25,8 @@ public class TextInput extends Input {
      */
     public TextInput(String title) {
         TITLE = title;
+        thisTextInput = this;
         inputActor = new InputActor(WIDTH,HEIGHT);
-        inputActor.container = this;
     
     }
 
@@ -61,7 +62,6 @@ public class TextInput extends Input {
         private class InputActor extends Button {
             final int WIDTH;
             final int HEIGHT;
-            Input container;
 
             private InputActor(int width, int height) {
                 WIDTH = width; HEIGHT = height;
@@ -76,14 +76,14 @@ public class TextInput extends Input {
                 this.getImage().fill();
                 
                 //add border if active
-                if(container == Input.activeInput) {
+                if(thisTextInput == Input.activeInput) {
                     this.getImage().setColor(GColor.WHITE);
-                    this.getImage().drawRect(0, 0, WIDTH, HEIGHT);
+                    this.getImage().drawRect(1, 1, WIDTH-2, HEIGHT-2);
                 }
                 
                 //add the texts
                 //title
-                int titleXPos = WIDTH/2 - 12*returnString.length();
+                int titleXPos = WIDTH/2 - 12*TITLE.length();
                 int titleYPos = HEIGHT/4;
                 getImage().drawString(TITLE, titleXPos,titleYPos );
                 
@@ -96,7 +96,7 @@ public class TextInput extends Input {
             
             @Override
             public void act() {
-                if(container == Input.activeInput) {
+                if(thisTextInput == Input.activeInput) {
                     manageKeyPressed();
                     resetImage();
                 }
@@ -121,7 +121,7 @@ public class TextInput extends Input {
             @Override
             public void clicked() {
                 Input.activeInput.submit();
-                Input.activeInput = container;
+                Input.activeInput = thisTextInput;
             }
 
 

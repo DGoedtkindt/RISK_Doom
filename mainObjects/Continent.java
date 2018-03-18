@@ -4,20 +4,22 @@ import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
-import input.InputPanelUser;
 import base.Map;
 import base.MyWorld;
-import input.InputPanel;
 import selector.Selectable;
 import greenfoot.Actor;
 import java.util.ArrayList;
 import greenfoot.GreenfootImage;
+import input.ColorInput;
+import input.Form;
+import input.Input;
+import input.TextInput;
 
 /**
  * The Class that represents the Continents.
  * 
  */
-public class Continent implements Selectable, InputPanelUser{
+public class Continent implements Selectable{
     
     public static final BonusDisplay display = new BonusDisplay();
     
@@ -35,9 +37,7 @@ public class Continent implements Selectable, InputPanelUser{
     public Continent(ArrayList<Territory> territories){
         
         territoriesContained.addAll(0,territories);
-        
-        InputPanel.showInsertionPanel("Enter a new Bonus for this Continent.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, 2 * Appearance.WORLD_HEIGHT / 3);
-        InputPanel.showColorPanel("Enter a new Color for this Continent.", 100, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 3);
+        askForBonusAndColor();
         
     }
     
@@ -71,7 +71,16 @@ public class Continent implements Selectable, InputPanelUser{
      * Lets the User edit the Color of this Continent.
      */
     public void editColor(){
-        InputPanel.showColorPanel("Enter a new Color for this Continent.", 100, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form colorForm = new Form();
+        Input colorInput = new ColorInput("Enter a new Color for this Continent.");
+        colorForm.addInput("color", colorInput, false);
+        colorForm.submitAction = (input)->{
+            continentColor = GColor.fromRGB(input.get("color"));
+            territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+            Continent.display.update();
+        
+        };
+        colorForm.addToWorld();
         
     }
     
@@ -119,7 +128,19 @@ public class Continent implements Selectable, InputPanelUser{
      * Lets the User edit the Bonus given by this Continent.
      */
     public void editBonus(){
-        InputPanel.showInsertionPanel("Enter a new bonus for this Continent.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form bonusForm = new Form();
+        Input bonusInput = new TextInput("Enter a new bonus for this Continent.");
+        bonusForm.addInput("bonus", bonusInput, false);
+        bonusForm.submitAction = (input)->{
+            if(input.get("bonus").matches("\\d+")){
+                bonus = Integer.parseInt(input.get("bonus"));
+                Continent.display.update();
+            }else{
+                MessageDisplayer.showMessage("Invalid entry.");
+            }
+        
+        };
+        bonusForm.addToWorld();
         
     }
     
@@ -157,34 +178,28 @@ public class Continent implements Selectable, InputPanelUser{
         }
     }
 
-    //InputPanelUser////////////////////////////////////////7
-    
-    @Override
-    public void useInformations(String information, String type) {
-        
-        if(type.equals("bonus")){
-            
-            if(information.matches("\\d+")){
-                
-                int newBonus = Integer.parseInt(information);
-
-                ((Continent)this).bonus = newBonus;
+    //Private methods////////////////////////////////////////
+    private void askForBonusAndColor() {
+        Form form = new Form();
+        Input bonusInput = new TextInput("Enter a new Bonus for this new Continent.");
+        Input colorInput = new ColorInput("Enter a new Color for this new Continent.");
+        form.addInput("color", colorInput, false);
+        form.addInput("bonus", bonusInput, false);
+        form.submitAction = (input)->{
+            continentColor = GColor.fromRGB(input.get("color"));
+            territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+            if(input.get("bonus").matches("\\d+")){
+                bonus = Integer.parseInt(input.get("bonus"));
                 Continent.display.update();
-                
             }else{
                 MessageDisplayer.showMessage("Invalid entry.");
             }
-            
-        }else if(type.equals("color")){
-            
-            ((Continent)this).continentColor = GColor.fromRGB(information);
-            ((Continent)this).territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
             Continent.display.update();
-            
-        }
         
+        };
+        form.addToWorld();
+    
     }
-            
 }
 
 /**

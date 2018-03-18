@@ -1,23 +1,21 @@
 package mapEditor;
 
-//<editor-fold defaultstate="collapsed" desc="Imports">
-import appearance.Appearance;
 import base.Action;
 import base.Map;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import input.InputPanel;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
+import input.ChoiceInput;
+import input.Form;
+import input.Input;
 import mainObjects.Continent;
 import mainObjects.LinkIndic;
 import mainObjects.Links;
 import mainObjects.Territory;
 import selector.Selector;
-//</editor-fold>
 
 /**
  * This Manager manages the Map Editor.
@@ -88,11 +86,7 @@ public class Manager extends StateManager{
         
         switch(Mode.mode()){
             case DEFAULT : 
-                if(InputPanel.usedPanel == null){
-                    InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-                }else{
-                    InputPanel.usedPanel.destroy();
-                }
+                standardBackToMenu("Do you want to return to the main menu?");
                 break;
                 
             case ACTION_ON_LINK :
@@ -125,19 +119,5 @@ public class Manager extends StateManager{
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
-                MyWorld.theWorld.load(new menu.Manager());
-
-            }
-            
-        }
-        
-    }
     
 }

@@ -1,6 +1,7 @@
 package base;
 
 import appearance.Theme;
+import greenfoot.Color;
 import greenfoot.GreenfootImage;
  
 /**
@@ -16,7 +17,7 @@ public class Hexagon {
      * @param hexColor The color of this hexagon.
      * @return The image.
      */
-    public static GreenfootImage createImageWBorder(GColor hexColor){
+    public static GreenfootImage createImageWBorder(Color hexColor){
         //draw un plus petit hex coloré sur un Hex noir
         GreenfootImage img = createImage(Theme.used.blankHexBorderColor);
         img.drawImage(createImage(hexColor, 0.95), 0, 0);
@@ -31,7 +32,7 @@ public class Hexagon {
      * @param sizeFactor the factor the hexagon will be scaled by.
      * @return The image.
      */
-    public static GreenfootImage createImage(GColor color, double sizeFactor){
+    public static GreenfootImage createImage(Color color, double sizeFactor){
         //crée l'image d'un hexagone simple avec un multiplicateur de taille
         //l'image de retour reste 2*RADIUSx2*RADIUS
         GreenfootImage img = new GreenfootImage(2*RADIUS, 2*RADIUS);
@@ -50,7 +51,7 @@ public class Hexagon {
      * @param color The color of this hexagon.
      * @return The image.
      */
-    public static GreenfootImage createImage(GColor color){
+    public static GreenfootImage createImage(Color color){
         //crée l'image d'un hexagone simple sans multiplicateur
         return createImage(color, 1);
         

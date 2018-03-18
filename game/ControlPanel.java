@@ -47,14 +47,14 @@ public class ControlPanel {
             
             attackButton.toggleUnusable();
             moveButton.toggleUnusable();
-            nextTurnButton.makeTransparent();
+            nextTurnButton.toggleUnusable();
             
             switch(Mode.mode()){
                 
                 case DEFAULT : 
                     attackButton.toggleUsable();
                     moveButton.toggleUsable();
-                    nextTurnButton.makeOpaque();
+                    nextTurnButton.toggleUsable();
                     break;
                     
                 case MOVE : 

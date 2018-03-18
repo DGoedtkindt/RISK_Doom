@@ -122,10 +122,10 @@ public class Combo {
      * Sets the transparency of the four Combo Buttons to a transparent value.
      */
     private void makeButtonsTransparent(){
-        sapButton.makeTransparent();
-        fortressButton.makeTransparent();
-        battlecryButton.makeTransparent();
-        recruitButton.makeTransparent();
+        sapButton.toggleUnusable();
+        fortressButton.toggleUnusable();
+        battlecryButton.toggleUnusable();
+        recruitButton.toggleUnusable();
     }
     
     /**
@@ -146,16 +146,16 @@ public class Combo {
         boolean canPlayACombo = false;
         
         if(a >= 3){
-            sapButton.makeOpaque();
+            sapButton.toggleUsable();
             canPlayACombo = true;
         }if(b >= 3){
-            fortressButton.makeOpaque();
+            fortressButton.toggleUsable();
             canPlayACombo = true;
         }if(c >= 3){
-            battlecryButton.makeOpaque();
+            battlecryButton.toggleUsable();
             canPlayACombo = true;
         }if(a > 0 && b > 0 && c > 0){
-            recruitButton.makeOpaque();
+            recruitButton.toggleUsable();
             canPlayACombo = true;
         }
         

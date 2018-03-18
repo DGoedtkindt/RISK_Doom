@@ -1,6 +1,8 @@
 package input;
 
+import base.Button;
 import base.GColor;
+import base.Hexagon;
 import base.MyWorld;
 import greenfoot.Actor;
 import greenfoot.Color;
@@ -15,11 +17,12 @@ public class ColorInput extends Input{
     private final Slider redSlider;
     private final Slider greenSlider;
     private final Slider blueSlider;
+    private final ColorInput thisColorInput;
     
     public ColorInput(String title) {
         TITLE = title;
+        thisColorInput = this;
         background = new Background(WIDTH,HEIGHT);
-        background.container = this;
         redSlider = new Slider(GColor.RED);
         greenSlider = new Slider(GColor.GREEN);
         blueSlider = new Slider(GColor.BLUE);
@@ -28,37 +31,50 @@ public class ColorInput extends Input{
     
     @Override
     void addToWorld(int xPos, int yPos) {
-        System.out.println("Method addToWorld() in class ColorInput is not supported yet");
+        MyWorld.theWorld.addObject(background, xPos, yPos);
+        MyWorld.theWorld.addObject(redSlider, xPos-80, yPos);
+        MyWorld.theWorld.addObject(greenSlider, xPos, yPos);
+        MyWorld.theWorld.addObject(blueSlider, xPos+80, yPos);
     }
 
     @Override
     void removeFromWorld() {
-        System.out.println("Method removeFromWorld() in class ColorInput is not supported yet");
+        MyWorld.theWorld.removeObject(background);
+        MyWorld.theWorld.removeObject(redSlider);
+        MyWorld.theWorld.removeObject(greenSlider);
+        MyWorld.theWorld.removeObject(blueSlider);
+        if(activeInput == this) activeInput = null;
     }
 
     @Override
     public String value() {
-        System.out.println("Method getValue() in class ColorInput is not supported yet");
-        return null;
+        GColor color = new GColor(redSlider.value(),greenSlider.value(),blueSlider.value());
+        return color.toRGB();
     }
     
     /**
      * just an actor with a certain image that serves as a background.
      */
     private class Background extends Actor {
-        Input container;
-        
         private Background(int width, int height) {
             Color backgroundColor = appearance.Theme.used.backgroundColor;
             this.setImage(new GreenfootImage(width,height));
             this.getImage().setColor(backgroundColor);
             this.getImage().fill();
+            this.getImage().setColor(appearance.Theme.used.textColor);
+            this.getImage().drawString(TITLE, 30, 40);
         }
 
         @Override
         public void act() {
+            Color color = GColor.fromRGB(value());
+            GreenfootImage hex = Hexagon.createImage(color);
+            hex.scale(120, 120);
+            
+            this.getImage().drawImage(hex, 50, 40);
+            
             if(Greenfoot.isKeyDown("Enter"))
-            if(Input.activeInput == container)submit();
+            if(Input.activeInput == thisColorInput)submit();
 
         }
 
@@ -68,7 +84,7 @@ public class ColorInput extends Input{
     /**
     * A Slider is a slider that allows the User to select a certain Color value.
     */
-    class Slider extends Actor{
+    class Slider extends Button{
 
         public static final int WIDTH = 80;
         private static final int HEIGHT = 40;
@@ -134,11 +150,18 @@ public class ColorInput extends Input{
                 if(baseY - newY > 0 && baseY - newY < 256){
                     y = newY;
                 }
-
+                
+                createImage();
             }
 
             setLocation(x, y);
 
+        }
+
+        @Override
+        public void clicked() {
+            Input.activeInput.submit();
+            Input.activeInput = thisColorInput;
         }
     }
 

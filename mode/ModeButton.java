@@ -55,7 +55,7 @@ public class ModeButton extends Button {
         if(isUsable()) {
             Mode.setMode(linkedMode);
             Selector.setValidator(validator);
-            makeOpaque();
+            toggleUsable();
         }
     }
     

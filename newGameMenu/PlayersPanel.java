@@ -3,13 +3,15 @@ package newGameMenu;
 import appearance.Appearance;
 import appearance.Theme;
 import base.GColor;
-import input.InputPanelUser;
 import base.NButton;
 import basicChoosers.PColorChooser;
 import game.Player;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.Input;
+import input.TextInput;
 import java.util.ArrayList;
 
 /**
@@ -147,7 +149,7 @@ public class PlayersPanel {
      * change its name, its color. It also creates a Player Object from its
      * settings. 
      */
-    private class PlayerOptions implements InputPanelUser{
+    private class PlayerOptions{
         String name;
         PlayersPanel manager;
         NButton delete; 
@@ -238,7 +240,15 @@ public class PlayersPanel {
          * @return The name that the User entered.
          */
         void askForName() {
-            InputPanel.showInsertionPanel("Enter your name.", 600, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+            Form confirmForm = new Form();
+            Input confirmInput = new TextInput("Enter the new Name");
+            confirmForm.addInput("name", confirmInput, false);
+            confirmForm.submitAction = (input)->{
+                if(input.get("name").matches("\\s+")) {
+                    this.setName(input.get("name"));
+                } 
+            };
+            confirmForm.addToWorld();
             
         }
         
@@ -258,21 +268,6 @@ public class PlayersPanel {
                 editName.setImage(editNameImg);
             }
         
-        }
-
-        @Override
-        public void useInformations(String information, String type) throws Exception {
-            
-            if(type.equals("name")){
-                
-                if(information.matches("\\s+")){
-                    information = Player.NEW_PLAYER_NAME;
-                }
-                
-                ((PlayerOptions)this).setName(information);
-                
-            }
-            
         }
         
     }

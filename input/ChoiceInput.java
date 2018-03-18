@@ -1,5 +1,11 @@
 package input;
 
+import base.Action;
+import base.MyWorld;
+import base.NButton;
+import greenfoot.Actor;
+import greenfoot.Color;
+import greenfoot.GreenfootImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +13,9 @@ import java.util.Map;
 public class ChoiceInput extends Input {
     
     private final String TITLE;
-    private Map<String,String> choices = new HashMap<>();
+    private Map<String,NButton> optionButtons = new HashMap<>();
+    private String returnText = "";
+    private Actor background = new Background(WIDTH,HEIGHT);
     
     /**
      * Creates a new ChoiceInput without options
@@ -36,28 +44,64 @@ public class ChoiceInput extends Input {
 
     @Override
     void addToWorld(int xPos, int yPos) {
-        System.out.println("Method addToWorld() in class ChoiceInput is not supported yet");
+        MyWorld.theWorld.addObject(background, xPos, yPos);
+        int i = 0;
+        for(NButton optionButton : optionButtons.values()) {
+            int buttonXPos = i * WIDTH/(optionButtons.size() + 1);
+            MyWorld.theWorld.addObject(optionButton, buttonXPos, yPos);
+            i++;
+            
+        }
+        
     }
 
     @Override
     void removeFromWorld() {
-        System.out.println("Method removeFromWorld() in class ChoiceInput is not supported yet");
+        MyWorld.theWorld.removeObject(background);
+        optionButtons.values().forEach((button)->{
+            MyWorld.theWorld.removeObject(button);
+        });
+        
     }
 
     @Override
     public String value() {
-        System.out.println("Method value() in class ChoiceInput is not supported yet");
-        return "";
+        return returnText;
     }
     
-    /**Add an option to this ChoiceInput
+    /**Add an option to this ChoiceInput. 
+     * Doesn't work if this ChoiceInput is
+     * already on the world.
      *
      * @param optionID  is the value returned if the added option is selected 
      * @param optionText is the text displayed on the option button
      */
     public void addOption(String optionID, String optionText) {
-        choices.put(optionID, optionText);
+        Action onClickAction = ()->{
+            returnText = optionID;
+            optionButtons.values().forEach(NButton::toggleUsable);
+            optionButtons.get("optionID").toggleUnusable();
+            
+        };
+        NButton optionButton = new NButton(onClickAction, optionText);
+        optionButtons.put(optionID, optionButton);
         
+    }
+    
+    /**
+     * just an actor with a certain image that serves as a background with a title.
+     */
+    private class Background extends Actor {
+
+        private Background(int width, int height) {
+            Color backgroundColor = appearance.Theme.used.backgroundColor;
+            this.setImage(new GreenfootImage(width,height));
+            this.getImage().setColor(backgroundColor);
+            this.getImage().fill();
+            this.getImage().setColor(appearance.Theme.used.textColor);
+            this.getImage().drawString(TITLE, 30,40);
+        }
+
     }
 
 }

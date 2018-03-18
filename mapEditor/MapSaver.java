@@ -2,10 +2,13 @@ package mapEditor;
 
 import appearance.Appearance;
 import appearance.MessageDisplayer;
-import input.InputPanelUser;
 import base.Map;
 import base.MyWorld;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.FormAction;
+import input.Input;
+import input.TextInput;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -15,13 +18,13 @@ import mapXML.MapXML;
  * This Class contains method that are used to save the map in a File.
  * 
  */
-public class MapSaver implements InputPanelUser{
+public class MapSaver {
     
     private Map map;
     private String name;
     private String description;
     
-    private boolean descriptionEntered = false;
+    private FormAction saveInfoFormAction;
     
     /**
      * Creates a MapSaver.
@@ -29,6 +32,7 @@ public class MapSaver implements InputPanelUser{
      */
     public MapSaver(Map mapToSave) {
         map = mapToSave;
+        defineSaveInfoFormAction();
     
     }
     
@@ -49,8 +53,28 @@ public class MapSaver implements InputPanelUser{
      * Asks the User to enter a name and a description for this Map.
      */
     public void askForNameAndDescription() {
-        InputPanel.showInsertionPanel("Give your Map a name.", 500, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 3);
-        InputPanel.showInsertionPanel("Give your Map a description.", 1000, "description", this, Appearance.WORLD_WIDTH / 2, 2 * Appearance.WORLD_HEIGHT / 3);
+        Form saveInfoForm = new Form();
+        Input nameInput = new TextInput("Give your Map a name.");
+        Input descriptionInput = new TextInput("Give your Map a description.");
+        saveInfoForm.addInput("name", nameInput, false);
+        saveInfoForm.addInput("description", descriptionInput, true);
+        saveInfoForm.submitAction = saveInfoFormAction;
+        saveInfoForm.addToWorld();
+    
+    }
+    
+    /**
+     * Defines the saveInfoFormAction
+     * it gets the name and description from the form
+     * and then saves.
+     */
+    private void defineSaveInfoFormAction() {
+        saveInfoFormAction = (inputs)-> {
+            name = inputs.get("name");
+            description = inputs.get("description");
+            saveMap();
+            
+        };
     
     }
     
@@ -83,8 +107,16 @@ public class MapSaver implements InputPanelUser{
      * Asks the User if he wants to replace an existing Map with a new one.
      */
     private void confirm() {
-        InputPanel.showConfirmPanel("Do you want to replace the existing Map '" + name + "' with this new one?", 
-                                    1000, "replacement", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form confirmOverwriteForm = new Form();
+        confirmOverwriteForm.addInput("confirm", 
+                new ChoiceInput("Do you want to replace the existing Map '" + name + "' with this one?", "Yes", "No"),
+                false);
+        confirmOverwriteForm.submitAction = (input)-> {
+            if(input.get("confirm") == "Yes") {
+                save();
+            }
+        };
+        confirmOverwriteForm.addToWorld();
     
     }
     
@@ -126,40 +158,6 @@ public class MapSaver implements InputPanelUser{
         File out = new File(new File("Maps").getAbsolutePath() + "/" + name + ".png");
 
         ImageIO.write(mapImage, "PNG", out);
-    
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        switch(type){
-            
-            case "name" : 
-                ((MapSaver)this).name = information;
-                
-                if(((MapSaver)this).descriptionEntered){
-                    ((MapSaver)this).saveMap();
-                }
-                
-                break;
-            
-            case "description" : 
-                ((MapSaver)this).description = information;
-                descriptionEntered = true;
-                
-                if(((MapSaver)this).nameIsValid()){
-                    ((MapSaver)this).saveMap();
-                }
-                
-                break;
-                
-            case "replacement" : 
-                if(information.equals(InputPanel.YES_OPTION)){
-                    ((MapSaver)this).save();
-                }
-                break;
-                
-        }
         
     }
     

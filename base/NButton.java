@@ -1,6 +1,5 @@
 package base;
 
-import appearance.Appearance;
 import greenfoot.GreenfootImage;
 import greenfoot.Color;
 
@@ -72,18 +71,6 @@ public class NButton extends Button{
             action.act();
         }
         
-    }
-    
-    @Override
-    public void makeTransparent() {
-        getImage().setTransparency(Appearance.TRANSPARENT);
-    
-    }
-    
-    @Override
-    public void makeOpaque() {
-        getImage().setTransparency(Appearance.OPAQUE);
-    
     }
     
 }

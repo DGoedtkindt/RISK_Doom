@@ -1,6 +1,5 @@
 package game;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Game;
 import base.MyWorld;
@@ -137,6 +136,11 @@ public class GameSaver{
         confirmOverwriteForm.addInput("confirm", 
                 new ChoiceInput("Do you want to replace the existing game '" + name + "' with this one?", "Yes", "No"),
                 false);
+        confirmOverwriteForm.submitAction = (input)-> {
+            if(input.get("confirm") == "Yes") {
+                save();
+            }
+        };
         confirmOverwriteForm.addToWorld();
         
     }

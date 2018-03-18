@@ -1,8 +1,6 @@
 package input;
 
 import base.Action;
-import base.GColor;
-import base.MyWorld;
 
 /**
  * An Input is an Object that allow to enter some information. It can be 
@@ -141,78 +139,5 @@ public abstract class Input {
         setImage(img);
         
     }*/
-    
-    /**
-     * Shows an InputPanel with the INSERT InputType
-     * @param name The name of this Panel.
-     * @param width The width of this Panel.
-     * @param type The type of the required information.
-     * @param source The source of the request.
-     * @param x The x coordinate of the Panel.
-     * @param y The y coordinate of the Panel.
-     */
-    public static void showInsertionPanel(String name, int width, String type, InputPanelUser source, int x, int y){
-        InputPanel panel = new InputPanel(name, width, type, source, InputType.INSERT);
-        MyWorld.theWorld.addObject(panel, x, y);
-        updateEveryImage();
-        
-    }
-    
-    /**
-     * Shows an InputPanel with the CONFIRM InputType
-     * @param name The name of this Panel.
-     * @param width The width of this Panel.
-     * @param type The type of the required information.
-     * @param source The source of the request.
-     * @param x The x coordinate of the Panel.
-     * @param y The y coordinate of the Panel.
-     */
-    public static void showConfirmPanel(String name, int width, String type, InputPanelUser source, int x, int y){
-        InputPanel panel = new InputPanel(name, width, type, source, InputType.CONFIRM);
-        MyWorld.theWorld.addObject(panel, x, y);
-        updateEveryImage();
-        MyWorld.theWorld.addObject(YES, x - panel.getImage().getWidth() / 4, y + panel.getImage().getHeight() / 2 - YES.getImage().getHeight() / 2);
-        MyWorld.theWorld.addObject(NO, x + panel.getImage().getWidth() / 4, y + panel.getImage().getHeight() / 2 - NO.getImage().getHeight() / 2);
-    }
-    
-    /**
-     * Shows an InputPanel with the COLOR InputType
-     * @param name The name of this Panel.
-     * @param width The width of this Panel.
-     * @param type The type of the required information.
-     * @param source The source of the request.
-     * @param x The x coordinate of the Panel.
-     * @param y The y coordinate of the Panel.
-     */
-    public static void showColorPanel(String name, int width, String type, InputPanelUser source, int x, int y){
-        InputPanel panel = new InputPanel(name, width, type, source, InputType.COLOR);
-        
-        red = new Slider(x - panel.getImage().getWidth() / 6 + (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(0.4 * Slider.WIDTH + 2),
-                         y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
-        green = new Slider(x - panel.getImage().getWidth() / 6 + 2 * (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(1.4 * Slider.WIDTH),
-                           y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
-        blue = new Slider(x - panel.getImage().getWidth() / 6 + 3 * (2 * panel.getImage().getWidth() / 3 - 3 * Slider.WIDTH) / 4 + (int)(2.4 * Slider.WIDTH - 1),
-                          y + panel.getImage().getHeight() / 2 - (COLOR_CHOOSER_HEIGHT - 256) / 2, new GColor(255, 0, 0));
-        
-        MyWorld.theWorld.addObject(panel, x, y);
-        MyWorld.theWorld.addObject(red, red.x, red.y);
-        MyWorld.theWorld.addObject(green, green.x, green.y);
-        MyWorld.theWorld.addObject(blue, blue.x, blue.y);
-        MyWorld.theWorld.addObject(SELECT, x - panel.width / 3 , y + 3 * panel.getImage().getHeight() / 10);
-        
-        updateEveryImage();
-        
-    }
-    
-    /**
-     * Calls the resetImage() method of every InputPanel.
-     */
-    public static void updateEveryImage(){
-        for(InputPanel panel : MyWorld.theWorld.getObjects(InputPanel.class)){
-            panel.resetImage();
-        }
-    }
-    
-}
     
 }

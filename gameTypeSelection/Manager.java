@@ -1,10 +1,7 @@
 package gameTypeSelection;
 
-import appearance.Appearance;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
-import input.InputPanel;
 
 /**
  * The Manager that manages the Game type selection Menu.
@@ -50,26 +47,7 @@ public class Manager extends StateManager{
 
     @Override
     public void escape() {
-        
-        if(InputPanel.usedPanel == null){
-            InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        }else{
-            InputPanel.usedPanel.destroy();
-        }
-        
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
-                MyWorld.theWorld.load(new menu.Manager());
-
-            }
-            
-        }
+        standardBackToMenu("Do you want to return to the main menu?");
         
     }
     
