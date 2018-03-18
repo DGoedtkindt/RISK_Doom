@@ -94,9 +94,7 @@ public class Turn {
             player.gainComboPiece();
         }
         player.conqueredThisTurn = false;
-        
-        Zombie.zombie.countdown();
-        
+        addTurnStats();
         autoSave();
         
         if(aPlayerIsDead() != null || aPlayerWon() != null){
