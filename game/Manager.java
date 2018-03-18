@@ -73,9 +73,9 @@ public class Manager extends StateManager{
         loadMap();
         loadedGame = gameToLoad;
         
-        if(loadedGame.gameState != null)switch (loadedGame.gameState) {
+        if(loadedGame.gameState != null) switch (loadedGame.gameState) {
             case INITIALISATION:
-                try{
+                try{ 
                     giveTerritoriesRandomly();
                     startNewTurn();
                     loadedGame.gameState = Game.State.INGAME;
@@ -85,6 +85,7 @@ public class Manager extends StateManager{
                 }
                 break;
             case INGAME:
+                playersUpdateCapital();
                 startNewTurn();
                 break;
             case FINISHED:
@@ -111,8 +112,7 @@ public class Manager extends StateManager{
      * Starts the first Turn of the Game.
      */
     private void startNewTurn() {
-        int turnNumber = loadedGame.stats.size();
-        Turn.startNewTurn(turnNumber);
+        Turn.startNewTurn();
     
     }
     
@@ -207,6 +207,10 @@ public class Manager extends StateManager{
             
         }
         
+    }
+    
+    private void playersUpdateCapital() {
+        loadedGame.players.forEach(Player::updateCapital);
     }
     
     /**
