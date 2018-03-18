@@ -546,7 +546,7 @@ public class Territory implements Selectable {
         resetSourceAndTarget();
         if(withHowMany < 2){
             appearance.MessageDisplayer.showMessage("You can't attack a territory without at least two armies.");
-        }else if(withHowMany >= invader.armies + invader.owner().battlecryBonus-1){
+        }else if(withHowMany >= invader.armies + invader.owner().battlecryBonus){
             appearance.MessageDisplayer.showMessage("You don't have enough armies.");
         }else{
             invader.armies -= withHowMany;
