@@ -6,13 +6,11 @@ import base.MyWorld;
 import base.NButton;
 import greenfoot.Actor;
 import greenfoot.Color;
-import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * A Form is a Group of actors that allows to use (multiple) Input(s).
@@ -41,7 +39,7 @@ public class Form {
     private OKCancelPanel ocPanel;
     
     //for input placement
-    int nextInputXPos = world.getWidth()/2;
+    int nextInputXPos;
     int nextInputYPos;
     
     public Form() {
@@ -72,14 +70,14 @@ public class Form {
      * Can't add to world if another Form is already added.
      */
     public void addToWorld() {
-        if(activeForm != null) {
+        if(activeForm == null) {
+            activeForm = this;
             world = MyWorld.theWorld;
             world.lockAllButtons();
             addInputsToWorld();
             addOKCancelPanel();
-            
-            
-        }
+        
+        } else System.out.println("Form not added because there is another Form on the world");
     }
     
     /** 
@@ -88,7 +86,7 @@ public class Form {
      */
     public void cancel(String cause) {
         removeFromWorld();
-        cancelAction.cancel(cause);
+        if(cancelAction != null) cancelAction.cancel(cause);
     
     }
     
@@ -97,14 +95,23 @@ public class Form {
      * Gets all the inputs and performs all actions
      */
     public void submit() {
-        if(allInputsReady()) {
-            removeFromWorld();
-            Map<String, String> values = getValues();
-            submitAction.useInformations(values);
-            MessageDisplayer.showMessage("Form submited");
-        } else 
-            MessageDisplayer.showMessage("One or more field still need to be entered");
-    
+        //if there is an activeInput, submit the input
+        //so that when OK is clicked it does not say that a field still needs to be 
+        //entered because the user forgot to press 'enter'
+        if(Input.activeInput != null) {
+            Input activeInput = Input.activeInput;
+            Input.activeInput = null;
+            activeInput.submit();
+        } else{
+        
+            if(allInputsReady()) {
+                removeFromWorld();
+                Map<String, String> values = getValues();
+                submitAction.useInformations(values);
+                MessageDisplayer.showMessage("Form submited");
+            } else 
+                MessageDisplayer.showMessage("One or more field still need to be entered");
+        }
     }
     
     /**
@@ -123,24 +130,28 @@ public class Form {
         //if optional
         if(optional) {
             //set as ready in inputsReady
-            inputsReady.put(input, optional);
+            inputsReady.put(input, true);
             //on input sumbit: submit form if it is the only input
-            input.onSubmitAction = ()->{if(inputs.size()==1) submit();};
+            input.onSubmitAction = ()->{if(inputs.size()==1)
+                submit();
+            };
 
         }
         //if not optional
-        //on input sumbit: check if value was entered
-        else input.onSubmitAction = ()->{
-            //if so set as ready and submit form if it is the only input
-            if(input.value()!="") {
-                inputsReady.put(input, true);
-                if(inputs.size()==1) submit();
-            }
-            //else set as not ready 
-            else inputsReady.put(input, false);
+        else {
+            inputsReady.put(input, false);
+            input.onSubmitAction = ()->{
+                //on input sumbit: check if value was entered
+                //if so set as ready and submit form if it is the only input
+                if(input.value()!="") {
+                    inputsReady.put(input, true);
+                    if(inputs.size()==1) submit();
+                }
+                //else set as not ready 
+                else inputsReady.put(input, false);
 
-        };
-    
+            };
+        }
     }
     
     /**
@@ -160,7 +171,8 @@ public class Form {
 
     private void addInputsToWorld() {
         int inputNumber = inputs.size();
-        nextInputYPos = (inputNumber-1)*(Input.HEIGHT/2);
+        nextInputXPos = world.getWidth()/2;
+        nextInputYPos = world.getHeight()/2 - (inputNumber-1)*(Input.HEIGHT/2);
                 
         Collection<Input> inputCollection = inputs.values();
         for(Input input : inputCollection) {
@@ -173,7 +185,7 @@ public class Form {
     }
 
     private void addOKCancelPanel() {
-        if(ocPanel != null) {
+        if(ocPanel == null) {
             ocPanel = new OKCancelPanel();
             ocPanel.addToWorld();
         }
@@ -186,13 +198,13 @@ public class Form {
     }
 
     private boolean allInputsReady() {
-        return !inputsReady.values().contains(false);
+        return !(inputsReady.values().contains(false));
         
     }
     
     private class OKCancelPanel {
-        private final int HEIGHT = 100;
-        private final int WIDTH = appearance.Appearance.WORLD_WIDTH;
+        private final int HEIGHT = Input.HEIGHT/2;
+        private final int WIDTH = Input.WIDTH;
         private NButton submitButton = new NButton(submit, "OK");
         private NButton cancelButton = new NButton(cancel, "Cancel");
         private Background background = new Background(WIDTH,HEIGHT);
@@ -201,9 +213,9 @@ public class Form {
             world.addObject(background, 
                     MyWorld.theWorld.getWidth()/2, nextInputYPos);
             world.addObject(submitButton,
-                    MyWorld.theWorld.getWidth()/3, nextInputYPos);
+                    (int)(1.5*MyWorld.theWorld.getWidth()/4), nextInputYPos);
             world.addObject(cancelButton,
-                    2* MyWorld.theWorld.getWidth()/3, nextInputYPos);
+                    (int)(2.5* MyWorld.theWorld.getWidth()/4), nextInputYPos);
             
         }
         
@@ -220,16 +232,10 @@ public class Form {
         private class Background extends Actor {
 
             private Background(int width, int height) {
-                Color backgroundColor = appearance.Theme.used.backgroundColor;
+                Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
                 this.setImage(new GreenfootImage(width,height));
                 this.getImage().setColor(backgroundColor);
                 this.getImage().fill();
-            }
-            
-            @Override
-            public void act() {
-                if(Greenfoot.isKeyDown("Enter")) submit();
-            
             }
 
 

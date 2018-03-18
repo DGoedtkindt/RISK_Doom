@@ -1,6 +1,5 @@
 package mainObjects;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.Button;
@@ -8,7 +7,6 @@ import base.GColor;
 import base.Hexagon;
 import game.Player;
 import game.Turn;
-import greenfoot.Color;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
@@ -178,25 +176,26 @@ public class TerritoryHex extends Button {
                         Form form = new Form();
                         form.addInput("addedArmies", new TextInput("The number of armies you want to put on this territory."), false);
                         form.submitAction = (input)->{
-                        if(input.get("addedArmies").matches("\\d+")){
-                            
-                            int newArmies = Integer.parseInt(input.get("addedArmies"));
+                            if(input.get("addedArmies").matches("\\d+")){
 
-                            if(newArmies < 0){
-                                MessageDisplayer.showMessage("This is a negative number.");
-                            }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
-                                MessageDisplayer.showMessage("You don't have enough armies.");
+                                int newArmies = Integer.parseInt(input.get("addedArmies"));
+
+                                if(newArmies < 0){
+                                    MessageDisplayer.showMessage("This is a negative number.");
+                                }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
+                                    MessageDisplayer.showMessage("You don't have enough armies.");
+                                }else{
+                                    ((TerritoryHex)this).territory.addArmies(newArmies);
+                                    ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
+                                    ((TerritoryHex)this).territory.drawTerritory();
+                                }
+
                             }else{
-                                ((TerritoryHex)this).territory.addArmies(newArmies);
-                                ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
-                                ((TerritoryHex)this).territory.drawTerritory();
+                                MessageDisplayer.showMessage("Invalid entry.");
                             }
-
-                        }else{
-                            MessageDisplayer.showMessage("Invalid entry.");
-                        }
                             
-                    };
+                        };
+                        form.addToWorld();
                         
                     }
                     

@@ -66,12 +66,13 @@ public class TextInput extends Input {
             private InputActor(int width, int height) {
                 WIDTH = width; HEIGHT = height;
                 this.setImage(new GreenfootImage(WIDTH,HEIGHT));
-                this.getImage().setFont(Appearance.GREENFOOT_FONT);
+                this.resetImage();
+
             }
             
             void resetImage() {
                 //fill the background
-                Color backgroundColor = appearance.Theme.used.backgroundColor;
+                Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
                 this.getImage().setColor(backgroundColor);
                 this.getImage().fill();
                 
@@ -80,8 +81,10 @@ public class TextInput extends Input {
                     this.getImage().setColor(GColor.WHITE);
                     this.getImage().drawRect(1, 1, WIDTH-2, HEIGHT-2);
                 }
-                
+      
                 //add the texts
+                this.getImage().setFont(Appearance.GREENFOOT_FONT);
+                this.getImage().setColor(appearance.Theme.used.textColor);
                 //title
                 int titleXPos = WIDTH/2 - 12*TITLE.length();
                 int titleYPos = HEIGHT/4;
@@ -120,7 +123,8 @@ public class TextInput extends Input {
 
             @Override
             public void clicked() {
-                Input.activeInput.submit();
+                if(Input.activeInput!= null && Input.activeInput!= thisTextInput)
+                    Input.activeInput.submit();
                 Input.activeInput = thisTextInput;
             }
 

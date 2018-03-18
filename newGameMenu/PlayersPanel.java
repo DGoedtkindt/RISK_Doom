@@ -1,6 +1,5 @@
 package newGameMenu;
 
-import appearance.Appearance;
 import appearance.Theme;
 import base.GColor;
 import base.NButton;
@@ -8,7 +7,6 @@ import basicChoosers.PColorChooser;
 import game.Player;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
-import input.ChoiceInput;
 import input.Form;
 import input.Input;
 import input.TextInput;
@@ -244,9 +242,7 @@ public class PlayersPanel {
             Input confirmInput = new TextInput("Enter the new Name");
             confirmForm.addInput("name", confirmInput, false);
             confirmForm.submitAction = (input)->{
-                if(input.get("name").matches("\\s+")) {
-                    this.setName(input.get("name"));
-                } 
+                this.setName(input.get("name"));
             };
             confirmForm.addToWorld();
             

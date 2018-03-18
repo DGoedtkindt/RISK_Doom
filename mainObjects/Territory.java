@@ -1,6 +1,5 @@
 package mainObjects;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
@@ -168,14 +167,7 @@ public class Territory implements Selectable {
         Form bonusForm = new Form();
         Input bonusInput = new TextInput("Enter a new bonus for this Territory.");
         bonusForm.addInput("bonus", bonusInput, false);
-        bonusForm.submitAction = (input)->{
-            if(input.get("bonus").matches("\\d+")){
-                bonusPoints = Integer.parseInt(input.get("bonus"));
-            }else{
-                MessageDisplayer.showMessage("Invalid entry.");
-            }
-        
-        };
+        bonusForm.submitAction = changeBonus;
         bonusForm.addToWorld();
         
     }
@@ -622,7 +614,7 @@ public class Territory implements Selectable {
     };
             
     private FormAction moveArmies = (java.util.Map<String,String> input) -> { 
-        if(input.get("bonus").matches("\\d+")){       
+        if(input.get("moveArmies").matches("\\d+")){       
             moveArmies(Integer.parseInt(input.get("moveArmies")));
         }else{
             appearance.MessageDisplayer.showMessage("Invalid Entry.");

@@ -15,7 +15,7 @@ public class ChoiceInput extends Input {
     private final String TITLE;
     private Map<String,NButton> optionButtons = new HashMap<>();
     private String returnText = "";
-    private Actor background = new Background(WIDTH,HEIGHT);
+    private Actor background;
     
     /**
      * Creates a new ChoiceInput without options
@@ -24,6 +24,7 @@ public class ChoiceInput extends Input {
      */
     public ChoiceInput(String title) {
         TITLE = title;
+        background = new Background(WIDTH,HEIGHT);
         
     }
     
@@ -45,10 +46,10 @@ public class ChoiceInput extends Input {
     @Override
     void addToWorld(int xPos, int yPos) {
         MyWorld.theWorld.addObject(background, xPos, yPos);
-        int i = 0;
+        double i = -0.5;
         for(NButton optionButton : optionButtons.values()) {
-            int buttonXPos = i * WIDTH/(optionButtons.size() + 1);
-            MyWorld.theWorld.addObject(optionButton, buttonXPos, yPos);
+            int buttonXPos = xPos + (int)(i * WIDTH/(optionButtons.size() + 1));
+            MyWorld.theWorld.addObject(optionButton, buttonXPos, yPos+30);
             i++;
             
         }
@@ -80,7 +81,8 @@ public class ChoiceInput extends Input {
         Action onClickAction = ()->{
             returnText = optionID;
             optionButtons.values().forEach(NButton::toggleUsable);
-            optionButtons.get("optionID").toggleUnusable();
+            optionButtons.get(optionID).toggleUnusable();
+            submit();
             
         };
         NButton optionButton = new NButton(onClickAction, optionText);
@@ -94,12 +96,13 @@ public class ChoiceInput extends Input {
     private class Background extends Actor {
 
         private Background(int width, int height) {
-            Color backgroundColor = appearance.Theme.used.backgroundColor;
+            Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
             this.setImage(new GreenfootImage(width,height));
             this.getImage().setColor(backgroundColor);
             this.getImage().fill();
             this.getImage().setColor(appearance.Theme.used.textColor);
-            this.getImage().drawString(TITLE, 30,40);
+            this.getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
+            this.getImage().drawString(TITLE, 250,40);
         }
 
     }

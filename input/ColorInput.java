@@ -57,7 +57,7 @@ public class ColorInput extends Input{
      */
     private class Background extends Actor {
         private Background(int width, int height) {
-            Color backgroundColor = appearance.Theme.used.backgroundColor;
+            Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
             this.setImage(new GreenfootImage(width,height));
             this.getImage().setColor(backgroundColor);
             this.getImage().fill();
@@ -97,20 +97,6 @@ public class ColorInput extends Input{
         Slider(Color c) {
            color = c;
             
-        }
-
-        /**
-         * Adds this Slider to the World.
-         */
-        public void addToWorld(int x,int BaseY){
-            MyWorld.theWorld.addObject(this, x, y);
-        }
-
-        /**
-         * Removes this Slider form the World.
-         */
-        public void remove(){
-            MyWorld.theWorld.removeObject(this);
         }
 
         /**
@@ -160,8 +146,9 @@ public class ColorInput extends Input{
 
         @Override
         public void clicked() {
-            Input.activeInput.submit();
-            Input.activeInput = thisColorInput;
+            if(Input.activeInput!= null && Input.activeInput!= thisColorInput)
+                    Input.activeInput.submit();
+                Input.activeInput = thisColorInput;
         }
     }
 

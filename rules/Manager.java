@@ -169,6 +169,10 @@ class RulesDisplayer extends Actor implements Arrowable{
             + "the highest bonus), plus the bonus of each Continent you own), or when you use a certain Combo (We'll talk about Combos later), "
             + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you.",
             
+            "Zombies \nDid we mention the Zombies? \nThey own Territories like you do, they can invade surrounding Territories sometimes, "
+            + "they come back if you kill them all, by turning random Territories into Zombie ones."
+            + "\nOh, and invading a Zombie Territory grants you a point.",
+            
             "The Continents \nContinents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
             + "which is a good thing to know when you play the Game. When you use the Map Editor, you are able to create them, destroy them, "
             + "change their color and bonus. You can even add cheat codes if you- \nI shouldn't have said that.",
@@ -182,6 +186,9 @@ class RulesDisplayer extends Actor implements Arrowable{
             
             "The Options \nIn the Options, you can change the Theme of the Game. \nYou will only see a finite number of Themes, but an ancient legend says "
             + "that they're more Themes in this Game than atoms in the universe. We're totally serious. Not kidding. Believe us.",
+            
+            "End of the Game \nThe Game ends when a Player looses, which means that he doesn't have any Territories, or when a Player wins, which means "
+            + "that he got seven points.",
             
             "Fun Facts \nRemember that you must always leave an army on occupied Territories. Always. We won't let you leave a Territory.",
             
