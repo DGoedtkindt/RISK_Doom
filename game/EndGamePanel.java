@@ -20,7 +20,6 @@ public class EndGamePanel {
     private String message;
     private Actor panel = new Actor() {};
     private NButton backToMenu = new NButton(() -> {MyWorld.theWorld.load(new menu.Manager());}, "Main Menu");
-    private NButton showStats = new NButton(() -> {}, "Show stats");
     
     /**
      * Paints the Background.
@@ -115,8 +114,7 @@ public class EndGamePanel {
      */
     private void addToWorld() {
         MyWorld.theWorld.addObject(panel, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        MyWorld.theWorld.addObject(backToMenu, Appearance.WORLD_WIDTH / 3, 3 * Appearance.WORLD_HEIGHT / 4);
-        MyWorld.theWorld.addObject(showStats, 2 * Appearance.WORLD_WIDTH / 3, 3 * Appearance.WORLD_HEIGHT / 4);
+        MyWorld.theWorld.addObject(backToMenu, Appearance.WORLD_WIDTH / 2, 3 * Appearance.WORLD_HEIGHT / 4);
     }
     
 }

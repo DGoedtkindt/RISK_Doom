@@ -4,7 +4,6 @@ import base.GColor;
 import base.Game;
 import game.Difficulty;
 import game.Player;
-import game.TurnStat;
 import game.Zombie;
 import mapXML.MapXML;
 import org.w3c.dom.Document;
@@ -31,7 +30,7 @@ public class XMLReader {
             getGameState();
             getDifficulty();
             getPlayerAndArmies();
-            getStats();
+            getTurnNumber();
    
             return game;
     
@@ -57,7 +56,7 @@ public class XMLReader {
     }
     
     /**
-     * Gets the Players and their attributes..
+     * Gets the Players and their attributes.
      */
     private void getPlayerAndArmies() {
         NodeList players = doc.getElementsByTagName("Player");
@@ -88,58 +87,17 @@ public class XMLReader {
     }
     
     /**
-     * Gets the stats of the Game.
-     */
-    private void getStats() {
-        NodeList turnStats = doc.getElementsByTagName("TurnStat");
-        for(int ts = 0; ts < turnStats.getLength(); ts++) {
-            Element turnStatNode = (Element)turnStats.item(ts);
-            TurnStat turnStat = new TurnStat();
-            turnStat.turnNumber = Integer.parseInt(turnStatNode.getAttribute("turnNumber"));
-            
-            //number of armies
-            storePlayerStatMap(turnStat.numberOfArmies, "PlayerArmyPair", "armies");
-            
-            //number of armies per turn
-            storePlayerStatMap(turnStat.numberOfArmiesPerTurn, "PlayerArmyPerTurnPair", "armiesPerTurn");
-            
-            //number of continents
-            storePlayerStatMap(turnStat.numberOfContinents, "PlayerContinentsPair", "continents");
-            
-            //number of points
-            storePlayerStatMap(turnStat.numberOfPoints, "PlayerPointsPair", "points");
-            
-            //number of Territories
-            storePlayerStatMap(turnStat.numberOfTerritories, "PlayerTerritoriesPair", "territories");
-            
-            game.stats.add(turnStat);
-        }
-        
-    }
-    
-    /**
-     * Implements informations in a TurnStat Object.
-     */
-    private void storePlayerStatMap(java.util.Map<Player,Integer> storeIn, String elementName, String valueName) {
-        NodeList playerValuePairs = doc.getElementsByTagName(elementName);
-        for(int pvp = 0; pvp < playerValuePairs.getLength(); pvp++) {
-            Element playerValuePairNode = (Element) playerValuePairs.item(pvp);
-            int playerNumber = Integer.parseInt(playerValuePairNode.getAttribute("playerNumber"));
-            int value = Integer.parseInt(playerValuePairNode.getAttribute(valueName));
-            Player player = game.players.get(playerNumber);
-            storeIn.put(player, value);
-
-        }
-    
-    }
-    
-    /**
      * Gets the State of the Game.
      */
     private void getGameState() {
         String gameStateName = rootElement.getAttribute("gameState");
         Game.State gameState = Game.State.valueOf(gameStateName);
         game.gameState = gameState;
+    }
+
+    private void getTurnNumber() {
+        game.turnNumber = Integer.parseInt(rootElement.getAttribute("turnNumber"));
+        
     }
     
 }

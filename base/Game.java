@@ -24,7 +24,7 @@ public class Game {
         
     }
     
-    public List<TurnStat> stats = new ArrayList<>();
+    public int turnNumber = 0;
     public State gameState = State.INITIALISATION;
     public List<Player> players = new ArrayList<>();
     public Map map = new Map();
