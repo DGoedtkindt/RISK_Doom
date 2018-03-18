@@ -1,18 +1,19 @@
 package mainObjects;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.Button;
 import base.GColor;
 import base.Hexagon;
-import base.InputPanelUser;
 import game.Player;
 import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
-import input.InputPanel;
+import input.ColorInput;
+import input.Form;
+import input.Input;
+import input.TextInput;
 import java.util.ArrayList;
 import java.util.List;
 import mode.Mode;
@@ -22,7 +23,7 @@ import selector.Selector;
  * The Class that represents the hexagons contained in a Territory.
  * 
  */
-public class TerritoryHex extends Button implements InputPanelUser{
+public class TerritoryHex extends Button {
     private Territory territory;
     private int[] hexCoord = new int[2];
     
@@ -99,7 +100,13 @@ public class TerritoryHex extends Button implements InputPanelUser{
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        InputPanel.showColorPanel("Enter a Color for this Link.", 150, "color", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+                        Form.inputColor("Enter a Color for this Link.", (input)->{
+                            GColor newColor = GColor.fromRGB(input.get("inputedColor"));
+                            Links.newLinks = new Links(newColor);
+                            Links.newLinks.addToWorld();
+            
+                            new LinkIndic(territory, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld();
+                        });
                         
                     }else if(!Links.newLinks.linkedTerrs.contains(territory)){
                         
@@ -163,13 +170,26 @@ public class TerritoryHex extends Button implements InputPanelUser{
                     
                 case CLEARING_HAND :
                     if(territory.owner() == Turn.currentTurn.player){
-                        
-                        InputPanel.showInsertionPanel("The number of armies you want to put on this territory.", 
-                                                      100, 
-                                                      "added_armies", 
-                                                      this, 
-                                                      Appearance.WORLD_WIDTH / 2, 
-                                                      Appearance.WORLD_HEIGHT / 2);
+                        Form.inputText("The number of armies you want to put on this territory.", (input)->{
+                            if(input.get("inputedText").matches("\\d+")){
+
+                                int newArmies = Integer.parseInt(input.get("inputedText"));
+
+                                if(newArmies < 0){
+                                    MessageDisplayer.showMessage("This is a negative number.");
+                                }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
+                                    MessageDisplayer.showMessage("You don't have enough armies.");
+                                }else{
+                                    ((TerritoryHex)this).territory.addArmies(newArmies);
+                                    ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
+                                    ((TerritoryHex)this).territory.drawTerritory();
+                                }
+
+                            }else{
+                                MessageDisplayer.showMessage("Invalid entry.");
+                            }
+                            
+                        });
                         
                     }
                     
@@ -265,41 +285,6 @@ public class TerritoryHex extends Button implements InputPanelUser{
         }
         int offset = (int)(getImage().getWidth() - img.getWidth())/2;
         getImage().drawImage(img, offset, offset);
-        
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("added_armies")){
-            
-            if(information.matches("\\d+")){
-                            
-                int newArmies = Integer.parseInt(information);
-
-                if(newArmies < 0){
-                    MessageDisplayer.showMessage("This is a negative number.");
-                }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
-                    MessageDisplayer.showMessage("You don't have enough armies.");
-                }else{
-                    ((TerritoryHex)this).territory.addArmies(newArmies);
-                    ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
-                    ((TerritoryHex)this).territory.drawTerritory();
-                }
-
-            }else{
-                MessageDisplayer.showMessage("Invalid entry.");
-            }
-            
-        }else if(type.equals("color")){
-            
-            GColor newColor = GColor.fromRGB(information);
-            Links.newLinks = new Links(newColor);
-            Links.newLinks.addToWorld();
-            
-            new LinkIndic(territory, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld(); 
-
-        }
         
     }
     

@@ -1,17 +1,17 @@
 package game;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Action;
 import base.Game;
 import base.Map;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.Input;
 import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -140,11 +140,7 @@ public class Manager extends StateManager{
     @Override
     public void escape() {
         if(Mode.mode() == Mode.DEFAULT) {
-            if(InputPanel.usedPanel == null){
-                InputPanel.showConfirmPanel("Do you want to return to the main menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-            }else{
-                InputPanel.usedPanel.destroy();
-            }
+            standardBackToMenu("Do you want to return to the main menu?");
         
         } else {
             Selector.clear();
@@ -234,19 +230,5 @@ public class Manager extends StateManager{
         }
         
     };
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
-                MyWorld.theWorld.load(new menu.Manager());
-
-            }
-            
-        }
-        
-    }
     
 }

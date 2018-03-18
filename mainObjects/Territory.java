@@ -1,17 +1,19 @@
 package mainObjects;
 
-import appearance.Appearance;
+import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
-import base.InputPanelUser;
 import base.Map;
 import base.MyWorld;
 import game.Zombie;
 import game.Player;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import input.InputPanel;
+import input.Form;
+import input.FormAction;
+import input.Input;
+import input.TextInput;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +24,7 @@ import selector.Selectable;
  * The Class that represents the Territories, the main Objects of this Game.
  * 
  */
-public class Territory implements Selectable, InputPanelUser{
+public class Territory implements Selectable {
     
     public static Territory actionSource = null;
     public static Territory actionTarget = null;
@@ -162,7 +164,7 @@ public class Territory implements Selectable, InputPanelUser{
      * Lets the User edit this Territory's bonus.
      */
     public void editBonus() {
-        InputPanel.showInsertionPanel("Enter the new bonus for this Territory.", 100, "bonus", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form.inputText("Enter a new bonus for this Territory.", changeBonus);
         
     }
     
@@ -253,12 +255,12 @@ public class Territory implements Selectable, InputPanelUser{
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void invade(Territory target) throws Exception{
-        InputPanel.showInsertionPanel("The number of armies you're using.", 100, "invade", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form.inputText("The number of armies you're using.", invade);
         
     }
     
     /**
-     * Whitstands an attack.
+     * To receive an attack.
      * @param invadingArmies The number of armies that invade this Territory.
      * @param invader The Player who invades this Territory.
      */
@@ -293,7 +295,7 @@ public class Territory implements Selectable, InputPanelUser{
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void moveTo(Territory destination) throws Exception{
-        InputPanel.showInsertionPanel("The number of armies you're moving.", 100, "move", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form.inputText("The number of armies you're moving.", moveArmies);
         
     }
     
@@ -375,9 +377,9 @@ public class Territory implements Selectable, InputPanelUser{
                 
         }
         
-        trInfo.makeTransparent();
+        trInfo.toggleUnusable();
         
-        for(LinkIndic li : links){li.makeTransparent();}
+        for(LinkIndic li : links){li.toggleUnusable();}
         
     }
     
@@ -397,8 +399,8 @@ public class Territory implements Selectable, InputPanelUser{
     @Override
     public void makeOpaque() {   
         drawTerritory();
-        trInfo.makeOpaque();
-        for(LinkIndic li : links){li.makeOpaque();}
+        trInfo.toggleUsable();
+        for(LinkIndic li : links){li.toggleUnusable();}
     }
 
     ///////////////////////////////////////////////////
@@ -538,78 +540,76 @@ public class Territory implements Selectable, InputPanelUser{
         }
     }
     
-    //InputPanelUser////////////////////////////////////////////////////////////
-    
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(information.matches("\\d+")){
-            
-            switch(type){
-
-                case "bonus" : 
-                    
-                    int newBonus = Integer.parseInt(information);
-                    ((Territory)this).bonusPoints = newBonus;
-                    ((Territory)this).drawTerritory();
-                    
-                    break;
-
-                case "invade" :
-
-                    Territory invader = Territory.actionSource;
-                    Territory target = Territory.actionTarget;
-                    
-                    resetSourceAndTarget();
-                    
-                    int invadingArmies = Integer.parseInt(information);
-                    
-                    if(invadingArmies < 2){
-                        throw new Exception("You can't attack a territory without at least two armies.");
-                    }else if(invadingArmies > invader.armies + invader.owner().battlecryBonus + 1){
-                        throw new Exception("You don't have enough armies.");
-                    }else{
-                        invader.armies -= invadingArmies;
-                        target.attacked(invader.owner.battlecryBonus, invader.owner);
-                        if(target.owner == invader.owner){
-                            resetSourceAndTarget();
-                            useInformations(information, "move");
-                        }else{
-                            target.attacked(invadingArmies, invader.owner);
-                        }
-                    }
-
-                    ((Territory)this).drawTerritory();
-
-                    break;
-
-                case "move" : 
-
-                    Territory source = Territory.actionSource;
-                    Territory destination = Territory.actionTarget;
-
-                    resetSourceAndTarget();
-                    
-                    int movingArmies = Integer.parseInt(information);
-
-                    if(movingArmies > source.armies - 1){
-                        throw new Exception("You don't have enough armies.");
-                    }else{
-                        source.setArmies(source.armies() - movingArmies);
-                        destination.setArmies(destination.armies() + movingArmies);
-                    }
-
-                    source.drawTerritory();
-                    destination.drawTerritory();
-
-                    break;
-
-            }
-            
+    private void attack(int withHowMany) {
+        Territory invader = Territory.actionSource;
+        Territory target = Territory.actionTarget;
+        resetSourceAndTarget();
+        if(withHowMany < 2){
+            appearance.MessageDisplayer.showMessage("You can't attack a territory without at least two armies.");
+        }else if(withHowMany >= invader.armies + invader.owner().battlecryBonus){
+            appearance.MessageDisplayer.showMessage("You don't have enough armies.");
         }else{
-            throw new Exception("Invalid Entry.");
+            invader.armies -= withHowMany;
+            target.attacked(invader.owner.battlecryBonus, invader.owner);
+            if(target.owner == invader.owner){
+                resetSourceAndTarget();
+                moveArmies(withHowMany);
+            }else{
+                target.attacked(withHowMany, invader.owner);
+            }
         }
-        
+
+        ((Territory)this).drawTerritory();
+    
+    
     }
+    
+    private void moveArmies(int howMany) {
+        Territory source = Territory.actionSource;
+        Territory destination = Territory.actionTarget;
+        resetSourceAndTarget();
+        if(howMany > source.armies - 1){
+            appearance.MessageDisplayer.showMessage("You don't have enough armies.");
+        }else{
+            source.setArmies(source.armies() - howMany);
+            destination.setArmies(destination.armies() + howMany);
+        }
+
+        source.drawTerritory();
+        destination.drawTerritory();
+    
+    
+    }
+    
+    //Form actions////////////////////////////////////////////////////////////
+    
+    private FormAction invade = (java.util.Map<String,String> input) -> {
+        if(input.get("inputedText").matches("\\d+")){
+            int invadingArmies = Integer.parseInt(input.get("inputedText"));
+            attack(invadingArmies);
+        }else{
+            appearance.MessageDisplayer.showMessage("Invalid Entry.");
+        }   
+            
+    };
+    
+    private FormAction changeBonus = (java.util.Map<String,String> input) -> { 
+        if(input.get("inputedText").matches("\\d+")){    
+            bonusPoints = Integer.parseInt(input.get("inputedText"));
+            ((Territory)this).drawTerritory();
+        }else{
+            appearance.MessageDisplayer.showMessage("Invalid Entry.");
+        }
+            
+    };
+            
+    private FormAction moveArmies = (java.util.Map<String,String> input) -> { 
+        if(input.get("inputedText").matches("\\d+")){       
+            moveArmies(Integer.parseInt(input.get("inputedText")));
+        }else{
+            appearance.MessageDisplayer.showMessage("Invalid Entry.");
+        }
+            
+    };
     
 }

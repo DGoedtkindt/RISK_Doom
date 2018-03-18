@@ -3,7 +3,8 @@ package game;
 public enum Difficulty {
 
     ZOMBIELESS("Zombieless", 0, 0, 999, 0),
-    ZOMBIENESS("Zombieness", 4, 1, 10, 1);
+    ZOMBIENESS("Zombieness", 4, 1, 10, 1),
+    INTERMEDIATE("Intermediate", 2, 1, 10, 0.5);
 
     public final String NAME;
     public final int ZOMBIES_SPAWNING;

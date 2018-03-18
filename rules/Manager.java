@@ -9,7 +9,6 @@ import base.MyWorld;
 import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-import input.InputPanel;
 import java.awt.FontMetrics;
 
 /**
@@ -41,21 +40,7 @@ public class Manager extends StateManager{
 
     @Override
     public void escape() {
-        InputPanel.showConfirmPanel("Do you want to return to the main Menu?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
-                MyWorld.theWorld.load(new menu.Manager());
-
-            }
-            
-        }
+        standardBackToMenu("Do you want to return to the main menu?");
         
     }
     
@@ -182,8 +167,11 @@ class RulesDisplayer extends Actor implements Arrowable{
             "Armies \nYou knew this was a conquest Game, right? \nYou gain armies at the start of your Turn (One army for each three "
             + "Territories you own, plus the bonus of your capital (Your Territory with "
             + "the highest bonus), plus the bonus of each Continent you own), or when you use a certain Combo (We'll talk about Combos later), "
-            + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you. "
-            + "\nRemember that you must always leave an army on occupied Territories. We won't let you do that, in fact.",
+            + "or when this opponent (The one you just hit with a cushion, or a plate, we're not sure) used another Combo on you.",
+            
+            "Zombies \nDid we mention the Zombies? \nThey own Territories like you do, they can invade surrounding Territories sometimes, "
+            + "they come back if you kill them all, by turning random Territories into Zombie ones."
+            + "\nOh, and invading a Zombie Territory grants you a point.",
             
             "The Continents \nContinents are useful, unlike Blank Hexes. They give an army bonus if you own each of their Territories, "
             + "which is a good thing to know when you play the Game. When you use the Map Editor, you are able to create them, destroy them, "
@@ -199,7 +187,15 @@ class RulesDisplayer extends Actor implements Arrowable{
             "The Options \nIn the Options, you can change the Theme of the Game. \nYou will only see a finite number of Themes, but an ancient legend says "
             + "that they're more Themes in this Game than atoms in the universe. We're totally serious. Not kidding. Believe us.",
             
-            "Fun Fact \nYou can use the 'Escape' key whenever you want, something will always happen. \nIn our game, you can always escape from something."
+            "End of the Game \nThe Game ends when a Player looses, which means that he doesn't have any Territories, or when a Player wins, which means "
+            + "that he got seven points.",
+            
+            "Fun Facts \nRemember that you must always leave an army on occupied Territories. Always. We won't let you leave a Territory.",
+            
+            "Fun Facts \nA Map can only be played by n Players if it contains at least n+1 capitals (Territories with a bonus higher than 0) and "
+            + "at least (n+1)*4 Territories. Otherwise, try to play a bigger Map, or with fewer Players, or create a new Map.",
+            
+            "Fun Facts \nYou can use the 'Escape' key whenever you want, something will always happen. \nIn our game, you can always escape from something."
             + "\nYou are always trapped.",
             
             "Anyway, thank you for playing, we hope you had fun during those four games you played before even noticing the \"Rules\" Button, "

@@ -79,4 +79,17 @@ public class GColor extends Color{
     
     }
     
+    /** multiplies all three composing colors by a factor
+     * 
+     * @param factor the factor of the multiplication
+     * @return A multiplied version of this Color.
+     */
+    public GColor multiply(double factor) throws IllegalArgumentException {
+        if(factor < 0.) throw new IllegalArgumentException("factor must be positive");
+        int newRed = Math.min((int)(this.getRed()*factor),255);
+        int newGreen = Math.min((int)(this.getGreen()*factor),255);
+        int newBlue = Math.min((int)(this.getBlue()*factor),255);
+        return new GColor(newRed, newGreen, newBlue);
+    }
+    
 }

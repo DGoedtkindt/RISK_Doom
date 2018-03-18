@@ -6,7 +6,9 @@ import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.Input;
 import mainObjects.BlankHex;
 
 /**
@@ -62,21 +64,12 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        InputPanel.showConfirmPanel("Do you want to return to what you were doing before?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
-                MyWorld.theWorld.load(((userPreferences.Manager)this).previous);
-
-            }
-            
-        }
+        Form.confirmInput("Do you want to return to what you were doing before?", (input)->{
+            if(input.get("confirmation") == "Yes") {
+                this.clearScene();
+                MyWorld.theWorld.load(this.previous);
+            } 
+        }); 
         
     }
 

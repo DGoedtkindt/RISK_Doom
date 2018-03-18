@@ -4,7 +4,9 @@ import appearance.Appearance;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.Input;
 
 /**
  * This Manager creates the Main Menu.
@@ -72,21 +74,11 @@ public class Manager extends StateManager {
     
     @Override
     public void escape() {
-        InputPanel.showConfirmPanel("Do you want to quit the Game?", 100, "escape", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        if(type.equals("escape")){
-            
-            if(information.equals(InputPanel.YES_OPTION)){
+        Form.confirmInput("Do you want to quit the Game?", (input)->{
+            if(input.get("confirmation") == "Yes") {
                 System.exit(0);
-
-            }
-            
-        }
+            } 
+        });
         
     }
 

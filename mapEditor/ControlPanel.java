@@ -51,7 +51,7 @@ public class ControlPanel {
         this.makeXMLButton = new NButton(() -> {
                                                 MapSaver ms = new MapSaver(manager.map());
                                                 ms.askForNameAndDescription();
-                                                makeXMLButton.makeTransparent();}, 
+                                                makeXMLButton.toggleUnusable();}, 
                                          new GreenfootImage("MakeXML.png"));
         allButtons.add(createTerritory);
         allButtons.add(createLink);
@@ -113,27 +113,27 @@ public class ControlPanel {
                             unoccupiedTerritoriesNumber++;
                         }
                     }
-                }   createTerritory.makeOpaque();
+                }   createTerritory.toggleUsable();
                 if(unoccupiedTerritoriesNumber > 0){
-                    createContinent.makeOpaque();
+                    createContinent.toggleUsable();
                 }if(!manager.map().continents.isEmpty()){
-                    editContinentBonus.makeOpaque();
-                    editContinentColor.makeOpaque();
-                    deleteContinent.makeOpaque();
+                    editContinentBonus.toggleUsable();
+                    editContinentColor.toggleUsable();
+                    deleteContinent.toggleUsable();
                 }if(!allTerritories.isEmpty()){
-                    editTerritoryBonus.makeOpaque();
-                    deleteTerritory.makeOpaque();
+                    editTerritoryBonus.toggleUsable();
+                    deleteTerritory.toggleUsable();
                 }if(allTerritories.size() > 1){
-                    createLink.makeOpaque();
+                    createLink.toggleUsable();
                 }   
-                makeXMLButton.makeOpaque();
+                makeXMLButton.toggleUsable();
                 break;
             
             case ACTION_ON_LINK : 
                 break;
             
             default:
-                okButton.makeOpaque();
+                okButton.toggleUsable();
                 break;
         }
         
@@ -147,7 +147,7 @@ public class ControlPanel {
         allButtons.forEach((Button b) -> {
             if(b instanceof ModeButton) 
                 if(((ModeButton)b).linkedMode == mode) 
-                    b.makeOpaque();
+                    b.toggleUsable();
         
         });
        
@@ -158,7 +158,7 @@ public class ControlPanel {
      * Changes the opacity of every Button to transparent.
      */
     private void makeAllButtonsTransparent() {
-        allButtons.forEach(Button::makeTransparent);
+        allButtons.forEach(Button::toggleUnusable);
         
     }
     
