@@ -132,17 +132,11 @@ public class GameSaver{
      * Asks the User if he wants to replace an existing Game.
      */
     private void confirm() {
-        Form confirmOverwriteForm = new Form();
-        confirmOverwriteForm.addInput("confirm", 
-                new ChoiceInput("Do you want to replace the existing game '" + name + "' with this one?", "Yes", "No"),
-                false);
-        confirmOverwriteForm.submitAction = (input)-> {
-            if(input.get("confirm") == "Yes") {
+        Form.confirmInput("Do you want to replace the existing game '" + name + "' with this one?", (input)-> {
+            if(input.get("confirmation") == "Yes") {
                 save();
             }
-        };
-        confirmOverwriteForm.addToWorld();
-        
+        });
     }
     
     /**

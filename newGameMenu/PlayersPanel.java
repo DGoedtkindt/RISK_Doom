@@ -238,13 +238,9 @@ public class PlayersPanel {
          * @return The name that the User entered.
          */
         void askForName() {
-            Form confirmForm = new Form();
-            Input confirmInput = new TextInput("Enter the new Name");
-            confirmForm.addInput("name", confirmInput, false);
-            confirmForm.submitAction = (input)->{
-                this.setName(input.get("name"));
-            };
-            confirmForm.addToWorld();
+            Form.inputText("Enter the new Name", (input)->{
+                this.setName(input.get("inputedText"));
+            });
             
         }
         

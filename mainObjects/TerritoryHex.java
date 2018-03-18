@@ -100,16 +100,13 @@ public class TerritoryHex extends Button {
                     
                 case SET_LINK :
                     if(Links.newLinks == null) {
-                        Form form = new Form();
-                        Input colorInput = new ColorInput("Enter a Color for this Link.");
-                        form.addInput("color", colorInput, false);
-                        form.submitAction = (input)->{
-                            GColor newColor = GColor.fromRGB(input.get("color"));
+                        Form.inputColor("Enter a Color for this Link.", (input)->{
+                            GColor newColor = GColor.fromRGB(input.get("inputedColor"));
                             Links.newLinks = new Links(newColor);
                             Links.newLinks.addToWorld();
             
                             new LinkIndic(territory, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld();
-                        };
+                        });
                         
                     }else if(!Links.newLinks.linkedTerrs.contains(territory)){
                         
@@ -173,12 +170,10 @@ public class TerritoryHex extends Button {
                     
                 case CLEARING_HAND :
                     if(territory.owner() == Turn.currentTurn.player){
-                        Form form = new Form();
-                        form.addInput("addedArmies", new TextInput("The number of armies you want to put on this territory."), false);
-                        form.submitAction = (input)->{
-                            if(input.get("addedArmies").matches("\\d+")){
+                        Form.inputText("The number of armies you want to put on this territory.", (input)->{
+                            if(input.get("inputedText").matches("\\d+")){
 
-                                int newArmies = Integer.parseInt(input.get("addedArmies"));
+                                int newArmies = Integer.parseInt(input.get("inputedText"));
 
                                 if(newArmies < 0){
                                     MessageDisplayer.showMessage("This is a negative number.");
@@ -194,8 +189,7 @@ public class TerritoryHex extends Button {
                                 MessageDisplayer.showMessage("Invalid entry.");
                             }
                             
-                        };
-                        form.addToWorld();
+                        });
                         
                     }
                     

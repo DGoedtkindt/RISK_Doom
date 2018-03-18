@@ -71,16 +71,12 @@ public class Continent implements Selectable{
      * Lets the User edit the Color of this Continent.
      */
     public void editColor(){
-        Form colorForm = new Form();
-        Input colorInput = new ColorInput("Enter a new Color for this Continent.");
-        colorForm.addInput("color", colorInput, false);
-        colorForm.submitAction = (input)->{
-            continentColor = GColor.fromRGB(input.get("color"));
-            territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
-            Continent.display.update();
-        
-        };
-        colorForm.addToWorld();
+        Form.inputColor("Enter a new Color for this Continent.",
+            (input)-> {
+                continentColor = GColor.fromRGB(input.get("inputedColor"));
+                territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
+                Continent.display.update();
+            });
         
     }
     
@@ -128,19 +124,15 @@ public class Continent implements Selectable{
      * Lets the User edit the Bonus given by this Continent.
      */
     public void editBonus(){
-        Form bonusForm = new Form();
-        Input bonusInput = new TextInput("Enter a new bonus for this Continent.");
-        bonusForm.addInput("bonus", bonusInput, false);
-        bonusForm.submitAction = (input)->{
-            if(input.get("bonus").matches("\\d+")){
-                bonus = Integer.parseInt(input.get("bonus"));
-                Continent.display.update();
-            }else{
-                MessageDisplayer.showMessage("Invalid entry.");
-            }
-        
-        };
-        bonusForm.addToWorld();
+        Form.inputText("Enter a new bonus for this Continent.",
+            (input)->{
+                if(input.get("inputedText").matches("\\d+")){
+                    bonus = Integer.parseInt(input.get("inputedText"));
+                    Continent.display.update();
+                }else{
+                    MessageDisplayer.showMessage("Invalid entry.");
+                }
+        });
         
     }
     

@@ -64,16 +64,12 @@ public class Manager extends StateManager{
     
     @Override
     public void escape() {
-        Form confirmForm = new Form();
-        Input confirmInput = new ChoiceInput("Do you want to return to what you were doing before?", "Yes", "No");
-        confirmForm.addInput("confirm", confirmInput, false);
-        confirmForm.submitAction = (input)->{
-            if(input.get("confirm") == "Yes") {
+        Form.confirmInput("Do you want to return to what you were doing before?", (input)->{
+            if(input.get("confirmation") == "Yes") {
                 this.clearScene();
                 MyWorld.theWorld.load(this.previous);
             } 
-        };
-        confirmForm.addToWorld();
+        }); 
         
     }
 

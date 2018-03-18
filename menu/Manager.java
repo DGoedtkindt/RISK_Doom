@@ -74,15 +74,11 @@ public class Manager extends StateManager {
     
     @Override
     public void escape() {
-        Form confirmForm = new Form();
-        Input confirmInput = new ChoiceInput("Do you want to quit the Game?", "Yes", "No");
-        confirmForm.addInput("confirm", confirmInput, false);
-        confirmForm.submitAction = (input)->{
-            if(input.get("confirm") == "Yes") {
+        Form.confirmInput("Do you want to quit the Game?", (input)->{
+            if(input.get("confirmation") == "Yes") {
                 System.exit(0);
             } 
-        };
-        confirmForm.addToWorld();
+        });
         
     }
 

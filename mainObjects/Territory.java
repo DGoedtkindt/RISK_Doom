@@ -164,11 +164,7 @@ public class Territory implements Selectable {
      * Lets the User edit this Territory's bonus.
      */
     public void editBonus() {
-        Form bonusForm = new Form();
-        Input bonusInput = new TextInput("Enter a new bonus for this Territory.");
-        bonusForm.addInput("bonus", bonusInput, false);
-        bonusForm.submitAction = changeBonus;
-        bonusForm.addToWorld();
+        Form.inputText("Enter a new bonus for this Territory.", changeBonus);
         
     }
     
@@ -259,10 +255,7 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void invade(Territory target) throws Exception{
-        Form form = new Form();
-        form.addInput("invadeArmies", new TextInput("The number of armies you're using."), false);
-        form.submitAction = invade;
-        form.addToWorld();
+        Form.inputText("The number of armies you're using.", invade);
         
     }
     
@@ -302,10 +295,7 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void moveTo(Territory destination) throws Exception{
-        Form form = new Form();
-        form.addInput("moveArmies", new TextInput("The number of armies you're moving."), false);
-        form.submitAction = moveArmies;
-        form.addToWorld();
+        Form.inputText("The number of armies you're moving.", moveArmies);
         
     }
     
@@ -556,7 +546,7 @@ public class Territory implements Selectable {
         resetSourceAndTarget();
         if(withHowMany < 2){
             appearance.MessageDisplayer.showMessage("You can't attack a territory without at least two armies.");
-        }else if(withHowMany > invader.armies + invader.owner().battlecryBonus + 1){
+        }else if(withHowMany >= invader.armies + invader.owner().battlecryBonus-1){
             appearance.MessageDisplayer.showMessage("You don't have enough armies.");
         }else{
             invader.armies -= withHowMany;
@@ -594,8 +584,8 @@ public class Territory implements Selectable {
     //Form actions////////////////////////////////////////////////////////////
     
     private FormAction invade = (java.util.Map<String,String> input) -> {
-        if(input.get("invadeArmies").matches("\\d+")){
-            int invadingArmies = Integer.parseInt(input.get("invadeArmies"));
+        if(input.get("inputedText").matches("\\d+")){
+            int invadingArmies = Integer.parseInt(input.get("inputedText"));
             attack(invadingArmies);
         }else{
             appearance.MessageDisplayer.showMessage("Invalid Entry.");
@@ -604,8 +594,8 @@ public class Territory implements Selectable {
     };
     
     private FormAction changeBonus = (java.util.Map<String,String> input) -> { 
-        if(input.get("bonus").matches("\\d+")){    
-            bonusPoints = Integer.parseInt(input.get("bonus"));
+        if(input.get("inputedText").matches("\\d+")){    
+            bonusPoints = Integer.parseInt(input.get("inputedText"));
             ((Territory)this).drawTerritory();
         }else{
             appearance.MessageDisplayer.showMessage("Invalid Entry.");
@@ -614,8 +604,8 @@ public class Territory implements Selectable {
     };
             
     private FormAction moveArmies = (java.util.Map<String,String> input) -> { 
-        if(input.get("moveArmies").matches("\\d+")){       
-            moveArmies(Integer.parseInt(input.get("moveArmies")));
+        if(input.get("inputedText").matches("\\d+")){       
+            moveArmies(Integer.parseInt(input.get("inputedText")));
         }else{
             appearance.MessageDisplayer.showMessage("Invalid Entry.");
         }

@@ -42,6 +42,58 @@ public class Form {
     int nextInputXPos;
     int nextInputYPos;
     
+    /**
+     * Shows a Form with one TextInput.
+     * It will pass the input to the action with the ID "inputedText" 
+     * N.B. this won't work if a Form is already on the world
+     * 
+     * @param title the title that will be displayed.
+     * @param action the action the Form will perform
+     */
+    public static void inputText(String title, FormAction action) {
+        Form form = new Form();
+        Input input = new TextInput(title);
+        form.addInput("inputedText", input, false);
+        form.submitAction = action;
+        form.addToWorld();
+
+    }
+    
+    /**
+     * Shows a Form with one ColorInput.
+     * It will pass the input to the action with this ID: "inputedColor" 
+     * N.B. This won't work if a Form is already on the world
+     * 
+     * @param title the title that will be displayed.
+     * @param action the action the Form will perform
+     */
+    public static void inputColor(String title, FormAction action) {
+        Form form = new Form();
+        Input input = new ColorInput(title);
+        form.addInput("inputedColor", input, false);
+        form.submitAction = action;
+        form.addToWorld();
+    
+    }
+    
+    /**
+     * Shows a Form with a Yes/No question.
+     * It will pass the input to the action with this ID: "confirmation".
+     * values are either "Yes" or "No".
+     * N.B. This won't work if a Form is already on the world
+     * 
+     * @param title the title that will be displayed.
+     * @param action the action the Form will perform
+     */
+    public static void confirmInput(String title, FormAction action) {
+        Form form = new Form();
+        Input input = new ChoiceInput(title, "Yes", "No");
+        form.addInput("confirmation", input, false);
+        form.submitAction = action;
+        form.addToWorld();
+    
+    }
+    
     public Form() {
         submit = ()->{submit();};
         cancel = ()->{cancel("User pressed the cancel button");};
@@ -237,8 +289,6 @@ public class Form {
                 this.getImage().setColor(backgroundColor);
                 this.getImage().fill();
             }
-
-
         }
         
         

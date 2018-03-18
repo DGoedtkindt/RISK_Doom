@@ -1,8 +1,6 @@
 package base;
 
-import input.ChoiceInput;
 import input.Form;
-import input.Input;
 
 /** 
  * A StateManager manages the setup and proper destruction of a scene in a 
@@ -24,16 +22,12 @@ public abstract class StateManager{
      * @param message   the message that will appear on the confirmation dialog
      */
     protected void standardBackToMenu(String message) {
-            Form confirmForm = new Form();
-            Input confirmInput = new ChoiceInput(message, "Yes", "No");
-            confirmForm.addInput("confirm", confirmInput, false);
-            confirmForm.submitAction = (input)->{
-                if(input.get("confirm") == "Yes") {
+            Form.confirmInput(message,(input)->{
+                if(input.get("confirmation") == "Yes") {
                     this.clearScene();
                     world().load(new menu.Manager());
                 } 
-            };
-            confirmForm.addToWorld();
+            });
     
     };
     

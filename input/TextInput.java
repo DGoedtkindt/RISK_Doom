@@ -76,7 +76,7 @@ public class TextInput extends Input {
                 this.getImage().setColor(backgroundColor);
                 this.getImage().fill();
                 
-                //add border if active
+                //add input if active
                 if(thisTextInput == Input.activeInput) {
                     this.getImage().setColor(GColor.WHITE);
                     this.getImage().drawRect(1, 1, WIDTH-2, HEIGHT-2);
@@ -86,7 +86,7 @@ public class TextInput extends Input {
                 this.getImage().setFont(Appearance.GREENFOOT_FONT);
                 this.getImage().setColor(appearance.Theme.used.textColor);
                 //title
-                int titleXPos = WIDTH/2 - 12*TITLE.length();
+                int titleXPos = WIDTH/2 - 11*TITLE.length();
                 int titleYPos = HEIGHT/4;
                 getImage().drawString(TITLE, titleXPos,titleYPos );
                 
