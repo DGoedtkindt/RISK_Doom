@@ -94,7 +94,6 @@ public class Turn {
             player.gainComboPiece();
         }
         player.conqueredThisTurn = false;
-        addTurnStats();
         autoSave();
         
         if(aPlayerIsDead() != null || aPlayerWon() != null){
