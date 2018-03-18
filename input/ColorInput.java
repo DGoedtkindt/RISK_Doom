@@ -23,32 +23,32 @@ public class ColorInput extends Input{
         TITLE = title;
         thisColorInput = this;
         background = new Background(WIDTH,HEIGHT);
-        redSlider = new Slider(GColor.RED);
-        greenSlider = new Slider(GColor.GREEN);
-        blueSlider = new Slider(GColor.BLUE);
+        redSlider = new Slider(new GColor(255,0,0));
+        greenSlider = new Slider(new GColor(0,255,0));
+        blueSlider = new Slider(new GColor(0,0,255));
         
     }
     
     @Override
     void addToWorld(int xPos, int yPos) {
         MyWorld.theWorld.addObject(background, xPos, yPos);
-        MyWorld.theWorld.addObject(redSlider, xPos-80, yPos);
-        MyWorld.theWorld.addObject(greenSlider, xPos, yPos);
-        MyWorld.theWorld.addObject(blueSlider, xPos+80, yPos);
+        redSlider.addToWorld(xPos, yPos-HEIGHT/4);
+        greenSlider.addToWorld(xPos, yPos);
+        blueSlider.addToWorld(xPos, yPos+HEIGHT/4);
     }
 
     @Override
     void removeFromWorld() {
         MyWorld.theWorld.removeObject(background);
-        MyWorld.theWorld.removeObject(redSlider);
-        MyWorld.theWorld.removeObject(greenSlider);
-        MyWorld.theWorld.removeObject(blueSlider);
+        redSlider.removeFromWorld();
+        greenSlider.removeFromWorld();
+        blueSlider.removeFromWorld();
         if(activeInput == this) activeInput = null;
     }
 
     @Override
     public String value() {
-        GColor color = new GColor(redSlider.value(),greenSlider.value(),blueSlider.value());
+        GColor color = new GColor((int)(redSlider.value()*255),(int)(greenSlider.value()*255),(int)(blueSlider.value()*255));
         return color.toRGB();
     }
     
@@ -62,7 +62,16 @@ public class ColorInput extends Input{
             this.getImage().setColor(backgroundColor);
             this.getImage().fill();
             this.getImage().setColor(appearance.Theme.used.textColor);
-            this.getImage().drawString(TITLE, 30, 40);
+            this.getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
+            this.getImage().drawString(TITLE, 30, 30);
+            
+            //lines for sliders
+            int xStart = WIDTH/2;
+            int length = WIDTH/3;
+            this.getImage().setColor(GColor.BLACK);
+            this.getImage().drawLine(xStart, HEIGHT/4, xStart + length, HEIGHT/4);
+            this.getImage().drawLine(xStart, HEIGHT/2, xStart + length, HEIGHT/2);
+            this.getImage().drawLine(xStart, 3*HEIGHT/4, xStart + length, 3*HEIGHT/4);
         }
 
         @Override
@@ -71,7 +80,7 @@ public class ColorInput extends Input{
             GreenfootImage hex = Hexagon.createImage(color);
             hex.scale(120, 120);
             
-            this.getImage().drawImage(hex, 50, 40);
+            this.getImage().drawImage(hex, WIDTH/4 - 60, 60);
             
             if(Greenfoot.isKeyDown("Enter"))
             if(Input.activeInput == thisColorInput)submit();
@@ -86,16 +95,18 @@ public class ColorInput extends Input{
     */
     class Slider extends Button{
 
-        public static final int WIDTH = 80;
-        private static final int HEIGHT = 40;
+        static final int SIZE = 40;
+        static final int LENGTH = WIDTH/3; 
 
-        private Color color;
-        public int x;
-        private int baseY;
-        public int y;
+        private GColor color;
+        private int minX = 0;
+        private int maxX = 1;
+        private int x = 0;
+        private int y = 1;
         
-        Slider(Color c) {
+        Slider(GColor c) {
            color = c;
+           createImage();
             
         }
 
@@ -103,45 +114,47 @@ public class ColorInput extends Input{
          * Creates the image of this Slider.
          */
         private void createImage() {
-
-            GreenfootImage img = new GreenfootImage(WIDTH, HEIGHT);
-            img.setColor(color);
-            img.fillPolygon(new int[]{0, 2 * WIDTH / 3, WIDTH     , 2 * WIDTH / 3, 0     }, 
-                            new int[]{0, 0            , HEIGHT / 2, HEIGHT       , HEIGHT}, 5);
-
+            GreenfootImage img = new GreenfootImage(SIZE,SIZE);
             img.setColor(GColor.BLACK);
+            img.fillOval(0, 0, SIZE, SIZE);
+            img.setColor(color.multiply(value()));
+            img.fillOval(2, 2, SIZE-4, SIZE-4);
+            this.setImage(img);
 
-            img.drawPolygon(new int[]{0, 2 * WIDTH / 3, WIDTH     , 2 * WIDTH / 3, 0     }, 
-                            new int[]{0, 0            , HEIGHT / 2, HEIGHT       , HEIGHT}, 5);
-
-            setImage(img);
-
+        }
+        
+        void addToWorld(int xPos, int yPos) {
+            minX = xPos; maxX = xPos + LENGTH;
+            x = xPos; y = yPos;
+            MyWorld.theWorld.addObject(this, xPos, yPos);
+        
+        }
+        
+        void removeFromWorld() {
+            MyWorld.theWorld.removeObject(this);
+            
         }
 
         /**
          * Computes the Color value represented by this Slider.
-         * @return The Color value represented by this Slider, from 0 to 255.
+         * @return The Color value represented by this Slider, from 0. to 1.
          */
-        public int value(){
-            return baseY - y;
+        public double value(){
+            return (double)(x-minX)/(double)(maxX - minX);
+            
         }
 
         @Override
         public void act(){
 
             if(Greenfoot.mouseDragged(this)){
-
-                int newY = Greenfoot.getMouseInfo().getY();
-
-                if(baseY - newY > 0 && baseY - newY < 256){
-                    y = newY;
-                }
-                
+                int newX = Greenfoot.getMouseInfo().getX();
+                newX = Math.max(Math.min(newX, maxX), minX);
+                x = newX;
+                setLocation(x, y);
                 createImage();
+                
             }
-
-            setLocation(x, y);
-
         }
 
         @Override

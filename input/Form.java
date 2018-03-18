@@ -82,7 +82,7 @@ public class Form {
     
     /** 
      * Removes this Form's Actors from the World, and performs cancel actions.
-     * @param cause the cause of the cancelation
+     * @param cause the cause of the cancellation
      */
     public void cancel(String cause) {
         removeFromWorld();
