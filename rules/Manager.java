@@ -60,7 +60,7 @@ class RulesDisplayer extends Actor implements Arrowable{
     private int slideNumber = 0;
     private int linesNumber = 1;
     
-    private static final int TOTAL_WIDTH = 1500;
+    private static final int TOTAL_WIDTH = 1100;
     private static FontMetrics fm;
     
     /**

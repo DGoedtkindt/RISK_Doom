@@ -1,7 +1,6 @@
 package base;
 
 import greenfoot.GreenfootImage;
-import greenfoot.Color;
 
 /**
  * The class of the Buttons that aren't ModeButtons.
@@ -41,9 +40,7 @@ public class NButton extends Button{
      * @param img the image of the button
      */
     public NButton(Action act, GreenfootImage img){
-        this.setImage(img);
-        this.getImage().scale(80, 80);
-        action = act;
+        this(act,img,80,80);
         
     }
     
@@ -54,15 +51,21 @@ public class NButton extends Button{
      * @param txt the text displayed on the button
      */
     public NButton(Action act, String txt){
+        GreenfootImage img = createImage(txt);
+        this.setImage(img);
+        action = act;
+        
+    }
+    
+    private GreenfootImage createImage(String text) {
         GreenfootImage img = new GreenfootImage("button11-5.png");
         this.setImage(img);
         this.getImage().scale(175, 80);
-        GreenfootImage txtImg = new GreenfootImage(txt,20,Color.BLACK,new Color(0,0,0,0));
+        GreenfootImage txtImg = new GreenfootImage(text,20,GColor.BLACK,new GColor(0,0,0,0));
         int xPos = (175-txtImg.getWidth())/2;
         int yPos = (80-txtImg.getHeight())/2;
         this.getImage().drawImage(txtImg, xPos, yPos);
-        action = act;
-        
+        return img;
     }
     
     @Override

@@ -10,7 +10,7 @@ import greenfoot.Actor;
 public abstract class Button extends Actor {
 
     /**
-     * Action performed when a Button is clicked.
+     * Action performed when this Button is clicked.
      */
     public abstract void clicked();
     protected boolean usable = true;
