@@ -45,24 +45,24 @@ public class ControlPanel {
         
         Mode.addModeChangeListener(() -> {
             
-            attackButton.makeTransparent();
-            moveButton.makeTransparent();
+            attackButton.toggleUnusable();
+            moveButton.toggleUnusable();
             nextTurnButton.makeTransparent();
             
             switch(Mode.mode()){
                 
                 case DEFAULT : 
-                    attackButton.makeOpaque();
-                    moveButton.makeOpaque();
+                    attackButton.toggleUsable();
+                    moveButton.toggleUsable();
                     nextTurnButton.makeOpaque();
                     break;
                     
                 case MOVE : 
-                    moveButton.makeOpaque();
+                    moveButton.toggleUsable();
                     break;
                     
                 case ATTACK : 
-                    attackButton.makeOpaque();
+                    attackButton.toggleUsable();
                     break;
                     
             }

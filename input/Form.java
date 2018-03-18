@@ -15,7 +15,15 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * A Form is a Group of actors
+ * A Form is a Group of actors that allows to use (multiple) Input(s).
+ * to use one follow these steps:
+ *  1) Create a new Form.
+ *  2) Create new Inputs according to the type of data you want to get.
+ *  3) Add the inputs to the Form
+ *  4) Add an action to tell the Form what to do once the data is entered.
+ *  5) Add the Form to the world so that the user can use it.
+ * 
+ *  N.B. There can be only one Form on the world. 
  */
 public class Form {
     private static Form activeForm;
@@ -31,6 +39,10 @@ public class Form {
     private Action submit;
     private Action cancel;
     private OKCancelPanel ocPanel;
+    
+    //for input placement
+    int nextInputXPos = world.getWidth()/2;
+    int nextInputYPos;
     
     public Form() {
         submit = ()->{submit();};
@@ -63,8 +75,7 @@ public class Form {
         if(activeForm != null) {
             world = MyWorld.theWorld;
             world.lockAllButtons();
-            Collection<Input> inputCollection = inputs.values();
-            inputCollection.forEach(addInputToWorld);
+            addInputsToWorld();
             addOKCancelPanel();
             
             
@@ -146,18 +157,20 @@ public class Form {
         }
         return values;
     }
-    
-    private Consumer<Input> addInputToWorld = new Consumer<Input>() {
+
+    private void addInputsToWorld() {
         int inputNumber = inputs.size();
-        int xPos = world.getWidth()/2;
-        int yPos = (inputNumber-1)*(Input.HEIGHT/2);
-        
-        @Override
-        public void accept(Input input) {
-            input.addToWorld(xPos,yPos);
-            yPos+=Input.HEIGHT;
+        nextInputYPos = (inputNumber-1)*(Input.HEIGHT/2);
+                
+        Collection<Input> inputCollection = inputs.values();
+        for(Input input : inputCollection) {
+            input.addToWorld(nextInputXPos,nextInputYPos);
+            nextInputYPos+=Input.HEIGHT;
+            
         }
-    };
+        
+    
+    }
 
     private void addOKCancelPanel() {
         if(ocPanel != null) {
@@ -186,11 +199,11 @@ public class Form {
         
         void addToWorld() {
             world.addObject(background, 
-                    MyWorld.theWorld.getWidth()/2, OKCancelPanelYPos());
+                    MyWorld.theWorld.getWidth()/2, nextInputYPos);
             world.addObject(submitButton,
-                    MyWorld.theWorld.getWidth()/3, OKCancelPanelYPos());
+                    MyWorld.theWorld.getWidth()/3, nextInputYPos);
             world.addObject(cancelButton,
-                    2* MyWorld.theWorld.getWidth()/3, OKCancelPanelYPos());
+                    2* MyWorld.theWorld.getWidth()/3, nextInputYPos);
             
         }
         
@@ -222,13 +235,6 @@ public class Form {
 
         }
         
-        
-    }
-    
-    private int OKCancelPanelYPos() {
-        int inputNumber = inputs.size();
-        int basePos = (inputNumber-1)*(Input.HEIGHT/2);
-        return basePos + (inputNumber - 1)*Input.HEIGHT+50;
         
     }
 

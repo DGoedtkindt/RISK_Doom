@@ -140,4 +140,6 @@ public class ColorInput extends Input{
             setLocation(x, y);
 
         }
+    }
+
 }

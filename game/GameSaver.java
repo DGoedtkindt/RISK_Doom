@@ -3,10 +3,13 @@ package game;
 import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Game;
-import input.InputPanelUser;
 import base.MyWorld;
 import gameXML.GameXML;
-import input.InputPanel;
+import input.ChoiceInput;
+import input.Form;
+import input.FormAction;
+import input.Input;
+import input.TextInput;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -15,12 +18,12 @@ import javax.imageio.ImageIO;
  * This Class contains instructions to save a Game.
  * 
  */
-public class GameSaver implements InputPanelUser{
-    private Game game;
+public class GameSaver{
+    private final Game game;
     private String name;
     private String description;
     
-    private boolean descriptionEntered = false;
+    private FormAction saveInfoFormAction;
     
     /**
      * Creates a GameSaver object that can save a Game.
@@ -28,6 +31,7 @@ public class GameSaver implements InputPanelUser{
      */
     public GameSaver(Game gameToSave) {
         game = gameToSave;
+        defineSaveInfoFormAction();
         
     }
     
@@ -58,13 +62,42 @@ public class GameSaver implements InputPanelUser{
     }
     
     /**
-     * Obtains informations about the name and the description of the Game.
+     * Shows a Form to obtains informations about the name and 
+     * the description of the Game.
      */
     public void askForSaveInfo() {
-        
-        InputPanel.showInsertionPanel("Give your Game a name.", 500, "name", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 4);
-        InputPanel.showInsertionPanel("Give your Game a description.", 1000, "description", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        InputPanel.showConfirmPanel("Do you want your Game to be saved automatically?", 100, "autosave", this, Appearance.WORLD_WIDTH / 2, 3 * Appearance.WORLD_HEIGHT / 4);
+        Form saveInfoForm = new Form();
+        Input nameInput = new TextInput("Give your Game a name.");
+        Input descriptionInput = new TextInput("Give your Game a description.");
+        Input autoSaveInput = new ChoiceInput("Do you want your Game to be saved automatically?", "Yes", "No");
+        saveInfoForm.addInput("name", nameInput, false);
+        saveInfoForm.addInput("description", descriptionInput, true);
+        saveInfoForm.addInput("autoSave", autoSaveInput, true);
+        saveInfoForm.submitAction = saveInfoFormAction;
+        saveInfoForm.addToWorld();
+    }
+    
+    /**
+     * Defines the saveInfoFormAction
+     * it gets the name and description from the form. 
+     * and if autoSave is true, it saves the description and name in the Game
+     */
+    private void defineSaveInfoFormAction() {
+        saveInfoFormAction = (inputs)-> {
+            name = inputs.get("name");
+            description = inputs.get("description");
+            saveGame();
+            switch(inputs.get("autoSave")) {
+                case "" : break;
+                case "Yes" : 
+                    game.autoSave = true;
+                    game.name = name;
+                    game.description = description;
+                    break;
+                case "No" : game.autoSave = false; break;
+            
+            }
+        };
     
     }
     
@@ -100,8 +133,11 @@ public class GameSaver implements InputPanelUser{
      * Asks the User if he wants to replace an existing Game.
      */
     private void confirm() {
-        InputPanel.showConfirmPanel("Do you want to replace the existing game '" + name + "' with this one?", 
-                                    100, "replacement", this, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        Form confirmOverwriteForm = new Form();
+        confirmOverwriteForm.addInput("confirm", 
+                new ChoiceInput("Do you want to replace the existing game '" + name + "' with this one?", "Yes", "No"),
+                false);
+        confirmOverwriteForm.addToWorld();
         
     }
     
@@ -144,50 +180,6 @@ public class GameSaver implements InputPanelUser{
 
         ImageIO.write(gameImage, "PNG", out);
     
-    }
-
-    @Override
-    public void useInformations(String information, String type) throws Exception {
-        
-        switch(type){
-            
-            case "name" : 
-                ((GameSaver)this).name = information;
-                
-                if(((GameSaver)this).descriptionEntered){
-                    ((GameSaver)this).saveGame();
-                }
-                
-                break;
-            
-            case "description" : 
-                ((GameSaver)this).description = information;
-                descriptionEntered = true;
-                
-                if(((GameSaver)this).nameIsValid()){
-                    ((GameSaver)this).saveGame();
-                }
-                
-                break;
-                
-            case "replacement" : 
-                
-                if(information.equals(InputPanel.YES_OPTION)){
-                    ((GameSaver)this).save();
-                }
-                
-                break;
-                
-            case "autosave" : 
-                
-                ((GameSaver)this).game.name = ((GameSaver)this).name;
-                ((GameSaver)this).game.description = ((GameSaver)this).description;
-                ((GameSaver)this).game.autoSave = true;
-                
-                break;
-                
-        }
-        
     }
     
 }
