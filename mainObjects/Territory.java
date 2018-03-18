@@ -354,7 +354,7 @@ public class Territory implements Selectable {
             
             Territory target = (Territory)(neighbours().toArray()[Greenfoot.getRandomNumber(neighbours().size())]);
             
-            int attackingArmies = Greenfoot.getRandomNumber(armies() - 1) + 2;
+            int attackingArmies = Greenfoot.getRandomNumber(armies() - 2) + 2;
             
             setArmies(armies() - attackingArmies);
             
