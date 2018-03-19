@@ -2,7 +2,6 @@ package base;
 
 import game.Difficulty;
 import game.Player;
-import game.TurnStat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class Game {
     public Map map = new Map();
     public Difficulty difficulty;
     
-    //for autosave
+    //Autosave variables
     public boolean autoSave = false;
     public String name = "";
     public String description = "";
