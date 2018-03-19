@@ -1,15 +1,15 @@
 package gameXML;
 
 import appearance.MessageDisplayer;
-import org.w3c.dom.Document;
-import java.io.FileNotFoundException;
-import java.io.File;
 import base.Game;
+import java.io.File;
+import java.io.FileNotFoundException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 
 /** Stores the XML Document representing a Game
  */
@@ -29,6 +29,7 @@ public class GameXML {
     }
     
     /** Creates a new GameXML from a Game object.
+     * @param game The Game to save.
      * @throws java.lang.Exception
     */
     public GameXML(Game game) throws Exception{
@@ -50,7 +51,8 @@ public class GameXML {
      * @param description The description of the Game.
      */
     public void write(String gameName, String description) {
-        //add The description
+        
+        //Adds the description
         xml.getDocumentElement().setAttribute("description", description);
             
         try {
