@@ -15,7 +15,7 @@ import mode.Mode;
 public class ComboDisplayer extends Button{
     
     private final static ComboDisplayer displayer = new ComboDisplayer(new Combo());
-    private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use combo");
+    private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use a Combo");
     
     private boolean shown = false;
     
@@ -53,6 +53,7 @@ public class ComboDisplayer extends Button{
         int squareSeparation = 4;
         int squareLeftDistance = 13;
         
+        //Creates the image
         img.scale(width, bandHeight * 3 + bandSeparation * 4);
         img.setColor(Theme.used.backgroundColor.darker());
         img.fill();
@@ -62,6 +63,7 @@ public class ComboDisplayer extends Button{
         img.drawString("C", 0, 3 * bandHeight + 3 * bandSeparation);
         img.setColor(Theme.used.selectionColor);
         
+        //Draws the squares
         for(int i = 0; i < combo.a(); i++){
             img.fillRect(squareLeftDistance + i * (side + squareSeparation), bandSeparation, side, side);
             
