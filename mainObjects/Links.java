@@ -13,9 +13,8 @@ public class Links {
     
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
-    public static Links newLinks;   //c'est le Links en train d'être modifié. 
-                                    //== null quand un Links n'est pas en train d'etre créé
-    public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
+    public static Links newLinks;   //The Links object being modified
+    public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //To check whether a terr was already linked
     private GColor color;
     private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
     
