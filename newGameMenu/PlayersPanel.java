@@ -217,7 +217,7 @@ public class PlayersPanel {
          * @return A new Player.
          */
         Player getPlayer() {
-            GColor colorChoice = GColor.fromRGB(colorChooser.currentChoice());
+            GColor colorChoice = GColor.fromRGB(colorChooser.choiceValue());
             return new Player(name, colorChoice);
         }
         
