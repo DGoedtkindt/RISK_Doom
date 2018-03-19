@@ -12,36 +12,22 @@ import base.Hexagon;
  */
 public class ThemeChooser extends BasicChooser {
     
-    /**
-     * Creates a ThemeChooser.
-     */
-    public ThemeChooser() {
-        super(new ThemeChoices());
-    }
-    
-}
-
-/**
- * The list of Themes that can be used.
- * 
- */
-class ThemeChoices extends ChoiceList {
     private int  themeNumber = 0;
 
     @Override
-    protected void next() {
+    public void next() {
         if(themeNumber < Theme.values().length-1) themeNumber++; 
         else themeNumber = 0;
     }
 
     @Override
-    protected void previous() {
+    public void previous() {
         if(themeNumber > 0) themeNumber--;
         else themeNumber = Theme.values().length-1;
     }
 
     @Override
-    protected GreenfootImage choiceImage() {
+    protected void updateImage() {
         Theme currentTheme = Theme.values()[themeNumber];
         
         GreenfootImage img = new GreenfootImage(Appearance.WORLD_WIDTH / 5, Appearance.WORLD_HEIGHT / 5);
@@ -59,7 +45,7 @@ class ThemeChoices extends ChoiceList {
         img.setFont(new Font("Monospaced", 20));
         img.drawString(currentTheme.name, 10, img.getHeight() - 20);
         
-        return img;
+        this.setImage(img);
         
     }
 

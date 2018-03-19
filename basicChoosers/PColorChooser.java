@@ -1,6 +1,5 @@
 package basicChoosers;
 
-import greenfoot.GreenfootImage;
 import base.GColor;
 import base.Hexagon;
 import java.util.ArrayList;
@@ -10,28 +9,101 @@ import java.util.ArrayList;
  * 
  */
 public class PColorChooser extends BasicChooser {
-
-    /**
-     * Creates a PColorChooser.
-     */
+    
+    private int colorNum;
+    private Color currentColor;
+    
     public PColorChooser() {
-        super(new PColorChoices());
+        if(!enoughFreeColor()) throw new UnsupportedOperationException("Too many Color Choices blocked");
+        colorNum = -1;
+        
+        next();
+        
     }
     
     /**
      * Liberates every Color choice of the Choice List.
      */
     public void clearChoices(){
-        ((PColorChoices)choices).freeAll();
+        freeAll();
+    }
+
+    @Override
+    protected void updateImage() {
+        GColor drawColor = currentColor.gColor;
+        this.setImage(Hexagon.createImage(drawColor, 0.5)); 
+    }
+
+    @Override
+    public String choiceValue() {
+        return currentColor.rgbCode(); 
+    }
+
+    @Override
+    public void next() {
+        if(colorNum >= Color.numOfColors()-1) colorNum = 0;
+        else colorNum++;
+        if(isFree()) {
+            updateColor();
+        
+        } else {
+            next();
+            
+        }    }
+
+    @Override
+    public void previous() {
+        if(colorNum <= 0) colorNum = Color.numOfColors()-1;
+        else colorNum--;
+        if(isFree()) {
+            updateColor();
+        
+        } else {
+            previous();
+            
+        }    
+    }
+
+    @Override
+    protected void liberateChoice() {
+        currentColor.free();
     }
     
-}
-
-/**
- * The list of the Colors a Player can have.
- * 
- */
-class PColorChoices extends ChoiceList{
+     /**
+     * Checks whether enough colors are available.
+     * @return A boolean representation of this fact.
+     */
+    private static boolean enoughFreeColor() {
+        return Color.usedColors.size() + 1 < Color.numOfColors();
+    }
+    
+    /**
+     * Checks whether the chosen color is free.
+     * @return A boolean representation of this fact.
+     */
+    private boolean isFree() {
+        return Color.get(colorNum).isFree();
+    }
+    
+    /**
+     * Updates the chosen color.
+     */
+    private void updateColor() {
+        Color previousColor = currentColor;
+        currentColor = Color.get(colorNum);
+        if(previousColor != null) previousColor.free();
+        currentColor.block();
+    
+    }
+    
+     /**
+     * Liberates every Choice.
+     */
+    void freeAll(){
+        for(Color c : Color.values()){
+            c.free();
+        }
+    }
     
     /**
      * The actual Color list.
@@ -106,97 +178,4 @@ class PColorChoices extends ChoiceList{
         
     }
     
-    private int colorNum;
-    private Color currentColor;
-    
-    /**
-     * Creates a PColorChoices instance.
-     */
-    public PColorChoices() {
-        if(!enoughFreeColor()) throw new UnsupportedOperationException("Too many Color Choices blocked");
-        colorNum = -1;
-        
-        next();
-    
-    }
-    
-    @Override
-    protected void next() {
-        if(colorNum >= Color.numOfColors()-1) colorNum = 0;
-        else colorNum++;
-        if(isFree()) {
-            updateColor();
-        
-        } else {
-            next();
-            
-        }
-        
-    }
-
-    @Override
-    protected void previous() {
-        if(colorNum <= 0) colorNum = Color.numOfColors()-1;
-        else colorNum--;
-        if(isFree()) {
-            updateColor();
-        
-        } else {
-            previous();
-            
-        }
-    }
-
-    @Override
-    protected GreenfootImage choiceImage() {
-        GColor drawColor = currentColor.gColor;
-        return Hexagon.createImage(drawColor, 0.5);
-    }
-
-    @Override
-    public String choiceValue() {
-        return currentColor.rgbCode();
-    }
-
-    @Override
-    protected void liberateChoice() {
-       currentColor.free();
-    }
-    
-    /**
-     * Checks whether enough colors are available.
-     * @return A boolean representation of this fact.
-     */
-    private static boolean enoughFreeColor() {
-        return Color.usedColors.size() + 1 < Color.numOfColors();
-    }
-    
-    /**
-     * Checks whether the choosen color is free.
-     * @return A boolean representation of this fact.
-     */
-    private boolean isFree() {
-        return Color.get(colorNum).isFree();
-    }
-    
-    /**
-     * Updates the chosen color.
-     */
-    private void updateColor() {
-        Color previousColor = currentColor;
-        currentColor = Color.get(colorNum);
-        if(previousColor != null) previousColor.free();
-        currentColor.block();
-    
-    }
-    
-    /**
-     * Liberates every Choice.
-     */
-    void freeAll(){
-        for(Color c : Color.values()){
-            c.free();
-        }
-    }
-     
 }

@@ -274,7 +274,7 @@ public class TerritoryHex extends Button {
         }else{
             
             try{
-                img = Hexagon.createImage(territory.continentColor, 0.5);
+                img = Hexagon.createImage(territory.continent().color(), 0.5);
             }catch(Exception e){
                 img = Hexagon.createImage(Theme.used.territoryColor, 0.5);
             }

@@ -116,23 +116,8 @@ public class LinkIndic extends Button{
         
     }
     
-    /**
-     * Makes this LinkIndic unclickable.
-     */
     @Override
-    public void toggleUnusable() {
-        this.usable = false;
-        
-    }
-    
-    /**
-     * Makes this LinkIndic clickable.
-     */
-    @Override
-    public void toggleUsable() {
-        this.usable = true;
-        
-    }
+    public void toggleUnusable() {}
     
     /**
      * Destroys this LinkIndic.

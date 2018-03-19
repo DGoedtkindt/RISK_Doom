@@ -16,8 +16,8 @@ public class TextInput extends Input {
     
     private final String TITLE;
     private final InputActor inputActor;
+    private final TextInput thisTextInput;
     private String returnString = "";
-    private TextInput thisTextInput;
     
     /** Create a new TextInput
      * 

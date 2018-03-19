@@ -1,14 +1,11 @@
 package userPreferences;
 
-import appearance.Appearance;
 import appearance.Theme;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
-import input.ChoiceInput;
 import input.Form;
-import input.Input;
 import mainObjects.BlankHex;
 
 /**
@@ -44,7 +41,7 @@ public class Manager extends StateManager{
      * Method used to apply the chosen settings.
      */
     private void applySettingsAndBack() {
-        int themeNum = Integer.parseInt(themeChooser.currentChoice());
+        int themeNum = Integer.parseInt(themeChooser.choiceValue());
         Theme.used = Theme.values()[themeNum];
         MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor);
         MyWorld.theWorld.getBackground().fill();
