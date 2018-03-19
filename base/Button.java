@@ -17,41 +17,34 @@ public abstract class Button extends Actor {
 
     
     /**
-     * Returns the world.
-     * @return The world.
+     * Returns the World.
+     * @return The World.
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
     
     /**
-     * @return whether the button is usable.
+     * @return Whether this Button is usable.
      */
     public boolean isUsable(){
         return usable;
         
-        /*boolean isOpaque = getImage().getTransparency() == Appearance.OPAQUE;
-        boolean noUsedInputPanel = InputPanel.usedPanel == null;
-        boolean inputPanelIsUsed = InputPanel.usedPanel != null;
-        boolean isButtonOnInputPanel = InputPanel.YES == this || InputPanel.NO == this || InputPanel.SELECT == this;
-        
-        return isOpaque && (noUsedInputPanel || (inputPanelIsUsed && isButtonOnInputPanel));*/
-        
     }
     
     /**
-     * makes the button active and opaque.
+     * Makes this Button active and opaque.
      */
     public void toggleUsable() {
         usable = true;
-        this.getImage().setTransparency(Appearance.OPAQUE);
+        getImage().setTransparency(Appearance.OPAQUE);
 
     }
     
     /**
-     * makes the button inactive and transparent.
+     * Makes this Button inactive and transparent.
      */
     public void toggleUnusable() {
         usable = false;
-        this.getImage().setTransparency(Appearance.TRANSPARENT);
+        getImage().setTransparency(Appearance.TRANSPARENT);
     
     }
     
