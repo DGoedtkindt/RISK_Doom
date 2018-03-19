@@ -16,10 +16,9 @@ public abstract class ChoiceList {
     
     protected abstract String choiceValue();
     
-    //if This blocks other ChoiceLists from using its current
-    //choice, this method allows to liberate the choice when This is destroyed
-    //for example, it should not be allowed for two players to choose the same 
-    //color, thus the ChoiceList for a color will block its selected color.
+    /**
+     * Lets a particular choice be selected.
+     */
     protected void liberateChoice() {}
 
 }
