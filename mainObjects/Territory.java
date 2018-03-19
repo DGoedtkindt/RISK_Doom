@@ -378,8 +378,7 @@ public class Territory implements Selectable {
         }
         
         trInfo.toggleUnusable();
-        
-        for(LinkIndic li : links){li.toggleUnusable();}
+        links.forEach(LinkIndic::toggleUnusable);
         
     }
     
@@ -400,7 +399,7 @@ public class Territory implements Selectable {
     public void makeOpaque() {   
         drawTerritory();
         trInfo.toggleUsable();
-        for(LinkIndic li : links){li.toggleUnusable();}
+        for(LinkIndic li : links){li.toggleUsable();}
     }
 
     ///////////////////////////////////////////////////
