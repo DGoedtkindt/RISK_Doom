@@ -21,7 +21,7 @@ public class LinkIndic extends Button{
     public static NButton nothing = new NButton(() -> {});
     
     public Links links;
-    private Territory terr;
+    private final Territory TERRITORY;
     private TerritoryHex terrHex;
     private int xPos;
     private int yPos; 
@@ -33,18 +33,18 @@ public class LinkIndic extends Button{
      * @param yPos The y coordinate of this Actor.
      */
     public LinkIndic(Territory territory, int xPos, int yPos) {
-        //le lier au Links actif et a son territoire
+        //Sets its Territory and its Link
         links = Links.newLinks;
-        terr = territory;
-        terr.links.add(this);
-        links.addlink(this, terr);
+        TERRITORY = territory;
+        TERRITORY.links.add(this);
+        links.addlink(this, TERRITORY);
         
-        //créer son image
+        //Creates an image
         GreenfootImage img = Hexagon.createImage(links.color());
         img.scale(15, 15);
         setImage(img);
         
-        //stoquer la position
+        //saves the posittion
         this.xPos = xPos;
         this.yPos = yPos;
         
@@ -120,7 +120,7 @@ public class LinkIndic extends Button{
      * Destroys this LinkIndic.
      */
     public void destroy() {
-        terr.links.remove(this);
+        TERRITORY.links.remove(this);
         links.removelink(this);
         world().removeObject(this);
     
@@ -131,7 +131,7 @@ public class LinkIndic extends Button{
      * @return The Territory that owns it.
      */
     public Territory linkedTerr() {
-        return terr;
+        return TERRITORY;
     
     }
 }
