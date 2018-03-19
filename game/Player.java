@@ -14,6 +14,7 @@ import mainObjects.Territory;
 public class Player {
     
     public static final String NEW_PLAYER_NAME = "A New Player";
+    public static final int MAX_POINTS = 7;
     
     private final String name;
     private final GColor color;
@@ -69,14 +70,14 @@ public class Player {
         }
         
         int fromTerritories = (int)Math.floor(terrNumber / 3);
-        int total = fromTerritories + capital.bonus() + continentBonus; // possibly +other things
+        int total = fromTerritories + capital.bonus() + continentBonus;
          
         return total;
     }
     
     /**
-     * @return the continents from theWorld.stateManager.map().continents that
-     * This Player controls
+     * @return The continents from theWorld.stateManager.map().continents that
+     * This Player controls.
      */
     public List<Continent> continents(){
         List<Continent> continentList = new ArrayList<>();
@@ -142,7 +143,7 @@ public class Player {
      * @return A boolean representation of the victory of this Player.
      */
     public boolean hasWon(){
-        return points >= 7;
+        return points >= MAX_POINTS;
     }
     
     /**
