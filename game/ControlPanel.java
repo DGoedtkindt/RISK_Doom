@@ -17,7 +17,6 @@ import selector.Selector;
 public class ControlPanel {
     
     private MyWorld world() {return MyWorld.theWorld;}
-    private Manager manager;
     private NButton nextTurnButton = new NButton(() -> {
         if(Mode.mode() == Mode.DEFAULT){
             Turn.endCurrentTurn();
@@ -35,10 +34,8 @@ public class ControlPanel {
     
     /**
      * Creates a ControlPanel from a specific game.Manager.
-     * @param manager The game.Manager of this ControlPanel.
      */
-    protected ControlPanel(Manager manager) {
-        this.manager = manager;
+    protected ControlPanel() {
         allButtons.add(nextTurnButton);
         allButtons.add(attackButton);
         allButtons.add(moveButton);

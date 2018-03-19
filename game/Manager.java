@@ -42,7 +42,7 @@ public class Manager extends StateManager{
      * @param loadGame the game that will be loaded.
      */
     public Manager(Game loadGame) {
-        this.ctrlPanel = new ControlPanel(this);
+        this.ctrlPanel = new ControlPanel();
         this.modeDisp = new ModeMessageDisplay();
         GreenfootImage settings = new GreenfootImage("settings.png");
         this.options = new NButton(loadOptionsMenu, settings, 30,30);
