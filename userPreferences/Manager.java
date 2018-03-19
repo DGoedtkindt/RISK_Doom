@@ -44,7 +44,7 @@ public class Manager extends StateManager{
      * Method used to apply the chosen settings.
      */
     private void applySettingsAndBack() {
-        int themeNum = Integer.parseInt(themeChooser.currentChoice());
+        int themeNum = Integer.parseInt(themeChooser.choiceValue());
         Theme.used = Theme.values()[themeNum];
         MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor);
         MyWorld.theWorld.getBackground().fill();
