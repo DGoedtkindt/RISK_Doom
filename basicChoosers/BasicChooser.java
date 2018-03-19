@@ -18,24 +18,20 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     public static final int DEFAULT_ARROW_SIZE = 30;
     private int halfGapSize = DEFAULT_HALF_GAP_SIZE;
     private int arrSize = DEFAULT_ARROW_SIZE;
-    protected ChoiceList choices;
-    private RightArrow rightArrow;
-    private LeftArrow leftArrow;
+    private final RightArrow rightArrow;
+    private final LeftArrow leftArrow;
     protected MyWorld world() {return MyWorld.theWorld;}
     private int x;
     private int y;
     
     
     /**
-     * @param choiceList The choices this chooser will allow to choose from.
      */
-    public BasicChooser(ChoiceList choiceList) {
-        choices = choiceList;
+    public BasicChooser() {
         rightArrow = new RightArrow(this);
         rightArrow.scale(arrSize);
         leftArrow = new LeftArrow(this);
         leftArrow.scale(arrSize);
-        updateImage();
     
     }
     
@@ -49,6 +45,7 @@ public abstract class BasicChooser extends Actor implements Arrowable{
         world().addObject(this,x,y);
         world().addObject(rightArrow, x+halfGapSize,y);
         world().addObject(leftArrow, x-halfGapSize,y);
+        updateImage();
     
     }
     
@@ -86,39 +83,25 @@ public abstract class BasicChooser extends Actor implements Arrowable{
         getWorld().removeObject(rightArrow);
         getWorld().removeObject(leftArrow);
         getWorld().removeObject(this);
-        choices.liberateChoice();
-        
-    }
-
-    @Override
-    public void next() {
-        choices.next();
-        this.updateImage();
-        
-    }
-
-    @Override
-    public void previous() {
-        choices.previous();
-        this.updateImage();
+        liberateChoice();
         
     }
     
     /**
-     * Returns the choosed value.
-     * @return The choosed value.
+     * Updates the image of this BasicChooser.
      */
-    public String currentChoice() {
-        return choices.choiceValue();
+    protected abstract void updateImage();
     
-    }
-    
-    /**
-     * Updates the image of this chooser.
+     /**
+     * Returns the chosen value.
+     * @return The chosen value.
      */
-    private void updateImage() {
-        this.setImage(choices.choiceImage());
+    public abstract String choiceValue();
     
-    }
+    //if This blocks other Choosers from using its current
+    //choice, this method allows to liberate the choice when This is destroyed
+    //for example, it should not be allowed for two players to choose the same 
+    //color, thus the ChoiceList for a color will block its selected color.
+    protected void liberateChoice() {}
     
 }

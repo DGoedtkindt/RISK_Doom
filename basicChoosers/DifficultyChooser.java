@@ -11,59 +11,41 @@ import greenfoot.GreenfootImage;
  */
 public class DifficultyChooser extends BasicChooser {
     
-    /**
-     * Creates a DifficultyChooser.
-     */
-    public DifficultyChooser() {
-        super(new DifficultyChoices());
-    }
-    
-    /**
-     * Returns the chosen Difficulty.
-     * @return The chosen Difficulty.
-     */
-    public Difficulty selectedDifficulty() {
-        return ((DifficultyChoices)choices).selectedDifficulty();
-    }
-    
-}
-
-/**
- * The Difficulty list.
- */
-class DifficultyChoices extends ChoiceList{
-    
     private int currentDifficulty = 0;
-    
+
     @Override
-    protected void next() {
-        if(currentDifficulty == Difficulty.values().length - 1){currentDifficulty = 0;}
-        else{currentDifficulty ++;}
+    protected void updateImage() {
+        GreenfootImage newImage = new GreenfootImage(selectedDifficulty().NAME,
+                20, Theme.used.textColor, new GColor(0,0,0,0));
+        this.setImage(newImage);
     }
 
     @Override
-    protected void previous() {
-        if(currentDifficulty == 0){currentDifficulty = Difficulty.values().length - 1;}
-        else{currentDifficulty --;}
-    }
-
-    @Override
-    protected GreenfootImage choiceImage() {
-        return new GreenfootImage(selectedDifficulty().NAME, 20, Theme.used.textColor, new GColor(0,0,0,0));
+    public String choiceValue() {
+        return selectedDifficulty().NAME;  
         
     }
-
-    @Override
-    protected String choiceValue() {
-        return selectedDifficulty().NAME; 
-    }
     
-    /**
+     /**
      * Returns the chosen Difficulty.
      * @return The chosen Difficulty.
      */
-    protected Difficulty selectedDifficulty(){
+    public Difficulty selectedDifficulty(){
         return Difficulty.values()[currentDifficulty];
+    }
+
+    @Override
+    public void next() {
+        if(currentDifficulty == Difficulty.values().length - 1){currentDifficulty = 0;}
+        else{currentDifficulty ++;}
+        this.updateImage();
+    }
+
+    @Override
+    public void previous() {
+        if(currentDifficulty == 0){currentDifficulty = Difficulty.values().length - 1;}
+        else{currentDifficulty --;}
+        this.updateImage();
     }
     
 }

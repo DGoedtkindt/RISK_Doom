@@ -8,8 +8,6 @@ import game.Player;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 import input.Form;
-import input.Input;
-import input.TextInput;
 import java.util.ArrayList;
 
 /**
@@ -217,7 +215,7 @@ public class PlayersPanel {
          * @return A new Player.
          */
         Player getPlayer() {
-            GColor colorChoice = GColor.fromRGB(colorChooser.currentChoice());
+            GColor colorChoice = GColor.fromRGB(colorChooser.choiceValue());
             return new Player(name, colorChoice);
         }
         
