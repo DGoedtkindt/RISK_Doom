@@ -1,7 +1,6 @@
 package appearance;
 
 import base.Button;
-import base.MyWorld;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
@@ -34,8 +33,11 @@ public class MessageDisplayer extends Button{
         if(width > TOTAL_WIDTH){width = TOTAL_WIDTH;}
         height = fm.getMaxAscent() + fm.getMaxDescent();
         
-        message = wrapText(message);
+        message = Appearance.standardTextWrapping(message, width);
         
+        linesNumber = message.split("\n").length;
+        
+        //Creates the image of this displayer
         img.scale(width, height * linesNumber);
         img.setColor(Theme.used.backgroundColor.brighter());
         img.fill();
@@ -54,7 +56,7 @@ public class MessageDisplayer extends Button{
     public static void showMessage(String message){
         
         MessageDisplayer displayer = new MessageDisplayer(message);
-        MyWorld.theWorld.addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
+        world().addObject(displayer, TOTAL_WIDTH / 2, Appearance.WORLD_HEIGHT - (displayer.height * displayer.linesNumber / 2));
         displayer.createTimer();
         
     }
@@ -64,39 +66,8 @@ public class MessageDisplayer extends Button{
      * @param ex Displayed Exception 
      */
     public static void showException(Exception ex) {
-        showMessage(ex.toString());
-        ex.printStackTrace(System.err);
-    }
-    
-    /**
-     * Modifies the message by adding lines to it.
-     * @param message Transformed message
-     */
-    private String wrapText(String message) {
-
-        String[] words = message.split(" ");
-        String finalString = "";
-        
-        String currentLine = "";
-        for(String currentWord : words){
-            if(fm.stringWidth(currentLine + " " + currentWord) > TOTAL_WIDTH){
-                finalString += currentLine + "\n";
-                currentLine = "";
-                linesNumber ++;
-
-            }
-            
-            if(!currentLine.isEmpty()){
-                currentLine += " ";
-            }
-            
-            currentLine += currentWord;
-
-        }
-        finalString += currentLine;
-
-        return finalString;
-
+        showMessage(ex.getMessage());
+        ex.printStackTrace(System.err); //Programmer's side
     }
     
     /**
@@ -104,17 +75,17 @@ public class MessageDisplayer extends Button{
      */
     private void createTimer(){
         
-        Timer timer = new Timer(40, (ActionEvent ae) -> {
-            this.getImage().setTransparency(this.getImage().getTransparency() - 5);
+        Timer timer = new Timer(50, (ActionEvent ae) -> {
+            getImage().setTransparency(getImage().getTransparency() - 5);
             
-            if(this.getImage().getTransparency() == 0){
-                MyWorld.theWorld.removeObject(this);
+            if(getImage().getTransparency() == 0){
+                world().removeObject(this);
                 ((Timer)ae.getSource()).stop();
             }
             
         });
         
-        timer.setInitialDelay(1200);
+        timer.setInitialDelay(1500);
         timer.setRepeats(true);
         timer.start();
         

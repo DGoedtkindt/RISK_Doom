@@ -8,20 +8,20 @@ import java.awt.FontMetrics;
  * 
  */
 public class Appearance {
-    //Taille du monde
+    
+    //World's size
     public static final int WORLD_WIDTH = 1920;
     public static final int WORLD_HEIGHT = 1080;
     
-    //Pour la grille d'hexagones
+    //Constants about the grid of hexagons
     public static final int COLLUMN_NUMBER = 37;
     public static final int ROW_NUMBER = 19;
     
-    //Transparence et opacité des acteurs
+    //Transparency
     public static final int TRANSPARENT = 30;
     public static final int OPAQUE = 255;
     
-    //positions hexagonales pour dessiner le vide contenant l'affichage 
-    //des bonus des continents
+    //Positions for the Continent bonus displayer
     public static final int CONTINENT_BONUS_ZONE_WIDTH = 12;
     public static final int CONTINENT_BONUS_ZONE_HEIGHT = 4;
     public static final int CONTINENT_BONUS_X_POSITION = COLLUMN_NUMBER / 2 - CONTINENT_BONUS_ZONE_WIDTH / 2;
@@ -40,6 +40,7 @@ public class Appearance {
      */
     public static String standardTextWrapping(String toWrap, int maxWidth){
         
+        //An image used to create a FontMetrics object
         GreenfootImage testImage = new GreenfootImage(1, 1);
         
         FontMetrics fm = testImage.getAwtImage().getGraphics().getFontMetrics(AWT_FONT);
@@ -51,6 +52,7 @@ public class Appearance {
         
         for(String currentWord : words){
             
+            //Accounts for the \n in the text
             int backslashNAt = currentWord.indexOf("\n");
             
             if(backslashNAt == 0){

@@ -1,7 +1,5 @@
 package appearance;
 
-//The code below is Free to edit by the user.
-
 import base.GColor;
 
 /**
@@ -39,11 +37,9 @@ public enum Theme {
          new GColor(10,10,10),
          new GColor(255,255,255),
          new GColor(200,200,200),
-         new GColor(200,20,20)),;
+         new GColor(200,20,20));
     
     public static Theme used = WINE;
-    
-    //From here the code should not be touched by the user.
     
     public String name;
     public GColor blankHexColor;
@@ -65,12 +61,7 @@ public enum Theme {
      */
     Theme(String themeName, GColor bhC, GColor bhBC, GColor bC, GColor tC, GColor terrC, GColor sC){
         
-        if(themeName.equals("")){
-            name = "A theme has no name";
-        }else{
-            name = themeName;
-        }
-        
+        name = themeName;
         blankHexColor = bhC;
         blankHexBorderColor = bhBC;
         backgroundColor = bC;
