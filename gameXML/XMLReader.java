@@ -25,14 +25,14 @@ public class XMLReader {
      * @throws java.lang.Exception
      */
     protected Game getGame(Document fromDoc) throws Exception {
-            doc = fromDoc;
-            getMap();
-            getGameState();
-            getDifficulty();
-            getPlayerAndArmies();
-            getTurnNumber();
-   
-            return game;
+        doc = fromDoc;
+        getMap();
+        getGameState();
+        getDifficulty();
+        getPlayerAndArmies();
+        getTurnNumber();
+
+        return game;
     
     }
     
