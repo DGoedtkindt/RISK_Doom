@@ -17,10 +17,10 @@ import java.util.HashSet;
  * 
  */
 public class BlankHex extends Button implements Selectable{
-    public static final int maxNColumn = 40;
-    public static final int maxNRow = 40;
+    public static final int MAX_COLUMN = 40;
+    public static final int MAX_ROW = 40;
     
-    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[maxNColumn][maxNRow];
+    private static final BlankHex[][] BLANK_HEX_ARRAY = new BlankHex[MAX_COLUMN][MAX_ROW];
     public static final HashSet<BlankHex> BLANK_HEXS = new HashSet<>();
     
     private int[] hexCoord = new int[2];
@@ -61,8 +61,8 @@ public class BlankHex extends Button implements Selectable{
      * Updates the image of each BlankHex.
      */
     public static void updateAllImages() {
-        for(int x = 0; x < maxNColumn; x++) {
-            for(int y = 0; y < maxNRow; y++) {
+        for(int x = 0; x < MAX_COLUMN; x++) {
+            for(int y = 0; y < MAX_ROW; y++) {
                 blankHexAt(x,y).setImage();
                 
             }
@@ -121,21 +121,21 @@ public class BlankHex extends Button implements Selectable{
 
     @Override
     public void makeGreen() {
-        this.setImage(Hexagon.createImageWBorder(Theme.used.selectionColor));
-        this.getImage().setTransparency(Appearance.OPAQUE);
+        setImage(Hexagon.createImageWBorder(Theme.used.selectionColor));
+        getImage().setTransparency(Appearance.OPAQUE);
         
     }
     
     @Override
     public void makeOpaque() {
-    this.setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
-    this.getImage().setTransparency(Appearance.OPAQUE);
+        setImage(Hexagon.createImageWBorder(Theme.used.blankHexColor));
+        getImage().setTransparency(Appearance.OPAQUE);
     
     }
     
     @Override
     public void makeTransparent() {
-    this.getImage().setTransparency(Appearance.TRANSPARENT);
+        getImage().setTransparency(Appearance.TRANSPARENT);
     
     }
 }
