@@ -26,7 +26,7 @@ public class Continent implements Selectable{
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
     private GColor continentColor = Theme.used.territoryColor;
-    private ArrayList<Territory> territoriesContained = new ArrayList<>();
+    private final ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus = 0;
     
     /**

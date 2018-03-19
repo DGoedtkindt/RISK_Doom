@@ -23,8 +23,8 @@ public class LinkIndic extends Button{
     public Links links;
     private final Territory TERRITORY;
     private TerritoryHex terrHex;
-    private int xPos;
-    private int yPos; 
+    private final int xPos;
+    private final int yPos; 
     
     /**
      * Creates a LinkIndic.
