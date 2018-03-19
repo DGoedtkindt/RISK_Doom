@@ -9,9 +9,6 @@ import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import input.ChoiceInput;
-import input.Form;
-import input.Input;
 import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -39,14 +36,14 @@ public class Manager extends StateManager{
      * Creates a new Manager that will allow to play a certain Game when 
      * setupScene() is called.
      * 
-     * @param loadGame the game that will be loaded.
+     * @param loadGame The Game that will be loaded.
      */
     public Manager(Game loadGame) {
-        this.ctrlPanel = new ControlPanel();
-        this.modeDisp = new ModeMessageDisplay();
+        ctrlPanel = new ControlPanel();
+        modeDisp = new ModeMessageDisplay();
         GreenfootImage settings = new GreenfootImage("settings.png");
-        this.options = new NButton(loadOptionsMenu, settings, 30,30);
-        this.gameToLoad = loadGame;
+        options = new NButton(loadOptionsMenu, settings, 30,30);
+        gameToLoad = loadGame;
         
     }
     
@@ -89,10 +86,10 @@ public class Manager extends StateManager{
                 startNewTurn();
                 break;
             case FINISHED:
-                //do nothing yet. should maybe show the stats and the EndGamePanel
                 break;
             default:
                 break;
+                
         } 
         
     }
@@ -118,12 +115,11 @@ public class Manager extends StateManager{
     
     @Override
     public void clearScene() {
-        //Put the active player's armiesInHand to negative. little hack to prevent
-        //the player to get the armies multiple times by going to the options and 
-        //back
+        //Put the active Player's armiesInHand to negative. A little hack to prevent
+        //the Player to get the armies multiple times by going to the options and 
+        //back.
         Player currentPlayer = Turn.currentTurn.player;
         currentPlayer.addArmiesToHand(-currentPlayer.armyGainPerTurn());
-        //
         
         Turn.interruptCurrentTurn();
         
@@ -159,6 +155,7 @@ public class Manager extends StateManager{
      */
     private void giveTerritoriesRandomly() throws Exception{
         
+        //Checks whether the Map can be played
         ArrayList<Territory> capitals = new ArrayList<>();
         ArrayList<Territory> nonCapitals = new ArrayList<>();
         
@@ -180,7 +177,7 @@ public class Manager extends StateManager{
             throw new Exception("The Map doesn't have enough Territories for " + (game().players.size() - 1) + " Players.");
         }
         
-        
+        //Gives the Territories randomly
         for(Player playerToGiveTerrs : game().players){
             
             int randomCapital = Greenfoot.getRandomNumber(capitals.size());
@@ -209,6 +206,9 @@ public class Manager extends StateManager{
         
     }
     
+    /**
+     * Updates the capitals of each Player.
+     */
     private void playersUpdateCapital() {
         loadedGame.players.forEach(Player::updateCapital);
     }
