@@ -116,9 +116,6 @@ public class LinkIndic extends Button{
         
     }
     
-    @Override
-    public void toggleUnusable() {}
-    
     /**
      * Destroys this LinkIndic.
      */

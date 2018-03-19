@@ -49,7 +49,8 @@ public class PColorChooser extends BasicChooser {
         } else {
             next();
             
-        }    }
+        }    
+    }
 
     @Override
     public void previous() {
@@ -93,6 +94,7 @@ public class PColorChooser extends BasicChooser {
         currentColor = Color.get(colorNum);
         if(previousColor != null) previousColor.free();
         currentColor.block();
+        this.updateImage();
     
     }
     

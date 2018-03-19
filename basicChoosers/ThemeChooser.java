@@ -18,12 +18,14 @@ public class ThemeChooser extends BasicChooser {
     public void next() {
         if(themeNumber < Theme.values().length-1) themeNumber++; 
         else themeNumber = 0;
+        updateImage();
     }
 
     @Override
     public void previous() {
         if(themeNumber > 0) themeNumber--;
         else themeNumber = Theme.values().length-1;
+        updateImage();
     }
 
     @Override

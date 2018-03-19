@@ -32,7 +32,6 @@ public abstract class BasicChooser extends Actor implements Arrowable{
         rightArrow.scale(arrSize);
         leftArrow = new LeftArrow(this);
         leftArrow.scale(arrSize);
-        updateImage();
     
     }
     
@@ -46,6 +45,7 @@ public abstract class BasicChooser extends Actor implements Arrowable{
         world().addObject(this,x,y);
         world().addObject(rightArrow, x+halfGapSize,y);
         world().addObject(leftArrow, x-halfGapSize,y);
+        updateImage();
     
     }
     
