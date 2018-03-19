@@ -288,4 +288,16 @@ public class TerritoryHex extends Button {
         
     }
     
+    @Override
+    public void toggleUnusable() {
+        this.usable = false;
+        
+    }
+    
+    @Override
+    public void toggleUsable() {
+        this.usable = true;
+        
+    }
+    
 }
