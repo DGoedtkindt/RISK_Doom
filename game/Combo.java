@@ -166,7 +166,6 @@ public class Combo {
     }
     
     /**
->>>>>>> MassiveUpdate
      * Removes the combo Pieces used for the Sap Combo.
      */
     public void useSap(){

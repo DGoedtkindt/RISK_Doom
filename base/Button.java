@@ -4,7 +4,8 @@ import appearance.Appearance;
 import greenfoot.Actor;
 
 /**
- * Class of every Button.
+ * A Button is an actor that executes an action when the user clicks it.
+ * The World must detect the clicks and call the clicked() method.
  * 
  */
 public abstract class Button extends Actor {
@@ -22,18 +23,12 @@ public abstract class Button extends Actor {
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
     
-    /**
+    /**Returns whether the button is usable.
+     * 
      * @return whether the button is usable.
      */
     public boolean isUsable(){
         return usable;
-        
-        /*boolean isOpaque = getImage().getTransparency() == Appearance.OPAQUE;
-        boolean noUsedInputPanel = InputPanel.usedPanel == null;
-        boolean inputPanelIsUsed = InputPanel.usedPanel != null;
-        boolean isButtonOnInputPanel = InputPanel.YES == this || InputPanel.NO == this || InputPanel.SELECT == this;
-        
-        return isOpaque && (noUsedInputPanel || (inputPanelIsUsed && isButtonOnInputPanel));*/
         
     }
     

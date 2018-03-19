@@ -10,10 +10,7 @@ import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
-import input.ColorInput;
 import input.Form;
-import input.Input;
-import input.TextInput;
 import java.util.ArrayList;
 import java.util.List;
 import mode.Mode;
@@ -285,6 +282,24 @@ public class TerritoryHex extends Button {
         }
         int offset = (int)(getImage().getWidth() - img.getWidth())/2;
         getImage().drawImage(img, offset, offset);
+        
+    }
+    
+    /**
+     * Makes this TerritoryHex unclickable.
+     */
+    @Override
+    public void toggleUnusable() {
+        this.usable = false;
+        
+    }
+    
+    /**
+     * Makes this TerritoryHex clickable.
+     */
+    @Override
+    public void toggleUsable() {
+        this.usable = true;
         
     }
     
