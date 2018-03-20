@@ -48,7 +48,7 @@ public class Manager extends StateManager{
         world().placeBlankHexs();
         ctrlPanel.addToWorld(world().getWidth()-100, 300);
         modeDisp.addToWorld(world().getWidth()-90, 850);
-        world().addObject(Continent.display, 840, 960);
+        world().addObject(Continent.DISPLAY, 840, 960);
         world().addObject(options, world().getWidth() - 60, 30);
         loadMap();
         Mode.setMode(Mode.DEFAULT);
