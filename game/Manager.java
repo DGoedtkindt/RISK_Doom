@@ -58,7 +58,7 @@ public class Manager extends StateManager{
         world().placeBlankHexs();
         CONTROL_PANEL.addToWorld(world().getWidth() - 100, 300);
         MODE_MESSAGE_DISPLAY.addToWorld(world().getWidth() - 90, 850);
-        world().addObject(Continent.display, 840, 960);
+        world().addObject(Continent.DISPLAY, 840, 960);
         world().addObject(OPTIONS_BUTTON, world().getWidth() - 60, 30);
         loadGame();
     }
@@ -145,7 +145,7 @@ public class Manager extends StateManager{
         }
         
         if(Territory.actionSource == null || Territory.actionTarget == null){
-           Territory.resetSourceAndTarget(); 
+           Territory.resetSourceAndTarget();
         }
         
     }
