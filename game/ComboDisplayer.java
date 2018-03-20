@@ -14,8 +14,8 @@ import mode.Mode;
  */
 public class ComboDisplayer extends Button{
     
-    private final static ComboDisplayer displayer = new ComboDisplayer(new Combo());
-    private static NButton useCombos = new NButton(() -> {displayer.combo.use();}, "Use a Combo");
+    private final static ComboDisplayer DISPLAYER = new ComboDisplayer(new Combo());
+    private static final NButton USE_COMBOS = new NButton(() -> {DISPLAYER.combo.use();}, "Use a Combo");
     
     private boolean shown = false;
     
@@ -28,9 +28,9 @@ public class ComboDisplayer extends Button{
     private ComboDisplayer(Combo c){
         Mode.addModeChangeListener(() -> {
             if (Mode.mode() == Mode.DEFAULT){
-                ComboDisplayer.useCombos.toggleUsable();
+                ComboDisplayer.USE_COMBOS.toggleUsable();
             }else{
-                ComboDisplayer.useCombos.toggleUnusable();
+                ComboDisplayer.USE_COMBOS.toggleUnusable();
             }
         });
         combo = c;
@@ -134,12 +134,12 @@ public class ComboDisplayer extends Button{
      * Updates the displayer for the current Player.
      */
     public static void display() {
-        displayer.shown = false;
+        DISPLAYER.shown = false;
         Player currentPlayer = Turn.currentTurn.player;
-        displayer.combo = currentPlayer.combos();
-        displayer.updateImage();
-        world().addObject(displayer, Appearance.WORLD_WIDTH - 90, 950);
-        world().addObject(useCombos, Appearance.WORLD_WIDTH - 90, 1040);
+        DISPLAYER.combo = currentPlayer.combos();
+        DISPLAYER.updateImage();
+        world().addObject(DISPLAYER, Appearance.WORLD_WIDTH - 90, 950);
+        world().addObject(USE_COMBOS, Appearance.WORLD_WIDTH - 90, 1040);
         
     }
     
