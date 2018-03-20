@@ -24,7 +24,7 @@ public class OKButton extends Button{
         
         GreenfootImage image = new GreenfootImage("OKButton.png");
         image.scale(80, 80);
-        this.setImage(image);
+        setImage(image);
         
     }
     
