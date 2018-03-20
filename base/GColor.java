@@ -3,7 +3,7 @@ package base;
 import greenfoot.Color;
 
 /**
- * Color class replacing the greenfoot.Color class in our code.
+ * Color class with added pretty neat features!
  * 
  */
 public class GColor extends Color{
@@ -72,6 +72,9 @@ public class GColor extends Color{
     }
     
     /**
+     * the luminosity of this GColor as perceived by a human eye:
+     *  72% is green, 21% is red and 7% is blue 
+     * 
      * @return the luminosity of this GColor as perceived by a human eye
      */
     public int luminosity() {

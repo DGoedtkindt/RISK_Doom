@@ -8,8 +8,6 @@ import game.Player;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 import input.Form;
-import input.Input;
-import input.TextInput;
 import java.util.ArrayList;
 
 /**

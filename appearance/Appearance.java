@@ -4,7 +4,7 @@ import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 
 /**
- * Contains constant values.
+ * Contains constant values. Relative to the layout and appearance of the scene.
  * 
  */
 public class Appearance {

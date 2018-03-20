@@ -1,11 +1,9 @@
 package newGameMenu;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
 import base.Game;
-import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.DifficultyChooser;

@@ -1,14 +1,11 @@
 package userPreferences;
 
-import appearance.Appearance;
 import appearance.Theme;
 import base.MyWorld;
 import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
-import input.ChoiceInput;
 import input.Form;
-import input.Input;
 import mainObjects.BlankHex;
 
 /**

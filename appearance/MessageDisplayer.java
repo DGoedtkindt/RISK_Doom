@@ -1,6 +1,7 @@
 package appearance;
 
-import base.Button;
+import base.MyWorld;
+import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
@@ -10,9 +11,10 @@ import javax.swing.Timer;
  * An Actor that displays error messages.
  * 
  */
-public class MessageDisplayer extends Button{
+public class MessageDisplayer extends Actor{
     
     private static final int TOTAL_WIDTH = 700;
+    private static MyWorld world() {return MyWorld.theWorld;}
     
     private static FontMetrics fm;
     
@@ -89,11 +91,6 @@ public class MessageDisplayer extends Button{
         timer.setRepeats(true);
         timer.start();
         
-    }
-    
-    @Override
-    public void clicked() {
-        world().removeObject(this);
     }
     
 }

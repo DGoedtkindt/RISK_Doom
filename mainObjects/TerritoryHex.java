@@ -10,10 +10,7 @@ import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
-import input.ColorInput;
 import input.Form;
-import input.Input;
-import input.TextInput;
 import java.util.ArrayList;
 import java.util.List;
 import mode.Mode;
@@ -277,7 +274,7 @@ public class TerritoryHex extends Button {
         }else{
             
             try{
-                img = Hexagon.createImage(territory.continentColor, 0.5);
+                img = Hexagon.createImage(territory.continent().color(), 0.5);
             }catch(Exception e){
                 img = Hexagon.createImage(Theme.used.territoryColor, 0.5);
             }
@@ -288,12 +285,19 @@ public class TerritoryHex extends Button {
         
     }
     
+
+    /**
+     * Makes this TerritoryHex unclickable.
+     */
     @Override
     public void toggleUnusable() {
         this.usable = false;
         
     }
     
+    /**
+     * Makes this TerritoryHex clickable.
+     */
     @Override
     public void toggleUsable() {
         this.usable = true;

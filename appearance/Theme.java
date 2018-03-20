@@ -3,7 +3,7 @@ package appearance;
 import base.GColor;
 
 /**
- * The Themes that the user can use.
+ * The different themes that defines the colors of different Elements on the scene.
  * 
  */
 public enum Theme {

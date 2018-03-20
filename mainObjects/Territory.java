@@ -1,6 +1,5 @@
 package mainObjects;
 
-import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
 import base.Hexagon;
@@ -12,8 +11,6 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import input.Form;
 import input.FormAction;
-import input.Input;
-import input.TextInput;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +31,7 @@ public class Territory implements Selectable {
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
     private Continent continent = null;
-    public GColor continentColor = Theme.used.territoryColor;
+    private GColor continentColor = Theme.used.territoryColor;
     private int bonusPoints = 0;
     private BlankHex infoHex;
     private TerrInfo trInfo;
@@ -399,7 +396,8 @@ public class Territory implements Selectable {
     public void makeOpaque() {   
         drawTerritory();
         trInfo.toggleUsable();
-        for(LinkIndic li : links){li.toggleUsable();}
+        links.forEach(LinkIndic::toggleUsable);
+        
     }
 
     ///////////////////////////////////////////////////

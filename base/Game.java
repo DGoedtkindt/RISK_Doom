@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An Object representing the current state of the Game.
+ * An a structured variable representing the current state of a Game.
  * 
  */
 public class Game {
     
     /**
-     * Different states in wich the Game can be.
+     * Different states in which this Game can be.
      */
     public enum State {
         INITIALISATION("stuff still needs to be done for the game to truly start"),
