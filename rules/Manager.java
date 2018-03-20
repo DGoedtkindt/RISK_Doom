@@ -17,19 +17,19 @@ import java.awt.FontMetrics;
  */
 public class Manager extends StateManager{
     
-    private RulesDisplayer displayer;
+    private final RulesDisplayer DISPLAYER;
     
     /**
      * Creates a Manager.
      */
     public Manager(){
-        displayer = new RulesDisplayer();
+        DISPLAYER = new RulesDisplayer();
     }
     
     @Override
     public void setupScene() {
         world().makeSureSceneIsClear();
-        displayer.addToWorld(Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        DISPLAYER.addToWorld(Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
         world().addObject(world().backButton, Appearance.WORLD_WIDTH - 40, 40);
     }
 
@@ -55,8 +55,8 @@ class RulesDisplayer extends Actor implements Arrowable{
     private int x;
     private int y;
     
-    private RightArrow rightArrow;
-    private LeftArrow leftArrow;
+    private final RightArrow RIGHT_ARROW;
+    private final LeftArrow LEFT_ARROW;
     private int slideNumber = 0;
     private int linesNumber = 1;
     
@@ -68,8 +68,8 @@ class RulesDisplayer extends Actor implements Arrowable{
      * 
      */
     public RulesDisplayer(){
-        rightArrow = new RightArrow(this);
-        leftArrow = new LeftArrow(this);
+        RIGHT_ARROW = new RightArrow(this);
+        LEFT_ARROW = new LeftArrow(this);
         updateImage();
     }
     
@@ -83,8 +83,8 @@ class RulesDisplayer extends Actor implements Arrowable{
         y = yPos;
         
         MyWorld.theWorld.addObject(this, x, y);
-        MyWorld.theWorld.addObject(leftArrow, x - this.getImage().getWidth() / 2 - 30, y);
-        MyWorld.theWorld.addObject(rightArrow, x + this.getImage().getWidth() / 2 + 30, y);
+        MyWorld.theWorld.addObject(LEFT_ARROW, x - getImage().getWidth() / 2 - 30, y);
+        MyWorld.theWorld.addObject(RIGHT_ARROW, x + getImage().getWidth() / 2 + 30, y);
     }
     
     @Override
@@ -133,8 +133,8 @@ class RulesDisplayer extends Actor implements Arrowable{
         img.drawString(rule, 0, fm.getMaxAscent());
         setImage(img);
         
-        leftArrow.setLocation(x - this.getImage().getWidth() / 2 - 30, y);
-        rightArrow.setLocation(x + this.getImage().getWidth() / 2 + 30, y);
+        LEFT_ARROW.setLocation(x - getImage().getWidth() / 2 - 30, y);
+        RIGHT_ARROW.setLocation(x + getImage().getWidth() / 2 + 30, y);
         
     }
     

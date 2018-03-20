@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
  * XMLChooser for Games.
  */
 public class GameChooser extends XMLChooser{
+    
     private final static String DIRECTORY_NAME = "Games";
 
     public GameChooser() {
@@ -51,22 +52,24 @@ public class GameChooser extends XMLChooser{
         
         if(!gameDescription.equals("")){
             return gameDescription;
-        }else{return "This Game has no description";}
+        }else{
+            return "This Game has no description";
+        }
         
 
     }
 
     public Game getSelectedGame() throws Exception{
         try{
-                File gameFile = getCurrentFile();
-                GameXML gameXML = new GameXML(gameFile);
-                Game game = gameXML.getGame();
-                return game;
-                 
-            } catch(Exception ex) {
-                throw new Exception("Couldn't create GameXML from File",ex);
-                
-            }
+            File gameFile = getCurrentFile();
+            GameXML gameXML = new GameXML(gameFile);
+            Game game = gameXML.getGame();
+            return game;
+
+        } catch(Exception ex) {
+            throw new Exception("Couldn't create GameXML from File",ex);
+
+        }
     }
 
 }

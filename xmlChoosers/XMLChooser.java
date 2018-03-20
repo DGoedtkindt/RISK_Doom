@@ -24,8 +24,6 @@ import java.io.FileNotFoundException;
 
 public abstract class XMLChooser implements Arrowable {
     
-    //un XMLChooser a une image de taille 500x500
-    
     private int mapNumber = 0;
     private File directory;
     private String[] fileArray;
@@ -34,6 +32,8 @@ public abstract class XMLChooser implements Arrowable {
     private LeftArrow leftArrow;
     private Thumbnail thumbnail;
     protected MyWorld world() {return MyWorld.theWorld;}
+    
+    private class Thumbnail extends Actor {}
     
     /**
      * @param directoryName the name of the directory where the XMLChooser fetches
@@ -59,6 +59,7 @@ public abstract class XMLChooser implements Arrowable {
                 if(defaultOrHide) fileList.add(0,specialFile + ".xml");
                 
             } else {
+                MessageDisplayer.showMessage(specialFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
                 System.err.println(specialFile + ".xml was not found. please make sure it is placed there: " + directory.getAbsolutePath());
             
             }
@@ -70,7 +71,6 @@ public abstract class XMLChooser implements Arrowable {
                     + directory.getAbsolutePath()));
             
         }
-        
         
         thumbnail = new Thumbnail();
         rightArrow = new RightArrow(this);
@@ -87,8 +87,6 @@ public abstract class XMLChooser implements Arrowable {
         this(directoryName, null, true);
     
     }
-    
-    private class Thumbnail extends Actor {}
     
     public void addToWorld(int xPos, int yPos) {
         world().addObject(thumbnail, xPos, yPos);
@@ -114,6 +112,7 @@ public abstract class XMLChooser implements Arrowable {
     
     }
     
+    @Override
     public void next() {
         if(mapNumber < fileList.size()-1) mapNumber++;
         else mapNumber = 0;
@@ -121,6 +120,7 @@ public abstract class XMLChooser implements Arrowable {
     
     }
     
+    @Override
     public void previous() {
         if(mapNumber > 0) mapNumber--;
         else mapNumber = fileList.size()-1;
@@ -132,51 +132,52 @@ public abstract class XMLChooser implements Arrowable {
     
     private void updateImage() {
         String name = directory.getName() + "/" + fileList.get(mapNumber).replace(".xml", "");
-        //l'image qui sera set comme l'image de l'objet
-        GreenfootImage returnImage = new GreenfootImage(500,500);
+        
+        //The image of this Object
+        GreenfootImage returnImage = new GreenfootImage(500, 500);
+        
         try{
-            //rajoute l'image de la map (tirée du .png) au returnImage
+            //Draws the image of the Map
             GreenfootImage mapImage = new GreenfootImage(name + ".png");
             mapImage.scale(500, 300);
             returnImage.drawImage(mapImage, 0, 0);
             
-            } catch(IllegalArgumentException e) {
-                //Si le .png de la map est absent
-                //créer une image affichant "THUMBNAIL NOT FOUND"
-                GreenfootImage thumbnailNotFound = new GreenfootImage(500,300);
-                
-                thumbnailNotFound.setColor(new GColor(150,150,150));
-                thumbnailNotFound.fill();
-                thumbnailNotFound.setColor(new GColor(0,0,0));
-                
-                thumbnailNotFound.setFont(new Font("Monospaced", 20));
-                thumbnailNotFound.drawString("THUMBNAIL NOT FOUND", 180, 170);
-                thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
-                System.err.println("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
-                                    "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
-                MessageDisplayer.showMessage("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
-                                            "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
-                returnImage.drawImage(thumbnailNotFound, 0, 0);
-            } 
+        } catch(IllegalArgumentException e) {
+
+            //If the Map image doesn't exist, creates a 
+            //'THUMBNAIL NOT FOUND' image
+            GreenfootImage thumbnailNotFound = new GreenfootImage(500,300);
+
+            thumbnailNotFound.setColor(new GColor(150,150,150));
+            thumbnailNotFound.fill();
+            thumbnailNotFound.setColor(new GColor(0,0,0));
+
+            thumbnailNotFound.setFont(new Font("Monospaced", 20));
+            thumbnailNotFound.drawString("THUMBNAIL NOT FOUND", 180, 170);
+            thumbnailNotFound.drawString(name.replace(directory.getName() + "/", ""), 190, 250);
+            System.err.println("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
+                                "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
+            MessageDisplayer.showMessage("The thumbnail for '" + name.replace(directory.getName() + "/", "") +
+                                        "' is missing. Make sure the thumbnails are placed in this directory: " + directory.getAbsolutePath());
+            returnImage.drawImage(thumbnailNotFound, 0, 0);
+        } 
+
+        //Font and Colors
+        returnImage.setFont(new Font("Monospaced", 20));
+        returnImage.setColor(Theme.used.textColor);
+
+        //Obtains a description
+        String completeMessage = "";
+        completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Name :");
+        completeMessage += wrapText(getDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
+        completeMessage += "\n";
+        completeMessage += (mapNumber + 1) + " out of " + fileList.size();
+
+        //Draws the description
+        returnImage.drawString(completeMessage, 10, 300);
+
+        thumbnail.setImage(returnImage);
             
-            //quelques settings d'apparence
-            returnImage.setFont(new Font("Monospaced", 20));
-            returnImage.setColor(Theme.used.textColor);
-            
-            //créer le String de la description
-            String completeMessage = "";
-            completeMessage += wrapText(name.replace(directory.getName() + "/", ""), 40, "Name :");
-            completeMessage += wrapText(getDescription(directory.getName() + "/" +fileList.get(mapNumber)), 40, "Description :");
-            completeMessage += "\n";
-            completeMessage += (mapNumber + 1) + " out of " + fileList.size();
-            
-            //dessiner la description
-            returnImage.drawString(completeMessage, 10, 300);
-            
-            thumbnail.setImage(returnImage);
-            
-        
-        
     }
     
     protected abstract String getDescription(String fileName);
@@ -186,7 +187,6 @@ public abstract class XMLChooser implements Arrowable {
         String nextEntry = "";
         
         for(char c : entryName.toCharArray()){
-            
             nextEntry += " ";
             
         }

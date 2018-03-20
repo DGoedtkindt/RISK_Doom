@@ -14,10 +14,9 @@ import mainObjects.BlankHex;
  */
 public class Manager extends StateManager{
     
-    private ThemeChooser themeChooser = new ThemeChooser();
-    private NButton saveSettings = new NButton(() -> {applySettingsAndBack();},
-            "Apply Changes");
-    private StateManager previous;
+    private final ThemeChooser THEME_CHOOSER = new ThemeChooser();
+    private final NButton SAVE_SETTINGS = new NButton(() -> {applySettingsAndBack();}, "Apply Changes");
+    private final StateManager PREVIOUS_MANAGER;
     
     /**
      * Creates a Manager
@@ -25,15 +24,15 @@ public class Manager extends StateManager{
      *                        For example, we want the user to return to the game if he entered the options from the game.
      */
     public Manager(StateManager previousManager) {
-        previous = previousManager;
+        PREVIOUS_MANAGER = previousManager;
     }
     
     @Override
     public void setupScene() {
         world().makeSureSceneIsClear();
-        themeChooser.addToWorld(world().getWidth()/2, world().getHeight()/2);
-        themeChooser.setArrows(500, 40);
-        world().addObject(saveSettings, world().getWidth()/2, 5*world().getHeight()/6);
+        THEME_CHOOSER.addToWorld(world().getWidth()/2, world().getHeight()/2);
+        THEME_CHOOSER.setArrows(500, 40);
+        world().addObject(SAVE_SETTINGS, world().getWidth()/2, 5*world().getHeight()/6);
     
     }
     
@@ -41,30 +40,30 @@ public class Manager extends StateManager{
      * Method used to apply the chosen settings.
      */
     private void applySettingsAndBack() {
-        int themeNum = Integer.parseInt(themeChooser.choiceValue());
+        int themeNum = Integer.parseInt(THEME_CHOOSER.choiceValue());
         Theme.used = Theme.values()[themeNum];
         MyWorld.theWorld.getBackground().setColor(Theme.used.backgroundColor);
         MyWorld.theWorld.getBackground().fill();
         BlankHex.updateAllImages();
         
         clearScene();
-        world().load(previous);
+        world().load(PREVIOUS_MANAGER);
     
     }
     
     @Override
     public void clearScene() {
-        themeChooser.destroy();
-        world().removeObject(saveSettings);
+        THEME_CHOOSER.destroy();
+        world().removeObject(SAVE_SETTINGS);
 
     }
     
     @Override
     public void escape() {
         Form.confirmInput("Do you want to return to what you were doing before?", (input)->{
-            if(input.get("confirmation") == "Yes") {
+            if(input.get("confirmation").equals("Yes")) {
                 this.clearScene();
-                MyWorld.theWorld.load(this.previous);
+                MyWorld.theWorld.load(PREVIOUS_MANAGER);
             } 
         }); 
         

@@ -28,14 +28,13 @@ public class Form {
     public static Form activeForm() {return activeForm;}
     
     public FormAction submitAction = null;
+    public FormCancelAction cancelAction;
     
     private final Map<String,Input> INPUTS = new HashMap<>();
     private final Map<Input,Boolean> INPUTS_READY = new HashMap<>();
-    private final FormCancelAction CANCEL_ACTION = null;
     private MyWorld world;
     
     private final Action SUBMIT;
-    private final Action CANCEL;
     private OKCancelPanel ocPanel;
     
     //for input placement
@@ -96,7 +95,7 @@ public class Form {
     
     public Form() {
         SUBMIT = ()->{submit();};
-        CANCEL = ()->{cancel("User pressed the cancel button");};
+        cancelAction = (String s)->{cancel("User pressed the cancel button");};
         
     }
             
@@ -138,7 +137,7 @@ public class Form {
      */
     public void cancel(String cause) {
         removeFromWorld();
-        if(CANCEL_ACTION != null) CANCEL_ACTION.cancel(cause);
+        if(cancelAction != null && world != null) cancelAction.cancel(cause);
     
     }
     
@@ -257,7 +256,7 @@ public class Form {
         private final int HEIGHT = Input.HEIGHT/2;
         private final int WIDTH = Input.WIDTH;
         private final NButton SUBMIT_BUTTON = new NButton(SUBMIT, "OK");
-        private final NButton CANCEL_BUTTON = new NButton(CANCEL, "Cancel");
+        private final NButton CANCEL_BUTTON = new NButton(() -> {activeForm.cancel("Cancelled by User.");}, "Cancel");
         private final Background BACKGROUND = new Background(WIDTH,HEIGHT);
         
         void addToWorld() {

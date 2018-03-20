@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * The destroy() method must be used to remove the the group of actor
  */
 public class PlayersPanel {
+    
     private final int WIDHT = 200;
     private final int HEIGHT = 300;
-    
     
     private ArrayList<PlayerOptions> players = new ArrayList<>();
     private NButton newP;
@@ -136,10 +136,6 @@ public class PlayersPanel {
     }
     
     
-    
-    
-    
-    
     /**
      * PlayerOption is a group of actor that allows the user to delete a player,
      * change its name, its color. It also creates a Player Object from its
@@ -175,7 +171,8 @@ public class PlayersPanel {
          * @param yPos The y coordinate of this PlayerOptions.
          */
         void addToWorld(World toWorld, int xPos, int yPos) {
-            this.xPos = xPos; this.yPos = yPos;
+            this.xPos = xPos;
+            this.yPos = yPos;
             world.addObject(editName, xPos,yPos-20);
             colorChooser.addToWorld(xPos, yPos+20);
             
@@ -237,7 +234,7 @@ public class PlayersPanel {
          */
         void askForName() {
             Form.inputText("Enter the new Name", (input)->{
-                this.setName(input.get("inputedText"));
+                setName(input.get("inputedText"));
             });
             
         }

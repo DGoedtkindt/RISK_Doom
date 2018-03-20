@@ -18,7 +18,7 @@ import mapXML.MapXML;
  */
 public class MapSaver {
     
-    private Map map;
+    private final Map MAP;
     private String name;
     private String description;
     
@@ -29,7 +29,7 @@ public class MapSaver {
      * @param mapToSave The Map that must be saved.
      */
     public MapSaver(Map mapToSave) {
-        map = mapToSave;
+        MAP = mapToSave;
         defineSaveInfoFormAction();
     
     }
@@ -106,7 +106,7 @@ public class MapSaver {
      */
     private void confirm() {
         Form.confirmInput("Do you want to replace the existing Map '" + name + "' with this one?", (input)-> {
-            if(input.get("confirmamtion") == "Yes") {
+            if(input.get("confirmamtion").equals("Yes")) {
                 save();
             }
         });
@@ -137,7 +137,7 @@ public class MapSaver {
      * Saves the Map.
      */
     private void saveXML() throws Exception{
-        MapXML xml = new MapXML(map);
+        MapXML xml = new MapXML(MAP);
         xml.write(name, description);
     
     }
