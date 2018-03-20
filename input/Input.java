@@ -10,11 +10,11 @@ import base.Action;
 public abstract class Input {
     
     public static final int HEIGHT = 180;
-    public static final int WIDTH = 2*appearance.Appearance.WORLD_WIDTH/3;
+    public static final int WIDTH = 2 * appearance.Appearance.WORLD_WIDTH / 3;
     protected static Input activeInput;
     
     /**
-     * action this Input is going to perform when submit is called
+     * The Action this Input is going to perform when submit is called
      */
     Action onSubmitAction;
     
