@@ -26,19 +26,19 @@ public class ControlPanel {
     private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.CAN_ATTACK);
     private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.CAN_ATTACK);
     
-    private Action updateThis = () -> {};
+    private final Action UPDATE_THIS = () -> {};
     
     
     //to easlily modify all buttons
-    private ArrayList<Button> allButtons = new ArrayList<>();
+    private final ArrayList<Button> ALL_BUTTONS = new ArrayList<>();
     
     /**
      * Creates a ControlPanel from a specific game.Manager.
      */
     protected ControlPanel() {
-        allButtons.add(nextTurnButton);
-        allButtons.add(attackButton);
-        allButtons.add(moveButton);
+        ALL_BUTTONS.add(nextTurnButton);
+        ALL_BUTTONS.add(attackButton);
+        ALL_BUTTONS.add(moveButton);
         
         Mode.addModeChangeListener(() -> {
             
@@ -74,7 +74,7 @@ public class ControlPanel {
      * @param yPos The y coordinate of the ControlPanel.
      */
     protected void addToWorld(int xPos, int yPos) {
-        Mode.addModeChangeListener(updateThis);
+        Mode.addModeChangeListener(UPDATE_THIS);
         world().addObject(nextTurnButton, xPos, yPos + 300);
         world().addObject(attackButton, xPos, yPos + 200);
         world().addObject(moveButton, xPos, yPos + 100);
@@ -85,8 +85,8 @@ public class ControlPanel {
      * Removes the ControlPanel from the World.
      */
     protected void removeFromWorld() {
-        Mode.removeModeChangeListener(updateThis);
-        allButtons.forEach(world()::removeObject);
+        Mode.removeModeChangeListener(UPDATE_THIS);
+        ALL_BUTTONS.forEach(world()::removeObject);
     
     }
     
