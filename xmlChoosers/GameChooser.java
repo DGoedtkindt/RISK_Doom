@@ -25,7 +25,7 @@ public class GameChooser extends XMLChooser{
 
     @Override
     protected String getDescription(String fileName) {
-        String mapDescription = "";
+        String gameDescription = "";
         Document doc;
         
         try{
@@ -39,7 +39,7 @@ public class GameChooser extends XMLChooser{
             Element mapElement = ((Element)(doc.getElementsByTagName("game").item(0)));
             
             if(mapElement.hasAttribute("description")){
-                mapDescription = mapElement.getAttribute("description");
+                gameDescription = mapElement.getAttribute("description");
                 
             }
             
@@ -49,8 +49,8 @@ public class GameChooser extends XMLChooser{
             return null;
         }
         
-        if(!mapDescription.equals("")){
-            return mapDescription;
+        if(!gameDescription.equals("")){
+            return gameDescription;
         }else{return "This Game has no description";}
         
 
