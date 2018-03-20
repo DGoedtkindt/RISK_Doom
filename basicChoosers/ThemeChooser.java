@@ -12,7 +12,7 @@ import base.Hexagon;
  */
 public class ThemeChooser extends BasicChooser {
     
-    private int  themeNumber = 0;
+    private int themeNumber = 0;
 
     @Override
     public void next() {
@@ -47,7 +47,7 @@ public class ThemeChooser extends BasicChooser {
         img.setFont(new Font("Monospaced", 20));
         img.drawString(currentTheme.name, 10, img.getHeight() - 20);
         
-        this.setImage(img);
+        setImage(img);
         
     }
 

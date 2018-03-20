@@ -17,7 +17,7 @@ public class DifficultyChooser extends BasicChooser {
     protected void updateImage() {
         GreenfootImage newImage = new GreenfootImage(selectedDifficulty().NAME,
                 20, Theme.used.textColor, new GColor(0,0,0,0));
-        this.setImage(newImage);
+        setImage(newImage);
     }
 
     @Override
@@ -38,14 +38,14 @@ public class DifficultyChooser extends BasicChooser {
     public void next() {
         if(currentDifficulty == Difficulty.values().length - 1){currentDifficulty = 0;}
         else{currentDifficulty ++;}
-        this.updateImage();
+        updateImage();
     }
 
     @Override
     public void previous() {
         if(currentDifficulty == 0){currentDifficulty = Difficulty.values().length - 1;}
         else{currentDifficulty --;}
-        this.updateImage();
+        updateImage();
     }
     
 }
