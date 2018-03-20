@@ -29,13 +29,13 @@ public class Form {
     
     public FormAction submitAction = null;
     
-    private Map<String,Input> inputs = new HashMap<>();
-    private Map<Input,Boolean> inputsReady = new HashMap<>();
-    private FormCancelAction cancelAction = null;
+    private final Map<String,Input> INPUTS = new HashMap<>();
+    private final Map<Input,Boolean> INPUTS_READY = new HashMap<>();
+    private final FormCancelAction CANCEL_ACTION = null;
     private MyWorld world;
     
-    private Action submit;
-    private Action cancel;
+    private final Action SUBMIT;
+    private final Action CANCEL;
     private OKCancelPanel ocPanel;
     
     //for input placement
@@ -95,8 +95,8 @@ public class Form {
     }
     
     public Form() {
-        submit = ()->{submit();};
-        cancel = ()->{cancel("User pressed the cancel button");};
+        SUBMIT = ()->{submit();};
+        CANCEL = ()->{cancel("User pressed the cancel button");};
         
     }
             
@@ -109,8 +109,8 @@ public class Form {
      * @param optional Define whether it is optional or not to complete the input
      */
     public void addInput(String inputID, Input input, boolean optional) {
-        if(world == null && inputs.size() < 5) {
-            inputs.put(inputID, input);
+        if(world == null && INPUTS.size() < 5) {
+            INPUTS.put(inputID, input);
             manageOptional(input,optional);
             
         }
@@ -138,7 +138,7 @@ public class Form {
      */
     public void cancel(String cause) {
         removeFromWorld();
-        if(cancelAction != null) cancelAction.cancel(cause);
+        if(CANCEL_ACTION != null) CANCEL_ACTION.cancel(cause);
     
     }
     
@@ -181,25 +181,25 @@ public class Form {
         //if optional
         if(optional) {
             //set as ready in inputsReady
-            inputsReady.put(input, true);
+            INPUTS_READY.put(input, true);
             //on input sumbit: submit form if it is the only input
-            input.onSubmitAction = ()->{if(inputs.size()==1)
+            input.onSubmitAction = ()->{if(INPUTS.size()==1)
                 submit();
             };
 
         }
         //if not optional
         else {
-            inputsReady.put(input, false);
+            INPUTS_READY.put(input, false);
             input.onSubmitAction = ()->{
                 //on input sumbit: check if value was entered
                 //if so set as ready and submit form if it is the only input
                 if(!input.value().equals("")) {
-                    inputsReady.put(input, true);
-                    if(inputs.size()==1) submit();
+                    INPUTS_READY.put(input, true);
+                    if(INPUTS.size()==1) submit();
                 }
                 //else set as not ready 
-                else inputsReady.put(input, false);
+                else INPUTS_READY.put(input, false);
 
             };
         }
@@ -210,7 +210,7 @@ public class Form {
      */
     private Map<String,String> getValues() {
         Map<String,String> values = new HashMap<>();
-        Set<Map.Entry<String, Input>> inputSet = inputs.entrySet();
+        Set<Map.Entry<String, Input>> inputSet = INPUTS.entrySet();
         for(Map.Entry<String, Input> input : inputSet) {
             String ID = input.getKey();
             Input value = input.getValue();
@@ -221,11 +221,11 @@ public class Form {
     }
 
     private void addInputsToWorld() {
-        int inputNumber = inputs.size();
+        int inputNumber = INPUTS.size();
         nextInputXPos = world.getWidth()/2;
         nextInputYPos = world.getHeight()/2 - (inputNumber-1)*(Input.HEIGHT/2);
                 
-        Collection<Input> inputCollection = inputs.values();
+        Collection<Input> inputCollection = INPUTS.values();
         for(Input input : inputCollection) {
             input.addToWorld(nextInputXPos,nextInputYPos);
             nextInputYPos+=Input.HEIGHT;
@@ -243,37 +243,37 @@ public class Form {
     }
 
     private void removeInputsFromWorld() {
-        Collection<Input> inputCollection = inputs.values();
+        Collection<Input> inputCollection = INPUTS.values();
         inputCollection.forEach(Input::removeFromWorld);
         
     }
 
     private boolean allInputsReady() {
-        return !(inputsReady.values().contains(false));
+        return !(INPUTS_READY.values().contains(false));
         
     }
     
     private class OKCancelPanel {
         private final int HEIGHT = Input.HEIGHT/2;
         private final int WIDTH = Input.WIDTH;
-        private NButton submitButton = new NButton(submit, "OK");
-        private NButton cancelButton = new NButton(cancel, "Cancel");
-        private Background background = new Background(WIDTH,HEIGHT);
+        private final NButton SUBMIT_BUTTON = new NButton(SUBMIT, "OK");
+        private final NButton CANCEL_BUTTON = new NButton(CANCEL, "Cancel");
+        private final Background BACKGROUND = new Background(WIDTH,HEIGHT);
         
         void addToWorld() {
-            world.addObject(background, 
+            world.addObject(BACKGROUND, 
                     MyWorld.theWorld.getWidth()/2, nextInputYPos);
-            world.addObject(submitButton,
+            world.addObject(SUBMIT_BUTTON,
                     (int)(1.5*MyWorld.theWorld.getWidth()/4), nextInputYPos);
-            world.addObject(cancelButton,
+            world.addObject(CANCEL_BUTTON,
                     (int)(2.5* MyWorld.theWorld.getWidth()/4), nextInputYPos);
             
         }
         
         void removeFromWorld() {
-            world.removeObject(submitButton);
-            world.removeObject(cancelButton);
-            world.removeObject(background);
+            world.removeObject(SUBMIT_BUTTON);
+            world.removeObject(CANCEL_BUTTON);
+            world.removeObject(BACKGROUND);
             
         }
         
@@ -284,9 +284,9 @@ public class Form {
 
             private Background(int width, int height) {
                 Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
-                this.setImage(new GreenfootImage(width,height));
-                this.getImage().setColor(backgroundColor);
-                this.getImage().fill();
+                setImage(new GreenfootImage(width,height));
+                getImage().setColor(backgroundColor);
+                getImage().fill();
             }
         }
         
