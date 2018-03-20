@@ -1,12 +1,9 @@
 package menu;
 
-import appearance.Appearance;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
-import input.ChoiceInput;
 import input.Form;
-import input.Input;
 
 /**
  * This Manager creates the Main Menu.

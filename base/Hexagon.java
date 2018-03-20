@@ -27,7 +27,7 @@ public class Hexagon {
     }
     
     /**
-     * Creates a hexagonal image without borders, sacled by some factor.
+     * Creates a hexagonal image without borders, scaled by some factor.
      * @param color The color of this hexagon.
      * @param sizeFactor The factor the hexagon will be scaled by.
      * @return The image.
