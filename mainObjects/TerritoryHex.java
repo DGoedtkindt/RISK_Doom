@@ -10,10 +10,7 @@ import game.Turn;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
-import input.ColorInput;
 import input.Form;
-import input.Input;
-import input.TextInput;
 import java.util.ArrayList;
 import java.util.List;
 import mode.Mode;
@@ -24,8 +21,9 @@ import selector.Selector;
  * 
  */
 public class TerritoryHex extends Button {
-    private Territory territory;
-    private int[] hexCoord = new int[2];
+    
+    private final Territory TERRITORY;
+    private final int[] HEX_COORD = new int[2];
     
     /**
      * Creates a TerritoryHex.
@@ -35,10 +33,10 @@ public class TerritoryHex extends Button {
      * @param y The y hexagonal coordinate of this TerritoryHex.
      */
     public TerritoryHex(Territory territory, GColor color, int x, int y){
-        this.territory = territory;
+        TERRITORY = territory;
         drawTerrHex(color);
-        hexCoord[0] = x;
-        hexCoord[1] = y;
+        HEX_COORD[0] = x;
+        HEX_COORD[1] = y;
     }
     
     /**
@@ -46,7 +44,7 @@ public class TerritoryHex extends Button {
      * @return Its hexagonal coordinates.
      */
     public int[] hexCoord() {
-        return hexCoord;
+        return HEX_COORD;
     }
     
     /**
@@ -54,7 +52,7 @@ public class TerritoryHex extends Button {
      * @return Its rectangular, normal coordinates.
      */
     public int[] rectCoord() {
-        return Hexagon.hexToRectCoord(hexCoord);
+        return Hexagon.hexToRectCoord(HEX_COORD);
     }
     
     @Override
@@ -67,35 +65,35 @@ public class TerritoryHex extends Button {
                     break;
                     
                 case EDIT_TERRITORY_BONUS :
-                    Selector.select(territory);
+                    Selector.select(TERRITORY);
                     Selector.setValidator(Selector.NOTHING);
                     world().repaint(); //pour forcer l'actualisation des images
-                    territory.editBonus();
+                    TERRITORY.editBonus();
                     world().stateManager.escape();;
                     break;
                     
                 case EDIT_CONTINENT_COLOR :
-                    if(territory.continent() != null){
-                        Selector.select(territory.continent());
+                    if(TERRITORY.continent() != null){
+                        Selector.select(TERRITORY.continent());
                         Selector.setValidator(Selector.NOTHING);
                         world().repaint(); //pour forcer l'actualisation des images
-                        territory.continent().editColor();
+                        TERRITORY.continent().editColor();
                         world().stateManager.escape();
                     }
                     break;
                     
                 case EDIT_CONTINENT_BONUS :
-                    if(territory.continent() != null){
-                        Selector.select(territory.continent());
+                    if(TERRITORY.continent() != null){
+                        Selector.select(TERRITORY.continent());
                         Selector.setValidator(Selector.NOTHING);
                         world().repaint(); //pour forcer l'actualisation des images
-                        territory.continent().editBonus();
+                        TERRITORY.continent().editBonus();
                         world().stateManager.escape();
                     }
                     break;
                     
                 case DELETE_CONTINENT :
-                    Selector.select(territory.continent());
+                    Selector.select(TERRITORY.continent());
                     break;
                     
                 case SET_LINK :
@@ -105,15 +103,15 @@ public class TerritoryHex extends Button {
                             Links.newLinks = new Links(newColor);
                             Links.newLinks.addToWorld();
             
-                            new LinkIndic(territory, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld();
+                            new LinkIndic(TERRITORY, ((TerritoryHex)this).getX(), ((TerritoryHex)this).getY()).addToWorld();
                         });
                         
-                    }else if(!Links.newLinks.linkedTerrs.contains(territory)){
+                    }else if(!Links.newLinks.linkedTerrs.contains(TERRITORY)){
                         
                         MouseInfo mouse = Greenfoot.getMouseInfo();
                         int xPos = mouse.getX();
                         int yPos = mouse.getY();
-                        new LinkIndic(territory,xPos, yPos).addToWorld(); 
+                        new LinkIndic(TERRITORY, xPos, yPos).addToWorld(); 
                         
                     }
                     
@@ -121,18 +119,18 @@ public class TerritoryHex extends Button {
                     
                 case ATTACK : 
                     if(Territory.actionSource == null
-                       && territory.owner() == Turn.currentTurn.player){
+                       && TERRITORY.owner() == Turn.currentTurn.player){
                         
-                        Territory.actionSource = territory;
-                        Selector.select(territory);
+                        Territory.actionSource = TERRITORY;
+                        Selector.select(TERRITORY);
                         Selector.setValidator(Selector.IS_ATTACKABLE);
                         
-                    }else if(territory.owner() != Turn.currentTurn.player){
+                    }else if(TERRITORY.owner() != Turn.currentTurn.player){
                         
-                        Selector.select(territory);
+                        Selector.select(TERRITORY);
                         
                         if(Selector.territoriesNumber() == 2){
-                            Territory.actionTarget = territory;
+                            Territory.actionTarget = TERRITORY;
                             try{
                                 Territory.actionSource.invade(Territory.actionTarget);
                             }catch(Exception e){
@@ -147,14 +145,14 @@ public class TerritoryHex extends Button {
                     break;
                 
                 case MOVE : 
-                    if(territory.owner() == Turn.currentTurn.player){
+                    if(TERRITORY.owner() == Turn.currentTurn.player){
                         
                         if(Territory.actionSource == null){
-                            Territory.actionSource = territory;
-                            Selector.select(territory);
+                            Territory.actionSource = TERRITORY;
+                            Selector.select(TERRITORY);
                         }else{
-                            Selector.select(territory);
-                            Territory.actionTarget = territory;
+                            Selector.select(TERRITORY);
+                            Territory.actionTarget = TERRITORY;
                             try{
                                 Territory.actionSource.moveTo(Territory.actionTarget);
                             }catch(Exception e){
@@ -169,7 +167,7 @@ public class TerritoryHex extends Button {
                     break;
                     
                 case CLEARING_HAND :
-                    if(territory.owner() == Turn.currentTurn.player){
+                    if(TERRITORY.owner() == Turn.currentTurn.player){
                         Form.inputText("The number of armies you want to put on this territory.", (input)->{
                             if(input.get("inputedText").matches("\\d+")){
 
@@ -177,12 +175,12 @@ public class TerritoryHex extends Button {
 
                                 if(newArmies < 0){
                                     MessageDisplayer.showMessage("This is a negative number.");
-                                }else if(newArmies > ((TerritoryHex)this).territory.owner().armiesInHand()){
+                                }else if(newArmies > ((TerritoryHex)this).TERRITORY.owner().armiesInHand()){
                                     MessageDisplayer.showMessage("You don't have enough armies.");
                                 }else{
-                                    ((TerritoryHex)this).territory.addArmies(newArmies);
-                                    ((TerritoryHex)this).territory.owner().addArmiesToHand(-newArmies);
-                                    ((TerritoryHex)this).territory.drawTerritory();
+                                    TERRITORY.addArmies(newArmies);
+                                    TERRITORY.owner().addArmiesToHand(-newArmies);
+                                    TERRITORY.drawTerritory();
                                 }
 
                             }else{
@@ -196,10 +194,10 @@ public class TerritoryHex extends Button {
                     break;
                     
                 case SAP : 
-                    if(territory.owner() != Turn.currentTurn.player){
-                        territory.owner().addArmiesToHand(territory.armies());
-                        territory.setOwner(null);
-                        territory.drawTerritory();
+                    if(TERRITORY.owner() != Turn.currentTurn.player){
+                        TERRITORY.owner().addArmiesToHand(TERRITORY.armies());
+                        TERRITORY.setOwner(null);
+                        TERRITORY.drawTerritory();
                         Turn.currentTurn.player.combos().useSap();
                         world().stateManager.escape();
                     }
@@ -249,7 +247,7 @@ public class TerritoryHex extends Button {
      * @return Its Territory.
      */
     public Territory territory(){
-       return territory;
+       return TERRITORY;
         
     }
     
@@ -277,7 +275,7 @@ public class TerritoryHex extends Button {
         }else{
             
             try{
-                img = Hexagon.createImage(territory.continentColor, 0.5);
+                img = Hexagon.createImage(TERRITORY.continentColor, 0.5);
             }catch(Exception e){
                 img = Hexagon.createImage(Theme.used.territoryColor, 0.5);
             }
@@ -290,13 +288,13 @@ public class TerritoryHex extends Button {
     
     @Override
     public void toggleUnusable() {
-        this.usable = false;
+        usable = false;
         
     }
     
     @Override
     public void toggleUsable() {
-        this.usable = true;
+        usable = true;
         
     }
     
