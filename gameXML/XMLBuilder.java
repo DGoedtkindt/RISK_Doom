@@ -27,6 +27,7 @@ public class XMLBuilder {
      * Builds a XML Document from a Game Object
      * @param fromGame
      * @return a xml Document representing fromGame
+     * @throws Exception
      */
     protected Document build(Game fromGame) throws Exception {
         try {
