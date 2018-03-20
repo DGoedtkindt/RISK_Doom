@@ -9,11 +9,10 @@ import greenfoot.Color;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 
-
 public class ColorInput extends Input{
     
     private final String TITLE;
-    private Background background;
+    private final Background BACKGROUND;
     private final Slider redSlider;
     private final Slider greenSlider;
     private final Slider blueSlider;
@@ -22,7 +21,7 @@ public class ColorInput extends Input{
     public ColorInput(String title) {
         TITLE = title;
         thisColorInput = this;
-        background = new Background(WIDTH,HEIGHT);
+        BACKGROUND = new Background(WIDTH,HEIGHT);
         redSlider = new Slider(new GColor(255,0,0));
         greenSlider = new Slider(new GColor(0,255,0));
         blueSlider = new Slider(new GColor(0,0,255));
@@ -31,7 +30,7 @@ public class ColorInput extends Input{
     
     @Override
     void addToWorld(int xPos, int yPos) {
-        MyWorld.theWorld.addObject(background, xPos, yPos);
+        MyWorld.theWorld.addObject(BACKGROUND, xPos, yPos);
         redSlider.addToWorld(xPos, yPos-HEIGHT/4);
         greenSlider.addToWorld(xPos, yPos);
         blueSlider.addToWorld(xPos, yPos+HEIGHT/4);
@@ -39,7 +38,7 @@ public class ColorInput extends Input{
 
     @Override
     void removeFromWorld() {
-        MyWorld.theWorld.removeObject(background);
+        MyWorld.theWorld.removeObject(BACKGROUND);
         redSlider.removeFromWorld();
         greenSlider.removeFromWorld();
         blueSlider.removeFromWorld();
@@ -56,22 +55,23 @@ public class ColorInput extends Input{
      * just an actor with a certain image that serves as a background.
      */
     private class Background extends Actor {
+        
         private Background(int width, int height) {
             Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
-            this.setImage(new GreenfootImage(width,height));
-            this.getImage().setColor(backgroundColor);
-            this.getImage().fill();
-            this.getImage().setColor(appearance.Theme.used.textColor);
-            this.getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
-            this.getImage().drawString(TITLE, 30, 30);
+            setImage(new GreenfootImage(width,height));
+            getImage().setColor(backgroundColor);
+            getImage().fill();
+            getImage().setColor(appearance.Theme.used.textColor);
+            getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
+            getImage().drawString(TITLE, 30, 30);
             
             //lines for sliders
             int xStart = WIDTH/2;
             int length = WIDTH/3;
-            this.getImage().setColor(GColor.BLACK);
-            this.getImage().drawLine(xStart, HEIGHT/4, xStart + length, HEIGHT/4);
-            this.getImage().drawLine(xStart, HEIGHT/2, xStart + length, HEIGHT/2);
-            this.getImage().drawLine(xStart, 3*HEIGHT/4, xStart + length, 3*HEIGHT/4);
+            getImage().setColor(GColor.BLACK);
+            getImage().drawLine(xStart, HEIGHT/4, xStart + length, HEIGHT/4);
+            getImage().drawLine(xStart, HEIGHT/2, xStart + length, HEIGHT/2);
+            getImage().drawLine(xStart, 3*HEIGHT/4, xStart + length, 3*HEIGHT/4);
         }
 
         @Override
@@ -80,7 +80,7 @@ public class ColorInput extends Input{
             GreenfootImage hex = Hexagon.createImage(color);
             hex.scale(120, 120);
             
-            this.getImage().drawImage(hex, WIDTH/4 - 60, 60);
+            getImage().drawImage(hex, WIDTH/4 - 60, 60);
             
             if(Greenfoot.isKeyDown("Enter"))
             if(Input.activeInput == thisColorInput)submit();
@@ -98,14 +98,14 @@ public class ColorInput extends Input{
         static final int SIZE = 40;
         static final int LENGTH = WIDTH/3; 
 
-        private GColor color;
+        private final GColor COLOR;
         private int minX = 0;
         private int maxX = 1;
         private int x = 0;
         private int y = 1;
         
         Slider(GColor c) {
-           color = c;
+           COLOR = c;
            createImage();
             
         }
@@ -117,9 +117,9 @@ public class ColorInput extends Input{
             GreenfootImage img = new GreenfootImage(SIZE,SIZE);
             img.setColor(GColor.BLACK);
             img.fillOval(0, 0, SIZE, SIZE);
-            img.setColor(color.multiply(value()));
+            img.setColor(COLOR.multiply(value()));
             img.fillOval(2, 2, SIZE-4, SIZE-4);
-            this.setImage(img);
+            setImage(img);
 
         }
         
