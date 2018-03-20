@@ -11,11 +11,13 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import input.Form;
 import input.FormAction;
+import input.TextInput;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import selector.Selectable;
+import selector.Selector;
 
 /**
  * The Class that represents the Territories, the main Objects of this Game.
@@ -253,7 +255,14 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void invade(Territory target) throws Exception{
-        Form.inputText("The number of armies you're using.", INVADE);
+        Form armiesNumberForm = new Form();
+        armiesNumberForm.submitAction = INVADE;
+        armiesNumberForm.cancelAction = (String s) -> {
+            resetSourceAndTarget();
+        };
+        TextInput armiesInput = new TextInput("The number of armies you're using.");
+        armiesNumberForm.addInput("inputedText", armiesInput, false);
+        armiesNumberForm.addToWorld();
         
     }
     
@@ -284,6 +293,7 @@ public class Territory implements Selectable {
         }
         
         drawTerritory();
+        resetSourceAndTarget();
         
     }
     
@@ -557,8 +567,8 @@ public class Territory implements Selectable {
         }
 
         ((Territory)this).drawTerritory();
-    
-    
+        resetSourceAndTarget();
+        
     }
     
     private void moveArmies(int howMany) {
@@ -574,7 +584,7 @@ public class Territory implements Selectable {
 
         source.drawTerritory();
         destination.drawTerritory();
-    
+        resetSourceAndTarget();
     
     }
     
