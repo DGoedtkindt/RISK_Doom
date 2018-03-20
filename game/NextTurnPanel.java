@@ -16,6 +16,7 @@ import java.util.List;
  * 
  */
 public class NextTurnPanel {
+    
     private static Game game(){return MyWorld.theWorld.stateManager.game();}
     private static List<Player> players() {return game().players;}
         
@@ -34,9 +35,9 @@ public class NextTurnPanel {
     public NextTurnPanel(Turn turn){
         TURN = turn;
         OWNER = TURN.player;
-        this.saveButton = new NButton(showSaveGameDialog,"Save Game");
-        this.panel = new NButton(() -> {
-            this.removeFromWorld();
+        saveButton = new NButton(showSaveGameDialog,"Save Game");
+        panel = new NButton(() -> {
+            removeFromWorld();
             TURN.start();
         });
         stats = new TurnStat(players(),TURN.turnNumber);

@@ -18,14 +18,15 @@ public abstract class Button extends Actor {
 
     
     /**
-     * Returns the world.
-     * @return The world.
+     * Returns the World.
+     * @return The World.
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
     
-    /**Returns whether the button is usable.
+
+    /**Returns whether this Button is usable.
      * 
-     * @return whether the button is usable.
+     * @return whether this Button is usable.
      */
     public boolean isUsable(){
         return usable;
@@ -33,20 +34,20 @@ public abstract class Button extends Actor {
     }
     
     /**
-     * makes the button active and opaque.
+     * Makes this Button active and opaque.
      */
     public void toggleUsable() {
         usable = true;
-        this.getImage().setTransparency(Appearance.OPAQUE);
+        getImage().setTransparency(Appearance.OPAQUE);
 
     }
     
     /**
-     * makes the button inactive and transparent.
+     * Makes this Button inactive and transparent.
      */
     public void toggleUnusable() {
         usable = false;
-        this.getImage().setTransparency(Appearance.TRANSPARENT);
+        getImage().setTransparency(Appearance.TRANSPARENT);
     
     }
     

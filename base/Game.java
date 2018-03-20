@@ -29,7 +29,7 @@ public class Game {
     public Map map = new Map();
     public Difficulty difficulty;
     
-    //for autosave
+    //Autosave variables
     public boolean autoSave = false;
     public String name = "";
     public String description = "";

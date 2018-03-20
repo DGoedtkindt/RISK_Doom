@@ -117,8 +117,6 @@ public class Combo {
     }
     
     /**
-<<<<<<< HEAD
-=======
      * Sets the transparency of the four Combo Buttons to a transparent value.
      */
     private void makeButtonsTransparent(){

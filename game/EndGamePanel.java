@@ -110,7 +110,7 @@ public class EndGamePanel {
     }
     
     /**
-     * Adds the Panel to the world.
+     * Adds the Panel to the World.
      */
     private void addToWorld() {
         MyWorld.theWorld.addObject(panel, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);

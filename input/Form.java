@@ -129,7 +129,7 @@ public class Form {
             addInputsToWorld();
             addOKCancelPanel();
         
-        } else System.out.println("Form not added because there is another Form on the world");
+        } else MessageDisplayer.showMessage("Form not added because there is another Form in the World.");
     }
     
     /** 
@@ -160,9 +160,8 @@ public class Form {
                 removeFromWorld();
                 Map<String, String> values = getValues();
                 submitAction.useInformations(values);
-                MessageDisplayer.showMessage("Form submited");
             } else 
-                MessageDisplayer.showMessage("One or more field still need to be entered");
+                MessageDisplayer.showMessage("One or more field still need to be completed.");
         }
     }
     
@@ -195,7 +194,7 @@ public class Form {
             input.onSubmitAction = ()->{
                 //on input sumbit: check if value was entered
                 //if so set as ready and submit form if it is the only input
-                if(input.value()!="") {
+                if(!input.value().equals("")) {
                     inputsReady.put(input, true);
                     if(inputs.size()==1) submit();
                 }

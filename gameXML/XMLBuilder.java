@@ -71,7 +71,7 @@ public class XMLBuilder {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             doc = docBuilder.newDocument();
-            rootElement = doc.createElement("game");//Création de rootElement
+            rootElement = doc.createElement("game");
             doc.appendChild(rootElement);
         
     }
@@ -101,12 +101,12 @@ public class XMLBuilder {
             playerNode.setAttribute("armiesInHand", player.armiesInHand() + "");
             rootElement.appendChild(playerNode);
             
-            //player's attributes
+            //Player's attributes
             playerNode.setAttribute("name", player.name());
             playerNode.setAttribute("color", player.color().toRGB());
             playerNode.setAttribute("points", player.points + "");
             
-            //player's territories
+            //Player's Territories
             List<Territory> ctrlTerrs = player.territories();
             for(Territory terr : ctrlTerrs) {
                 Element terrNode = doc.createElement("Territory");

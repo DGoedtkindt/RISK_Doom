@@ -18,19 +18,18 @@ import mainObjects.BlankHex;
  */
 public class MyWorld extends World {
     
-    //The real World.
+    //The real World
     public static MyWorld theWorld;
     
-    //The Mouse.
+    //The Mouse
     private MouseInfo mouse;
     
-    //The current Manager.
+    //The current Manager
     public StateManager stateManager;
     
-    //The 'back' Button.
+    //The 'back' Button
     public final NButton backButton = 
-            new NButton(() -> {stateManager.escape();}, 
-                    new GreenfootImage("backToHome.png"),30,30);
+            new NButton(() -> {stateManager.escape();}, new GreenfootImage("backToHome.png"), 30, 30);
     
     /**
      * Creates the World. And initialises anything needed
@@ -43,7 +42,7 @@ public class MyWorld extends World {
         Greenfoot.setSpeed(50);
         Greenfoot.start();
         
-        //to run static block
+        //Runs the static block
         ArmiesInHandDisplayer.update();
         
     }
@@ -77,8 +76,7 @@ public class MyWorld extends World {
     public void placeBlankHexs() {
         placeHexagonInCollumnRow(Appearance.COLLUMN_NUMBER, Appearance.ROW_NUMBER);
         drawContinentBonusZone();
-    
-    
+        
     }
     
     /**
@@ -120,8 +118,8 @@ public class MyWorld extends World {
     }
     
     /**
-     * Returns the Button the user pressed.
-     * @return The Button, or null, if the user didn't press a Button.
+     * Returns the Button the User pressed.
+     * @return The Button, or null, if the User didn't press a Button.
      */
     private Button getPressedButton(){
         if(mouse.getActor() instanceof Button){
@@ -138,7 +136,7 @@ public class MyWorld extends World {
     public void act() {
         
         mouse = Greenfoot.getMouseInfo();
-        if(mouse != null && Greenfoot.mouseClicked(null)){ // Si on a appuyé quelque part
+        if(mouse != null && Greenfoot.mouseClicked(null)){
             
             if(getPressedButton() != null){
                 getPressedButton().clicked();
@@ -147,22 +145,21 @@ public class MyWorld extends World {
             
         }
         
-        /* TODO: à déplacer dans input.TextInput
-        
-        String keyPressed = Greenfoot.getKey();
-        if(keyPressed != null){
-        InputPanel.typeOnUsedPanel(keyPressed);
-        }*/
-        
         CheckEscape.testForEscape();
         
     }
 
+    /**
+     * Makes every Button unusable.
+     */
     public void lockAllButtons() {
         getObjects(Button.class).forEach(Button::toggleUnusable);
         
     }
     
+    /**
+     * Makes every Button usable.
+     */
     public void unlockAllButtons() {
         getObjects(Button.class).forEach(Button::toggleUsable);
         

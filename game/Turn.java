@@ -11,6 +11,7 @@ import mode.Mode;
  * 
  */
 public class Turn {
+    
     public static Turn currentTurn;
         
     private static Game game(){return MyWorld.theWorld.stateManager.game();}

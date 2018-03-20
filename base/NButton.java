@@ -10,8 +10,8 @@ public class NButton extends Button{
     private Action action;
     
     /**
-     * NButton with no image
-     * @param act the action the button performs when clicked
+     * NButton with no image.
+     * @param act The Action this Button performs when clicked.
      */
     public NButton(Action act) {
         action = act;
@@ -19,12 +19,12 @@ public class NButton extends Button{
     }
     
     /**
-     * NButton with a custom image and scale
+     * NButton with a custom image and scale.
      * 
-     * @param act the action the button performs when clicked
-     * @param img the image of the Button
-     * @param width the width to which the image will be scaled
-     * @param height the height to which the image will be scaled
+     * @param act The action this Button performs when clicked.
+     * @param img The image of this Button.
+     * @param width The width to which the image will be scaled.
+     * @param height The height to which the image will be scaled.
      */
     public NButton(Action act, GreenfootImage img, int width, int height){
         this.setImage(img);
@@ -34,10 +34,10 @@ public class NButton extends Button{
     }
     
     /**
-     * NButton initialized with an image scaled to default size : 80x80 
+     * NButton initialized with an image scaled to default size : 80x80.
      * 
-     * @param act the action the button performs when clicked
-     * @param img the image of the button
+     * @param act The Action this Button performs when clicked.
+     * @param img The image of this Button.
      */
     public NButton(Action act, GreenfootImage img){
         this(act,img,80,80);
@@ -47,8 +47,8 @@ public class NButton extends Button{
     /**
      * NButton with a long image background (175x80) and a small text 
      * 
-     * @param act the action the button performs when clicked
-     * @param txt the text displayed on the button
+     * @param act The Action this Button performs when clicked.
+     * @param txt The text displayed on this Button.
      */
     public NButton(Action act, String txt){
         GreenfootImage img = createImage(txt);
@@ -57,6 +57,10 @@ public class NButton extends Button{
         
     }
     
+    /**
+     * Creates an image with a given text.
+     * @param text The specified text.
+     */
     private GreenfootImage createImage(String text) {
         GreenfootImage img = new GreenfootImage("button11-5.png");
         this.setImage(img);

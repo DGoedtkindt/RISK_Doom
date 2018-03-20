@@ -1,6 +1,5 @@
 package mainObjects;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import appearance.Theme;
 import base.GColor;
@@ -23,11 +22,11 @@ public class Continent implements Selectable{
     
     public static final BonusDisplay display = new BonusDisplay();
     
-    //private variable
+    //private variables
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
     private GColor continentColor = Theme.used.territoryColor;
-    private ArrayList<Territory> territoriesContained = new ArrayList<>();
+    private final ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus = 0;
     
     /**
@@ -35,7 +34,6 @@ public class Continent implements Selectable{
      * @param territories The Territories contained in this Continent.
      */
     public Continent(ArrayList<Territory> territories){
-        
         territoriesContained.addAll(0,territories);
         askForBonusAndColor();
         
@@ -48,10 +46,8 @@ public class Continent implements Selectable{
      * @param points The bonus given by this Continent.
      */
     public Continent(ArrayList<Territory> territories, GColor color, int points){
-        
         continentColor = color;
         bonus = points;
-        
         territoriesContained.addAll(0,territories);
         
     }
@@ -171,6 +167,7 @@ public class Continent implements Selectable{
     }
 
     //Private methods////////////////////////////////////////
+    
     private void askForBonusAndColor() {
         Form form = new Form();
         Input bonusInput = new TextInput("Enter a new Bonus for this new Continent.");
@@ -208,7 +205,7 @@ class BonusDisplay extends Actor {
      * Creates a BonusDisplay.
      */
     BonusDisplay() {
-        this.setImage(new GreenfootImage(WIDTH, HEIGHT));
+        setImage(new GreenfootImage(WIDTH, HEIGHT));
     
     }
     
@@ -216,16 +213,16 @@ class BonusDisplay extends Actor {
      * Updates the image of a BonusDisplay.
      */
     void update() {
-        this.setImage(new GreenfootImage(WIDTH, HEIGHT));
+        setImage(new GreenfootImage(WIDTH, HEIGHT));
         
-        //représente un tableau 2D pour l'arrangement des Bonus
+        //A 2D grid to place the bonus images
         ArrayList<Continent[]> arrangedContinents = new ArrayList<>();
         
-        //calculer le nombre de colonne pour l'affichage des bonus
-        //le nombre de colonne devrait tendre vers 2x le nombre de lignes
+        //Computes the number of columns for the display
+        //About twice the number of rows
         int xAxis = (int)Math.sqrt(2*map().continents.size());
         
-        //rajouter les continents lignes par lignes avec xAxis continents par lignes
+        //Adds the Continents one row after another, with xAxis Continents in each row
         Continent[] row = new Continent[xAxis];
         for(int i = 0; i < map().continents.size(); i++) {
             if(i % xAxis == 0) {
@@ -237,10 +234,10 @@ class BonusDisplay extends Actor {
             
         }
         
-        //le nombre de colonnes pour l'affichage des bonus
+        //The number of columns
         int yAxis = arrangedContinents.size();
         
-        //dessiner 
+        //Drawing
         for(int y = 0; y < yAxis; y++) {
             for(int x = 0; x < xAxis; x++) {
                Continent c = arrangedContinents.get(y)[x];

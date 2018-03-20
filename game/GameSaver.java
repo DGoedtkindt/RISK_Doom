@@ -73,7 +73,9 @@ public class GameSaver{
         saveInfoForm.addInput("description", descriptionInput, true);
         saveInfoForm.addInput("autoSave", autoSaveInput, true);
         saveInfoForm.submitAction = saveInfoFormAction;
+        
         saveInfoForm.addToWorld();
+        
     }
     
     /**
@@ -133,7 +135,7 @@ public class GameSaver{
      */
     private void confirm() {
         Form.confirmInput("Do you want to replace the existing game '" + name + "' with this one?", (input)-> {
-            if(input.get("confirmation") == "Yes") {
+            if(input.get("confirmation").equals("Yes")) {
                 save();
             }
         });
@@ -148,11 +150,11 @@ public class GameSaver{
             try {
                 saveThumbnail();
             } catch (Exception ex) {
-                MessageDisplayer.showMessage("The thumbnail couldn't be saved : " + ex);
+                MessageDisplayer.showException(new Exception("The thumbnail couldn't be saved.", ex));
             }
             
         } catch (Exception ex) {
-            MessageDisplayer.showMessage("The Game could not be saved : " + ex);
+            MessageDisplayer.showException(new Exception("The Game could not be saved.", ex));
             
         }
     

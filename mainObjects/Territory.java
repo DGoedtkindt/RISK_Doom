@@ -397,6 +397,7 @@ public class Territory implements Selectable {
         drawTerritory();
         trInfo.toggleUsable();
         links.forEach(LinkIndic::toggleUsable);
+        
     }
 
     ///////////////////////////////////////////////////

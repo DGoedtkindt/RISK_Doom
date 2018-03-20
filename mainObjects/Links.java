@@ -13,18 +13,17 @@ public class Links {
     
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
-    public static Links newLinks;   //c'est le Links en train d'être modifié. 
-                                    //== null quand un Links n'est pas en train d'etre créé
-    public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //to check whether a terr was already linked
-    private GColor color;
-    private ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
+    public static Links newLinks;   //The Links object being modified
+    public ArrayList<Territory> linkedTerrs = new ArrayList<>(); //To check whether a terr was already linked
+    private final GColor COLOR;
+    private final ArrayList<LinkIndic> linkIndicList = new ArrayList<>();
     
     /**
      * Creates a Links Object.
      * @param color The Color of this Link.
      */
     public Links(GColor color) {
-        this.color = color;
+        COLOR = color;
         newLinks = this;
     }
     
@@ -91,7 +90,7 @@ public class Links {
      * Gets the Color of this Link.
      * @return The Color of this Link.
      */
-    public GColor color() {return color;}
+    public GColor color() {return COLOR;}
     
     /**
      * Gets this Link's LinkIndics list.

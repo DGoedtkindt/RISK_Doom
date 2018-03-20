@@ -25,14 +25,14 @@ public class XMLReader {
      * @throws java.lang.Exception
      */
     protected Game getGame(Document fromDoc) throws Exception {
-            doc = fromDoc;
-            getMap();
-            getGameState();
-            getDifficulty();
-            getPlayerAndArmies();
-            getTurnNumber();
-   
-            return game;
+        doc = fromDoc;
+        getMap();
+        getGameState();
+        getDifficulty();
+        getPlayerAndArmies();
+        getTurnNumber();
+
+        return game;
     
     }
     
@@ -96,7 +96,16 @@ public class XMLReader {
     }
 
     private void getTurnNumber() {
-        game.turnNumber = Integer.parseInt(rootElement.getAttribute("turnNumber"));
+        
+        String turnNumberString = rootElement.getAttribute("turnNumber");
+        
+        int turnNumber = 0;
+        
+        if(!turnNumberString.equals("") && !turnNumberString.matches("\\s+")){
+            turnNumber = Integer.parseInt(rootElement.getAttribute("turnNumber"));
+        }
+        
+        game.turnNumber = turnNumber;
         
     }
     

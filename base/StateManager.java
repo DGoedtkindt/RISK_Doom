@@ -16,15 +16,14 @@ public abstract class StateManager{
     public abstract void escape();
     protected MyWorld world() {return MyWorld.theWorld;}
     
-    //codes that comes back in nearly every stateManager
     /**
-     * This action asks for confirmation to go back to menu.Manager
-     * @param message   the message that will appear on the confirmation dialog
+     * This Action asks for confirmation to go back to menu.Manager.
+     * @param message The message that will appear on the confirmation dialog.
      */
     protected void standardBackToMenu(String message) {
             Form.confirmInput(message,(input)->{
-                if(input.get("confirmation") == "Yes") {
-                    this.clearScene();
+                if(input.get("confirmation").equals("Yes")) {
+                    clearScene();
                     world().load(new menu.Manager());
                 } 
             });

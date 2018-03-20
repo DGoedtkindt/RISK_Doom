@@ -285,6 +285,7 @@ public class TerritoryHex extends Button {
         
     }
     
+
     /**
      * Makes this TerritoryHex unclickable.
      */

@@ -14,7 +14,7 @@ public class Zombie extends Player{
     
     public static final GColor ZOMBIE_COLOR = new GColor(0,0,0);
     
-    private Difficulty difficulty; 
+    private final Difficulty DIFFICULTY; 
     private int zombiesNextWave;
     private int turnsBeforeNextWave;
 
@@ -24,7 +24,7 @@ public class Zombie extends Player{
      */
     public Zombie(Difficulty difficulty) {
         super("H1N1XX",ZOMBIE_COLOR);
-        this.difficulty = difficulty;
+        DIFFICULTY = difficulty;
         zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
         turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
     }
@@ -96,7 +96,7 @@ public class Zombie extends Player{
         
         for(Territory t : territories()){
             
-            if(Math.random() < difficulty.ATTACK_CHANCE){
+            if(Math.random() < DIFFICULTY.ATTACK_CHANCE){
                 t.attackRandomly();
 
             }
@@ -111,7 +111,7 @@ public class Zombie extends Player{
     public void countdown(){
         turnsBeforeNextWave --;
         if(turnsBeforeNextWave == -1){
-            turnsBeforeNextWave = difficulty.ZOMBIES_TURN_LIMIT;
+            turnsBeforeNextWave = DIFFICULTY.ZOMBIES_TURN_LIMIT;
             takeTurn();
         }
     }
@@ -120,19 +120,19 @@ public class Zombie extends Player{
      * Increments the number of Zombies of the next wave.
      */
     public void incrementNextWave(){
-        zombiesNextWave += difficulty.INCREMENT;
+        zombiesNextWave += DIFFICULTY.INCREMENT;
     }
 
     /**
      * Resets the number of Zombies of the next wave.
      */
     public void reset(){
-        zombiesNextWave = difficulty.ZOMBIES_SPAWNING;
+        zombiesNextWave = DIFFICULTY.ZOMBIES_SPAWNING;
     }
     
     @Override
     public boolean hasLost() {
-        return false; //zombies always come back!
+        return false; //Zombies always come back!
     
     }
     
