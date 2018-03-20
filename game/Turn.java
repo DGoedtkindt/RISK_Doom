@@ -55,10 +55,10 @@ public class Turn {
      * Must not be used if a Turn is already active
      */
     public static void startNewTurn() {
-        if (currentTurn == null) {
-            game().turnNumber++;
+        if (currentTurn == null && game().gameState != Game.State.FINISHED) {
             currentTurn = new Turn(game().turnNumber);
             currentTurn.showNextTurnPanel();
+            game().turnNumber++;
         }
     }
     
@@ -99,6 +99,7 @@ public class Turn {
         
         if(aPlayerIsDead() != null || aPlayerWon() != null){
             (new EndGamePanel()).show();
+            game().gameState = Game.State.FINISHED;
         }
         
         currentTurn = null;

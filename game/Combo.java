@@ -16,18 +16,18 @@ public class Combo {
     
     private static boolean comboShown = false;
     
-    private ModeButton sapButton = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
-    private NButton fortressButton = new NButton(() -> {
+    private final ModeButton SAP_BUTTON = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
+    private final NButton FORTRESS_BUTTON = new NButton(() -> {
                                             Turn.currentTurn.player.fortressProtection = true;
                                             Mode.setMode(Mode.DEFAULT);
                                             useFortress();
                                         }, "Fortress");
-    private NButton battlecryButton = new NButton(() -> {
+    private final NButton BATTLECRY_BUTTON = new NButton(() -> {
                                             Turn.currentTurn.player.battlecryBonus = 2;
                                             Mode.setMode(Mode.DEFAULT);
                                             useBattlecry();
                                         }, "Battlecry");
-    private NButton recruitButton = new NButton(() -> {
+    private final NButton RECRUIT_BUTTON = new NButton(() -> {
                                             Player p = Turn.currentTurn.player;
                                             p.addArmiesToHand(5);
                                             Mode.setMode(Mode.DEFAULT);
@@ -120,20 +120,20 @@ public class Combo {
      * Sets the transparency of the four Combo Buttons to a transparent value.
      */
     private void makeButtonsTransparent(){
-        sapButton.toggleUnusable();
-        fortressButton.toggleUnusable();
-        battlecryButton.toggleUnusable();
-        recruitButton.toggleUnusable();
+        SAP_BUTTON.toggleUnusable();
+        FORTRESS_BUTTON.toggleUnusable();
+        BATTLECRY_BUTTON.toggleUnusable();
+        RECRUIT_BUTTON.toggleUnusable();
     }
     
     /**
      * Adds the four Combo Buttons to the World.
      */
     private void addButtonsToWorld(){
-        MyWorld.theWorld.addObject(sapButton, Appearance.WORLD_WIDTH - 300, 990);
-        MyWorld.theWorld.addObject(fortressButton, Appearance.WORLD_WIDTH - 480, 990);
-        MyWorld.theWorld.addObject(battlecryButton, Appearance.WORLD_WIDTH - 660, 990);
-        MyWorld.theWorld.addObject(recruitButton, Appearance.WORLD_WIDTH - 840, 990);
+        MyWorld.theWorld.addObject(SAP_BUTTON, Appearance.WORLD_WIDTH - 300, 990);
+        MyWorld.theWorld.addObject(FORTRESS_BUTTON, Appearance.WORLD_WIDTH - 480, 990);
+        MyWorld.theWorld.addObject(BATTLECRY_BUTTON, Appearance.WORLD_WIDTH - 660, 990);
+        MyWorld.theWorld.addObject(RECRUIT_BUTTON, Appearance.WORLD_WIDTH - 840, 990);
     }
     
     /**
@@ -144,16 +144,16 @@ public class Combo {
         boolean canPlayACombo = false;
         
         if(a >= 3){
-            sapButton.toggleUsable();
+            SAP_BUTTON.toggleUsable();
             canPlayACombo = true;
         }if(b >= 3){
-            fortressButton.toggleUsable();
+            FORTRESS_BUTTON.toggleUsable();
             canPlayACombo = true;
         }if(c >= 3){
-            battlecryButton.toggleUsable();
+            BATTLECRY_BUTTON.toggleUsable();
             canPlayACombo = true;
         }if(a > 0 && b > 0 && c > 0){
-            recruitButton.toggleUsable();
+            RECRUIT_BUTTON.toggleUsable();
             canPlayACombo = true;
         }
         
@@ -202,10 +202,10 @@ public class Combo {
      */
     public void removeComboButtons(){
         
-        MyWorld.theWorld.removeObject(sapButton);
-        MyWorld.theWorld.removeObject(fortressButton);
-        MyWorld.theWorld.removeObject(battlecryButton);
-        MyWorld.theWorld.removeObject(recruitButton);
+        MyWorld.theWorld.removeObject(SAP_BUTTON);
+        MyWorld.theWorld.removeObject(FORTRESS_BUTTON);
+        MyWorld.theWorld.removeObject(BATTLECRY_BUTTON);
+        MyWorld.theWorld.removeObject(RECRUIT_BUTTON);
         
     }
     
