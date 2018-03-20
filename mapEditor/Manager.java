@@ -23,9 +23,9 @@ public class Manager extends StateManager{
     private Map loadedMap = new Map();
     private Map mapToLoad;
     
-    private ControlPanel ctrlPanel;
-    private ModeMessageDisplay modeDisp;
-    private NButton options;
+    private final ControlPanel CONTROL_PANEL;
+    private final ModeMessageDisplay MODE_MESSAGE_DISPLAY;
+    private final NButton OPTIONS_BUTTON;
     
     /**
      * Creates a Map Editor.
@@ -33,9 +33,9 @@ public class Manager extends StateManager{
      */
     public Manager(Map loadMap) {
         mapToLoad = loadMap;
-        ctrlPanel = new ControlPanel(this);
-        modeDisp = new ModeMessageDisplay();
-        options = new NButton(loadOptionsMenu, new GreenfootImage("settings.png"), 30, 30);
+        CONTROL_PANEL = new ControlPanel(this);
+        MODE_MESSAGE_DISPLAY = new ModeMessageDisplay();
+        OPTIONS_BUTTON = new NButton(LOAD_OPTIONS_MENU, new GreenfootImage("settings.png"), 30, 30);
     
     }
     
@@ -43,10 +43,10 @@ public class Manager extends StateManager{
     public void setupScene() {
         world().makeSureSceneIsClear();
         world().placeBlankHexs();
-        ctrlPanel.addToWorld(world().getWidth()-100, 300);
-        modeDisp.addToWorld(world().getWidth()-90, 850);
-        world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth() - 60, 30);
+        CONTROL_PANEL.addToWorld(world().getWidth()-100, 300);
+        MODE_MESSAGE_DISPLAY.addToWorld(world().getWidth()-90, 850);
+        world().addObject(Continent.DISPLAY, 840, 960);
+        world().addObject(OPTIONS_BUTTON, world().getWidth() - 60, 30);
         loadMap();
         Mode.setMode(Mode.DEFAULT);
 
@@ -71,8 +71,8 @@ public class Manager extends StateManager{
         mapToLoad = loadedMap;
         loadedMap = new Map();
         
-        ctrlPanel.removeFromWorld();
-        modeDisp.removeFromWorld();
+        CONTROL_PANEL.removeFromWorld();
+        MODE_MESSAGE_DISPLAY.removeFromWorld();
         
         world().removeObjects(world().getObjects(Actor.class));
         
@@ -111,7 +111,7 @@ public class Manager extends StateManager{
     
     /////Private Methods///////////////////////
     
-    private Action loadOptionsMenu = () -> {
+    private final Action LOAD_OPTIONS_MENU = () -> {
                 if(Mode.mode() == Mode.DEFAULT){
                     clearScene();
                     world().load(new userPreferences.Manager(this));

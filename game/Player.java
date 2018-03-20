@@ -25,7 +25,7 @@ public class Player {
     public Territory capital;
     public boolean conqueredThisTurn = false;
     
-    private Combo combos = new Combo();
+    private final Combo COMBOS = new Combo();
     
     /**
      * Creates a Player.
@@ -126,7 +126,7 @@ public class Player {
      * Gains a random combo piece.
      */
     public void gainComboPiece(){
-        combos.addRandomCombo();
+        COMBOS.addRandomCombo();
     }
     
     /**
@@ -167,7 +167,7 @@ public class Player {
      * @return The Combo object of this Player.
      */
     public Combo combos(){
-        return combos;
+        return COMBOS;
     }
     
     /**

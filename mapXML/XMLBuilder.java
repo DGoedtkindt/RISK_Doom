@@ -30,6 +30,7 @@ public class XMLBuilder {
      * Builds a XML Document from a Map Object.
      *
      * @param fromMap
+     * @return The generated Document.
      * @throws java.lang.Exception
      */
     protected Document build(Map fromMap) throws Exception{
@@ -50,6 +51,8 @@ public class XMLBuilder {
     /** 
      * Builds the Document from a XML File.
      * 
+     * @param mapXML The XML File.
+     * @return The generated Document.
      * @throws java.lang.Exception
      */
     protected Document build(File mapXML) throws Exception {
@@ -72,7 +75,7 @@ public class XMLBuilder {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             doc = docBuilder.newDocument();
-            rootElement = doc.createElement("map");//Création de rootElement
+            rootElement = doc.createElement("map");
             doc.appendChild(rootElement);
         
     }

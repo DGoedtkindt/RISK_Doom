@@ -22,47 +22,47 @@ public class ControlPanel {
     public final int HEIGHT = 600;
     
     private MyWorld world() {return MyWorld.theWorld;}
-    private Manager manager;
+    private final Manager MANAGER;
     
-    private Action updateThis = () -> {
+    private final Action UPDATE_THIS = () -> {
                 modeChanged(Mode.mode());
             };
     
-    private ModeButton createTerritory       = new ModeButton(new GreenfootImage("createNewTerritory.png"),    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
-    private ModeButton createContinent       = new ModeButton(new GreenfootImage("addNewContinent.png"),       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
-    private ModeButton editContinentBonus    = new ModeButton(new GreenfootImage("editContinentBonus.png"),    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
-    private ModeButton editContinentColor    = new ModeButton(new GreenfootImage("editContinentColor.png"),    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
-    private ModeButton editTerritoryBonus    = new ModeButton(new GreenfootImage("editTerritoryBonus.png"),    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    private ModeButton createLink            = new ModeButton(new GreenfootImage("newLink.png"),               Mode.SET_LINK,              Selector.IS_TERRITORY);
-    private ModeButton deleteTerritory       = new ModeButton(new GreenfootImage("deleteTerritory.png"),       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
-    private ModeButton deleteContinent       = new ModeButton(new GreenfootImage("deleteContinent.png"),       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
-    private OKButton okButton                = new OKButton();
+    private final ModeButton CREATE_TERRITORY       = new ModeButton(new GreenfootImage("createNewTerritory.png"),    Mode.CREATE_TERRITORY,      Selector.IS_BLANKHEX);
+    private final ModeButton CREATE_CONTINENT       = new ModeButton(new GreenfootImage("addNewContinent.png"),       Mode.CREATE_CONTINENT,      Selector.IS_TERRITORY_NOT_IN_CONTINENT);
+    private final ModeButton EDIT_CONTINENT_BONUS   = new ModeButton(new GreenfootImage("editContinentBonus.png"),    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
+    private final ModeButton EDIT_CONTINENT_COLOR   = new ModeButton(new GreenfootImage("editContinentColor.png"),    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
+    private final ModeButton EDIT_TERRITORY_BONUS   = new ModeButton(new GreenfootImage("editTerritoryBonus.png"),    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
+    private final ModeButton CREATE_LINK            = new ModeButton(new GreenfootImage("newLink.png"),               Mode.SET_LINK,              Selector.IS_TERRITORY);
+    private final ModeButton DELETE_TERRITORY       = new ModeButton(new GreenfootImage("deleteTerritory.png"),       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
+    private final ModeButton DELETE_CONTINENT       = new ModeButton(new GreenfootImage("deleteContinent.png"),       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
+    private final OKButton OK_BUTTON                = new OKButton();
     private NButton makeXMLButton;
     
     //to easlily modify all buttons
-    private ArrayList<Button> allButtons = new ArrayList<>();
+    private final ArrayList<Button> ALL_BUTTONS = new ArrayList<>();
     
     /**
      * Creates a ControlPanel.
      * @param manager The mapEditor.Manager with which it works.
      */
     protected ControlPanel(Manager manager) {
-        this.manager = manager;
-        this.makeXMLButton = new NButton(() -> {
-                                                MapSaver ms = new MapSaver(manager.map());
-                                                ms.askForNameAndDescription();
-                                                makeXMLButton.toggleUnusable();}, 
-                                         new GreenfootImage("MakeXML.png"));
-        allButtons.add(createTerritory);
-        allButtons.add(createLink);
-        allButtons.add(editTerritoryBonus);
-        allButtons.add(deleteTerritory);
-        allButtons.add(createContinent);
-        allButtons.add(editContinentBonus);
-        allButtons.add(editContinentColor);
-        allButtons.add(deleteContinent);
-        allButtons.add(okButton);
-        allButtons.add(makeXMLButton);
+        MANAGER = manager;
+        makeXMLButton = new NButton(() -> {
+                                        MapSaver ms = new MapSaver(manager.map());
+                                        ms.askForNameAndDescription();
+                                        makeXMLButton.toggleUnusable();}, 
+                                 new GreenfootImage("MakeXML.png"));
+        ALL_BUTTONS.add(CREATE_TERRITORY);
+        ALL_BUTTONS.add(CREATE_LINK);
+        ALL_BUTTONS.add(EDIT_TERRITORY_BONUS);
+        ALL_BUTTONS.add(DELETE_TERRITORY);
+        ALL_BUTTONS.add(CREATE_CONTINENT);
+        ALL_BUTTONS.add(EDIT_CONTINENT_BONUS);
+        ALL_BUTTONS.add(EDIT_CONTINENT_COLOR);
+        ALL_BUTTONS.add(DELETE_CONTINENT);
+        ALL_BUTTONS.add(OK_BUTTON);
+        ALL_BUTTONS.add(makeXMLButton);
     
     }
     
@@ -72,17 +72,17 @@ public class ControlPanel {
      * @param yPos The y coordinate of this Panel.
      */
     public void addToWorld(int xPos, int yPos) {
-        world().addObject(createTerritory, xPos, 100);
-        world().addObject(createLink, xPos + 30, 160);
-        world().addObject(editTerritoryBonus, xPos-30, 160);
-        world().addObject(deleteTerritory, xPos, 220);
-        world().addObject(createContinent, xPos, 300);
-        world().addObject(editContinentBonus, xPos + 30, 360);
-        world().addObject(editContinentColor, xPos - 30, 360);
-        world().addObject(deleteContinent, xPos, 420);
-        world().addObject(okButton, xPos, 510);
+        world().addObject(CREATE_TERRITORY, xPos, 100);
+        world().addObject(CREATE_LINK, xPos + 30, 160);
+        world().addObject(EDIT_TERRITORY_BONUS, xPos-30, 160);
+        world().addObject(DELETE_TERRITORY, xPos, 220);
+        world().addObject(CREATE_CONTINENT, xPos, 300);
+        world().addObject(EDIT_CONTINENT_BONUS, xPos + 30, 360);
+        world().addObject(EDIT_CONTINENT_COLOR, xPos - 30, 360);
+        world().addObject(DELETE_CONTINENT, xPos, 420);
+        world().addObject(OK_BUTTON, xPos, 510);
         world().addObject(makeXMLButton, xPos, 600);
-        Mode.addModeChangeListener(updateThis);
+        Mode.addModeChangeListener(UPDATE_THIS);
         
     }
     
@@ -104,7 +104,7 @@ public class ControlPanel {
         
         switch (mode) {
             case DEFAULT:
-                Collection<Territory> allTerritories = manager.map().territories;
+                Collection<Territory> allTerritories = MANAGER.map().territories;
                 int unoccupiedTerritoriesNumber = 0;
                 for(Territory t : allTerritories){
                     
@@ -113,18 +113,18 @@ public class ControlPanel {
                             unoccupiedTerritoriesNumber++;
                         }
                     }
-                }   createTerritory.toggleUsable();
+                }   CREATE_TERRITORY.toggleUsable();
                 if(unoccupiedTerritoriesNumber > 0){
-                    createContinent.toggleUsable();
-                }if(!manager.map().continents.isEmpty()){
-                    editContinentBonus.toggleUsable();
-                    editContinentColor.toggleUsable();
-                    deleteContinent.toggleUsable();
+                    CREATE_CONTINENT.toggleUsable();
+                }if(!MANAGER.map().continents.isEmpty()){
+                    EDIT_CONTINENT_BONUS.toggleUsable();
+                    EDIT_CONTINENT_COLOR.toggleUsable();
+                    DELETE_CONTINENT.toggleUsable();
                 }if(!allTerritories.isEmpty()){
-                    editTerritoryBonus.toggleUsable();
-                    deleteTerritory.toggleUsable();
+                    EDIT_TERRITORY_BONUS.toggleUsable();
+                    DELETE_TERRITORY.toggleUsable();
                 }if(allTerritories.size() > 1){
-                    createLink.toggleUsable();
+                    CREATE_LINK.toggleUsable();
                 }   
                 makeXMLButton.toggleUsable();
                 break;
@@ -133,7 +133,7 @@ public class ControlPanel {
                 break;
             
             default:
-                okButton.toggleUsable();
+                OK_BUTTON.toggleUsable();
                 break;
         }
         
@@ -144,7 +144,7 @@ public class ControlPanel {
      */
     private void makeCurrentModesButtonOpaque() {
         Mode mode = Mode.mode();
-        allButtons.forEach((Button b) -> {
+        ALL_BUTTONS.forEach((Button b) -> {
             if(b instanceof ModeButton) 
                 if(((ModeButton)b).linkedMode == mode) 
                     b.toggleUsable();
@@ -158,7 +158,7 @@ public class ControlPanel {
      * Changes the opacity of every Button to transparent.
      */
     private void makeAllButtonsTransparent() {
-        allButtons.forEach(Button::toggleUnusable);
+        ALL_BUTTONS.forEach(Button::toggleUnusable);
         
     }
     
@@ -166,8 +166,8 @@ public class ControlPanel {
      * Removes this Panel from the World.
      */
     public void removeFromWorld() {
-        allButtons.forEach(world()::removeObject);
-        Mode.removeModeChangeListener(updateThis);
+        ALL_BUTTONS.forEach(world()::removeObject);
+        Mode.removeModeChangeListener(UPDATE_THIS);
         
     }
     

@@ -31,7 +31,7 @@ public class PColorChooser extends BasicChooser {
     @Override
     protected void updateImage() {
         GColor drawColor = currentColor.gColor;
-        this.setImage(Hexagon.createImage(drawColor, 0.5)); 
+        setImage(Hexagon.createImage(drawColor, 0.5)); 
     }
 
     @Override
@@ -94,7 +94,7 @@ public class PColorChooser extends BasicChooser {
         currentColor = Color.get(colorNum);
         if(previousColor != null) previousColor.free();
         currentColor.block();
-        this.updateImage();
+        updateImage();
     
     }
     
@@ -169,7 +169,7 @@ public class PColorChooser extends BasicChooser {
          * Creates a choice Object.
          */
         Color(GColor color) { 
-           this.gColor = color;
+           gColor = color;
         }
         
         /**

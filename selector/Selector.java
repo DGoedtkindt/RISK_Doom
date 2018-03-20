@@ -17,6 +17,9 @@ import mainObjects.Territory;
  */
 public class Selector{
     
+    private static HashSet<Selectable> selection = new HashSet<>();
+    public static Predicate validator = (Object o) -> {return true;};
+    
     private static MyWorld world() {
         return MyWorld.theWorld;
     }
@@ -35,9 +38,6 @@ public class Selector{
     
         return selectables;
     }
-    
-    private static HashSet<Selectable> selection = new HashSet<>();
-    public static Predicate validator = (Object o) -> {return true;};
     
     /**
      * Adds a Selectable to the current selection if it's currently allowed 
@@ -165,7 +165,7 @@ public class Selector{
      */
     public static void clear(){
         selection.clear();
-        validator = (Object o) -> {return true;};
+        validator = EVERYTHING;
         updateAppearance();
         
     }
@@ -195,9 +195,9 @@ public class Selector{
      * Sets the transparency of each Selectable to a transparent value.
      */
     private static void makeAllTransparent() {
-     for(Selectable select : selectables()) {
-         select.makeTransparent();
-     }
+        for(Selectable select : selectables()) {
+            select.makeTransparent();
+        }
     }
     
     /**
@@ -205,11 +205,11 @@ public class Selector{
      * opaque one.
      */
     private static void makeValidOpaque() {
-     for(Selectable select : selectables()) {
-         if(validator.test(select)) {
-            select.makeOpaque();
-         }
-     }
+        for(Selectable select : selectables()) {
+            if(validator.test(select)) {
+               select.makeOpaque();
+            }
+        }
     }
     
     /**

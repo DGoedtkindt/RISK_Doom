@@ -18,8 +18,8 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     public static final int DEFAULT_ARROW_SIZE = 30;
     private int halfGapSize = DEFAULT_HALF_GAP_SIZE;
     private int arrSize = DEFAULT_ARROW_SIZE;
-    private final RightArrow rightArrow;
-    private final LeftArrow leftArrow;
+    private final RightArrow RIGHT_ARROW;
+    private final LeftArrow LEFT_ARROW;
     protected MyWorld world() {return MyWorld.theWorld;}
     private int x;
     private int y;
@@ -28,10 +28,10 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     /**
      */
     public BasicChooser() {
-        rightArrow = new RightArrow(this);
-        rightArrow.scale(arrSize);
-        leftArrow = new LeftArrow(this);
-        leftArrow.scale(arrSize);
+        RIGHT_ARROW = new RightArrow(this);
+        RIGHT_ARROW.scale(arrSize);
+        LEFT_ARROW = new LeftArrow(this);
+        LEFT_ARROW.scale(arrSize);
     
     }
     
@@ -43,8 +43,8 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     public void addToWorld(int xPos, int yPos) {
         x = xPos; y = yPos;
         world().addObject(this,x,y);
-        world().addObject(rightArrow, x+halfGapSize,y);
-        world().addObject(leftArrow, x-halfGapSize,y);
+        world().addObject(RIGHT_ARROW, x+halfGapSize,y);
+        world().addObject(LEFT_ARROW, x-halfGapSize,y);
         updateImage();
     
     }
@@ -55,9 +55,9 @@ public abstract class BasicChooser extends Actor implements Arrowable{
      * @param newY The new y position.
      */
     public void changeLocation(int newX, int newY) {
-        this.setLocation(newX, newY); x = newX; y = newY;
-        rightArrow.setLocation(x+halfGapSize,y);
-        leftArrow.setLocation(x-halfGapSize,y);
+        setLocation(newX, newY); x = newX; y = newY;
+        RIGHT_ARROW.setLocation(x+halfGapSize,y);
+        LEFT_ARROW.setLocation(x-halfGapSize,y);
     
     }
     
@@ -69,10 +69,10 @@ public abstract class BasicChooser extends Actor implements Arrowable{
     public void setArrows(int gapSize,int arrowSize) {
         halfGapSize = gapSize/2;
         arrSize = arrowSize;
-        rightArrow.scale(arrSize);
-        leftArrow.scale(arrSize);
-        rightArrow.setLocation(x+halfGapSize,y);
-        leftArrow.setLocation(x-halfGapSize,y);
+        RIGHT_ARROW.scale(arrSize);
+        LEFT_ARROW.scale(arrSize);
+        RIGHT_ARROW.setLocation(x+halfGapSize,y);
+        LEFT_ARROW.setLocation(x-halfGapSize,y);
     
     }
     
@@ -80,8 +80,8 @@ public abstract class BasicChooser extends Actor implements Arrowable{
      * Removes the objects this chooser represents.
      */
     public void destroy() {
-        getWorld().removeObject(rightArrow);
-        getWorld().removeObject(leftArrow);
+        getWorld().removeObject(RIGHT_ARROW);
+        getWorld().removeObject(LEFT_ARROW);
         getWorld().removeObject(this);
         liberateChoice();
         
@@ -98,9 +98,9 @@ public abstract class BasicChooser extends Actor implements Arrowable{
      */
     public abstract String choiceValue();
     
-    //if This blocks other Choosers from using its current
-    //choice, this method allows to liberate the choice when This is destroyed
-    //for example, it should not be allowed for two players to choose the same 
+    //If this blocks other Choosers from using its current
+    //choice, this method allows to liberate the choice when this is destroyed.
+    //For example, it should not be allowed for two Players to choose the same 
     //color, thus the ChoiceList for a color will block its selected color.
     protected void liberateChoice() {}
     

@@ -17,7 +17,7 @@ public class ModeMessageDisplay extends Actor{
     
     private MyWorld world() {return MyWorld.theWorld;}
     
-    private Action updateThis = () -> {display(Mode.mode().message);};
+    private final Action UPDATE_THIS = () -> {display(Mode.mode().message);};
     
     /**
      * Creates a ModeMessageDisplay.
@@ -34,7 +34,7 @@ public class ModeMessageDisplay extends Actor{
      */
     public void addToWorld(int xPos, int yPos) {
         world().addObject(this, xPos, yPos);
-        Mode.addModeChangeListener(updateThis);
+        Mode.addModeChangeListener(UPDATE_THIS);
         
     }
     
@@ -43,7 +43,7 @@ public class ModeMessageDisplay extends Actor{
      */
     public void removeFromWorld() {
         world().removeObject(this);
-        Mode.removeModeChangeListener(updateThis);
+        Mode.removeModeChangeListener(UPDATE_THIS);
         
     }
     

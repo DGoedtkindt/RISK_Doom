@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class XMLReader {
-    private Game game = new Game();
+    private final Game GAME = new Game();
     private Document doc;
     private Element rootElement;
 
@@ -32,7 +32,7 @@ public class XMLReader {
         getPlayerAndArmies();
         getTurnNumber();
 
-        return game;
+        return GAME;
     
     }
     
@@ -43,7 +43,7 @@ public class XMLReader {
         rootElement = doc.getDocumentElement();
         String mapName = rootElement.getAttribute("mapName");
         MapXML mapXML = new MapXML(mapName);
-        game.map = mapXML.getMap();
+        GAME.map = mapXML.getMap();
     }
     
     /**
@@ -51,7 +51,7 @@ public class XMLReader {
      */
     private void getDifficulty() {
         String difficultyName = rootElement.getAttribute("difficulty");
-        game.difficulty = Difficulty.valueOf(difficultyName);
+        GAME.difficulty = Difficulty.valueOf(difficultyName);
         
     }
     
@@ -67,18 +67,18 @@ public class XMLReader {
             GColor color = GColor.fromRGB(colorString);
             String name = playerNode.getAttribute("name");
             Player player;
-            if(color == Zombie.ZOMBIE_COLOR) player = new Zombie(game.difficulty);
+            if(color == Zombie.ZOMBIE_COLOR) player = new Zombie(GAME.difficulty);
             else player = new Player(name,color);
             player.setArmiesInHand(Integer.parseInt(playerNode.getAttribute("armiesInHand")));
-            game.players.add(player);
+            GAME.players.add(player);
             
             NodeList territories = playerNode.getElementsByTagName("Territory");
             for(int t = 0; t < territories.getLength(); t++) {
                 Element territory = (Element)territories.item(t);
                 int terrID = Integer.parseInt(territory.getAttribute("terrID"));
                 int armies = Integer.parseInt(territory.getAttribute("armies"));
-                game.map.territories.get(terrID).setArmies(armies);
-                game.map.territories.get(terrID).setOwnerWithoutDrawing(player);
+                GAME.map.territories.get(terrID).setArmies(armies);
+                GAME.map.territories.get(terrID).setOwnerWithoutDrawing(player);
                 
             }
             
@@ -92,7 +92,7 @@ public class XMLReader {
     private void getGameState() {
         String gameStateName = rootElement.getAttribute("gameState");
         Game.State gameState = Game.State.valueOf(gameStateName);
-        game.gameState = gameState;
+        GAME.gameState = gameState;
     }
 
     private void getTurnNumber() {
@@ -105,7 +105,7 @@ public class XMLReader {
             turnNumber = Integer.parseInt(rootElement.getAttribute("turnNumber"));
         }
         
-        game.turnNumber = turnNumber;
+        GAME.turnNumber = turnNumber;
         
     }
     

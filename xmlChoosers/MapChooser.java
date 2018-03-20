@@ -22,7 +22,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
     private static final String DIRECTORY_NAME = "Maps";
     
     public MapChooser(boolean isNewMapAChoice){
-            super(DIRECTORY_NAME, "New Map",isNewMapAChoice);
+        super(DIRECTORY_NAME, "New Map",isNewMapAChoice);
     }
 
     @Override
@@ -53,7 +53,9 @@ public class MapChooser extends XMLChooser implements Arrowable{
         
         if(!mapDescription.equals("")){
             return mapDescription;
-        }else{return "This map has no description";}
+        }else{
+            return "This map has no description";
+        }
         
 
     }
@@ -66,7 +68,7 @@ public class MapChooser extends XMLChooser implements Arrowable{
             return map;
                  
         } catch(Exception ex) {
-             throw new Exception("Couldn't create MapXML from File", ex);
+            throw new Exception("Couldn't create MapXML from File", ex);
                 
         }
         

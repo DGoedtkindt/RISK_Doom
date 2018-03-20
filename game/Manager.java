@@ -28,9 +28,9 @@ public class Manager extends StateManager{
     private Game gameToLoad = new Game();
     private Game loadedGame = new Game();
     
-    private ControlPanel ctrlPanel;
-    private ModeMessageDisplay modeDisp;
-    private NButton options;
+    private final ControlPanel CONTROL_PANEL;
+    private final ModeMessageDisplay MODE_MESSAGE_DISPLAY;
+    private final NButton OPTIONS_BUTTON;
     
     /** 
      * Creates a new Manager that will allow to play a certain Game when 
@@ -39,10 +39,10 @@ public class Manager extends StateManager{
      * @param loadGame The Game that will be loaded.
      */
     public Manager(Game loadGame) {
-        ctrlPanel = new ControlPanel();
-        modeDisp = new ModeMessageDisplay();
+        CONTROL_PANEL = new ControlPanel();
+        MODE_MESSAGE_DISPLAY = new ModeMessageDisplay();
         GreenfootImage settings = new GreenfootImage("settings.png");
-        options = new NButton(loadOptionsMenu, settings, 30,30);
+        OPTIONS_BUTTON = new NButton(LOAD_OPTIONS, settings, 30,30);
         gameToLoad = loadGame;
         
     }
@@ -56,10 +56,10 @@ public class Manager extends StateManager{
     public void setupScene() {
         Mode.setMode(Mode.DEFAULT);
         world().placeBlankHexs();
-        ctrlPanel.addToWorld(world().getWidth() - 100, 300);
-        modeDisp.addToWorld(world().getWidth() - 90, 850);
-        world().addObject(Continent.display, 840, 960);
-        world().addObject(options, world().getWidth() - 60, 30);
+        CONTROL_PANEL.addToWorld(world().getWidth() - 100, 300);
+        MODE_MESSAGE_DISPLAY.addToWorld(world().getWidth() - 90, 850);
+        world().addObject(Continent.DISPLAY, 840, 960);
+        world().addObject(OPTIONS_BUTTON, world().getWidth() - 60, 30);
         loadGame();
     }
     
@@ -126,8 +126,8 @@ public class Manager extends StateManager{
         gameToLoad = loadedGame;
         loadedGame = new Game();
         
-        ctrlPanel.removeFromWorld();
-        modeDisp.removeFromWorld();
+        CONTROL_PANEL.removeFromWorld();
+        MODE_MESSAGE_DISPLAY.removeFromWorld();
         
         world().removeObjects(world().getObjects(Actor.class));
         
@@ -145,7 +145,7 @@ public class Manager extends StateManager{
         }
         
         if(Territory.actionSource == null || Territory.actionTarget == null){
-           Territory.resetSourceAndTarget(); 
+           Territory.resetSourceAndTarget();
         }
         
     }
@@ -220,7 +220,7 @@ public class Manager extends StateManager{
         new EndGamePanel().show();
     }
 
-    private Action loadOptionsMenu = () -> {
+    private final Action LOAD_OPTIONS = () -> {
         if(Mode.mode() == Mode.DEFAULT){
             clearScene();
             world().load(new userPreferences.Manager(this));

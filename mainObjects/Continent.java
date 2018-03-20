@@ -20,7 +20,7 @@ import input.TextInput;
  */
 public class Continent implements Selectable{
     
-    public static final BonusDisplay display = new BonusDisplay();
+    public static final BonusDisplay DISPLAY = new BonusDisplay();
     
     //private variables
     private MyWorld world() {return MyWorld.theWorld;}
@@ -59,7 +59,7 @@ public class Continent implements Selectable{
         territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
         map().continents.add(this);
         
-        display.update();
+        DISPLAY.update();
     
     }
     
@@ -71,7 +71,7 @@ public class Continent implements Selectable{
             (input)-> {
                 continentColor = GColor.fromRGB(input.get("inputedColor"));
                 territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
-                Continent.display.update();
+                Continent.DISPLAY.update();
             });
         
     }
@@ -112,7 +112,7 @@ public class Continent implements Selectable{
         
         territoriesContained.forEach((Territory t) -> {t.setContinent(null);});
         
-        display.update();
+        DISPLAY.update();
                
     }
     
@@ -124,7 +124,7 @@ public class Continent implements Selectable{
             (input)->{
                 if(input.get("inputedText").matches("\\d+")){
                     bonus = Integer.parseInt(input.get("inputedText"));
-                    Continent.display.update();
+                    Continent.DISPLAY.update();
                 }else{
                     MessageDisplayer.showMessage("Invalid entry.");
                 }
@@ -179,11 +179,11 @@ public class Continent implements Selectable{
             territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
             if(input.get("bonus").matches("\\d+")){
                 bonus = Integer.parseInt(input.get("bonus"));
-                Continent.display.update();
+                Continent.DISPLAY.update();
             }else{
                 MessageDisplayer.showMessage("Invalid entry.");
             }
-            Continent.display.update();
+            Continent.DISPLAY.update();
         
         };
         form.addToWorld();

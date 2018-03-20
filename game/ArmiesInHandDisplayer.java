@@ -15,10 +15,10 @@ import selector.Selector;
  */
 public class ArmiesInHandDisplayer {
     
-    private static Display displayer;
+    private static final Display DISPLAYER;
     
     static {
-        displayer = new Display();
+        DISPLAYER = new Display();
         Mode.addModeChangeListener(() -> {
             update();
         });
@@ -48,7 +48,7 @@ public class ArmiesInHandDisplayer {
         img.drawRect(1, 1, img.getWidth() - 3, img.getHeight() - 3);
         img.drawString(displayedText, (img.getWidth() - textWidth) / 2 + 2, fm.getMaxAscent());
         
-        displayer.setImage(img);
+        DISPLAYER.setImage(img);
         
     }
     
@@ -56,7 +56,7 @@ public class ArmiesInHandDisplayer {
      * Shows the Displayer.
      */
     private static void show() {
-        MyWorld.theWorld.addObject(displayer, 30 + displayer.getImage().getWidth() / 2, 30 + displayer.getImage().getHeight() / 2);
+        MyWorld.theWorld.addObject(DISPLAYER, 30 + DISPLAYER.getImage().getWidth() / 2, 30 + DISPLAYER.getImage().getHeight() / 2);
         Selector.setValidator(Selector.IS_OWNED_TERRITORY);
     }
     
@@ -64,7 +64,7 @@ public class ArmiesInHandDisplayer {
      * Hides the Displayer.
      */
     private static void hide() {
-        MyWorld.theWorld.removeObject(displayer);
+        MyWorld.theWorld.removeObject(DISPLAYER);
         Selector.setValidator(Selector.EVERYTHING);
         Mode.setMode(Mode.DEFAULT);
     

@@ -11,11 +11,13 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import input.Form;
 import input.FormAction;
+import input.TextInput;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import selector.Selectable;
+import selector.Selector;
 
 /**
  * The Class that represents the Territories, the main Objects of this Game.
@@ -124,6 +126,7 @@ public class Territory implements Selectable {
             continentColor = Theme.used.territoryColor;
             
         }
+        
         for(TerritoryHex hex : terrHexList){
             hex.drawTerrHex(continentColor);
                 
@@ -161,7 +164,7 @@ public class Territory implements Selectable {
      * Lets the User edit this Territory's bonus.
      */
     public void editBonus() {
-        Form.inputText("Enter a new bonus for this Territory.", changeBonus);
+        Form.inputText("Enter a new bonus for this Territory.", CHANGE_BONUS);
         
     }
     
@@ -252,7 +255,14 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void invade(Territory target) throws Exception{
-        Form.inputText("The number of armies you're using.", invade);
+        Form armiesNumberForm = new Form();
+        armiesNumberForm.submitAction = INVADE;
+        armiesNumberForm.cancelAction = (String s) -> {
+            resetSourceAndTarget();
+        };
+        TextInput armiesInput = new TextInput("The number of armies you're using.");
+        armiesNumberForm.addInput("inputedText", armiesInput, false);
+        armiesNumberForm.addToWorld();
         
     }
     
@@ -283,6 +293,7 @@ public class Territory implements Selectable {
         }
         
         drawTerritory();
+        resetSourceAndTarget();
         
     }
     
@@ -292,7 +303,7 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void moveTo(Territory destination) throws Exception{
-        Form.inputText("The number of armies you're moving.", moveArmies);
+        Form.inputText("The number of armies you're moving.", MOVE_ARMIES);
         
     }
     
@@ -449,9 +460,9 @@ public class Territory implements Selectable {
      * Draws links between TerritoryHexes to erase useless lines between them.
      */
     private void drawHexLinks(TerritoryHex hex){
-        ArrayList<Polygon> links = getLinkingDiamonds(hex);
+        ArrayList<Polygon> linkingDiamonds = getLinkingDiamonds(hex);
         getBackground().setColor(continentColor);
-        for(Polygon diamond : links){
+        for(Polygon diamond : linkingDiamonds){
                 getBackground().fillPolygon(diamond.xpoints,diamond.ypoints,diamond.npoints);
 
         }
@@ -513,7 +524,7 @@ public class Territory implements Selectable {
      * Places this Territory's TerritoryHexes in the World.
      */
     private void placeTerrHexs(){
-        this.terrHexList = new ArrayList<>();
+        terrHexList = new ArrayList<>();
         for(BlankHex bh : blankHexList) {
             TerritoryHex trHex = new TerritoryHex(this, continentColor, bh.hexCoord()[0], bh.hexCoord()[1]);
             terrHexList.add(trHex);
@@ -557,8 +568,8 @@ public class Territory implements Selectable {
         }
 
         ((Territory)this).drawTerritory();
-    
-    
+        resetSourceAndTarget();
+        
     }
     
     private void moveArmies(int howMany) {
@@ -574,13 +585,13 @@ public class Territory implements Selectable {
 
         source.drawTerritory();
         destination.drawTerritory();
-    
+        resetSourceAndTarget();
     
     }
     
     //Form actions////////////////////////////////////////////////////////////
     
-    private FormAction invade = (java.util.Map<String,String> input) -> {
+    private final FormAction INVADE = (java.util.Map<String,String> input) -> {
         if(input.get("inputedText").matches("\\d+")){
             int invadingArmies = Integer.parseInt(input.get("inputedText"));
             attack(invadingArmies);
@@ -590,7 +601,7 @@ public class Territory implements Selectable {
             
     };
     
-    private FormAction changeBonus = (java.util.Map<String,String> input) -> { 
+    private final FormAction CHANGE_BONUS = (java.util.Map<String,String> input) -> { 
         if(input.get("inputedText").matches("\\d+")){    
             bonusPoints = Integer.parseInt(input.get("inputedText"));
             ((Territory)this).drawTerritory();
@@ -600,7 +611,7 @@ public class Territory implements Selectable {
             
     };
             
-    private FormAction moveArmies = (java.util.Map<String,String> input) -> { 
+    private final FormAction MOVE_ARMIES = (java.util.Map<String,String> input) -> { 
         if(input.get("inputedText").matches("\\d+")){       
             moveArmies(Integer.parseInt(input.get("inputedText")));
         }else{

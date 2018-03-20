@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 
 public class XMLReader {
     
-    private Map map = new Map();
+    private final Map MAP = new Map();
     private Document doc;
     
     /**
@@ -30,7 +30,7 @@ public class XMLReader {
             createContinents();
             createLinks();
             
-            return map;
+            return MAP;
         } catch (Exception ex) {
             String message = "couldn't get Map from Document";
             throw new Exception(message, ex);
@@ -52,13 +52,13 @@ public class XMLReader {
             for(int j=0; j<allChildren.getLength();j++) {
                 Node child = allChildren.item(j);
                 
-                if(child.getNodeName() == "Hex") {
+                if(child.getNodeName().equals("Hex")) {
                    Element hex = (Element)child;
                    int hexX = Integer.parseInt(hex.getAttribute("hexX"));
                    int hexY = Integer.parseInt(hex.getAttribute("hexY"));
                    hexContained.add(BlankHex.blankHexAt(hexX,hexY));
 
-                } else if(child.getNodeName() == "InfoHex") {
+                } else if(child.getNodeName().equals("InfoHex")) {
                     Element infoHexNode = (Element)child;
                     int hexX = Integer.parseInt(infoHexNode.getAttribute("hexX"));
                     int hexY = Integer.parseInt(infoHexNode.getAttribute("hexY"));
@@ -67,9 +67,9 @@ public class XMLReader {
                 }
 
             }
-            map.territories.add(new Territory(hexContained, infoHex, bonus));
-
-
+            
+            MAP.territories.add(new Territory(hexContained, infoHex, bonus));
+            
             }
     
     }
@@ -89,12 +89,12 @@ public class XMLReader {
             for(int j=0; j<allTerrIDs.getLength();j++) {
                 Element terrIdNode = (Element)allTerrIDs.item(j);
                 int terrId = Integer.parseInt(terrIdNode.getAttribute("id"));
-                Territory terr = map.territories.get(terrId);
+                Territory terr = MAP.territories.get(terrId);
                 terrContained.add(terr);
             
             }
             
-            map.continents.add(new Continent(terrContained,color,bonus));
+            MAP.continents.add(new Continent(terrContained,color,bonus));
             
         }
     
@@ -117,14 +117,15 @@ public class XMLReader {
                 int xPos = Integer.parseInt(linkNode.getAttribute("xPos"));
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
-                Territory terr = map.territories.get(terrId);
+                Territory terr = MAP.territories.get(terrId);
                 new LinkIndic(terr, xPos, yPos);
             
             }
             
-            map.links.add(newLinks);
+            MAP.links.add(newLinks);
         
         }
+        
         Links.newLinks = null;
     
     }

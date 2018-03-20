@@ -9,7 +9,7 @@ import greenfoot.GreenfootImage;
  * 
  */
 public class LeftArrow extends Button {
-    private Arrowable linked;
+    private final Arrowable LINKED_ARROWABLE;
     private int size = 40;
     
     /**
@@ -17,7 +17,7 @@ public class LeftArrow extends Button {
      * @param linkedObject The Arrowable linked to this Arrow.
      */
     public LeftArrow(Arrowable linkedObject) {
-        linked = linkedObject;
+        LINKED_ARROWABLE = linkedObject;
         setImage();
         
         
@@ -45,7 +45,7 @@ public class LeftArrow extends Button {
 
     @Override
     public void clicked() {
-        linked.previous();
+        LINKED_ARROWABLE.previous();
     
     }
     

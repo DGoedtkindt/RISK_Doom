@@ -15,15 +15,15 @@ import org.w3c.dom.Document;
  */
 public class GameXML {
     private Document xml;
-    private XMLReader reader = new XMLReader();
-    private XMLBuilder builder = new XMLBuilder();
+    private final XMLReader READER = new XMLReader();
+    private final XMLBuilder BUILDER = new XMLBuilder();
     
     /**  Reads a File and creates a new GameXML from it.
      * @param gameFile the file containing the game's XML
      * @throws java.io.FileNotFoundException
     */
     public GameXML(File gameFile) throws Exception {
-        if(gameFile.exists() && gameFile.isFile()) xml = builder.build(gameFile);
+        if(gameFile.exists() && gameFile.isFile()) xml = BUILDER.build(gameFile);
         else throw new FileNotFoundException();
         
     }
@@ -33,7 +33,7 @@ public class GameXML {
      * @throws java.lang.Exception
     */
     public GameXML(Game game) throws Exception{
-        xml = builder.build(game);
+        xml = BUILDER.build(game);
     }
     
     /** Reads the Map's XML to create a Map object.
@@ -41,7 +41,7 @@ public class GameXML {
      * @throws java.lang.Exception
      */
     public Game getGame() throws Exception {
-        return reader.getGame(xml);
+        return READER.getGame(xml);
     
     }
     

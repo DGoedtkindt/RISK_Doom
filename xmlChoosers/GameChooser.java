@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
  * XMLChooser for Games.
  */
 public class GameChooser extends XMLChooser{
+    
     private final static String DIRECTORY_NAME = "Games";
 
     public GameChooser() {
@@ -25,7 +26,7 @@ public class GameChooser extends XMLChooser{
 
     @Override
     protected String getDescription(String fileName) {
-        String mapDescription = "";
+        String gameDescription = "";
         Document doc;
         
         try{
@@ -39,7 +40,7 @@ public class GameChooser extends XMLChooser{
             Element mapElement = ((Element)(doc.getElementsByTagName("game").item(0)));
             
             if(mapElement.hasAttribute("description")){
-                mapDescription = mapElement.getAttribute("description");
+                gameDescription = mapElement.getAttribute("description");
                 
             }
             
@@ -49,24 +50,26 @@ public class GameChooser extends XMLChooser{
             return null;
         }
         
-        if(!mapDescription.equals("")){
-            return mapDescription;
-        }else{return "This Game has no description";}
+        if(!gameDescription.equals("")){
+            return gameDescription;
+        }else{
+            return "This Game has no description";
+        }
         
 
     }
 
     public Game getSelectedGame() throws Exception{
         try{
-                File gameFile = getCurrentFile();
-                GameXML gameXML = new GameXML(gameFile);
-                Game game = gameXML.getGame();
-                return game;
-                 
-            } catch(Exception ex) {
-                throw new Exception("Couldn't create GameXML from File",ex);
-                
-            }
+            File gameFile = getCurrentFile();
+            GameXML gameXML = new GameXML(gameFile);
+            Game game = gameXML.getGame();
+            return game;
+
+        } catch(Exception ex) {
+            throw new Exception("Couldn't create GameXML from File",ex);
+
+        }
     }
 
 }

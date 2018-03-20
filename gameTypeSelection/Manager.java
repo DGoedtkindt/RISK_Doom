@@ -10,8 +10,8 @@ import base.StateManager;
 public class Manager extends StateManager{
 
     //Buttons in game menu
-    private NButton newGameButton            = new NButton(() -> {newGameMenu();}  , "New Game");
-    private NButton loadGameButton           = new NButton(() -> {loadGameMenu();} , "Load Game");
+    private final NButton NEW_GAME_BUTTON   = new NButton(() -> {newGameMenu();}  , "New Game");
+    private final NButton LOAD_GAME_BUTTON  = new NButton(() -> {loadGameMenu();} , "Load Game");
     
     /**
      * Launches the New Game Menu.
@@ -34,15 +34,15 @@ public class Manager extends StateManager{
     @Override
     public void setupScene() {
         world().makeSureSceneIsClear();
-        world().addObject(newGameButton, world().getWidth() / 3, world().getHeight() / 2);
-        world().addObject(loadGameButton, 2 * world().getWidth() / 3, world().getHeight() / 2);
+        world().addObject(NEW_GAME_BUTTON, world().getWidth() / 3, world().getHeight() / 2);
+        world().addObject(LOAD_GAME_BUTTON, 2 * world().getWidth() / 3, world().getHeight() / 2);
         
     }
 
     @Override
     public void clearScene() {
-        world().removeObject(newGameButton);
-        world().removeObject(loadGameButton);
+        world().removeObject(NEW_GAME_BUTTON);
+        world().removeObject(LOAD_GAME_BUTTON);
     }
 
     @Override
