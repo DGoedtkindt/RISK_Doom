@@ -17,13 +17,12 @@ import org.w3c.dom.Document;
  */
 public class MapXML {
     
-    
     private static final File DIR;
     
     private Document xml;
     private String name;
-    private XMLReader reader = new XMLReader();
-    private XMLBuilder builder = new XMLBuilder();
+    private final XMLReader READER = new XMLReader();
+    private final XMLBuilder BUILDER = new XMLBuilder();
     
     static{
         DIR = new File("Maps");
@@ -41,7 +40,7 @@ public class MapXML {
     */
     public MapXML(File mapFile) throws Exception {
         if(mapFile.exists() && mapFile.isFile()) {
-            xml = builder.build(mapFile);
+            xml = BUILDER.build(mapFile);
             name = mapFile.getName().replace(".xml", "");
         } else throw new FileNotFoundException();
         
@@ -55,7 +54,7 @@ public class MapXML {
         name = mapName;
         File mapFile = new File(DIR.getAbsolutePath() + "/" + name + ".xml");
         if(mapFile.exists() && mapFile.isFile()) {
-            xml = builder.build(mapFile);
+            xml = BUILDER.build(mapFile);
             name = mapFile.getName().replace(".xml", "");
         } else throw new FileNotFoundException("file " + mapFile.getName() + " was not found");
         
@@ -63,11 +62,12 @@ public class MapXML {
     
     /** 
      * Creates a new MapXML from a Map object
+     * @param map The Map.
      * @throws java.lang.Exception
     */
     public MapXML(Map map) throws Exception{
         name = map.name;
-        xml = builder.build(map);
+        xml = BUILDER.build(map);
     }
     
     /** 
@@ -76,7 +76,7 @@ public class MapXML {
      * @throws java.lang.Exception
      */
     public Map getMap() throws Exception {
-        Map map = reader.getMap(xml);
+        Map map = READER.getMap(xml);
         map.name = name;
         return map;
     
@@ -109,15 +109,6 @@ public class MapXML {
             MessageDisplayer.showException(new Exception(message, ex));
 
         }
-    
-    }
-    
-    /**  calculates the checksum of the document
-     *  to check if the map's XML has been corrupted.
-     * @return a int unique to the MapXML containing the same Map 
-    */
-    public int calculateChecksum() {
-        throw new UnsupportedOperationException();
     
     }
     
