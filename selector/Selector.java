@@ -165,7 +165,7 @@ public class Selector{
      */
     public static void clear(){
         selection.clear();
-        validator = (Object o) -> {return true;};
+        validator = EVERYTHING;
         updateAppearance();
         
     }
