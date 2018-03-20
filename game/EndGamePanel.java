@@ -18,15 +18,15 @@ import mode.Mode;
 public class EndGamePanel {
     
     private String message;
-    private Actor panel = new Actor() {};
-    private NButton backToMenu = new NButton(() -> {MyWorld.theWorld.load(new menu.Manager());}, "Main Menu");
+    private final Actor PANEL = new Actor() {};
+    private final NButton BACK_TO_MENU = new NButton(() -> {MyWorld.theWorld.load(new menu.Manager());}, "Main Menu");
     
     /**
      * Paints the Background.
      */
     private void colorBackground() {
-        panel.getImage().setColor(new GColor(0, 0, 0, 150));
-        panel.getImage().fill();
+        PANEL.getImage().setColor(new GColor(0, 0, 0, 150));
+        PANEL.getImage().fill();
     
     }
     
@@ -34,7 +34,7 @@ public class EndGamePanel {
      * Shows the Panel.
      */
     public void show() {
-        panel.setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
+        PANEL.setImage(new GreenfootImage(Appearance.WORLD_WIDTH, Appearance.WORLD_HEIGHT));
         colorBackground();
         writeMessage();
         Mode.setMode(Mode.DEFAULT);
@@ -46,10 +46,10 @@ public class EndGamePanel {
      * Writes the correct message on the Panel.
      */
     private void writeMessage() {
-        panel.getImage().setColor(GColor.WHITE);
-        panel.getImage().setFont(Appearance.GREENFOOT_FONT);
+        PANEL.getImage().setColor(GColor.WHITE);
+        PANEL.getImage().setFont(Appearance.GREENFOOT_FONT);
         
-        FontMetrics fm = panel.getImage().getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
+        FontMetrics fm = PANEL.getImage().getAwtImage().getGraphics().getFontMetrics(Appearance.AWT_FONT);
         
         int lineHeight = fm.getMaxAscent() + fm.getMaxDescent();
         int maxWidth;
@@ -93,15 +93,15 @@ public class EndGamePanel {
             
         }
         
-        int baseX = (panel.getImage().getWidth() - maxWidth) / 2;
-        int baseY = (panel.getImage().getHeight() - (linesNumber - 1) * lineHeight) / 2;
+        int baseX = (PANEL.getImage().getWidth() - maxWidth) / 2;
+        int baseY = (PANEL.getImage().getHeight() - (linesNumber - 1) * lineHeight) / 2;
         
-        panel.getImage().drawString(message, baseX, baseY);
+        PANEL.getImage().drawString(message, baseX, baseY);
         
         for(Player toDraw : sortedPlayers){
             
-            panel.getImage().setColor(toDraw.color());
-            panel.getImage().drawString(toDraw.name() + " : " + toDraw.points, baseX, baseY + lineNumber * lineHeight);
+            PANEL.getImage().setColor(toDraw.color());
+            PANEL.getImage().drawString(toDraw.name() + " : " + toDraw.points, baseX, baseY + lineNumber * lineHeight);
             
             lineNumber ++;
             
@@ -113,8 +113,8 @@ public class EndGamePanel {
      * Adds the Panel to the World.
      */
     private void addToWorld() {
-        MyWorld.theWorld.addObject(panel, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
-        MyWorld.theWorld.addObject(backToMenu, Appearance.WORLD_WIDTH / 2, 3 * Appearance.WORLD_HEIGHT / 4);
+        MyWorld.theWorld.addObject(PANEL, Appearance.WORLD_WIDTH / 2, Appearance.WORLD_HEIGHT / 2);
+        MyWorld.theWorld.addObject(BACK_TO_MENU, Appearance.WORLD_WIDTH / 2, 3 * Appearance.WORLD_HEIGHT / 4);
     }
     
 }
