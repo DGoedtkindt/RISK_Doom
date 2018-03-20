@@ -9,11 +9,10 @@ import greenfoot.GreenfootImage;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class ChoiceInput extends Input {
     
     private final String TITLE;
-    private Map<String,NButton> optionButtons = new HashMap<>();
+    private final Map<String,NButton> OPTION_BUTTONS = new HashMap<>();
     private String returnText = "";
     private Actor background;
     
@@ -47,8 +46,8 @@ public class ChoiceInput extends Input {
     void addToWorld(int xPos, int yPos) {
         MyWorld.theWorld.addObject(background, xPos, yPos);
         double i = -0.5;
-        for(NButton optionButton : optionButtons.values()) {
-            int buttonXPos = xPos + (int)(i * WIDTH/(optionButtons.size() + 1));
+        for(NButton optionButton : OPTION_BUTTONS.values()) {
+            int buttonXPos = xPos + (int)(i * WIDTH/(OPTION_BUTTONS.size() + 1));
             MyWorld.theWorld.addObject(optionButton, buttonXPos, yPos+30);
             i++;
             
@@ -59,7 +58,7 @@ public class ChoiceInput extends Input {
     @Override
     void removeFromWorld() {
         MyWorld.theWorld.removeObject(background);
-        optionButtons.values().forEach((button)->{
+        OPTION_BUTTONS.values().forEach((button)->{
             MyWorld.theWorld.removeObject(button);
         });
         
@@ -80,13 +79,13 @@ public class ChoiceInput extends Input {
     public void addOption(String optionID, String optionText) {
         Action onClickAction = ()->{
             returnText = optionID;
-            optionButtons.values().forEach(NButton::toggleUsable);
-            optionButtons.get(optionID).toggleUnusable();
+            OPTION_BUTTONS.values().forEach(NButton::toggleUsable);
+            OPTION_BUTTONS.get(optionID).toggleUnusable();
             submit();
             
         };
         NButton optionButton = new NButton(onClickAction, optionText);
-        optionButtons.put(optionID, optionButton);
+        OPTION_BUTTONS.put(optionID, optionButton);
         
     }
     
@@ -97,12 +96,12 @@ public class ChoiceInput extends Input {
 
         private Background(int width, int height) {
             Color backgroundColor = appearance.Theme.used.backgroundColor.brighter();
-            this.setImage(new GreenfootImage(width,height));
-            this.getImage().setColor(backgroundColor);
-            this.getImage().fill();
-            this.getImage().setColor(appearance.Theme.used.textColor);
-            this.getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
-            this.getImage().drawString(TITLE, 250,40);
+            setImage(new GreenfootImage(width,height));
+            getImage().setColor(backgroundColor);
+            getImage().fill();
+            getImage().setColor(appearance.Theme.used.textColor);
+            getImage().setFont(appearance.Appearance.GREENFOOT_FONT);
+            getImage().drawString(TITLE, 250,40);
         }
 
     }
