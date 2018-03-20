@@ -1,12 +1,9 @@
 package menu;
 
-import appearance.Appearance;
 import base.NButton;
 import base.StateManager;
 import greenfoot.GreenfootImage;
-import input.ChoiceInput;
 import input.Form;
-import input.Input;
 
 /**
  * This Manager creates the Main Menu.
@@ -14,19 +11,19 @@ import input.Input;
  */
 public class Manager extends StateManager {
     
-    private NButton playGameButton           = new NButton(() -> {world().load(new gameTypeSelection.Manager());}, "Play");
-    private NButton mapEditorButton          = new NButton(() -> {mapEditorMenu();}, "Map Editor");
-    private NButton optionsButton            = new NButton(() -> {optionsMenu();}, "Options");
-    private NButton rulesButton              = new NButton(() -> {rulesMenu();}, "Rules");
+    private final NButton PLAY_GAME_BUTTON    = new NButton(() -> {gameTypeSelectionMenu();}, "Play");
+    private final NButton MAP_EDITOR_BUTTON   = new NButton(() -> {mapEditorMenu();}, "Map Editor");
+    private final NButton OPTIONS_BUTTON      = new NButton(() -> {optionsMenu();}, "Options");
+    private final NButton RULES_BUTTON        = new NButton(() -> {rulesMenu();}, "Rules");
     
     @Override
     public void setupScene() {
         world().makeSureSceneIsClear();
         drawPineapple();
-        world().addObject(playGameButton, world().getWidth() / 2, world().getHeight() / 2);
-        world().addObject(mapEditorButton, world().getWidth() / 4, world().getHeight() / 2);
-        world().addObject(optionsButton, 3 * world().getWidth() / 4, world().getHeight() / 2);
-        world().addObject(rulesButton, world().getWidth() / 2, 2*world().getHeight()/3);
+        world().addObject(PLAY_GAME_BUTTON, world().getWidth() / 2, world().getHeight() / 2);
+        world().addObject(MAP_EDITOR_BUTTON, world().getWidth() / 4, world().getHeight() / 2);
+        world().addObject(OPTIONS_BUTTON, 3 * world().getWidth() / 4, world().getHeight() / 2);
+        world().addObject(RULES_BUTTON, world().getWidth() / 2, 2*world().getHeight()/3);
     }
 
     @Override
@@ -72,10 +69,19 @@ public class Manager extends StateManager {
     
     }
     
+    /**
+     * Launches the Game type selection Menu.
+     */
+    private void gameTypeSelectionMenu() {
+        clearScene();
+        world().load(new gameTypeSelection.Manager());
+    
+    }
+    
     @Override
     public void escape() {
         Form.confirmInput("Do you want to quit the Game?", (input)->{
-            if(input.get("confirmation") == "Yes") {
+            if(input.get("confirmation").equals("Yes")) {
                 System.exit(0);
             } 
         });
