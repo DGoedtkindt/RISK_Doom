@@ -11,7 +11,7 @@ import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 
 /**
- * This Button acts like a validator in the Map Editor. The User clicks on this
+ * This Button acts like a Validator in the Map Editor. The User clicks on this
  * when he wants to validate his action.
  * 
  */

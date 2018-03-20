@@ -1,10 +1,8 @@
 package mapEditor;
 
-import appearance.Appearance;
 import appearance.MessageDisplayer;
 import base.Map;
 import base.MyWorld;
-import input.ChoiceInput;
 import input.Form;
 import input.FormAction;
 import input.Input;

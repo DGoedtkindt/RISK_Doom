@@ -4,7 +4,8 @@ import appearance.Appearance;
 import greenfoot.Actor;
 
 /**
- * Class of every Button.
+ * A Button is an actor that executes an action when the user clicks it.
+ * The World must detect the clicks and call the clicked() method.
  * 
  */
 public abstract class Button extends Actor {
@@ -22,8 +23,10 @@ public abstract class Button extends Actor {
      */
     protected static MyWorld world() {return MyWorld.theWorld;}
     
-    /**
-     * @return Whether this Button is usable.
+
+    /**Returns whether this Button is usable.
+     * 
+     * @return whether this Button is usable.
      */
     public boolean isUsable(){
         return usable;

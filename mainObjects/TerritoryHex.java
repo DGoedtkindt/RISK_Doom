@@ -275,7 +275,7 @@ public class TerritoryHex extends Button {
         }else{
             
             try{
-                img = Hexagon.createImage(TERRITORY.continentColor, 0.5);
+                img = Hexagon.createImage(TERRITORY.continent().color(), 0.5);
             }catch(Exception e){
                 img = Hexagon.createImage(Theme.used.territoryColor, 0.5);
             }
@@ -286,12 +286,19 @@ public class TerritoryHex extends Button {
         
     }
     
+
+    /**
+     * Makes this TerritoryHex unclickable.
+     */
     @Override
     public void toggleUnusable() {
         usable = false;
         
     }
     
+    /**
+     * Makes this TerritoryHex clickable.
+     */
     @Override
     public void toggleUsable() {
         usable = true;
