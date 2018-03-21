@@ -63,6 +63,8 @@ public class ControlPanel {
         ALL_BUTTONS.add(DELETE_CONTINENT);
         ALL_BUTTONS.add(OK_BUTTON);
         ALL_BUTTONS.add(makeXMLButton);
+        
+        world().managmentExclusionSet.addAll(ALL_BUTTONS);
     
     }
     
@@ -166,8 +168,10 @@ public class ControlPanel {
      * Removes this Panel from the World.
      */
     public void removeFromWorld() {
+        world().managmentExclusionSet.removeAll(ALL_BUTTONS);
         ALL_BUTTONS.forEach(world()::removeObject);
         Mode.removeModeChangeListener(UPDATE_THIS);
+        
         
     }
     

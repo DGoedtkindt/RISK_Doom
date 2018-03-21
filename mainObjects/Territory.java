@@ -289,7 +289,6 @@ public class Territory implements Selectable {
             if(formerOwner != null){
                 
                 if(formerOwner.capital == this && !formerOwner.territories().isEmpty()){
-                    formerOwner.capital = formerOwner.territories().get(0);
                     formerOwner.updateCapital();
                 }
                 

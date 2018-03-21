@@ -9,7 +9,9 @@ import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
 import greenfoot.World;
 import input.Form;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import mainObjects.BlankHex;
 
 /**
@@ -30,6 +32,12 @@ public class MyWorld extends World {
     //The 'back' Button
     public final NButton backButton = 
             new NButton(() -> {stateManager.escape();}, new GreenfootImage("backToHome.png"), 30, 30);
+    
+    /**
+     * This set determines which buttons will be excluded from changes in 
+     * the methods lockAllButtons() and unlockAllButtons()
+     */
+    public Set<Button> managmentExclusionSet = new HashSet<>();
     
     /**
      * Creates the World. And initialises anything needed
@@ -153,7 +161,9 @@ public class MyWorld extends World {
      * Makes every Button unusable.
      */
     public void lockAllButtons() {
-        getObjects(Button.class).forEach(Button::toggleUnusable);
+        List<Button> allButtons = getObjects(Button.class);
+        allButtons.removeAll(managmentExclusionSet);
+        allButtons.forEach(Button::toggleUnusable);
         
     }
     
@@ -161,7 +171,9 @@ public class MyWorld extends World {
      * Makes every Button usable.
      */
     public void unlockAllButtons() {
-        getObjects(Button.class).forEach(Button::toggleUsable);
+        List<Button> allButtons = getObjects(Button.class);
+        allButtons.removeAll(managmentExclusionSet);
+        allButtons.forEach(Button::toggleUsable);
         
     }
     

@@ -117,20 +117,6 @@ public class Selector{
         return territorySelectedList.get(0);
     }
     
-    /**
-     * Gets the number of selected Territories.
-     * @return The number of selected Territories.
-     */
-    public static int territoriesNumber(){
-        
-        try{
-            return getSelectedTerritories().size();
-        }catch(Exception e){
-            return 0;
-        }
-
-    }
-    
     //Getters for Continent///////////////////////////////////////////////////
     
     /**
@@ -154,20 +140,6 @@ public class Selector{
         
         return continentSelectedList;
     
-    }
-    
-    /**
-     * Gets the number of selected Continents.
-     * @return The number of selected Continents.
-     */
-    public static int continentsNumber(){
-        
-        try{
-            return continentSelectedList().size();
-        }catch(Exception e){
-            return 0;
-        }
-
     }
     
     ///////////////////////////////////////////////////////////

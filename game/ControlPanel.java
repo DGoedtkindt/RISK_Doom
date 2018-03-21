@@ -69,6 +69,8 @@ public class ControlPanel {
             
         });
         
+        world().managmentExclusionSet.addAll(ALL_BUTTONS);
+        
     }
     
     /**
@@ -88,6 +90,7 @@ public class ControlPanel {
      * Removes the ControlPanel from the World.
      */
     protected void removeFromWorld() {
+        world().managmentExclusionSet.removeAll(ALL_BUTTONS);
         Mode.removeModeChangeListener(UPDATE_THIS);
         ALL_BUTTONS.forEach(world()::removeObject);
     
