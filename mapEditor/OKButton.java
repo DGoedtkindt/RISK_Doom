@@ -53,12 +53,17 @@ public class OKButton extends Button{
                         break;
                         
                     case SET_LINK:
-                        if(!Links.newLinks.isLargeEnough()) {
-                            Links.newLinks.destroy();
-                            MessageDisplayer.showMessage("You cannot create Links with fewer"
-                                                       + " than 2 linked Territories.");
+                        if(!(Links.newLinks == null)){
+                            if(!Links.newLinks.isLargeEnough()) {
+                                Links.newLinks.destroy();
+                                MessageDisplayer.showMessage("You cannot create Links with fewer"
+                                                           + " than 2 linked Territories.");
 
+                            }
+                        }else{
+                            MessageDisplayer.showMessage("You must select positions on Territories in order to create a Link between them.");
                         }
+                        
                         Links.newLinks = null;
                         break;
                         
@@ -82,23 +87,30 @@ public class OKButton extends Button{
     private void createContinentFromSelection(){
         try{
             ArrayList<Territory> selectedTerritories;
-            selectedTerritories = Selector.getSelectedTerritories();
-            for(Territory t : selectedTerritories){
+            
+            if(Selector.territoriesNumber() > 0){
                 
-                if(t.continent() != null){
-                    throw new Exception("A selected territory already has a continent.");
-                    
+                selectedTerritories = Selector.getSelectedTerritories();
+                for(Territory t : selectedTerritories){
+
+                    if(t.continent() != null){
+                        throw new Exception("A selected territory already has a continent.");
+
+                    }
+
                 }
+                new Continent(selectedTerritories).addToWorld();
                 
+            }else{
+                MessageDisplayer.showMessage("You must select at least one Territory.");
             }
-            new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception ex){
             String message = "Continent couldn't be created";
             MessageDisplayer.showException(new Exception(message, ex));
             world().stateManager.escape();
            
-           }
+        }
         
     }
     
@@ -117,19 +129,23 @@ public class OKButton extends Button{
      */
     private void deleteTerritorySelection(){
         try{
-            ArrayList<Territory> territoriesToDelete;
-            territoriesToDelete = Selector.getSelectedTerritories();
-            for(Territory toDelete : territoriesToDelete){
-                toDelete.destroy();
-                 
+            
+            if(Selector.territoriesNumber() > 0){
+                ArrayList<Territory> territoriesToDelete;
+                territoriesToDelete = Selector.getSelectedTerritories();
+                for(Territory toDelete : territoriesToDelete){
+                    toDelete.destroy();
+
+                }
+            }else{
+                MessageDisplayer.showMessage("You must select at least one Territory.");
             }
             
-           } catch(Exception ex){
-                String message = "Territories couldn't be destroyed";
-                MessageDisplayer.showException(new Exception(message, ex));
-                world().stateManager.escape();
-           
-           }
+        } catch(Exception ex){
+            String message = "Territories couldn't be destroyed";
+            MessageDisplayer.showException(new Exception(message, ex));
+
+        }
         
     }
     
@@ -138,15 +154,19 @@ public class OKButton extends Button{
      */
     private void deleteContinentSelection(){
         try{
-            ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
-            continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
-           } catch(Exception ex){
+            if(Selector.continentsNumber() > 0){
+                ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
+                continentsToDelete.forEach((Continent c) -> {c.destroy();});
+            }else{
+                MessageDisplayer.showMessage("You must select at least one Continent.");
+            }
+            
+        }catch(Exception ex){
             String message = "Continents couldn't be deleted";
             MessageDisplayer.showException(new Exception(message, ex));
-            world().stateManager.escape();
-             
-           }
+
+        }
              
     }
     
