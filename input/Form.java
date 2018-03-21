@@ -115,6 +115,8 @@ public class Form {
             INPUTS.put(inputID, input);
             manageOptional(input,optional);
             
+        }if(input instanceof TextInput){
+            Input.activeInput = input;
         }
         
     }
