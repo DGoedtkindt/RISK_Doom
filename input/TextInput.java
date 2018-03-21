@@ -92,7 +92,7 @@ public class TextInput extends Input {
             getImage().drawString(TITLE, titleXPos,titleYPos );
 
             //returnString
-            int rsXPos = WIDTH/2 - 12*returnString.length();
+            int rsXPos = WIDTH/2 - (int)(7.5*returnString.length());
             int rsYPos = HEIGHT/2;
             getImage().drawString(returnString, rsXPos,rsYPos );
 
