@@ -9,6 +9,7 @@ import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import input.ChoiceInput;
 import input.Form;
 import java.util.ArrayList;
 import mainObjects.Continent;
@@ -138,15 +139,28 @@ public class Manager extends StateManager{
     public void escape() {
         if(Mode.mode() == Mode.DEFAULT) {
             
-            Form.confirmInput("Do you want to return to the main menu?",(input)->{
-                if(input.get("confirmation").equals("Yes")) {
+            Form escapeForm = new Form();
+            escapeForm.submitAction = (java.util.Map<String,String> input) -> {
+                
+                if(input.get("confirmation").equals("Yes")){
                     clearScene();
                     world().load(new menu.Manager());
                 }else if(Combo.comboShown){
-                    Turn.currentTurn.player.combos().addComboButtons();
+                    Turn.currentTurn.player.combos().use();
+                }   
+                
+            };
+            escapeForm.cancelAction = (String s) -> {
+                if(Combo.comboShown){
+                    Turn.currentTurn.player.combos().use();
                 }
-            });
-        
+            };
+            escapeForm.hasSubmitButton = false;
+            
+            ChoiceInput confirmEscape = new ChoiceInput("Do you want to return to the main menu?", "Yes", "No");
+            escapeForm.addInput("confirmation", confirmEscape, false);
+            escapeForm.addToWorld();
+            
         } else {
             Selector.clear();
             Mode.setMode(Mode.DEFAULT);
