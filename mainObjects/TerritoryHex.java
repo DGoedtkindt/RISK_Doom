@@ -129,7 +129,7 @@ public class TerritoryHex extends Button {
                         
                         Selector.select(TERRITORY);
                         
-                        if(Selector.territoriesNumber() == 2){
+                        if(Selector.getSelectedTerritories().size() == 2){
                             Territory.actionTarget = TERRITORY;
                             try{
                                 Territory.actionSource.invade(Territory.actionTarget);

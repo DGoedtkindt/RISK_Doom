@@ -44,6 +44,7 @@ public class Turn {
      */
     public static void interruptCurrentTurn() {
         if (currentTurn != null) {
+            game().turnNumber--;
             currentTurn.unlockMode();
             currentTurn = null;
         }

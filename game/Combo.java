@@ -148,7 +148,7 @@ public class Combo {
     /**
      * Sets the transparency of the usable Combo Buttons to an opaque value.
      */
-    public void makeUsableButtonsOpaque(){
+    private void makeUsableButtonsOpaque(){
         
         boolean canPlayACombo = false;
         

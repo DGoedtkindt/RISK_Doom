@@ -87,23 +87,16 @@ public class OKButton extends Button{
     private void createContinentFromSelection(){
         try{
             ArrayList<Territory> selectedTerritories;
-            
-            if(Selector.territoriesNumber() > 0){
-                
-                selectedTerritories = Selector.getSelectedTerritories();
-                for(Territory t : selectedTerritories){
+            selectedTerritories = Selector.getSelectedTerritories();
+            for(Territory t : selectedTerritories){
 
-                    if(t.continent() != null){
-                        throw new Exception("A selected territory already has a continent.");
-
-                    }
+                if(t.continent() != null){
+                    throw new Exception("A selected territory already has a continent.");
 
                 }
-                new Continent(selectedTerritories).addToWorld();
-                
-            }else{
-                MessageDisplayer.showMessage("You must select at least one Territory.");
+
             }
+            new Continent(selectedTerritories).addToWorld();
             
         } catch(Exception ex){
             String message = "Continent couldn't be created";
@@ -130,16 +123,9 @@ public class OKButton extends Button{
     private void deleteTerritorySelection(){
         try{
             
-            if(Selector.territoriesNumber() > 0){
-                ArrayList<Territory> territoriesToDelete;
-                territoriesToDelete = Selector.getSelectedTerritories();
-                for(Territory toDelete : territoriesToDelete){
-                    toDelete.destroy();
-
-                }
-            }else{
-                MessageDisplayer.showMessage("You must select at least one Territory.");
-            }
+            ArrayList<Territory> territoriesToDelete;
+            territoriesToDelete = Selector.getSelectedTerritories();
+            territoriesToDelete.forEach(Territory::destroy);
             
         } catch(Exception ex){
             String message = "Territories couldn't be destroyed";
@@ -154,13 +140,8 @@ public class OKButton extends Button{
      */
     private void deleteContinentSelection(){
         try{
-            
-            if(Selector.continentsNumber() > 0){
                 ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
                 continentsToDelete.forEach((Continent c) -> {c.destroy();});
-            }else{
-                MessageDisplayer.showMessage("You must select at least one Continent.");
-            }
             
         }catch(Exception ex){
             String message = "Continents couldn't be deleted";

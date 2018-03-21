@@ -218,10 +218,7 @@ public class Player {
         capital.drawTerritory();
         
         if(formerCapital != null){
-            
-            if(capital.infoHex().getWorld() != null && formerCapital.infoHex().getWorld() != null){
-                formerCapital.drawTerritory();
-            }
+            formerCapital.drawTerritory();
             
         }
         
