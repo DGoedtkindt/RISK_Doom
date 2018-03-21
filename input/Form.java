@@ -37,6 +37,8 @@ public class Form {
     private final Action SUBMIT;
     private OKCancelPanel ocPanel;
     
+    public boolean hasSubmitButton = true;
+    
     //for input placement
     int nextInputXPos;
     int nextInputYPos;
@@ -89,16 +91,17 @@ public class Form {
         Input input = new ChoiceInput(title, "Yes", "No");
         form.addInput("confirmation", input, false);
         form.submitAction = action;
+        form.hasSubmitButton = false;
         form.addToWorld();
     
     }
     
     public Form() {
         SUBMIT = ()->{submit();};
-        cancelAction = (String s)->{cancel("User pressed the cancel button");};
+        cancelAction = (String s)->{};
         
     }
-            
+    
     /**
      * Adds an input to this Form. Doesn't work if the the Form is already Displayed.
      * It is also limited to 5 inputs for display space reasons.
@@ -126,7 +129,7 @@ public class Form {
             world = MyWorld.theWorld;
             world.lockAllButtons();
             addInputsToWorld();
-            addOKCancelPanel();
+            addOKCancelPanel(hasSubmitButton);
         
         } else MessageDisplayer.showMessage("Form not added because there is another Form in the World.");
     }
@@ -138,7 +141,7 @@ public class Form {
     public void cancel(String cause) {
         if(cancelAction != null && world != null) cancelAction.cancel(cause);
         removeFromWorld();
-    
+        
     }
     
     /**
@@ -234,10 +237,10 @@ public class Form {
     
     }
 
-    private void addOKCancelPanel() {
+    private void addOKCancelPanel(boolean hasSubmit) {
         if(ocPanel == null) {
             ocPanel = new OKCancelPanel();
-            ocPanel.addToWorld();
+            ocPanel.addToWorld(hasSubmit);
         }
     }
 
@@ -259,13 +262,15 @@ public class Form {
         private final NButton CANCEL_BUTTON = new NButton(() -> {activeForm.cancel("Cancelled by User.");}, "Cancel");
         private final Background BACKGROUND = new Background(WIDTH,HEIGHT);
         
-        void addToWorld() {
-            world.addObject(BACKGROUND, 
-                    MyWorld.theWorld.getWidth()/2, nextInputYPos);
-            world.addObject(SUBMIT_BUTTON,
-                    (int)(1.5*MyWorld.theWorld.getWidth()/4), nextInputYPos);
-            world.addObject(CANCEL_BUTTON,
-                    (int)(2.5* MyWorld.theWorld.getWidth()/4), nextInputYPos);
+        void addToWorld(boolean hasSubmit) {
+            world.addObject(BACKGROUND, MyWorld.theWorld.getWidth()/2, nextInputYPos);
+            
+            if(hasSubmit){
+                world.addObject(SUBMIT_BUTTON, (int)(3 * MyWorld.theWorld.getWidth() / 8), nextInputYPos);
+                world.addObject(CANCEL_BUTTON, (int)(5 * MyWorld.theWorld.getWidth() / 8), nextInputYPos);
+            }else{
+                world.addObject(CANCEL_BUTTON, MyWorld.theWorld.getWidth() / 2, nextInputYPos);
+            }
             
         }
         
