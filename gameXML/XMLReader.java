@@ -68,8 +68,8 @@ public class XMLReader {
             String name = playerNode.getAttribute("name");
             
             Player player;
-            if(color.toRGB().equals(Zombie.ZOMBIE_COLOR.toRGB())){
-                player = new Zombie(GAME.difficulty);System.out.println("There");
+            if(color.equals(Zombie.ZOMBIE_COLOR)){
+                player = new Zombie(GAME.difficulty);
             }else{
                 player = new Player(name,color);
             }
