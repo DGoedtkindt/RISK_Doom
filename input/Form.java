@@ -71,7 +71,7 @@ public class Form {
     public static void inputColor(String title, FormAction action) {
         Form form = new Form();
         Input input = new ColorInput(title);
-        form.addInput("inputedColor", input, false);
+        form.addInput("inputedColor", input, true);
         form.submitAction = action;
         form.addToWorld();
     
@@ -115,7 +115,11 @@ public class Form {
             INPUTS.put(inputID, input);
             manageOptional(input,optional);
             
-        }if(input instanceof TextInput){
+        }
+        
+        if(input instanceof TextInput){
+            Input.activeInput = input;
+        }else if(!(Input.activeInput instanceof TextInput)){
             Input.activeInput = input;
         }
         
