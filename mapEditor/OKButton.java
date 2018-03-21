@@ -101,7 +101,6 @@ public class OKButton extends Button{
         } catch(Exception ex){
             String message = "Continent couldn't be created";
             MessageDisplayer.showException(new Exception(message, ex));
-            world().stateManager.escape();
            
         }
         
@@ -140,8 +139,8 @@ public class OKButton extends Button{
      */
     private void deleteContinentSelection(){
         try{
-                ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
-                continentsToDelete.forEach((Continent c) -> {c.destroy();});
+            ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
+            continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
         }catch(Exception ex){
             String message = "Continents couldn't be deleted";

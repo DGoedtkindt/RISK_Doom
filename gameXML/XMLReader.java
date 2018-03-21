@@ -66,9 +66,14 @@ public class XMLReader {
             String colorString = playerNode.getAttribute("color");
             GColor color = GColor.fromRGB(colorString);
             String name = playerNode.getAttribute("name");
+            
             Player player;
-            if(color == Zombie.ZOMBIE_COLOR) player = new Zombie(GAME.difficulty);
-            else player = new Player(name,color);
+            if(color.equals(Zombie.ZOMBIE_COLOR)){
+                player = new Zombie(GAME.difficulty);
+            }else{
+                player = new Player(name,color);
+            }
+            
             player.setArmiesInHand(Integer.parseInt(playerNode.getAttribute("armiesInHand")));
             GAME.players.add(player);
             

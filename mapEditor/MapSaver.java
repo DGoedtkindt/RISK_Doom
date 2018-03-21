@@ -97,7 +97,7 @@ public class MapSaver {
      * @return A boolean representation of the existence of a File with the same name.
      */
     private boolean nameAlreadyExists() {
-        return new File("Maps/"+name+".xml").exists();
+        return new File("Maps/" + name + ".xml").exists();
     
     }
     
@@ -106,7 +106,7 @@ public class MapSaver {
      */
     private void confirm() {
         Form.confirmInput("Do you want to replace the existing Map '" + name + "' with this one?", (input)-> {
-            if(input.get("confirmamtion").equals("Yes")) {
+            if(input.get("confirmation").equals("Yes")) {
                 save();
             }
         });
