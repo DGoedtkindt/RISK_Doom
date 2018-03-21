@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import selector.Selectable;
-import selector.Selector;
 
 /**
  * The Class that represents the Territories, the main Objects of this Game.
@@ -258,7 +257,7 @@ public class Territory implements Selectable {
         Form armiesNumberForm = new Form();
         armiesNumberForm.submitAction = INVADE;
         armiesNumberForm.cancelAction = (String s) -> {
-            resetSourceAndTarget();
+            Territory.resetSourceAndTarget();
         };
         TextInput armiesInput = new TextInput("The number of armies you're using.");
         armiesNumberForm.addInput("inputedText", armiesInput, false);
@@ -283,9 +282,20 @@ public class Territory implements Selectable {
             armies = 1;
         }else if(armies() < 0){
             setArmies(-armies);
-            Player formerOwner = owner;
+            Player formerOwner = owner();
             owner = invader;
             invader.conqueredThisTurn = true;
+            
+            if(formerOwner != null){
+                
+                if(formerOwner.capital == this && !formerOwner.territories().isEmpty()){
+                    formerOwner.capital = formerOwner.territories().get(0);
+                    formerOwner.updateCapital();
+                }
+                
+            }
+            
+            invader.updateCapital();
             
             if(formerOwner instanceof Zombie){
                 owner.points++;
@@ -303,7 +313,14 @@ public class Territory implements Selectable {
      * @throws Exception If the User enters an invalid number of armies.
      */
     public void moveTo(Territory destination) throws Exception{
-        Form.inputText("The number of armies you're moving.", MOVE_ARMIES);
+        Form movingNumberForm = new Form();
+        movingNumberForm.submitAction = MOVE_ARMIES;
+        movingNumberForm.cancelAction = (String s) -> {
+            Territory.resetSourceAndTarget();
+        };
+        TextInput armiesInput = new TextInput("The number of armies you're moving.");
+        movingNumberForm.addInput("inputedText", armiesInput, false);
+        movingNumberForm.addToWorld();
         
     }
     

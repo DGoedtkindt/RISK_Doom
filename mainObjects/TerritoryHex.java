@@ -150,6 +150,7 @@ public class TerritoryHex extends Button {
                         if(Territory.actionSource == null){
                             Territory.actionSource = TERRITORY;
                             Selector.select(TERRITORY);
+                            Selector.setValidator(Selector.IS_OWNED_TERRITORY);
                         }else{
                             Selector.select(TERRITORY);
                             Territory.actionTarget = TERRITORY;
