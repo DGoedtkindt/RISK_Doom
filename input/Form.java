@@ -269,13 +269,13 @@ public class Form {
         private final Background BACKGROUND = new Background(WIDTH,HEIGHT);
         
         void addToWorld(boolean hasSubmit) {
-            world.addObject(BACKGROUND, MyWorld.theWorld.getWidth()/2, nextInputYPos);
+            world.addObject(BACKGROUND, MyWorld.theWorld.getWidth()/2, nextInputYPos - Input.HEIGHT / 4);
             
             if(hasSubmit){
-                world.addObject(SUBMIT_BUTTON, (int)(3 * MyWorld.theWorld.getWidth() / 8), nextInputYPos);
-                world.addObject(CANCEL_BUTTON, (int)(5 * MyWorld.theWorld.getWidth() / 8), nextInputYPos);
+                world.addObject(SUBMIT_BUTTON, (int)(3 * MyWorld.theWorld.getWidth() / 8), nextInputYPos - Input.HEIGHT / 4);
+                world.addObject(CANCEL_BUTTON, (int)(5 * MyWorld.theWorld.getWidth() / 8), nextInputYPos - Input.HEIGHT / 4);
             }else{
-                world.addObject(CANCEL_BUTTON, MyWorld.theWorld.getWidth() / 2, nextInputYPos);
+                world.addObject(CANCEL_BUTTON, MyWorld.theWorld.getWidth() / 2, nextInputYPos - Input.HEIGHT / 4);
             }
             
         }
