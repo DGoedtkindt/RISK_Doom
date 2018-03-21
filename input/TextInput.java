@@ -87,12 +87,12 @@ public class TextInput extends Input {
             getImage().setColor(appearance.Theme.used.textColor);
             
             //title
-            int titleXPos = WIDTH/2 - 11*TITLE.length();
+            int titleXPos = WIDTH/2 - (int)(7.5 * TITLE.length());
             int titleYPos = HEIGHT/4;
             getImage().drawString(TITLE, titleXPos,titleYPos );
 
             //returnString
-            int rsXPos = WIDTH/2 - (int)(7.5*returnString.length());
+            int rsXPos = WIDTH/2 - (int)(7.5 * returnString.length());
             int rsYPos = HEIGHT/2;
             getImage().drawString(returnString, rsXPos,rsYPos );
 
