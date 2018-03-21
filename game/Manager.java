@@ -9,6 +9,7 @@ import base.StateManager;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import input.Form;
 import java.util.ArrayList;
 import mainObjects.Continent;
 import mainObjects.Links;
@@ -136,12 +137,19 @@ public class Manager extends StateManager{
     @Override
     public void escape() {
         if(Mode.mode() == Mode.DEFAULT) {
-            standardBackToMenu("Do you want to return to the main menu?");
+            
+            Form.confirmInput("Do you want to return to the main menu?",(input)->{
+                if(input.get("confirmation").equals("Yes")) {
+                    clearScene();
+                    world().load(new menu.Manager());
+                }else if(Combo.comboShown){
+                    Turn.currentTurn.player.combos().addComboButtons();
+                }
+            });
         
         } else {
             Selector.clear();
             Mode.setMode(Mode.DEFAULT);
-            
         }
         
         if(Territory.actionSource == null || Territory.actionTarget == null){

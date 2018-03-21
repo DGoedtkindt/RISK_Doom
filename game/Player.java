@@ -201,11 +201,26 @@ public class Player {
      * Updates the capital of this Player.
      */
     public void updateCapital(){
-        capital = territories().get(0);
+        
+        Territory formerCapital = capital;
+        
+        Territory newCapital = territories().get(0);
         
         for(Territory t : territories()){
-            if(t.bonus() > capital.bonus()){
-                capital = t;
+            if(t.bonus() > newCapital.bonus()){
+                newCapital = t;
+                
+            }
+
+        }
+        
+        capital = newCapital;
+        capital.drawTerritory();
+        
+        if(formerCapital != null){
+            
+            if(capital.infoHex().getWorld() != null && formerCapital.infoHex().getWorld() != null){
+                formerCapital.drawTerritory();
             }
             
         }

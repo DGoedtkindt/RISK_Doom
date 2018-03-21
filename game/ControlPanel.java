@@ -24,7 +24,7 @@ public class ControlPanel {
         }}
             , "End Turn");
     private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.CAN_ATTACK);
-    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.CAN_ATTACK);
+    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.CAN_MOVE);
     
     private final Action UPDATE_THIS = () -> {};
     
@@ -52,6 +52,7 @@ public class ControlPanel {
                     attackButton.toggleUsable();
                     moveButton.toggleUsable();
                     nextTurnButton.toggleUsable();
+                    
                     break;
                     
                 case MOVE : 
@@ -61,6 +62,8 @@ public class ControlPanel {
                 case ATTACK : 
                     attackButton.toggleUsable();
                     break;
+                    
+                case CLEARING_HAND : break;
                     
             }
             

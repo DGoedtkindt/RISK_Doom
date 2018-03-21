@@ -14,7 +14,7 @@ import selector.Selector;
  */
 public class Combo {
     
-    private static boolean comboShown = false;
+    public static boolean comboShown = false;
     
     private final ModeButton SAP_BUTTON = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
     private final NButton FORTRESS_BUTTON = new NButton(() -> {
@@ -97,23 +97,32 @@ public class Combo {
     public void use(){
         
         if(comboShown){
-            
             removeComboButtons();
-            comboShown = false;
-            Mode.setMode(Mode.DEFAULT);
-            
         }else{
-            
-            makeButtonsTransparent();
-            addButtonsToWorld();
-            makeUsableButtonsOpaque();
-            
-            comboShown = true;
-            
+            addComboButtons();
         }
         
         ComboDisplayer.display();
         
+    }
+    
+    /**
+     * Adds the Combo Buttons to the World and shows them.
+     */
+    public void addComboButtons(){
+        makeButtonsTransparent();
+        addButtonsToWorld();
+        makeUsableButtonsOpaque();
+        comboShown = true;
+    }
+    
+    /**
+     * Removes the Combo Buttons from the World.
+     */
+    private void removeComboButtons(){
+        removeButtonsFromWorld();
+        comboShown = false;
+        Mode.setMode(Mode.DEFAULT);
     }
     
     /**
@@ -139,7 +148,7 @@ public class Combo {
     /**
      * Sets the transparency of the usable Combo Buttons to an opaque value.
      */
-    private void makeUsableButtonsOpaque(){
+    public void makeUsableButtonsOpaque(){
         
         boolean canPlayACombo = false;
         
@@ -168,7 +177,7 @@ public class Combo {
      */
     public void useSap(){
         a -= 3;
-        removeComboButtons();
+        removeButtonsFromWorld();
     }
     
     /**
@@ -176,7 +185,7 @@ public class Combo {
      */
     public void useFortress(){
         b -= 3;
-        removeComboButtons();
+        removeButtonsFromWorld();
     }
     
     /**
@@ -184,7 +193,7 @@ public class Combo {
      */
     public void useBattlecry(){
         c -= 3;
-        removeComboButtons();
+        removeButtonsFromWorld();
     }
     
     /**
@@ -194,13 +203,13 @@ public class Combo {
         a--;
         b--;
         c--;
-        removeComboButtons();
+        removeButtonsFromWorld();
     }
     
     /**
-     * Removes the Buttons
+     * Removes the Buttons.
      */
-    public void removeComboButtons(){
+    private void removeButtonsFromWorld(){
         
         MyWorld.theWorld.removeObject(SAP_BUTTON);
         MyWorld.theWorld.removeObject(FORTRESS_BUTTON);
