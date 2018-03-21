@@ -136,8 +136,8 @@ public class Form {
      * @param cause the cause of the cancellation
      */
     public void cancel(String cause) {
-        removeFromWorld();
         if(cancelAction != null && world != null) cancelAction.cancel(cause);
+        removeFromWorld();
     
     }
     
