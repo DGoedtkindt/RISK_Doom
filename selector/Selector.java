@@ -123,14 +123,11 @@ public class Selector{
      */
     public static int territoriesNumber(){
         
-        ArrayList<Territory> territorySelectedList = new ArrayList<>();
-        for(Selectable select : selection) {
-            try{Territory terr;
-                terr = (Territory)select;
-                territorySelectedList.add(terr);
-            }  catch(ClassCastException cce) {}
+        try{
+            return getSelectedTerritories().size();
+        }catch(Exception e){
+            return 0;
         }
-        return territorySelectedList.size();
 
     }
     
@@ -150,12 +147,27 @@ public class Selector{
             try{Continent cont;
                 cont = (Continent)select;
                 continentSelectedList.add(cont);
-            }  catch(ClassCastException cce) {
-                throw new ClassCastException("Selectable of the wrong type selected\n" + cce);}
+            }catch(ClassCastException cce) {
+                throw new ClassCastException("Selectable of the wrong type selected\n" + cce);
+            }
         }
         
         return continentSelectedList;
     
+    }
+    
+    /**
+     * Gets the number of selected Continents.
+     * @return The number of selected Continents.
+     */
+    public static int continentsNumber(){
+        
+        try{
+            return continentSelectedList().size();
+        }catch(Exception e){
+            return 0;
+        }
+
     }
     
     ///////////////////////////////////////////////////////////
@@ -244,6 +256,13 @@ public class Selector{
     public static final Predicate CAN_ATTACK = (Object o) -> {
                     if(o instanceof Territory){
                         return ((Territory)(o)).owner() == Turn.currentTurn.player && ((Territory)(o)).armies() > 2;
+                    }else{
+                        return false;
+                    }
+                    };
+    public static final Predicate CAN_MOVE = (Object o) -> {
+                    if(o instanceof Territory){
+                        return ((Territory)(o)).owner() == Turn.currentTurn.player && ((Territory)(o)).armies() > 1;
                     }else{
                         return false;
                     }
