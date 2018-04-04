@@ -12,9 +12,9 @@ import greenfoot.GreenfootImage;
 import input.ChoiceInput;
 import input.Form;
 import java.util.ArrayList;
-import mainObjects.Continent;
-import mainObjects.Links;
-import mainObjects.Territory;
+import java.util.HashMap;
+import territory.Continent;
+import territory.Territory;
 import mode.Mode;
 import mode.ModeMessageDisplay;
 import selector.Selector;
@@ -33,6 +33,8 @@ public class Manager extends StateManager{
     private final ControlPanel CONTROL_PANEL;
     private final ModeMessageDisplay MODE_MESSAGE_DISPLAY;
     private final NButton OPTIONS_BUTTON;
+    private final HashMap<Territory, TerritoryDisplayer> territoryDisplayerMap
+            = new HashMap<>();
     
     /** 
      * Creates a new Manager that will allow to play a certain Game when 
@@ -97,13 +99,20 @@ public class Manager extends StateManager{
     }
     
     /** 
-     * Generates a Map.
+     * Adds the elements of a Map to the world.
      */
     private void loadMap(){
+        gameToLoad.map.territories.forEach((territory)->{
+            TerritoryDisplayer terrDisplay;
+            if(!territoryDisplayerMap.containsKey(territory)){
+                TerritoryControler terrControl = new TerritoryControler(territory);
+                terrDisplay = new TerritoryDisplayer(territory,terrControl);
+                territoryDisplayerMap.put(territory, terrDisplay);
+            } else terrDisplay = territoryDisplayerMap.get(territory);
+            terrDisplay.show();
         
-        gameToLoad.map.territories.forEach(Territory::addToWorld);
+        });
         gameToLoad.map.continents.forEach(Continent::addToWorld);
-        gameToLoad.map.links.forEach(Links::addToWorld);
         
     }
     
@@ -164,10 +173,6 @@ public class Manager extends StateManager{
         } else {
             Selector.clear();
             Mode.setMode(Mode.DEFAULT);
-        }
-        
-        if(Territory.actionSource == null || Territory.actionTarget == null){
-           Territory.resetSourceAndTarget();
         }
         
     }

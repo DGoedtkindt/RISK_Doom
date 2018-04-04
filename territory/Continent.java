@@ -1,4 +1,4 @@
-package mainObjects;
+package territory;
 
 import appearance.MessageDisplayer;
 import appearance.Theme;
@@ -13,6 +13,8 @@ import input.ColorInput;
 import input.Form;
 import input.Input;
 import input.TextInput;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * The Class that represents the Continents.
@@ -21,20 +23,20 @@ import input.TextInput;
 public class Continent implements Selectable{
     
     public static final BonusDisplay DISPLAY = new BonusDisplay();
+    public final Collection<Territory> territoriesContained;
     
     //private variables
     private MyWorld world() {return MyWorld.theWorld;}
     private Map map() {return world().stateManager.map();}
     private GColor continentColor = Theme.used.territoryColor;
-    private final ArrayList<Territory> territoriesContained = new ArrayList<>();
     private int bonus = 0;
     
     /**
      * Creates a Continent.
      * @param territories The Territories contained in this Continent.
      */
-    public Continent(ArrayList<Territory> territories){
-        territoriesContained.addAll(0,territories);
+    public Continent(Collection<Territory> territories){
+        territoriesContained = Collections.unmodifiableCollection(territories);
         askForBonusAndColor();
         
     }
@@ -45,10 +47,10 @@ public class Continent implements Selectable{
      * @param color The Color of this Continent.
      * @param points The bonus given by this Continent.
      */
-    public Continent(ArrayList<Territory> territories, GColor color, int points){
+    public Continent(Collection<Territory> territories, GColor color, int points){
         continentColor = color;
         bonus = points;
-        territoriesContained.addAll(0,territories);
+        territoriesContained = Collections.unmodifiableCollection(territories);
         
     }
     
@@ -72,6 +74,7 @@ public class Continent implements Selectable{
                 continentColor = GColor.fromRGB(input.get("inputedColor"));
                 territoriesContained.forEach((Territory t) -> {t.setContinent(this);});
                 Continent.DISPLAY.update();
+                world().stateManager.escape();
             });
         
     }
@@ -82,15 +85,6 @@ public class Continent implements Selectable{
      */
     public GColor color(){
         return continentColor;
-        
-    }
-    
-    /**
-     * Gets the Territories contained in this Continent.
-     * @return The Territories contained in this Continent.
-     */
-    public ArrayList<Territory> containedTerritories(){
-        return (ArrayList<Territory>)territoriesContained.clone();
         
     }
     
@@ -128,6 +122,7 @@ public class Continent implements Selectable{
                 }else{
                     MessageDisplayer.showMessage("Invalid entry.");
                 }
+                world().stateManager.escape();
         });
         
     }
@@ -143,9 +138,9 @@ public class Continent implements Selectable{
     //Selectable methods/////////////////////////////////
 
     @Override
-    public void makeGreen() {
+    public void makeSelected() {
         for(Territory terr : territoriesContained) {
-            terr.makeGreen();
+            terr.makeSelected();
         
         }
     }

@@ -100,7 +100,7 @@ public class EndGamePanel {
         
         for(Player toDraw : sortedPlayers){
             
-            PANEL.getImage().setColor(toDraw.color());
+            PANEL.getImage().setColor(toDraw.color);
             PANEL.getImage().drawString(toDraw.name() + " : " + toDraw.points, baseX, baseY + lineNumber * lineHeight);
             
             lineNumber ++;

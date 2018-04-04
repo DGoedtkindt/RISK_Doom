@@ -4,11 +4,11 @@ import appearance.MessageDisplayer;
 import base.Button;
 import mode.Mode;
 import selector.Selector;
-import mainObjects.Continent;
-import mainObjects.Links;
-import mainObjects.Territory;
+import territory.Continent;
+import territory.Territory;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * This Button acts like a Validator in the Map Editor. The User clicks on this
@@ -19,7 +19,7 @@ public class OKButton extends Button{
     
     /**
      * Creates an OKButton.
-     */
+     */ 
     public OKButton(){
         
         GreenfootImage image = new GreenfootImage("OKButton.png");
@@ -51,22 +51,6 @@ public class OKButton extends Button{
                     case DELETE_CONTINENT:
                         deleteContinentSelection();
                         break;
-                        
-                    case SET_LINK:
-                        if(!(Links.newLinks == null)){
-                            if(!Links.newLinks.isLargeEnough()) {
-                                Links.newLinks.destroy();
-                                MessageDisplayer.showMessage("You cannot create Links with fewer"
-                                                           + " than 2 linked Territories.");
-
-                            }
-                        }else{
-                            MessageDisplayer.showMessage("You must select positions on Territories in order to create a Link between them.");
-                        }
-                        
-                        Links.newLinks = null;
-                        break;
-                        
                     default:
                         break;
                         
@@ -86,7 +70,7 @@ public class OKButton extends Button{
      */
     private void createContinentFromSelection(){
         try{
-            ArrayList<Territory> selectedTerritories;
+            Set<Territory> selectedTerritories;
             selectedTerritories = Selector.getSelectedTerritories();
             for(Territory t : selectedTerritories){
 
@@ -122,7 +106,7 @@ public class OKButton extends Button{
     private void deleteTerritorySelection(){
         try{
             
-            ArrayList<Territory> territoriesToDelete;
+            Set<Territory> territoriesToDelete;
             territoriesToDelete = Selector.getSelectedTerritories();
             territoriesToDelete.forEach(Territory::destroy);
             
@@ -139,7 +123,7 @@ public class OKButton extends Button{
      */
     private void deleteContinentSelection(){
         try{
-            ArrayList<Continent> continentsToDelete = Selector.continentSelectedList();
+            Set<Continent> continentsToDelete = Selector.selectedContinents();
             continentsToDelete.forEach((Continent c) -> {c.destroy();});
             
         }catch(Exception ex){

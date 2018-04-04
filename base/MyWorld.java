@@ -12,7 +12,6 @@ import input.Form;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import mainObjects.BlankHex;
 
 /**
  * The World class of this scenario.
@@ -97,8 +96,7 @@ public class MyWorld extends World {
             
             for(int y = 0; y < row; y++) {
                 BlankHex hexToPlace = BlankHex.blankHexAt(x, y);
-                int[] rectCoords = hexToPlace.rectCoord();
-                addObject(hexToPlace,rectCoords[0],rectCoords[1]);
+                hexToPlace.addToWorld();
                 
             }
             
@@ -117,7 +115,7 @@ public class MyWorld extends World {
                     && bh.hexCoord()[0] < Appearance.CONTINENT_BONUS_X_POSITION + Appearance.CONTINENT_BONUS_ZONE_WIDTH 
                     && bh.hexCoord()[1] > Appearance.ROW_NUMBER - Appearance.CONTINENT_BONUS_ZONE_HEIGHT){
                 
-                removeObject(bh);
+                bh.removeFromWorld();
                 
             }
             

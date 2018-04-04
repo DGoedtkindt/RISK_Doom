@@ -11,8 +11,8 @@ public abstract class StateManager{
     
     public abstract void setupScene();
     public abstract void clearScene();
-    public Map map() {return null;}
-    public Game game() {return null;}
+    public Map map() {throw new IllegalStateException("There is no Map in this state of the program");}
+    public Game game() {throw new IllegalStateException("There is no Game in this state of the program");}
     public abstract void escape();
     protected MyWorld world() {return MyWorld.theWorld;}
     

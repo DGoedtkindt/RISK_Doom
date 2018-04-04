@@ -7,8 +7,8 @@ import base.NButton;
 import greenfoot.GreenfootImage;
 import java.util.ArrayList;
 import mode.Mode;
-import mode.ModeButton;
-import selector.Selector;
+import territory.Attack;
+import territory.Move;
 
 /**
  * The ControlPanel containing the Buttons used to play the Game.
@@ -23,8 +23,8 @@ public class ControlPanel {
             Turn.startNewTurn();
         }}
             , "End Turn");
-    private ModeButton attackButton = new ModeButton(new GreenfootImage("attack.png"), Mode.ATTACK, Selector.CAN_ATTACK);
-    private ModeButton moveButton = new ModeButton(new GreenfootImage("moveArmies.png"), Mode.MOVE, Selector.CAN_MOVE);
+    private NButton attackButton = new NButton(()->{attack();}, new GreenfootImage("attack.png"));
+    private NButton moveButton = new NButton(()->{move();},new GreenfootImage("moveArmies.png"));
     
     private final Action UPDATE_THIS = () -> {};
     
@@ -93,6 +93,18 @@ public class ControlPanel {
         world().managmentExclusionSet.removeAll(ALL_BUTTONS);
         Mode.removeModeChangeListener(UPDATE_THIS);
         ALL_BUTTONS.forEach(world()::removeObject);
+    
+    }
+    
+    private void attack() {
+        Attack attack = new Attack(Turn.currentTurn.player);
+        attack.init(attack::attack);
+    
+    }
+    
+    private void move() {
+        Move move = new Move(Turn.currentTurn.player);
+        move.init(move::move);
     
     }
     

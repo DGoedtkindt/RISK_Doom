@@ -3,11 +3,11 @@ package mapXML;
 import base.GColor;
 import base.Map;
 import java.util.ArrayList;
-import mainObjects.BlankHex;
-import mainObjects.Continent;
-import mainObjects.LinkIndic;
-import mainObjects.Links;
-import mainObjects.Territory;
+import base.BlankHex;
+import java.util.HashSet;
+import territory.Continent;
+import territory.Links;
+import territory.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,7 +43,7 @@ public class XMLReader {
         
         for(int i = 0; i < terrNodeList.getLength(); i++) {
             Element terrNode = (Element)terrNodeList.item(i);
-            ArrayList<BlankHex> hexContained = new ArrayList<>();
+            HashSet<BlankHex> hexContained = new HashSet<>();
             
             BlankHex infoHex = null;
             int bonus = Integer.parseInt(terrNode.getAttribute("bonus"));
@@ -67,7 +67,6 @@ public class XMLReader {
                 }
 
             }
-            
             MAP.territories.add(new Territory(hexContained, infoHex, bonus));
             
             }
@@ -109,7 +108,6 @@ public class XMLReader {
             String colorString = linksNode.getAttribute("color");
             GColor color = GColor.fromRGB(colorString);
             Links newLinks = new Links(color);
-            Links.newLinks = newLinks;
             
             NodeList linkNodesList = linksNode.getElementsByTagName("Link");
             for (int j=0; j<linkNodesList.getLength();j++) {
@@ -118,15 +116,11 @@ public class XMLReader {
                 int yPos = Integer.parseInt(linkNode.getAttribute("yPos"));
                 int terrId = Integer.parseInt(linkNode.getAttribute("terrId"));
                 Territory terr = MAP.territories.get(terrId);
-                new LinkIndic(terr, xPos, yPos);
+                newLinks.addlink(terr, new int[]{xPos,yPos});
             
             }
-            
-            MAP.links.add(newLinks);
         
         }
-        
-        Links.newLinks = null;
     
     }
     

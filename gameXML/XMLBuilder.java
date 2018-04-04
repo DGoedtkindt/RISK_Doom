@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import game.Player;
 import java.util.List;
-import mainObjects.Territory;
+import territory.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -104,7 +104,7 @@ public class XMLBuilder {
             
             //Player's attributes
             playerNode.setAttribute("name", player.name());
-            playerNode.setAttribute("color", player.color().toRGB());
+            playerNode.setAttribute("color", player.color.toRGB());
             playerNode.setAttribute("points", player.points + "");
             
             //Player's Territories

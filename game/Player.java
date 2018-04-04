@@ -3,9 +3,11 @@ package game;
 import base.GColor;
 import base.MyWorld;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import mainObjects.Continent;
-import mainObjects.Territory;
+import java.util.Set;
+import territory.Continent;
+import territory.Territory;
 
 /**
  * The Class that represents a Player.
@@ -16,14 +18,15 @@ public class Player {
     public static final String NEW_PLAYER_NAME = "A New Player";
     public static final int MAX_POINTS = 7;
     
-    private final String name;
-    private final GColor color;
-    private int armiesInHand = 0;
+    public final GColor color;
     public int points = 0;
     public boolean fortressProtection = false;
     public int battlecryBonus = 0;
-    public Territory capital;
     public boolean conqueredThisTurn = false;
+    
+    private final String name;
+    private int armiesInHand = 0;
+    private Territory capital;
     
     private final Combo COMBOS = new Combo();
     
@@ -79,12 +82,12 @@ public class Player {
      * @return The continents from theWorld.stateManager.map().continents that
      * This Player controls.
      */
-    public List<Continent> continents(){
-        List<Continent> continentList = new ArrayList<>();
+    public Set<Continent> continents(){
+        HashSet<Continent> continentList = new HashSet<>();
         
         for(Continent c : MyWorld.theWorld.stateManager.map().continents){
-            List<Territory> uncontroledTerrInCont;
-            uncontroledTerrInCont = c.containedTerritories();
+            HashSet<Territory> uncontroledTerrInCont;
+            uncontroledTerrInCont = new HashSet(c.territoriesContained);
             uncontroledTerrInCont.removeAll(territories());
             if(uncontroledTerrInCont.isEmpty()) {
                 continentList.add(c);
@@ -147,14 +150,6 @@ public class Player {
     }
     
     /**
-     * Gets the GColor of this Player.
-     * @return The Color of this Player.
-     */
-    public GColor color(){
-        return color;
-    }
-    
-    /**
      * Gets the name of this Player.
      * @return The name of this Player.
      */
@@ -202,8 +197,6 @@ public class Player {
      */
     public void updateCapital(){
         
-        Territory formerCapital = capital;
-        
         Territory newCapital = territories().get(0);
         
         for(Territory t : territories()){
@@ -214,14 +207,13 @@ public class Player {
 
         }
         
+        setCapital(newCapital);
+        
+    }
+    
+    private void setCapital(Territory newCapital) {
         capital = newCapital;
-        capital.drawTerritory();
-        
-        if(formerCapital != null){
-            formerCapital.drawTerritory();
-            
-        }
-        
+    
     }
     
 }

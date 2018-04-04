@@ -97,7 +97,7 @@ public class ComboDisplayer extends Button{
         img.scale(width, bandHeight * 3 + bandSeparation * 2);
         img.setColor(Theme.used.backgroundColor.darker());
         img.fill();
-        img.setColor(Turn.currentTurn.player.color());
+        img.setColor(Turn.currentTurn.player.color);
         img.drawRect(1, 1, img.getWidth() - 3, img.getHeight() - 3);
         img.setColor(Theme.used.textColor);
         img.drawString("COMBOS", (img.getWidth() - fm.stringWidth("COMBOS")) / 2, 

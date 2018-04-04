@@ -3,7 +3,7 @@ package game;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import mainObjects.Territory;
+import territory.Territory;
 
 /**
  * The Class of the Objects that contain stats about the Turns.

@@ -83,7 +83,7 @@ public class XMLReader {
                 int terrID = Integer.parseInt(territory.getAttribute("terrID"));
                 int armies = Integer.parseInt(territory.getAttribute("armies"));
                 GAME.map.territories.get(terrID).setArmies(armies);
-                GAME.map.territories.get(terrID).setOwnerWithoutDrawing(player);
+                GAME.map.territories.get(terrID).setOwner(player);
                 
             }
             

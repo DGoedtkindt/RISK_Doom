@@ -6,7 +6,7 @@ import base.NButton;
 import base.StateManager;
 import basicChoosers.ThemeChooser;
 import input.Form;
-import mainObjects.BlankHex;
+import base.BlankHex;
 
 /**
  * StateManager that shows the Theme options.

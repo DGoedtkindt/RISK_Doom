@@ -61,7 +61,7 @@ public class NextTurnPanel {
      * Paints the background image of this Panel.
      */
     private void colorBackground() {
-        GColor color = OWNER.color();
+        GColor color = OWNER.color;
         GColor transparentColor = new GColor(color.getRed(),color.getGreen(),color.getBlue(),220);
         PANEL.getImage().setColor(transparentColor);
         PANEL.getImage().fill();
@@ -72,7 +72,7 @@ public class NextTurnPanel {
      * Writes the name of the current Player on the Panel.
      */
     private void writeName() {
-        if(OWNER.color().luminosity() > 128) {
+        if(OWNER.color.luminosity() > 128) {
             PANEL.getImage().setColor(GColor.BLACK);
         } else {
             PANEL.getImage().setColor(GColor.WHITE);
@@ -86,7 +86,7 @@ public class NextTurnPanel {
      * Write the current Player's stats on the Panel.
      */
     private void writeStats() {
-        if(OWNER.color().luminosity() > 128) {
+        if(OWNER.color.luminosity() > 128) {
             PANEL.getImage().setColor(GColor.BLACK);
         } else {
             PANEL.getImage().setColor(GColor.WHITE);
@@ -151,7 +151,7 @@ public class NextTurnPanel {
             if(!(p instanceof Zombie)){
                 
                 if(p != OWNER){
-                    PANEL.getImage().setColor(p.color());
+                    PANEL.getImage().setColor(p.color);
                 }else{
                     PANEL.getImage().setColor(GColor.WHITE);
                 }

@@ -2,8 +2,6 @@ package base;
 
 import game.Difficulty;
 import game.Player;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An a structured variable representing the current state of a Game.
@@ -25,7 +23,7 @@ public class Game {
     
     public int turnNumber = 0;
     public State gameState = State.INITIALISATION;
-    public List<Player> players = new ArrayList<>();
+    public final ListenerList<Player> players = new ListenerList<>();
     public Map map = new Map();
     public Difficulty difficulty;
     

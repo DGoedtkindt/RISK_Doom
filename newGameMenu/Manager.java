@@ -52,7 +52,7 @@ public class Manager extends StateManager{
     private void getSettingsAndPlay() {
         try {
             Game game = new Game();
-            game.players = playersPanel.getPlayers();
+            game.players.addAll(playersPanel.getPlayers());
             game.map = mapChooser.getSelectedMap();
             game.difficulty = difficulty.selectedDifficulty();
             game.players.add(new Zombie(game.difficulty));

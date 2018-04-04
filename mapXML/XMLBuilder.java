@@ -3,18 +3,19 @@ package mapXML;
 import base.Map;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import mainObjects.Continent;
-import mainObjects.LinkIndic;
-import mainObjects.Links;
-import mainObjects.Territory;
-import mainObjects.TerritoryHex;
+import base.BlankHex;
+import java.util.Collection;
+import territory.Continent;
+import territory.Links;
+import territory.Territory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import territory.LinkIndic;
 
 /**
  * This Class creates a XML Document to save a Map.
@@ -88,13 +89,12 @@ public class XMLBuilder {
             //rajoute les coordonées du infoHex
             Element infoHexNode = doc.createElement("InfoHex");
             terrNode.appendChild(infoHexNode);
-            TerritoryHex infoHex = terr.infoHex();
+            BlankHex infoHex = terr.infoHex;
             infoHexNode.setAttribute("hexX", "" + infoHex.hexCoord()[0]);
             infoHexNode.setAttribute("hexY", "" + infoHex.hexCoord()[1]);
             
             //rajouter tous les hexs
-            List<TerritoryHex> hexList = terr.composingHex();
-            for(TerritoryHex hex: hexList) {
+            for(BlankHex hex: terr.blankHexSet) {
                 Element HexNode = doc.createElement("Hex");
                 terrNode.appendChild(HexNode);
                 HexNode.setAttribute("hexX", "" + hex.hexCoord()[0]);
@@ -114,7 +114,7 @@ public class XMLBuilder {
             Element contNode = doc.createElement("Continent");
             rootElement.appendChild(contNode);
             
-            List<Territory> terrContained = cont.containedTerritories();
+            Collection<Territory> terrContained = cont.territoriesContained;
             for(Territory terr : terrContained) {
                 Element terrInCont = doc.createElement("TerrInCont");
                 terrInCont.setAttribute("id", "" + terr.id());
@@ -130,22 +130,25 @@ public class XMLBuilder {
     }
 
     private void createLinksNodes() {
-        for(Links links : map.links) {
+        for(Links links : map.links()) {
             Element linksNode = doc.createElement("Links");
             rootElement.appendChild(linksNode);
-            List<LinkIndic> linksContained = links.LinkIndicsList();
-            String linksColor = links.color().toRGB();
+            HashMap<Territory,LinkIndic> terrCoordMap = links.terrIndicMap();
+            String linksColor = links.COLOR.toRGB();
             linksNode.setAttribute("color", linksColor);
-            for(LinkIndic link : linksContained) {
+            
+            //iterate through the Map to save each link
+            for(java.util.Map.Entry<Territory, LinkIndic> terrCoord : terrCoordMap.entrySet()) {
+                Territory terr = terrCoord.getKey();
+                int[] coord = terrCoord.getValue().coordinate();
                 Element linkNode = doc.createElement("Link");
                 linksNode.appendChild(linkNode);
-                int xPos = link.getX();
-                int yPos = link.getY();
-                int linkedTerrId = link.linkedTerr().id();
-                linkNode.setAttribute("xPos", ""+xPos);
-                linkNode.setAttribute("yPos", ""+yPos);
+                int linkedTerrId = terr.id();
+                linkNode.setAttribute("xPos", ""+coord[0]);
+                linkNode.setAttribute("yPos", ""+coord[1]);
                 linkNode.setAttribute("terrId", ""+linkedTerrId);
-            
+                
+                
             }
         
         

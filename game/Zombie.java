@@ -4,7 +4,8 @@ import base.GColor;
 import base.MyWorld;
 import greenfoot.Greenfoot;
 import java.util.ArrayList;
-import mainObjects.Territory;
+import territory.Attack;
+import territory.Territory;
 
 /**
  * The Class of the Zombie Player.
@@ -93,11 +94,11 @@ public class Zombie extends Player{
      * Attacks random Territories.
      */
     private void attackRandomly(){
-        
         for(Territory t : territories()){
-            
             if(Math.random() < DIFFICULTY.ATTACK_CHANCE){
-                t.attackRandomly();
+                Attack attack = new Attack(this);
+                attack.attacking = t;
+                attack.randomAttack();
 
             }
             

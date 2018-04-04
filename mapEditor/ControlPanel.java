@@ -2,15 +2,18 @@ package mapEditor;
 
 import base.Action;
 import base.Button;
+import base.GColor;
 import base.MyWorld;
 import base.NButton;
 import mode.Mode;
 import mode.ModeButton;
 import greenfoot.GreenfootImage;
+import input.Form;
 import selector.Selector;
 import java.util.ArrayList;
 import java.util.Collection;
-import mainObjects.Territory;
+import territory.Links;
+import territory.Territory;
 
 /**
  * A ControlPanel is a group of Actors that allows the User to choose
@@ -33,7 +36,7 @@ public class ControlPanel {
     private final ModeButton EDIT_CONTINENT_BONUS   = new ModeButton(new GreenfootImage("editContinentBonus.png"),    Mode.EDIT_CONTINENT_BONUS,  Selector.IS_CONTINENT);
     private final ModeButton EDIT_CONTINENT_COLOR   = new ModeButton(new GreenfootImage("editContinentColor.png"),    Mode.EDIT_CONTINENT_COLOR,  Selector.IS_CONTINENT);
     private final ModeButton EDIT_TERRITORY_BONUS   = new ModeButton(new GreenfootImage("editTerritoryBonus.png"),    Mode.EDIT_TERRITORY_BONUS,  Selector.IS_TERRITORY);
-    private final ModeButton CREATE_LINK            = new ModeButton(new GreenfootImage("newLink.png"),               Mode.SET_LINK,              Selector.IS_TERRITORY);
+    private final NButton CREATE_LINK               = new NButton(newLinks(),new GreenfootImage("newLink.png"));
     private final ModeButton DELETE_TERRITORY       = new ModeButton(new GreenfootImage("deleteTerritory.png"),       Mode.DELETE_TERRITORY,      Selector.IS_TERRITORY);
     private final ModeButton DELETE_CONTINENT       = new ModeButton(new GreenfootImage("deleteContinent.png"),       Mode.DELETE_CONTINENT,      Selector.IS_CONTINENT);
     private final OKButton OK_BUTTON                = new OKButton();
@@ -174,6 +177,18 @@ public class ControlPanel {
         
         
     }
+    
+    private Action newLinks() { return ()->{
+        if(Links.modifying() == null) {
+                    Form.inputColor("Enter a Color for the Link.", (input)->{
+                        GColor newColor = GColor.fromRGB(input.get("inputedColor"));
+                        Links newLinks = new Links(newColor);
+                        newLinks.edit();
+                    });
+                }
+    
+    
+    };};
     
     
 }

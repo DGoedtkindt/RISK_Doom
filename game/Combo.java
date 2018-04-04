@@ -4,9 +4,10 @@ import appearance.Appearance;
 import base.MyWorld;
 import base.NButton;
 import greenfoot.Greenfoot;
+import java.util.function.Predicate;
 import mode.Mode;
 import mode.ModeButton;
-import selector.Selector;
+import territory.Territory;
 
 /**
  * The representation of the Combos and combo pieces a Player has.
@@ -16,7 +17,7 @@ public class Combo {
     
     public static boolean comboShown = false;
     
-    private final ModeButton SAP_BUTTON = new ModeButton("Sap", Mode.SAP, Selector.IS_ATTACKABLE);
+    private final ModeButton SAP_BUTTON = new ModeButton("Sap", Mode.SAP,isSapable);
     private final NButton FORTRESS_BUTTON = new NButton(() -> {
                                             Turn.currentTurn.player.fortressProtection = true;
                                             Mode.setMode(Mode.DEFAULT);
@@ -217,5 +218,11 @@ public class Combo {
         MyWorld.theWorld.removeObject(RECRUIT_BUTTON);
         
     }
+    
+    private static Predicate isSapable =
+        (Object o)->{
+            return o instanceof Territory && ((Territory)o).owner() != Turn.currentTurn.player;
+    
+    };
     
 }

@@ -8,10 +8,10 @@ import mode.Mode;
 import mode.ModeMessageDisplay;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-import mainObjects.Continent;
-import mainObjects.LinkIndic;
-import mainObjects.Links;
-import mainObjects.Territory;
+import java.util.Collection;
+import java.util.HashMap;
+import territory.Continent;
+import territory.Territory;
 import selector.Selector;
 
 /**
@@ -26,6 +26,8 @@ public class Manager extends StateManager{
     private final ControlPanel CONTROL_PANEL;
     private final ModeMessageDisplay MODE_MESSAGE_DISPLAY;
     private final NButton OPTIONS_BUTTON;
+    private final HashMap<Territory, TerritoryDisplayer> territoryDisplayerMap
+            = new HashMap<>();
     
     /**
      * Creates a Map Editor.
@@ -56,9 +58,9 @@ public class Manager extends StateManager{
      * Loads the Map and adds its elements to the World.
      */
     public void loadMap() {
-        mapToLoad.territories.forEach(Territory::addToWorld);
+        loadedMap.territories.anyChangeListener.add(onTerrAddedDeleted);
+        loadedMap.territories.addAll(mapToLoad.territories);
         mapToLoad.continents.forEach(Continent::addToWorld);
-        mapToLoad.links.forEach(Links::addToWorld);
         mapToLoad = null;
     
     }
@@ -68,6 +70,7 @@ public class Manager extends StateManager{
 
     @Override
     public void clearScene() {
+        territoryDisplayerMap.values().forEach(TerritoryDisplayer::hide);
         mapToLoad = loadedMap;
         loadedMap = new Map();
         
@@ -86,26 +89,11 @@ public class Manager extends StateManager{
                 standardBackToMenu("Do you want to return to the main menu?");
                 break;
                 
-            case ACTION_ON_LINK :
-                world().removeObject(LinkIndic.destroyLink);
-                world().removeObject(LinkIndic.destroySpot);
-                world().removeObject(LinkIndic.extendLink);
-                world().removeObject(LinkIndic.nothing);
-                Mode.setMode(Mode.DEFAULT);
-                break;
-                
             default : 
                 Selector.clear();
-
-                if(Links.newLinks != null){
-                    Links.newLinks.destroy();
-                    Links.newLinks = null;
-                }
                 Mode.setMode(Mode.DEFAULT);
             
         }
-        
-        Territory.resetSourceAndTarget();
         
     }
     
@@ -116,5 +104,24 @@ public class Manager extends StateManager{
                     clearScene();
                     world().load(new userPreferences.Manager(this));
                 }};
+    
+    private final Action onTerrAddedDeleted = ()->{
+        Collection<Territory> deleted = territoryDisplayerMap.keySet();
+        deleted.removeAll(loadedMap.territories);
+        Collection<Territory> added = loadedMap.territories;
+        added.removeAll(territoryDisplayerMap.keySet());
+        deleted.forEach((deletedTerr)->{
+            territoryDisplayerMap.remove(deletedTerr);
+        });
+        added.forEach((territory)->{
+            TerritoryControler terrControl = new TerritoryControler(territory);
+            TerritoryDisplayer terrDisplay = new TerritoryDisplayer(territory,terrControl);
+            territoryDisplayerMap.put(territory, terrDisplay);
+            terrDisplay.show();
+        });
+        
+        
+    
+    };
     
 }
